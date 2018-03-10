@@ -1,5 +1,9 @@
 if: branch = master OR tag IS present
 sudo: true # give us 7.5GB and >2 bursted cores.
+before_install:
+    # Install the AWS CLI so that we can publish the resulting release (if applicable) at the end.
+    - pip install --upgrade --user awscli
+    - export PULUMI_FAILED_TESTS_DIR=$(mktemp -d); echo "${PULUMI_FAILED_TESTS_DIR}"
 script:
     - make travis_${TRAVIS_EVENT_TYPE}
 after_failure:
