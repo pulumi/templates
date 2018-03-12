@@ -27,6 +27,7 @@ $ pulumi new
 
  1. Create a new directory under `templates/`, e.g. `templates/my-template-javascript`. By convention, hyphens are used to separate words and the language is included as a suffix.
  2. Add any text files for the template in the new directory.
+    - `.pulumi.template.yaml` can be included to specify a description for the template that will be used as a default value when replacing `${DESCRIPTION}` (see below).
 
 Travis publishes a tarball of each template directory under `templates/` in `master` to S3.
 
