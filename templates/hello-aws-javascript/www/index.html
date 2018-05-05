@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Hello Pulumi</title>
+    <link rel="shortcut icon" href="/stage/favicon.png" type="image/png">
+</head>
+<body>
+    <p>Hello, world!</p>
+    <p>Made with ❤️ using <a href="https://pulumi.com">Pulumi</a></p>
+    <p>Served from: <span id="source"></span></p>
+</body>
+<script>
+    fetch("/stage/source").then(response => response.json()).then(json => {
+        document.getElementById("source").innerText = json.name;
+    });
+</script>
+</html>
