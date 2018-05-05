@@ -2,7 +2,7 @@
 const cloud = require("@pulumi/cloud-aws");
 
 // Create a public HTTP endpoint (using AWS APIGateway)
-const endpoint = new cloud.HttpEndpoint("urlshortener");
+const endpoint = new cloud.HttpEndpoint("hello");
 
 // Serve static files from the `www` folder (using AWS S3)
 endpoint.static("/", "www");
