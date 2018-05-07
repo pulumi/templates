@@ -1,0 +1,3 @@
+installdependencies: true
+config:
+  aws:region: us-west-2
