@@ -3,14 +3,23 @@
 # s3://rel.pulumi.com/releases/templates.
 set -o nounset -o errexit -o pipefail
 
-# For now, all our templates have the same description.
-TEMPLATE_DESCRIPTION="A Pulumi project."
-
 ROOT=$(dirname $0)/..
 TEMPLATE_SOURCE_PATH="${ROOT}/templates/$1"
+TEMPLATE_MANIFEST_PATH="${TEMPLATE_SOURCE_PATH}/.pulumi.template.yaml"
 TEMPLATE_PACKAGE_NAME="$1.tar.gz"
 TEMPLATE_PACKAGE_DIR="$(mktemp -d)"
 TEMPLATE_PACKAGE_PATH="${TEMPLATE_PACKAGE_DIR}/${TEMPLATE_PACKAGE_NAME}"
+TEMPLATE_DESCRIPTION=""
+
+# If a manifest file exists, get the template description from it.
+if [ -f "$TEMPLATE_MANIFEST_PATH" ]; then
+    TEMPLATE_DESCRIPTION=$(sed -n "s/description: *\\(.*\\)/\\1/p" "$TEMPLATE_MANIFEST_PATH")
+fi
+
+# Otherwise, fallback to a default description.
+if [ -z "$TEMPLATE_DESCRIPTION" ]; then
+    TEMPLATE_DESCRIPTION="A Pulumi project."
+fi
 
 # Tar up the template
 tar -czf ${TEMPLATE_PACKAGE_PATH} -C ${TEMPLATE_SOURCE_PATH} .
