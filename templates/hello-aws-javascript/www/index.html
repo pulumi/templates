@@ -1,14 +1,31 @@
-<!DOCTYPE html>
+<!-- if I include the following, it repeats the gradients -->
+<!-- <!DOCTYPE html>  -->
 <html lang="en">
 <head>
     <meta charset="utf-8">
     <title>Hello Pulumi</title>
     <link rel="shortcut icon" href="favicon.png" type="image/png">
+
+    <style>
+        body { background: linear-gradient( #7c4792, white); }
+        p.main    { font-size: 2.5em; }
+        p.served  { font-size: 2em; }
+        p.footer  { font-size: 1em; }
+        div { 
+            font-family: Helvetica, Segoe UI, Arial, sans-serif; 
+            margin: 20px;
+            text-align: center;
+            color: white;
+        }
+    </style>
 </head>
+
 <body>
-    <p>Hello, world!</p>
-    <p>Made with ❤️ using <a href="https://pulumi.com">Pulumi</a></p>
-    <p>Served from: <span id="source"></span></p>
+    <div>
+        <p class="main">Hello, world!</p>
+        <p class="served">Served from: <span id="source"></span></p>
+        <p class="footer">Made with ❤️ using <a href="https://pulumi.com">Pulumi</a></p>
+    </div>
 </body>
 <script>
     fetch("source").then(response => response.json()).then(json => {
