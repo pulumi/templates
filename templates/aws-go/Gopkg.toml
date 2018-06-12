@@ -1,0 +1,11 @@
+[[constraint]]
+  branch = "master"
+  name = "github.com/pulumi/pulumi"
+
+[[constraint]]
+  branch = "master"
+  name = "github.com/pulumi/pulumi-aws"
+
+[prune]
+  go-tests = true
+  unused-packages = true
