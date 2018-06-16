@@ -1,9 +1,9 @@
 [[constraint]]
-  branch = "master"
+  version = "v0.14.0"
   name = "github.com/pulumi/pulumi"
 
 [[constraint]]
-  branch = "master"
+  version = "v0.14.0"
   name = "github.com/pulumi/pulumi-aws"
 
 [prune]

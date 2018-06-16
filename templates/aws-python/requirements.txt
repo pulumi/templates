@@ -1,2 +1,2 @@
-pulumi>=0.12.2
-pulumi_aws>=0.13.0
+pulumi>=0.14.0
+pulumi_aws>=0.14.0
