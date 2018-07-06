@@ -1,4 +1,4 @@
-// Import the [cloud-aws](https://docs.pulumi.com/packages/pulumi-cloud/) package
+// Import the [cloud-aws](https://pulumi.io/packages/pulumi-cloud/) package
 const cloud = require("@pulumi/cloud-aws");
 
 // Create a public HTTP endpoint (using AWS APIGateway)
