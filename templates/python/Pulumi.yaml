@@ -1,3 +1,5 @@
 name: ${PROJECT}
 description: ${DESCRIPTION}
 runtime: python
+template:
+  description: A minimal Python program
