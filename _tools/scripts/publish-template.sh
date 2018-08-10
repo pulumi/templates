@@ -6,8 +6,8 @@ set -o nounset -o errexit -o pipefail
 # For now, all our templates have the same description.
 TEMPLATE_DESCRIPTION="A Pulumi project."
 
-ROOT=$(dirname $0)/..
-TEMPLATE_SOURCE_PATH="${ROOT}/templates/$1"
+ROOT=$(dirname $0)/../..
+TEMPLATE_SOURCE_PATH="${ROOT}/$1"
 TEMPLATE_PACKAGE_NAME="$1.tar.gz"
 TEMPLATE_PACKAGE_DIR="$(mktemp -d)"
 TEMPLATE_PACKAGE_PATH="${TEMPLATE_PACKAGE_DIR}/${TEMPLATE_PACKAGE_NAME}"

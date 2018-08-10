@@ -1,10 +1,10 @@
 PROJECT_NAME := Pulumi Templates
-include build/common.mk
+include _tools/build/common.mk
 
 .PHONY: publish
 publish:
 	$(call STEP_MESSAGE)
-	./scripts/publish.sh
+	./_tools/scripts/publish.sh
 
 # The travis_* targets are entrypoints for CI.
 .PHONY: travis_cron travis_push travis_pull_request travis_api
