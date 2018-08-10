@@ -2,36 +2,13 @@
 
 # Pulumi Templates
 
-This repo contains the templates for `pulumi new [template]`, which make it easy to quickly get started building new Pulumi projects.
-
-## Using a template
-
-You can use the CLI to create a new project from a template:
-
-```
-$ mkdir myproj
-$ cd myproj
-$ pulumi new [template]
-```
-
-If `[template]` isn't specified, the CLI will offer a list of available templates to choose from:
-
-```
-$ pulumi new
-> javascript
-  python
-  typescript
-```
+This repo contains the templates for `pulumi new`, which make it easy to quickly get started building new Pulumi projects.
 
 ## Adding a new template
 
- 1. Create a new directory under `templates/`, e.g. `templates/my-template-javascript`. By convention, hyphens are used to separate words and the language is included as a suffix.
+ 1. Create a new directory for the template, e.g. `my-template-javascript`. By convention, hyphens are used to separate words and the language is included as a suffix.
 
  2. Add template files in the new directory.
-
-Travis publishes a tarball of each template directory under `templates/` in `master` to S3.
-
-Once the template has been published, it will be included in the JSON list of templates at `https://api.pulumi.com/releases/templates` and available to download from `https://api.pulumi.com/releases/templates/<template-name>.tar.gz`
 
 ## Text replacement
 
