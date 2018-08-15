@@ -1,5 +1,5 @@
 [[constraint]]
-  branch = "v0.14.0"
+  branch = "v0.15.0"
   name = "github.com/pulumi/pulumi"
 
 [prune]
