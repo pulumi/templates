@@ -3,7 +3,3 @@ description: ${DESCRIPTION}
 runtime: nodejs
 template:
   description: A minimal Kubernetes TypeScript program
-  config:
-    kubeapp:image:
-      description: The image for the container to run
-      default: nginx

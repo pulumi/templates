@@ -1,20 +1,13 @@
-import * as pulumi from "@pulumi/pulumi";
 import * as k8s from "@pulumi/kubernetes";
 
-const name = pulumi.getProject();
-
-const config = new pulumi.Config("kubeapp");
-const image = config.require("image");
-const replicas = config.getNumber("replicas") || 1;
-
-const appLabels = { app: name };
-const deployment = new k8s.apps.v1beta1.Deployment(name, {
+const appLabels = { app: "nginx" };
+const deployment = new k8s.apps.v1beta1.Deployment("nginx", {
     spec: {
         selector: { matchLabels: appLabels },
-        replicas: replicas,
+        replicas: 1,
         template: {
             metadata: { labels: appLabels },
-            spec: { containers: [{ name: name, image: image }] }
+            spec: { containers: [{ name: "nginx", image: "nginx" }] }
         }
     }
 });
