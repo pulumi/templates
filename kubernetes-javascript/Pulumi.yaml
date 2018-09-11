@@ -2,4 +2,4 @@ name: ${PROJECT}
 description: ${DESCRIPTION}
 runtime: nodejs
 template:
-  description: A minimal Kubernetes JavaScript program
+  description: A minimal Kubernetes JavaScript Pulumi program

@@ -2,7 +2,7 @@ name: ${PROJECT}
 description: ${DESCRIPTION}
 runtime: nodejs
 template:
-  description: A minimal AWS TypeScript program
+  description: A minimal AWS TypeScript Pulumi program
   config:
     aws:region:
       description: The AWS region to deploy into
