@@ -1,0 +1,2 @@
+pulumi>=0.15.0
+pulumi_openstack>=0.15.0

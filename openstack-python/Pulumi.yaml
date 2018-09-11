@@ -2,4 +2,4 @@ name: ${PROJECT}
 description: ${DESCRIPTION}
 runtime: python
 template:
-  description: A minimal Python Pulumi program
+  description: A minimal OpenStack Python Pulumi program

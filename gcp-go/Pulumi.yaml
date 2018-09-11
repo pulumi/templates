@@ -2,4 +2,4 @@ name: ${PROJECT}
 description: ${DESCRIPTION}
 runtime: go
 template:
-  description: A minimal Go Pulumi program
+  description: A minimal Google Cloud Go Pulumi program

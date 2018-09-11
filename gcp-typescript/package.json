@@ -1,0 +1,10 @@
+{
+    "name": "${PROJECT}",
+    "devDependencies": {
+        "@types/node": "latest"
+    },
+    "dependencies": {
+        "@pulumi/pulumi": "latest",
+        "@pulumi/gcp": "latest"
+    }
+}

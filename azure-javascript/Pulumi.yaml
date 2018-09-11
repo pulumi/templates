@@ -2,4 +2,4 @@ name: ${PROJECT}
 description: ${DESCRIPTION}
 runtime: nodejs
 template:
-  description: A minimal TypeScript Pulumi program
+  description: A minimal Azure JavaScript Pulumi program
