@@ -3,3 +3,6 @@ description: ${DESCRIPTION}
 runtime: python
 template:
   description: A minimal Google Cloud Python Pulumi program
+  config:
+    gcp:project:
+      description: The Google Cloud project to deploy into
