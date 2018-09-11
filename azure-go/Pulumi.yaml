@@ -5,5 +5,5 @@ template:
   description: A minimal Azure Go Pulumi program
   config:
     azure:environment:
-      description: The Azure environment to use. Supported values are `public`, `usgovernment`, `german`, `china`.
+      description: The Azure environment to use (`public`, `usgovernment`, `german`, `china`)
       default: public
