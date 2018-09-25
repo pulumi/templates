@@ -1,5 +1,5 @@
 {
-    "name": "${PROJECT}",
+    "name": "azure-typescript",
     "devDependencies": {
         "@types/node": "latest"
     },

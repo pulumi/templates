@@ -1,5 +1,5 @@
 {
-    "name": "${PROJECT}",
+    "name": "openstack-typescript",
     "devDependencies": {
         "@types/node": "latest"
     },

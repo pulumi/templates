@@ -1,5 +1,5 @@
 {
-    "name": "${PROJECT}",
+    "name": "azure-javascript",
     "main": "index.js",
     "dependencies": {
         "@pulumi/pulumi": "latest",

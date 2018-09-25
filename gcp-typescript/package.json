@@ -1,5 +1,5 @@
 {
-    "name": "${PROJECT}",
+    "name": "gcp-typescript",
     "devDependencies": {
         "@types/node": "latest"
     },
