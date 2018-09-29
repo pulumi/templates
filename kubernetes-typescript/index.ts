@@ -11,3 +11,4 @@ const deployment = new k8s.apps.v1.Deployment("nginx", {
         }
     }
 });
+export const name = deployment.metadata.apply(m => m.name);
