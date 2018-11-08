@@ -1,5 +1,5 @@
 {
-    "name": "${PROJECT}",
+    "name": "aws-typescript",
     "devDependencies": {
         "@types/node": "latest"
     },

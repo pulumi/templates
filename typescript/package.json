@@ -1,5 +1,5 @@
 {
-    "name": "${PROJECT}",
+    "name": "typescript",
     "devDependencies": {
         "@types/node": "latest"
     },
