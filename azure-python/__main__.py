@@ -13,4 +13,4 @@ account = storage.Account("storage",
     account_replication_type='LRS')
 
 # Export the connection string for the storage account
-pulumi.output('connection_string', account.primary_connection_string)
+pulumi.export('connection_string', account.primary_connection_string)
