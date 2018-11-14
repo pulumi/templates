@@ -5,4 +5,4 @@ from pulumi_gcp import storage
 bucket = storage.Bucket('my-bucket')
 
 # Export the DNS name of the bucket
-pulumi.output('bucket_name',  bucket.url)
+pulumi.export('bucket_name',  bucket.url)

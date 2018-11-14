@@ -7,4 +7,4 @@ instance = compute.Instance('test',
 	image_name='Ubuntu 16.04')
 
 # Export the IP of the instance
-pulumi.output('instance_ip', instance.access_ip_v4)
+pulumi.export('instance_ip', instance.access_ip_v4)
