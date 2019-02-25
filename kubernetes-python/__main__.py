@@ -13,4 +13,4 @@ deployment = Deployment("nginx",
         }
     })
 
-pulumi.export("name", deployment.metadata.apply(lambda m: m.name))
+pulumi.export("name", deployment.metadata["name"])
