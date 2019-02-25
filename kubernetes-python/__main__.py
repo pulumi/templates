@@ -3,7 +3,8 @@ from pulumi_kubernetes.apps.v1 import Deployment
 
 app_labels = { "app": "nginx" }
 
-deployment = Deployment("nginx",
+deployment = Deployment(
+    "nginx",
     spec={
         "selector": { "match_labels": app_labels },
         "replicas": 1,
