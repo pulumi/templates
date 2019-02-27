@@ -1,2 +1,2 @@
-pulumi>=0.16.4
-pulumi_gcp>=0.16.2
+pulumi>=0.16.16
+pulumi-gcp>=0.16.9
