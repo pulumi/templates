@@ -6,4 +6,4 @@ const aws = require("@pulumi/aws");
 const bucket = new aws.s3.Bucket("my-bucket");
 
 // Export the DNS name of the bucket
-exports.bucketName = bucket.bucketDomainName;
+exports.bucketName = bucket.id;

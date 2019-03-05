@@ -5,4 +5,4 @@ import * as aws from "@pulumi/aws";
 const bucket = new aws.s3.Bucket("my-bucket");
 
 // Export the DNS name of the bucket
-export const bucketName = bucket.bucketDomainName;
+export const bucketName = bucket.id;

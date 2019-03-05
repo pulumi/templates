@@ -14,7 +14,7 @@ func main() {
 		}
 
 		// Export the DNS name of the bucket
-		ctx.Export("bucketName", bucket.BucketDomainName())
+		ctx.Export("bucketName", bucket.ID())
 		return nil
 	})
 }
