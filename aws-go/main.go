@@ -13,7 +13,7 @@ func main() {
 			return err
 		}
 
-		// Export the DNS name of the bucket
+		// Export the name of the bucket
 		ctx.Export("bucketName", bucket.ID())
 		return nil
 	})
