@@ -1,0 +1,8 @@
+name: ${PROJECT}
+description: ${DESCRIPTION}
+runtime: python
+template:
+  description: A minimal Linode Python Pulumi program
+  config:
+    gcp:project:
+      description: The Linode project to deploy into

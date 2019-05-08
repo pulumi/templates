@@ -1,0 +1,8 @@
+name: ${PROJECT}
+description: ${DESCRIPTION}
+runtime: go
+template:
+  description: A minimal Linode Go Pulumi program
+  config:
+    gcp:project:
+      description: The Linode project to deploy into
