@@ -4,5 +4,6 @@ runtime: nodejs
 template:
   description: A minimal Linode TypeScript Pulumi program
   config:
-    linode:project:
-      description: The Linode project to deploy into
+    linode:token:
+      description: The token that allows you access to your Linode account
+      secret: true
