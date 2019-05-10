@@ -1,0 +1,9 @@
+name: ${PROJECT}
+description: ${DESCRIPTION}
+runtime: go
+template:
+  description: A minimal Linode Go Pulumi program
+  config:
+    linode:token:
+      description: The token that allows you access to your Linode account
+      secret: true

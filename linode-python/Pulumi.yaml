@@ -1,0 +1,9 @@
+name: ${PROJECT}
+description: ${DESCRIPTION}
+runtime: python
+template:
+  description: A minimal Linode Python Pulumi program
+  config:
+    linode:token:
+      description: The token that allows you access to your Linode account
+      secret: true
