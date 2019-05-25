@@ -13,7 +13,7 @@
         "noFallthroughCasesInSwitch": true,
         "noImplicitAny": true,
         "noImplicitReturns": true,
-        "forceConsistentCasingInFileLabels": true,
+        "forceConsistentCasingInFileNames": true,
         "strictNullChecks": true
     },
     "files": [
