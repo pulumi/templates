@@ -1,0 +1,10 @@
+{
+    "name": "digitalocean-typescript",
+    "devDependencies": {
+        "@types/node": "latest"
+    },
+    "dependencies": {
+        "@pulumi/pulumi": "latest",
+        "@pulumi/digitalocean": "latest"
+    }
+}

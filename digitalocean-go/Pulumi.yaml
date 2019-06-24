@@ -1,0 +1,5 @@
+name: ${PROJECT}
+description: ${DESCRIPTION}
+runtime: go
+template:
+  description: A minimal DigitalOcean Go Pulumi program
