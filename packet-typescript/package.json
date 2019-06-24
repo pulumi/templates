@@ -1,0 +1,10 @@
+{
+    "name": "packet-typescript",
+    "devDependencies": {
+        "@types/node": "latest"
+    },
+    "dependencies": {
+        "@pulumi/pulumi": "latest",
+        "@pulumi/packet": "latest"
+    }
+}
