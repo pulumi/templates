@@ -1,0 +1,11 @@
+[[constraint]]
+  version = "v0.17.17"
+  name = "github.com/pulumi/pulumi"
+
+[[constraint]]
+  version = "v0.4.5"
+  name = "github.com/pulumi/pulumi-packet"
+
+[prune]
+  go-tests = true
+  unused-packages = true
