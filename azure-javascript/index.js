@@ -10,7 +10,6 @@ const resourceGroup = new azure.core.ResourceGroup("resourceGroup", {
 // Create an Azure resource (Storage Account)
 const account = new azure.storage.Account("storage", {
     resourceGroupName: resourceGroup.name,
-    location: resourceGroup.location,
     accountTier: "Standard",
     accountReplicationType: "LRS",
 });

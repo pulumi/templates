@@ -19,7 +19,6 @@ func main() {
 		// Create an Azure resource (Storage Account)
 		account, err := storage.NewAccount(ctx, "storage", &storage.AccountArgs{
 			ResourceGroupName:      resourceGroup.Name(),
-			Location:               resourceGroup.Location(),
 			AccountTier:            "Standard",
 			AccountReplicationType: "LRS",
 		})
