@@ -8,7 +8,9 @@ import (
 func main() {
 	pulumi.Run(func(ctx *pulumi.Context) error {
 		// Create a DigitalOcean resource (Domain)
-		domain, err := digitalocean.NewDomain(ctx, "my-test-domain.io", nil)
+		domain, err := digitalocean.NewDomain(ctx, "my-domain", &digitalocean.DomainArgs{
+			Name: "my-domain.io",
+		})
 		if err != nil {
 			return err
 		}
