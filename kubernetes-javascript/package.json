@@ -2,7 +2,7 @@
     "name": "kubernetes-javascript",
     "main": "index.js",
     "dependencies": {
-        "@pulumi/pulumi": "latest",
-        "@pulumi/kubernetes": "latest"
+        "@pulumi/pulumi": "^0.17.28",
+        "@pulumi/kubernetes": "^0.25.6"
     }
 }

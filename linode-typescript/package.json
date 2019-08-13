@@ -4,7 +4,7 @@
         "@types/node": "latest"
     },
     "dependencies": {
-        "@pulumi/pulumi": "latest",
-        "@pulumi/linode": "latest"
+        "@pulumi/pulumi": "^0.17.28",
+        "@pulumi/linode": "^0.18.8"
     }
 }

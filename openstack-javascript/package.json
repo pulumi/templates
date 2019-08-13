@@ -2,7 +2,7 @@
     "name": "openstack-javascript",
     "main": "index.js",
     "dependencies": {
-        "@pulumi/pulumi": "latest",
-        "@pulumi/openstack": "latest"
+        "@pulumi/pulumi": "^0.17.28",
+        "@pulumi/openstack": "^0.17.7"
     }
 }
