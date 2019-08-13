@@ -2,7 +2,7 @@
     "name": "packet-javascript",
     "main": "index.js",
     "dependencies": {
-        "@pulumi/pulumi": "latest",
-        "@pulumi/packet": "latest"
+        "@pulumi/pulumi": "^0.17.28",
+        "@pulumi/packet": "^0.4.9"
     }
 }

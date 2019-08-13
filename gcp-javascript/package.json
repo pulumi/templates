@@ -2,7 +2,7 @@
     "name": "gcp-javascript",
     "main": "index.js",
     "dependencies": {
-        "@pulumi/pulumi": "latest",
-        "@pulumi/gcp": "latest"
+        "@pulumi/pulumi": "^0.17.28",
+        "@pulumi/gcp": "^0.18.16"
     }
 }
