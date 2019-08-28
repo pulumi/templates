@@ -3,3 +3,4 @@ description: ${DESCRIPTION}
 runtime: python
 template:
   description: A minimal Kubernetes Python Pulumi program
+  important: true

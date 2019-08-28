@@ -3,6 +3,7 @@ description: ${DESCRIPTION}
 runtime: python
 template:
   description: A minimal AWS Python Pulumi program
+  important: true
   config:
     aws:region:
       description: The AWS region to deploy into
