@@ -1,2 +1,2 @@
 pulumi>=0.17.0
-pulumi_digitalocean>=0.18.0
+pulumi-digitalocean>=0.18.0
