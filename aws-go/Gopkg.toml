@@ -1,9 +1,9 @@
 [[constraint]]
-  version = "v0.15.0"
+  version = "v1.0.0"
   name = "github.com/pulumi/pulumi"
 
 [[constraint]]
-  version = "v0.15.0"
+  version = "v1.0.0"
   name = "github.com/pulumi/pulumi-aws"
 
 [prune]

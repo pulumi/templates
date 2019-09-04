@@ -2,8 +2,8 @@
     "name": "hello-aws-javascript",
     "main": "index.js",
     "dependencies": {
-        "@pulumi/pulumi": "^0.17.28",
-        "@pulumi/aws": "^0.18.27",
-        "@pulumi/awsx": "^0.18.8"
+        "@pulumi/pulumi": "^1.0.0",
+        "@pulumi/aws": "^1.0.0",
+        "@pulumi/awsx": "^0.18.10"
     }
 }
