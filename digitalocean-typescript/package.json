@@ -1,7 +1,7 @@
 {
     "name": "digitalocean-typescript",
     "devDependencies": {
-        "@types/node": "latest"
+        "@types/node": "^8.0.0"
     },
     "dependencies": {
         "@pulumi/pulumi": "^0.17.28",
