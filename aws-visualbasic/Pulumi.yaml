@@ -1,0 +1,9 @@
+name: ${PROJECT}
+description: ${DESCRIPTION}
+runtime: dotnet
+template:
+  description: "A minimal AWS VB.NET Pulumi program"
+  config:
+    aws:region:
+      description: The AWS region to deploy into
+      default: us-east-1

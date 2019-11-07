@@ -1,0 +1,8 @@
+name: ${PROJECT}
+description: ${DESCRIPTION}
+runtime: dotnet
+template:
+  description: "A minimal GCP VB.NET Pulumi program"
+  config:
+    gcp:project:
+      description: The Google Cloud project to deploy into
