@@ -1,11 +1,14 @@
 ﻿Imports Pulumi
+Imports Pulumi.Gcp.Storage
 
 Module Program
     Public Function Run() As IDictionary(Of String, Object)
-        ' Add you resources here
+        ' Create a GCP resource (Storage Bucket)
+        Dim bucket = New Bucket("my-bucket")
 
-        ' Export outputs here
+        ' Export the DNS name of the bucket
         Return New Dictionary(Of String, Object) From {
+            {"bucketName", bucket.Url}
         }
     End Function
 
