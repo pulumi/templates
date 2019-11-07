@@ -1,0 +1,9 @@
+name: ${PROJECT}
+description: ${DESCRIPTION}
+runtime: dotnet
+template:
+  description: "A minimal Azure VB.NET Pulumi program"
+  config:
+    azure:location:
+      description: The Azure location to use
+      default: WestUS
