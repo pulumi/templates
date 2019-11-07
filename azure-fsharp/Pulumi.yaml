@@ -2,8 +2,8 @@ name: ${PROJECT}
 description: ${DESCRIPTION}
 runtime: dotnet
 template:
-  description: "A minimal AWS F# Pulumi program"
+  description: "A minimal Azure F# Pulumi program"
   config:
-    aws:region:
-      description: The AWS region to deploy into
-      default: us-east-1
+    azure:location:
+      description: The Azure location to use
+      default: WestUS
