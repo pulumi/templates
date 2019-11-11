@@ -6,12 +6,12 @@ open Pulumi.Azure.Storage
 
 let infra () =
     // Create an Azure Resource Group
-    let resourceGroup = new ResourceGroup "resourceGroup"
+    let resourceGroup = ResourceGroup "resourceGroup"
 
     // Create an Azure Storage Account
     let storageAccount =
-        new Account("storage",
-            new AccountArgs
+        Account("storage",
+            AccountArgs
                (ResourceGroupName = io resourceGroup.Name,
                 AccountReplicationType = input "LRS",
                 AccountTier = input "Standard"))
