@@ -5,7 +5,7 @@ open Pulumi.Gcp.Storage
 
 let infra () =
   // Create a GCP resource (Storage Bucket)
-  let bucket = new Bucket("my-bucket");
+  let bucket = Bucket "my-bucket"
 
   // Export the DNS name of the bucket
   dict [("bucketName", bucket.Url :> obj)]
