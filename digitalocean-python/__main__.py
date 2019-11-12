@@ -1,5 +1,5 @@
 import pulumi
-from pulumi_digitalocean import do
+import pulumi_digitalocean as do
 
 # Create a DigitalOcean resource (Domain)
 domain = do.Domain("my-domain",
