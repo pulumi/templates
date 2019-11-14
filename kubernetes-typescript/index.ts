@@ -1,4 +1,5 @@
 import * as k8s from "@pulumi/kubernetes";
+import * as kx from "@pulumi/kubernetesx";
 
 const appLabels = { app: "nginx" };
 const deployment = new k8s.apps.v1.Deployment("nginx", {
