@@ -7,14 +7,13 @@ using Pulumi.Kubernetes.Apps.V1;
 using Pulumi.Kubernetes.Types.Inputs.Core.V1;
 using Pulumi.Kubernetes.Types.Inputs.Apps.V1;
 using Pulumi.Kubernetes.Types.Inputs.Meta.V1;
-using Pulumi.Kubernetes.Types.Inputs.ApiExtensions.V1Beta1;
 
 class Program
 {
     static Task<int> Main()
     {
-        return Pulumi.Deployment.RunAsync(() => {
-
+        return Pulumi.Deployment.RunAsync(() =>
+        {
             var appLabels = new InputMap<string>{
                 { "app", "nginx" },
             };
@@ -44,7 +43,10 @@ class Program
                                     Image = "nginx",
                                     Ports =
                                     {
-                                        new ContainerPortArgs { ContainerPortValue = 80 }
+                                        new ContainerPortArgs
+                                        {
+                                            ContainerPortValue = 80
+                                        },
                                     },
                                 },
                             },
@@ -52,7 +54,7 @@ class Program
                     },
                 },
             });
-            
+
             return new Dictionary<string, object?>
             {
                 { "name", deployment.Metadata.Apply(m => m.Name) },
