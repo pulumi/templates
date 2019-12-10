@@ -53,7 +53,7 @@ class Program
                 },
             });
             
-            return new Dictionary<string, object>
+            return new Dictionary<string, object?>
             {
                 { "name", deployment.Metadata.Apply(m => m.Name) },
             };
