@@ -1,13 +1,23 @@
-if: branch = publish
-sudo: true # give us 7.5GB and >2 bursted cores.
+if: branch = master OR branch =~ ^features/ OR tag IS present
+language: go
+go: 1.13.x
+sudo: true
+git:
+    depth: false
 before_install:
-    # Install the AWS CLI so that we can publish the resulting release (if applicable) at the end.
-    - pip install --upgrade --user awscli
-    - export PULUMI_FAILED_TESTS_DIR=$(mktemp -d); echo "${PULUMI_FAILED_TESTS_DIR}"
+    - git clone https://github.com/pulumi/scripts ${GOPATH}/src/github.com/pulumi/scripts
+    - source ${GOPATH}/src/github.com/pulumi/scripts/ci/prepare-environment.sh
+    - source ${PULUMI_SCRIPTS}/ci/keep-failed-tests.sh
+before_script:
+    - "${PULUMI_SCRIPTS}/ci/ensure-dependencies"
+install:
+    - source ${PULUMI_SCRIPTS}/ci/install-common-toolchain.sh
+    - curl -L https://get.pulumi.com/ | bash
+    - export PATH=$HOME/.pulumi/bin:$PATH
 script:
-    - make travis_${TRAVIS_EVENT_TYPE}
+    - make ensure
+    - make test_templates
 after_failure:
-    # Copy any data from failed tests to S3.
-    - aws --region us-west-2 s3 cp --recursive "${PULUMI_FAILED_TESTS_DIR}" "s3://eng.pulumi.com/travis-logs/${TRAVIS_REPO_SLUG}/${TRAVIS_JOB_NUMBER}/failures"
+    - "${PULUMI_SCRIPTS}/ci/upload-failed-tests"
 notifications:
     webhooks: https://zlmgkhmhjc.execute-api.us-west-2.amazonaws.com/stage/travis
