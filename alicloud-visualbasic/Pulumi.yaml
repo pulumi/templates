@@ -1,0 +1,9 @@
+name: ${PROJECT}
+description: ${DESCRIPTION}
+runtime: dotnet
+template:
+  description: "A minimal AliCloud VB.NET Pulumi program"
+  config:
+    alicloud:region:
+      description: The AliCloud region to deploy into
+      default: cn-beijing

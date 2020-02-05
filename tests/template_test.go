@@ -71,7 +71,7 @@ func TestTemplates(t *testing.T) {
 		templateName := template.Name
 		t.Run(templateName, func(t *testing.T) {
 			t.Parallel()
-			if !strings.Contains(templateName, "aws") || strings.Contains(templateName, "go") {
+			if (!strings.Contains(templateName, "aws") && !strings.Contains(templateName, "alicloud")) || strings.Contains(templateName, "go") {
 				t.Skipf("Skipping template test %s", templateName)
 				return
 			}
