@@ -13,46 +13,43 @@ import (
 )
 
 func TestTemplates(t *testing.T) {
+	blackListedTests := os.Getenv("BLACK_LISTED_TESTS")
+
 	awsRegion := os.Getenv("AWS_REGION")
 	if awsRegion == "" {
 		awsRegion = "us-west-1"
 		fmt.Println("Defaulting AWS_REGION to 'us-west-1'.  You can override using the AWS_REGION environment variable")
 	}
-	//azureEnviron := os.Getenv("ARM_ENVIRONMENT")
-	//if azureEnviron == "" {
-	//	azureEnviron = "public"
-	//	fmt.Println("Defaulting ARM_ENVIRONMENT to 'public'.  You can override using the ARM_ENVIRONMENT variable")
-	//}
-	//azureLocation := os.Getenv("ARM_LOCATION")
-	//if azureLocation == "" {
-	//	azureLocation = "westus"
-	//	fmt.Println("Defaulting ARM_LOCATION to 'westus'.  You can override using the ARM_LOCATION variable")
-	//}
-	//gcpProject := os.Getenv("GOOGLE_PROJECT")
-	//if gcpProject == "" {
-	//	gcpProject = "pulumi-ci-gcp-provider"
-	//	fmt.Println("Defaulting GOOGLE_PROJECT to 'pulumi-ci-gcp-provider'." +
-	//		"You can override using the GOOGLE_PROJECT variable")
-	//}
-	//gcpRegion := os.Getenv("GOOGLE_REGION")
-	//if gcpRegion == "" {
-	//	gcpRegion = "us-central1"
-	//	fmt.Println("Defaulting GOOGLE_REGION to 'us-central1'.  You can override using the GOOGLE_REGION variable")
-	//}
-	//gcpZone := os.Getenv("GOOGLE_ZONE")
-	//if gcpZone == "" {
-	//	gcpZone = "us-central1-a"
-	//	fmt.Println("Defaulting GOOGLE_ZONE to 'us-central1-a'.  You can override using the GOOGLE_ZONE variable")
-	//}
-	overrides, err := integration.DecodeMapString(os.Getenv("PULUMI_TEST_NODE_OVERRIDES"))
-	if !assert.NoError(t, err, "expected valid override map: %v", err) {
-		return
+	azureEnviron := os.Getenv("ARM_ENVIRONMENT")
+	if azureEnviron == "" {
+		azureEnviron = "public"
+		fmt.Println("Defaulting ARM_ENVIRONMENT to 'public'.  You can override using the ARM_ENVIRONMENT variable")
+	}
+	azureLocation := os.Getenv("ARM_LOCATION")
+	if azureLocation == "" {
+		azureLocation = "westus"
+		fmt.Println("Defaulting ARM_LOCATION to 'westus'.  You can override using the ARM_LOCATION variable")
+	}
+	gcpProject := os.Getenv("GOOGLE_PROJECT")
+	if gcpProject == "" {
+		gcpProject = "pulumi-ci-gcp-provider"
+		fmt.Println("Defaulting GOOGLE_PROJECT to 'pulumi-ci-gcp-provider'." +
+			"You can override using the GOOGLE_PROJECT variable")
+	}
+	gcpRegion := os.Getenv("GOOGLE_REGION")
+	if gcpRegion == "" {
+		gcpRegion = "us-central1"
+		fmt.Println("Defaulting GOOGLE_REGION to 'us-central1'.  You can override using the GOOGLE_REGION variable")
+	}
+	gcpZone := os.Getenv("GOOGLE_ZONE")
+	if gcpZone == "" {
+		gcpZone = "us-central1-a"
+		fmt.Println("Defaulting GOOGLE_ZONE to 'us-central1-a'.  You can override using the GOOGLE_ZONE variable")
 	}
 
 	base := integration.ProgramTestOptions{
 		Tracing:              "https://tracing.pulumi-engineering.com/collector/api/v1/spans",
 		ExpectRefreshChanges: true,
-		Overrides:            overrides,
 		Quick:                true,
 		SkipRefresh:          true,
 		NoParallel:           true, // we mark tests as Parallel manually when instantiating
@@ -67,11 +64,13 @@ func TestTemplates(t *testing.T) {
 	templates, err := repo.Templates()
 	assert.NoError(t, err)
 
+	blackListed := strings.Split(blackListedTests, ",")
+
 	for _, template := range templates {
 		templateName := template.Name
 		t.Run(templateName, func(t *testing.T) {
 			t.Parallel()
-			if !strings.Contains(templateName, "aws") || strings.Contains(templateName, "go") {
+			if isBlackListedTest(templateName, blackListed) {
 				t.Skipf("Skipping template test %s", templateName)
 				return
 			}
@@ -91,13 +90,13 @@ func TestTemplates(t *testing.T) {
 			example := base.With(integration.ProgramTestOptions{
 				Dir: e.RootPath,
 				Config: map[string]string{
-					"aws:region": awsRegion,
-					//"azure:environment": azureEnviron,
-					//"azure:location":    azureLocation,
-					//"gcp:project":       gcpProject,
-					//"gcp:region":        gcpRegion,
-					//"gcp:zone":          gcpZone,
-					//"cloud:provider": "aws",
+					"aws:region":        awsRegion,
+					"azure:environment": azureEnviron,
+					"azure:location":    azureLocation,
+					"gcp:project":       gcpProject,
+					"gcp:region":        gcpRegion,
+					"gcp:zone":          gcpZone,
+					"cloud:provider":    "aws",
 				},
 			})
 
@@ -112,4 +111,14 @@ func deleteIfNotFailed(e *ptesting.Environment) {
 	if !e.T.Failed() {
 		e.DeleteEnvironment()
 	}
+}
+
+func isBlackListedTest(templateName string, backListedTests []string) bool {
+	for _, blackListed := range backListedTests {
+		if strings.Contains(templateName, blackListed) {
+			return true
+		}
+	}
+
+	return false
 }
