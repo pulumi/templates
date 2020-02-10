@@ -3,7 +3,6 @@ description: ${DESCRIPTION}
 runtime: python
 template:
   description: A minimal AliCloud Python Pulumi program
-  important: true
   config:
     alicloud:region:
       description: The AliCloud region to deploy into
