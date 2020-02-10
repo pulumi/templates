@@ -14,7 +14,7 @@ class Program
             var bucket = new Bucket("my-bucket");
 
             // Export the DNS name of the bucket
-            return new Dictionary<string, object>
+            return new Dictionary<string, object?>
             {
                 { "bucketName", bucket.Url },
             };
