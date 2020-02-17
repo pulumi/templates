@@ -3,21 +3,31 @@ language: go
 go: 1.13.x
 sudo: true
 git:
-    depth: false
+  depth: false
 before_install:
-    - git clone https://github.com/pulumi/scripts ${GOPATH}/src/github.com/pulumi/scripts
-    - source ${GOPATH}/src/github.com/pulumi/scripts/ci/prepare-environment.sh
-    - source ${PULUMI_SCRIPTS}/ci/keep-failed-tests.sh
+- openssl aes-256-cbc -K $encrypted_983fc6da883c_key -iv $encrypted_983fc6da883c_iv
+  -in gcp-credentials.json.enc -out gcp-credentials.json -d
+- git clone https://github.com/pulumi/scripts ${GOPATH}/src/github.com/pulumi/scripts
+- source ${GOPATH}/src/github.com/pulumi/scripts/ci/prepare-environment.sh
+- source ${PULUMI_SCRIPTS}/ci/keep-failed-tests.sh
 before_script:
-    - "${PULUMI_SCRIPTS}/ci/ensure-dependencies"
+- "${PULUMI_SCRIPTS}/ci/ensure-dependencies"
 install:
-    - source ${PULUMI_SCRIPTS}/ci/install-common-toolchain.sh
-    - curl -L https://get.pulumi.com/ | bash
-    - export PATH=$HOME/.pulumi/bin:$PATH
+- source ${PULUMI_SCRIPTS}/ci/install-common-toolchain.sh
+- curl -L https://get.pulumi.com/ | bash
+- export PATH=$HOME/.pulumi/bin:$PATH
+- export CLOUDSDK_PYTHON=python3
+- if [ ! -d ${HOME}/google-cloud-sdk/bin ]; then export CLOUDSDK_CORE_DISABLE_PROMPTS=1;
+  rm -rf ${HOME}/google-cloud-sdk; curl https://sdk.cloud.google.com | bash; fi
+- export PATH=${HOME}/google-cloud-sdk/bin:$PATH
+- CLOUDSDK_PYTHON=/usr/bin/python gcloud version
+- export GOOGLE_CREDENTIALS=$(cat gcp-credentials.json)
+- CLOUDSDK_PYTHON=/usr/bin/python gcloud auth activate-service-account --key-file
+  gcp-credentials.json
 script:
-    - make ensure
-    - make test_templates
+- make ensure
+- make test_templates
 after_failure:
-    - "${PULUMI_SCRIPTS}/ci/upload-failed-tests"
+- "${PULUMI_SCRIPTS}/ci/upload-failed-tests"
 notifications:
-    webhooks: https://zlmgkhmhjc.execute-api.us-west-2.amazonaws.com/stage/travis
+  webhooks: https://zlmgkhmhjc.execute-api.us-west-2.amazonaws.com/stage/travis
