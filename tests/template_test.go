@@ -75,6 +75,8 @@ func TestTemplates(t *testing.T) {
 				return
 			}
 
+			t.Logf("Starting test run for %q", templateName)
+
 			e := ptesting.NewEnvironment(t)
 			defer deleteIfNotFailed(e)
 
