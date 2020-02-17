@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.com/pulumi/templates.svg?token=as6W2KPEwXJYiS5Jt2wi&branch=master)](https://travis-ci.com/pulumi/templates)
+![Build Status](https://github.com/pulumi/templates/workflows/Run%20Template%20Tests/badge.svg)
 
 # Pulumi Templates
 
