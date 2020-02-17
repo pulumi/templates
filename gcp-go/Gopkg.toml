@@ -1,9 +1,9 @@
 [[constraint]]
-  version = "v1.0.0"
+  version = "v1.10.1"
   name = "github.com/pulumi/pulumi"
 
 [[constraint]]
-  version = "v1.0.0"
+  version = "v2.6.0"
   name = "github.com/pulumi/pulumi-gcp"
 
 [prune]
