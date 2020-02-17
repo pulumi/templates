@@ -1,10 +1,10 @@
 {
-    "name": "linode-typescript",
+    "name": "${PROJECT}",
     "devDependencies": {
         "@types/node": "^8.0.0"
     },
     "dependencies": {
-        "@pulumi/pulumi": "^0.17.28",
-        "@pulumi/linode": "^0.18.8"
+        "@pulumi/pulumi": "^1.0.0",
+        "@pulumi/linode": "^1.0.0"
     }
 }

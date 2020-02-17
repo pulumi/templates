@@ -1,2 +1,2 @@
-pulumi>=0.16.4
-pulumi-openstack>=0.16.2
+pulumi>=1.0.0
+pulumi-openstack>=1.0.0

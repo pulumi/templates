@@ -1,5 +1,5 @@
 {
-    "name": "hello-aws-javascript",
+    "name": "${PROJECT}",
     "main": "index.js",
     "dependencies": {
         "@pulumi/pulumi": "^1.0.0",

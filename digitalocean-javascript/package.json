@@ -1,8 +1,8 @@
 {
-    "name": "digitalocean-javascript",
+    "name": "${PROJECT}",
     "main": "index.js",
     "dependencies": {
-        "@pulumi/pulumi": "^0.17.28",
-        "@pulumi/digitalocean": "^0.18.10"
+        "@pulumi/pulumi": "^1.0.0",
+        "@pulumi/digitalocean": "^1.0.0"
     }
 }

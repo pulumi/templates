@@ -1,5 +1,5 @@
 {
-    "name": "kubernetes-typescript",
+    "name": "${PROJECT}",
     "devDependencies": {
         "@types/node": "^8.0.0"
     },

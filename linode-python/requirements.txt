@@ -1,2 +1,2 @@
-pulumi>=0.17.10
-pulumi-linode>=0.18.0
+pulumi>=1.0.0
+pulumi-linode>=1.0.0

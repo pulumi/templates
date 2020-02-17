@@ -1,10 +1,10 @@
 {
-    "name": "digitalocean-typescript",
+    "name": "${PROJECT}",
     "devDependencies": {
         "@types/node": "^8.0.0"
     },
     "dependencies": {
-        "@pulumi/pulumi": "^0.17.28",
-        "@pulumi/digitalocean": "^0.18.10"
+        "@pulumi/pulumi": "^1.0.0",
+        "@pulumi/digitalocean": "^1.0.0"
     }
 }

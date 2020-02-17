@@ -1,8 +1,8 @@
 {
-    "name": "linode-javascript",
+    "name": "${PROJECT}",
     "main": "index.js",
     "dependencies": {
-        "@pulumi/pulumi": "^0.17.28",
-        "@pulumi/linode": "^0.18.8"
+        "@pulumi/pulumi": "^1.0.0",
+        "@pulumi/linode": "^1.0.0"
     }
 }
