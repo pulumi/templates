@@ -1,8 +1,8 @@
 {
-    "name": "packet-javascript",
+    "name": "${PROJECT}",
     "main": "index.js",
     "dependencies": {
-        "@pulumi/pulumi": "^0.17.28",
-        "@pulumi/packet": "^0.4.9"
+        "@pulumi/pulumi": "^1.0.0",
+        "@pulumi/packet": "^1.0.0"
     }
 }

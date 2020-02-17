@@ -1,10 +1,10 @@
 {
-    "name": "openstack-typescript",
+    "name": "${PROJECT}",
     "devDependencies": {
         "@types/node": "^8.0.0"
     },
     "dependencies": {
-        "@pulumi/pulumi": "^0.17.28",
-        "@pulumi/openstack": "^0.17.7"
+        "@pulumi/pulumi": "^1.0.0",
+        "@pulumi/openstack": "^1.0.0"
     }
 }

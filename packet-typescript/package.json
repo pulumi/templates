@@ -1,10 +1,10 @@
 {
-    "name": "packet-typescript",
+    "name": "${PROJECT}",
     "devDependencies": {
         "@types/node": "^8.0.0"
     },
     "dependencies": {
-        "@pulumi/pulumi": "^0.17.28",
-        "@pulumi/packet": "^0.4.9"
+        "@pulumi/pulumi": "^1.0.0",
+        "@pulumi/packet": "^1.0.0"
     }
 }
