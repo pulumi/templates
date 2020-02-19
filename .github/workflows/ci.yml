@@ -48,11 +48,14 @@ jobs:
           AWS_REGION: "us-west-2"
           GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_CREDENTIALS }}
           LINODE_TOKEN: ${{ secrets.LINODE_TOKEN }}
-          BLACK_LISTED_TESTS: "go,alicloud,azure,digitalocean,kubernetes,openstack,packet"
+          BLACK_LISTED_TESTS: "aws,linode,gcp,alicloud,azure,digitalocean,kubernetes,openstack,packet"
+          #BLACK_LISTED_TESTS: "go,alicloud,azure,digitalocean,kubernetes,openstack,packet"
       - name: Check out code into the Go module directory
         uses: actions/checkout@v2
         with:
           fetch-depth: 0
+      - name: Install Pulumi GO SDK
+        run: go get github.com/pulumi/pulumi-gcp/sdk/go/...
       - if: contains(matrix.platform, 'macOS') || contains(matrix.platform, 'ubuntu')
         name: Get dependencies non-windows
         run: make ensure

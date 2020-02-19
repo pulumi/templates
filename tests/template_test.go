@@ -89,7 +89,7 @@ func TestTemplates(t *testing.T) {
 			_, err = workspace.LoadProject(path)
 			assert.NoError(t, err)
 
-			example := base.With(integration.ProgramTestOptions{
+			testOptions := integration.ProgramTestOptions{
 				Dir: e.RootPath,
 				Config: map[string]string{
 					"aws:region":        awsRegion,
@@ -100,7 +100,13 @@ func TestTemplates(t *testing.T) {
 					"gcp:zone":          gcpZone,
 					"cloud:provider":    "aws",
 				},
-			})
+			}
+
+			if strings.Contains(templateName, "go") {
+				testOptions.RunBuild = true
+			}
+
+			example := base.With(testOptions)
 
 			integration.ProgramTest(t, &example)
 		})
