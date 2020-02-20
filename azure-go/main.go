@@ -10,7 +10,7 @@ func main() {
 	pulumi.Run(func(ctx *pulumi.Context) error {
 		// Create an Azure Resource Group
 		resourceGroup, err := core.NewResourceGroup(ctx, "resourceGroup", &core.ResourceGroupArgs{
-			Location: "WestUS",
+			Location: pulumi.String("WestUS"),
 		})
 		if err != nil {
 			return err
@@ -18,16 +18,16 @@ func main() {
 
 		// Create an Azure resource (Storage Account)
 		account, err := storage.NewAccount(ctx, "storage", &storage.AccountArgs{
-			ResourceGroupName:      resourceGroup.Name(),
-			AccountTier:            "Standard",
-			AccountReplicationType: "LRS",
+			ResourceGroupName:      resourceGroup.Name,
+			AccountTier:            pulumi.String("Standard"),
+			AccountReplicationType: pulumi.String("LRS"),
 		})
 		if err != nil {
 			return err
 		}
 
 		// Export the connection string for the storage account
-		ctx.Export("connectionString", account.PrimaryConnectionString())
+		ctx.Export("connectionString", account.PrimaryConnectionString)
 		return nil
 	})
 }
