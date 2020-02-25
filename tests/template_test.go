@@ -17,8 +17,8 @@ func TestTemplates(t *testing.T) {
 
 	awsRegion := os.Getenv("AWS_REGION")
 	if awsRegion == "" {
-		awsRegion = "us-west-2"
-		fmt.Println("Defaulting AWS_REGION to 'us-west-2'.  You can override using the AWS_REGION environment variable")
+		awsRegion = "us-east-2"
+		fmt.Println("Defaulting AWS_REGION to 'us-east-2'.  You can override using the AWS_REGION environment variable")
 	}
 	azureEnviron := os.Getenv("ARM_ENVIRONMENT")
 	if azureEnviron == "" {
