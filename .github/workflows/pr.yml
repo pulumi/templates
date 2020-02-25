@@ -16,7 +16,7 @@ jobs:
         with:
           token: ${{ secrets.REPO_ACCESS_TOKEN }}
           reaction-token: ${{ secrets.GITHUB_TOKEN }}
-          commands: run-templates-command
+          commands: run-templates
           permission: write
           issue-type: pull-request
           repository: pulumi/action-build-forked-prs
