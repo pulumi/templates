@@ -12,7 +12,7 @@ jobs:
       - uses: actions/checkout@v2
 
       - name: Run Build
-        uses: pulumi/action-build-forked-prs
+        uses: pulumi/action-build-forked-prs@v1
         with:
           token: ${{ secrets.REPO_ACCESS_TOKEN }}
           reaction-token: ${{ secrets.GITHUB_TOKEN }}
