@@ -42,7 +42,9 @@ jobs:
       - name: Check out code into the Go module directory
         uses: actions/checkout@v2
         with:
-          fetch-depth: 0
+          token: ${{ secrets.ACTIONS_BOT_TOKEN }}
+          repository: ${{ github.event.client_payload.pull_request.head.repo.full_name }}
+          ref: ${{ github.event.client_payload.pull_request.head.ref }}
       - name: Get dependencies non-windows
         run: make ensure
       - name: Run tests
@@ -54,4 +56,4 @@ jobs:
           token: ${{ secrets.ACTIONS_BOT_TOKEN }}
           repository: ${{ github.event.client_payload.github.payload.repository.full_name }}
           comment-id: ${{ github.event.client_payload.github.payload.comment.id }}
-          reaction-type: hooray
+          reaction-type: eyes
