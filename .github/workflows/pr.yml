@@ -1,6 +1,9 @@
 name: Test Forked PR Command
 on:
-  pull_request:
+  issue_comment:
+    # We want to be able to run the command when a comment has been added
+    # to the pull-request
+    types: [created, edited]
 
 jobs:
   runForkedBranch:
