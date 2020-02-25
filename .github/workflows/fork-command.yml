@@ -1,12 +1,9 @@
-name: Run Template Tests
+name: Run Tests on a PR Command
 on:
-  push:
-    branches:
-      - master
-
+  repository_dispatch:
+    types: [fork-command]
 jobs:
-  build:
-    name: Build
+  fork:
     strategy:
       matrix:
         platform: [ubuntu-latest, macOS-latest, windows-latest]
@@ -72,3 +69,10 @@ jobs:
         run: |
           cd tests
           go test -v -count=1 -cover -timeout 1h -parallel 10 .
+      - name: Update with Result
+        uses: peter-evans/create-or-update-comment@v1
+        with:
+          token: ${{ secrets.ACTIONS_BOT_TOKEN }}
+          repository: ${{ github.event.client_payload.github.payload.repository.full_name }}
+          comment-id: ${{ github.event.client_payload.github.payload.comment.id }}
+          reaction-type: hooray

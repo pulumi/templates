@@ -1,0 +1,17 @@
+name: Test Forked PR Command
+on:
+  pull-request:
+jobs:
+  runForkedBranch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Run Build
+        uses: ./
+        with:
+          token: ${{ secrets.REPO_ACCESS_TOKEN }}
+          reaction-token: ${{ secrets.GITHUB_TOKEN }}
+          commands: fork-command
+          permission: write
+          issue-type: pull-request
