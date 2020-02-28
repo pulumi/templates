@@ -10,6 +10,7 @@ import (
 	"github.com/pulumi/pulumi/pkg/testing/integration"
 	"github.com/pulumi/pulumi/pkg/workspace"
 	"github.com/stretchr/testify/assert"
+	"github.com/y0ssar1an/q"
 )
 
 func TestTemplates(t *testing.T) {
@@ -77,17 +78,26 @@ func TestTemplates(t *testing.T) {
 
 			t.Logf("Starting test run for %q", templateName)
 
-			e := ptesting.NewEnvironment(t)
-			defer deleteIfNotFailed(e)
+			var e ptesting.Environment
+			if strings.Contains(templateName, "go") {
+				e = *ptesting.NewGoEnvironment(t)
+			} else {
+				e = *ptesting.NewEnvironment(t)
+			}
 
-			e.RunCommand("pulumi", "new", templateName, "-f", "-s", "template-test")
+			defer deleteIfNotFailed(&e)
+
+			stdout, stderr := e.RunCommand("pulumi", "new", templateName, "-f", "-s", "template-test")
+			q.Q(stdout)
+			q.Q(stderr)
 
 			path, err := workspace.DetectProjectPathFrom(e.RootPath)
 			assert.NoError(t, err)
 			assert.NotEmpty(t, path)
 
-			_, err = workspace.LoadProject(path)
+			project, err := workspace.LoadProject(path)
 			assert.NoError(t, err)
+			q.Q(project)
 
 			testOptions := integration.ProgramTestOptions{
 				Dir: e.RootPath,
