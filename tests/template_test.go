@@ -77,7 +77,7 @@ func TestTemplates(t *testing.T) {
 
 			t.Logf("Starting test run for %q", templateName)
 
-			e := ptesting.NewEnvironment(t)
+			e := ptesting.NewGoEnvironment(t)
 			defer deleteIfNotFailed(e)
 
 			e.RunCommand("pulumi", "new", templateName, "-f", "-s", "template-test")
