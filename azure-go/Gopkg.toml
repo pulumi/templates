@@ -3,7 +3,7 @@
   name = "github.com/pulumi/pulumi"
 
 [[constraint]]
-  version = "v1.14.0"
+  version = "v2.0.0"
   name = "github.com/pulumi/pulumi-azure"
 
 [prune]
