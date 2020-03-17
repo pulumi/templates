@@ -9,7 +9,7 @@ class MyStack : Stack
         var bucket = new Bucket("my-bucket");
 
         // Export the name of the bucket
-        this.BucketName = bucket.Id ;
+        this.BucketName = bucket.Id;
     }
 
     [Output]
