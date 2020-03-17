@@ -14,7 +14,7 @@ class MyStack : Stack
         {
             ResourceGroupName = resourceGroup.Name,
             AccountReplicationType = "LRS",
-            AccountTier = "Standard",
+            AccountTier = "Standard"
         });
 
         // Export the connection string for the storage account
