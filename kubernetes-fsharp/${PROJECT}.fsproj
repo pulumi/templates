@@ -11,8 +11,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Pulumi.FSharp" Version="1.12.1-preview" />
-    <PackageReference Include="Pulumi.Kubernetes" Version="1.5.8-preview" />
+    <PackageReference Include="Pulumi.FSharp" Version="2.0.0" />
+    <PackageReference Include="Pulumi.Kubernetes" Version="2.0.0" />
   </ItemGroup>
 
 </Project>
