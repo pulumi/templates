@@ -1,0 +1,6 @@
+name: ${PROJECT}
+description: ${DESCRIPTION}
+runtime: go
+template:
+  description: "A minimal Kubernetes Go Pulumi program"
+  important: true
