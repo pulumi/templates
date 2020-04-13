@@ -3,3 +3,4 @@ description: ${DESCRIPTION}
 runtime: dotnet
 template:
   description: "A minimal Kubernetes C# Pulumi program"
+  important: true

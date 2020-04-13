@@ -3,6 +3,7 @@ description: ${DESCRIPTION}
 runtime: go
 template:
   description: A minimal AWS Go Pulumi program
+  important: true
   config:
     aws:region:
       description: The AWS region to deploy into
