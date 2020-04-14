@@ -11,8 +11,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Pulumi.FSharp" Version="2.0.0" />
-    <PackageReference Include="Pulumi.Aws" Version="2.0.0" />
+    <PackageReference Include="Pulumi.FSharp" Version="2.*" />
+    <PackageReference Include="Pulumi.Aws" Version="2.*" />
   </ItemGroup>
 
 </Project>
