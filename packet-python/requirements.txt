@@ -1,2 +1,2 @@
-pulumi>=1.0.0
-pulumi-packet>=1.0.0
+pulumi>=1.0.0,<2.0.0
+pulumi-packet>=1.0.0,<2.0.0
