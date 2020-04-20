@@ -1,8 +1,8 @@
 package main
 
 import (
-	"github.com/pulumi/pulumi-digitalocean/sdk/go/digitalocean"
-	"github.com/pulumi/pulumi/sdk/go/pulumi"
+	"github.com/pulumi/pulumi-digitalocean/sdk/v2/go/digitalocean"
+	"github.com/pulumi/pulumi/sdk/v2/go/pulumi"
 )
 
 func main() {

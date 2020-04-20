@@ -1,8 +1,8 @@
 package main
 
 import (
-	"github.com/pulumi/pulumi-packet/sdk/go/packet"
-	"github.com/pulumi/pulumi/sdk/go/pulumi"
+	"github.com/pulumi/pulumi-packet/sdk/v2/go/packet"
+	"github.com/pulumi/pulumi/sdk/v2/go/pulumi"
 )
 
 func main() {

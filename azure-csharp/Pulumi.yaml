@@ -3,6 +3,7 @@ description: ${DESCRIPTION}
 runtime: dotnet
 template:
   description: "A minimal Azure C# Pulumi program"
+  important: true
   config:
     azure:location:
       description: The Azure location to use

@@ -3,6 +3,7 @@ description: ${DESCRIPTION}
 runtime: dotnet
 template:
   description: "A minimal GCP C# Pulumi program"
+  important: true
   config:
     gcp:project:
       description: The Google Cloud project to deploy into

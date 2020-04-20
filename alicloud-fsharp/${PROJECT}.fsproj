@@ -11,8 +11,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Pulumi.FSharp" Version="1.12.1-preview" />
-    <PackageReference Include="Pulumi.Alicloud" Version="1.5.0-preview" />
+    <PackageReference Include="Pulumi.FSharp" Version="2.*" />
+    <PackageReference Include="Pulumi.Alicloud" Version="2.*" />
   </ItemGroup>
 
 </Project>

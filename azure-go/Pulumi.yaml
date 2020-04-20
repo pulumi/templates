@@ -3,6 +3,7 @@ description: ${DESCRIPTION}
 runtime: go
 template:
   description: A minimal Azure Go Pulumi program
+  important: true
   config:
     azure:environment:
       description: The Azure environment to use (`public`, `usgovernment`, `german`, `china`)
