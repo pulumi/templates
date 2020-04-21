@@ -2,6 +2,8 @@ package main
 
 import (
 	appsv1 "github.com/pulumi/pulumi-kubernetes/sdk/v2/go/kubernetes/apps/v1"
+	corev1 "github.com/pulumi/pulumi-kubernetes/sdk/v2/go/kubernetes/core/v1"
+	metav1 "github.com/pulumi/pulumi-kubernetes/sdk/v2/go/kubernetes/meta/v1"
 	"github.com/pulumi/pulumi/sdk/v2/go/pulumi"
 )
 
@@ -11,7 +13,7 @@ func main() {
 		appLabels := pulumi.StringMap{
 			"app": pulumi.String("nginx"),
 		}
-		deployment, err = appsv1.NewDeployment(ctx, "app-dep", &appsv1.DeploymentArgs{
+		deployment, err := appsv1.NewDeployment(ctx, "app-dep", &appsv1.DeploymentArgs{
 			Spec: appsv1.DeploymentSpecArgs{
 				Selector: &metav1.LabelSelectorArgs{
 					MatchLabels: appLabels,
