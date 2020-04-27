@@ -1,6 +1,6 @@
 ![Build Status](https://github.com/pulumi/templates/workflows/Run%20Template%20Tests/badge.svg)
 
-# Pulumi Templates
+# Pulumi Templates       
 
 This repo contains the templates for `pulumi new`, which make it easy to quickly get started building new Pulumi projects.
 
