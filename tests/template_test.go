@@ -81,8 +81,8 @@ func TestTemplates(t *testing.T) {
 			defer deleteIfNotFailed(e)
 
 			stdout, stderr := e.RunCommand("pulumi", "new", templateName, "-f", "-s", "template-test")
-			t.Logf("stdout", stdout)
-			t.Logf("stderr", stderr)
+			t.Logf("%s", stdout)
+			t.Logf("%s", stderr)
 
 			path, err := workspace.DetectProjectPathFrom(e.RootPath)
 			assert.NoError(t, err)
