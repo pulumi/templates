@@ -48,7 +48,7 @@ jobs:
           AWS_REGION: "us-west-2"
           GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_CREDENTIALS }}
           LINODE_TOKEN: ${{ secrets.LINODE_TOKEN }}
-          BLACK_LISTED_TESTS: "go,alicloud,azure,digitalocean,kubernetes,openstack,packet"
+          BLACK_LISTED_TESTS: "alicloud,azure,digitalocean,kubernetes,openstack,packet"
       - name: Check out code into the Go module directory
         uses: actions/checkout@v2
         with:
