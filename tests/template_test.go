@@ -80,9 +80,7 @@ func TestTemplates(t *testing.T) {
 			e := ptesting.NewEnvironment(t)
 			defer deleteIfNotFailed(e)
 
-			stdout, stderr := e.RunCommand("pulumi", "new", templateName, "-f", "-s", "template-test")
-			t.Logf("%s", stdout)
-			t.Logf("%s", stderr)
+			e.RunCommand("pulumi", "new", templateName, "-f", "--yes", "-s", "template-test")
 
 			path, err := workspace.DetectProjectPathFrom(e.RootPath)
 			assert.NoError(t, err)
