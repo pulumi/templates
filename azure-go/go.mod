@@ -1,6 +1,6 @@
 module ${PROJECT}
 
-go 1.13
+go 1.14
 
 require (
 	github.com/pulumi/pulumi-azure/sdk/v3 v3.0.0
