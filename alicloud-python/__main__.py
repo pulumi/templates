@@ -1,3 +1,5 @@
+"""An AliCloud Python Pulumi program"""
+
 import pulumi
 from pulumi_alicloud import oss
 
@@ -5,4 +7,4 @@ from pulumi_alicloud import oss
 bucket = oss.Bucket('my-bucket')
 
 # Export the name of the bucket
-pulumi.export('bucket_name',  bucket.id)
+pulumi.export('bucket_name', bucket.id)

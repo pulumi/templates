@@ -1,3 +1,5 @@
+"""A Kubernetes Python Pulumi program"""
+
 import pulumi
 from pulumi_kubernetes.apps.v1 import Deployment
 

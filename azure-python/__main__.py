@@ -1,3 +1,5 @@
+"""An Azure Python Pulumi program"""
+
 import pulumi
 from pulumi_azure import core, storage
 
