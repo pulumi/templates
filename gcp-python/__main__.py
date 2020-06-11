@@ -1,3 +1,5 @@
+"""A Google Cloud Python Pulumi program"""
+
 import pulumi
 from pulumi_gcp import storage
 
@@ -5,4 +7,4 @@ from pulumi_gcp import storage
 bucket = storage.Bucket('my-bucket')
 
 # Export the DNS name of the bucket
-pulumi.export('bucket_name',  bucket.url)
+pulumi.export('bucket_name', bucket.url)
