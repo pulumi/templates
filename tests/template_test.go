@@ -48,11 +48,12 @@ func TestTemplates(t *testing.T) {
 	}
 
 	base := integration.ProgramTestOptions{
-		Tracing:              "https://tracing.pulumi-engineering.com/collector/api/v1/spans",
-		ExpectRefreshChanges: true,
-		Quick:                true,
-		SkipRefresh:          true,
-		NoParallel:           true, // we mark tests as Parallel manually when instantiating
+		Tracing:                "https://tracing.pulumi-engineering.com/collector/api/v1/spans",
+		ExpectRefreshChanges:   true,
+		Quick:                  true,
+		SkipRefresh:            true,
+		NoParallel:             true, // we mark tests as Parallel manually when instantiating
+		UseAutomaticVirtualEnv: true,
 	}
 
 	// Retrieve the template repo.
