@@ -38,12 +38,6 @@ jobs:
         run: |
           pip3 install pyenv-win
           pip3 install pipenv
-      - name: Install Go Dep
-        run: |
-          echo "::set-env name=GOPATH::$(go env GOPATH)"
-          echo "::add-path::$(go env GOPATH)/bin"
-          go get -v github.com/golang/dep/cmd/dep
-        shell: bash
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
@@ -51,7 +45,7 @@ jobs:
           aws-region: ${{ env.AWS_REGION }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           role-duration-seconds: 3600
-          role-session-name: templates-pr@githubActions
+          role-session-name: provider-templates@githubActions
           role-to-assume: ${{ secrets.AWS_CI_ROLE_ARN }}
       - name: Check out code into the Go module directory
         uses: actions/checkout@v2
@@ -59,6 +53,8 @@ jobs:
           token: ${{ secrets.REPO_ACCESS_TOKEN }}
           repository: ${{ github.event.client_payload.pull_request.head.repo.full_name }}
           ref: ${{ github.event.client_payload.pull_request.head.ref }}
+      - name: Unshallow clone for tags
+        run: git fetch --prune --unshallow --tags
       - name: Get dependencies non-windows
         run: make ensure
       - name: Run tests
