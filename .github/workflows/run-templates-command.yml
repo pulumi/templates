@@ -45,7 +45,7 @@ jobs:
           aws-region: ${{ env.AWS_REGION }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           role-duration-seconds: 3600
-          role-session-name: provider-templates@githubActions
+          role-session-name: templates@githubActions
           role-to-assume: ${{ secrets.AWS_CI_ROLE_ARN }}
       - name: Check out code into the Go module directory
         uses: actions/checkout@v2
