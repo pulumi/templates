@@ -19,4 +19,4 @@ jobs:
           commands: run-templates
           permission: write
           issue-type: pull-request
-          repository: pulumi/action-build-forked-prs
+          repository: pulumi/templates
