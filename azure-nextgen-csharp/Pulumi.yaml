@@ -2,4 +2,4 @@ name: ${PROJECT}
 description: ${DESCRIPTION}
 runtime: dotnet
 template:
-  description: "A minimal Azure Resource Manager C# Pulumi program"
+  description: "A minimal Azure NextGen C# Pulumi program"

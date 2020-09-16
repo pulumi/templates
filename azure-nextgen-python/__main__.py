@@ -1,8 +1,8 @@
 """An Azure RM Python Pulumi program"""
 
 import pulumi
-from pulumi_azurerm.storage import latest as storage
-from pulumi_azurerm.resources import latest as resources
+from pulumi_azure_nextgen.storage import latest as storage
+from pulumi_azure_nextgen.resources import latest as resources
 
 # Create an Azure Resource Group
 resource_group = resources.ResourceGroup('resource_group',

@@ -1,6 +1,6 @@
 import * as pulumi from "@pulumi/pulumi";
-import * as resources from "@pulumi/azurerm/resources/latest";
-import * as storage from "@pulumi/azurerm/storage/latest";
+import * as resources from "@pulumi/azure-nextgen/resources/latest";
+import * as storage from "@pulumi/azure-nextgen/storage/latest";
 
 // Create an Azure Resource Group
 const resourceGroup = new resources.ResourceGroup("resourceGroup", {

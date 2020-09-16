@@ -1,8 +1,8 @@
 package main
 
 import (
-	resources "github.com/pulumi/pulumi-azurerm/sdk/go/azurerm/resources/latest"
-	storage "github.com/pulumi/pulumi-azurerm/sdk/go/azurerm/storage/latest"
+	resources "github.com/pulumi/pulumi-azure-nextgen/sdk/go/azure/resources/latest"
+	storage "github.com/pulumi/pulumi-azure-nextgen/sdk/go/azure/storage/latest"
 	"github.com/pulumi/pulumi/sdk/v2/go/pulumi"
 )
 
