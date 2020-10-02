@@ -16,7 +16,6 @@ account = storage.StorageAccount('sa',
     location=resource_group.location,
     sku=storage.SkuArgs(
         name='Standard_LRS',
-        tier='Standard',
     ),
     kind='StorageV2')
 
