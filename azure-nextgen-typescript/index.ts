@@ -15,7 +15,6 @@ const storageAccount = new storage.StorageAccount("sa", {
     location: resourceGroup.location,
     sku: {
         name: "Standard_LRS",
-        tier: "Standard",
     },
     kind: "StorageV2",
 });
