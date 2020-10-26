@@ -1,22 +1,19 @@
-name: Test Build Template PRs
-on:
-  issue_comment:
-    # We want to be able to run the command when a comment has been added
-    # to the pull-request
-    types: [created, edited]
+name: New Pull request Open
+"on":
+  pull_request:
+    branches:
+      - master
 
 jobs:
-  runForkedBranch:
+  comment-on-pr:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-
-      - name: Run Build
-        uses: peter-evans/slash-command-dispatch@v2
+      - name: Comment PR
+        uses: thollander/actions-comment-pull-request@master
         with:
-          token: ${{ secrets.REPO_ACCESS_TOKEN }}
-          reaction-token: ${{ secrets.GITHUB_TOKEN }}
-          commands: run-templates
-          permission: write
-          issue-type: pull-request
-          repository: pulumi/templates
+          message: |
+            PR is now waiting for a maintainer to run the template acceptance tests.
+
+            **Note for the maintainer:** To run the acceptance tests, please comment */run-templates* on the PR
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
