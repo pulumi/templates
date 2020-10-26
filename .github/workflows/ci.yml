@@ -18,6 +18,7 @@ env:
   LINODE_TOKEN: ${{ secrets.LINODE_TOKEN }}
   BLACK_LISTED_TESTS: "alicloud,azure,digitalocean,kubernetes,openstack,packet"
   PULUMI_API: https://api.pulumi-staging.io
+  SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
 jobs:
   build:
     name: Build
