@@ -30,6 +30,7 @@ jobs:
       - run: go env
       - name: Install Pulumi CLI
         uses: pulumi/action-install-pulumi-cli@v1.0.0
+      - run: pulumi version
       - name: Set up Python 3.7
         uses: actions/setup-python@v1
         with:
