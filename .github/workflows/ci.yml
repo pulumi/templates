@@ -23,7 +23,7 @@ env:
 jobs:
   info:
     name: Info
-    runs-in: ubuntu-latest
+    runs-on: ubuntu-latest
     steps:
       - name: Get Pulumi Version
         run: echo ${{ env.PULUMI_VERSION }}
