@@ -48,7 +48,7 @@ jobs:
       - name: Install Latest Pulumi CLI
         if: env.PULUMI_VERSION == ''
         uses: pulumi/action-install-pulumi-cli@v1.0.1
-      - name: Install Latest Pulumi CLI
+      - name: Install Specific Version of Pulumi CLI
         if: env.PULUMI_VERSION != ''
         uses: pulumi/action-install-pulumi-cli@v1.0.1
         with:
