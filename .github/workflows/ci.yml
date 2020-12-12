@@ -93,7 +93,7 @@ jobs:
         name: Run tests windows
         run: |
           cd tests
-          go test -v -count=1 -cover -timeout 1h -parallel 10 .
+          go test -v -count=1 -cover -timeout 6h -parallel 10 .
       - if: 'failure()'
         name: Notify Slack
         uses: 8398a7/action-slack@v3
