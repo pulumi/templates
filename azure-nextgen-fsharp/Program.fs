@@ -29,8 +29,8 @@ let infra () =
                 (ResourceGroupName = io resourceGroup.Name,
                  AccountName = input "mystorageaccount", // <-- change to a unique name
                  Location = io resourceGroup.Location,
-                 Sku = input (SkuArgs(Name = input "Standard_LRS")),
-                 Kind = input "StorageV2"))
+                 Sku = input (SkuArgs(Name = inputUnion2Of2 SkuName.Standard_LRS)),
+                 Kind = inputUnion2Of2 Kind.StorageV2))
         
     // Get the primary key
     let primaryKey =
