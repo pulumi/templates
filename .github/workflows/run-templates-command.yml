@@ -11,6 +11,11 @@ env:
   LINODE_TOKEN: ${{ secrets.LINODE_TOKEN }}
   BLACK_LISTED_TESTS: "alicloud,digitalocean,kubernetes,openstack,packet"
   PULUMI_API: https://api.pulumi-staging.io
+  ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
+  ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
+  ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
+  ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
+  AZURE_LOCATION: westus
 jobs:
   test:
     runs-on: ubuntu-latest
