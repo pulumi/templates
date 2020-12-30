@@ -23,9 +23,9 @@ class MyStack : Stack
             Location = resourceGroup.Location,
             Sku = new SkuArgs
             {
-                Name = "Standard_LRS"
+                Name = SkuName.Standard_LRS
             },
-            Kind = "StorageV2"
+            Kind = Kind.StorageV2
         });
 
         // Export the primary key of the Storage Account

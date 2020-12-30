@@ -15,9 +15,9 @@ account = storage.StorageAccount('sa',
     resource_group_name=resource_group.name,
     location=resource_group.location,
     sku=storage.SkuArgs(
-        name='Standard_LRS',
+        name=storage.SkuName.STANDARD_LRS,
     ),
-    kind='StorageV2')
+    kind=storage.Kind.STORAGE_V2)
 
 # Export the primary key of the Storage Account
 primary_key = pulumi.Output.all(resource_group.name, account.name) \

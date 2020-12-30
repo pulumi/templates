@@ -22,10 +22,11 @@ func main() {
 			ResourceGroupName: resourceGroup.Name,
 			AccountName:       pulumi.String("mystorageaccount"),
 			Location:          resourceGroup.Location,
+			AccessTier:        storage.AccessTierHot,
 			Sku: &storage.SkuArgs{
-				Name: pulumi.String("Standard_LRS"),
+				Name: storage.SkuName_Standard_LRS,
 			},
-			Kind: pulumi.String("StorageV2"),
+			Kind: storage.KindStorageV2,
 		})
 		if err != nil {
 			return err

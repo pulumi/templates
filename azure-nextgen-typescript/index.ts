@@ -14,9 +14,9 @@ const storageAccount = new storage.StorageAccount("sa", {
     accountName: "mystorageaccount",
     location: resourceGroup.location,
     sku: {
-        name: "Standard_LRS",
+        name: storage.SkuName.Standard_LRS,
     },
-    kind: "StorageV2",
+    kind: storage.Kind.StorageV2,
 });
 
 // Export the primary key of the Storage Account
