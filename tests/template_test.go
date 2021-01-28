@@ -48,7 +48,6 @@ func TestTemplates(t *testing.T) {
 	}
 
 	base := integration.ProgramTestOptions{
-		Tracing:                "https://tracing.pulumi-engineering.com/collector/api/v1/spans",
 		ExpectRefreshChanges:   true,
 		Quick:                  true,
 		SkipRefresh:            true,
