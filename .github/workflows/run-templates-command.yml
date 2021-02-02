@@ -85,6 +85,7 @@ jobs:
         id: vars
         run: echo ::set-output name=run-url::https://github.com/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID
       - name: Update with Result
+        if: github.event_name == 'repository_dispatch'
         uses: peter-evans/create-or-update-comment@v1
         with:
           token: ${{ secrets.REPO_ACCESS_TOKEN }}
