@@ -1,5 +1,8 @@
 name: Run Tests on a PR of the Templates repo
 on:
+  pull_request:
+    branches:
+      - master
   repository_dispatch:
     types: [run-templates-command]
 
@@ -18,6 +21,7 @@ env:
   AZURE_LOCATION: westus
 jobs:
   test:
+    if: github.event_name == 'repository_dispatch' || github.event.pull_request.head.repo.full_name == github.repository
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
