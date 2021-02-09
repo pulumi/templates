@@ -2,4 +2,4 @@ name: ${PROJECT}
 description: ${DESCRIPTION}
 runtime: python
 template:
-  description: A minimal Packet.net Python Pulumi program
+  description: A minimal Equinix Metal Python Pulumi program

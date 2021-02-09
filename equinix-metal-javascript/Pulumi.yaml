@@ -2,4 +2,4 @@ name: ${PROJECT}
 description: ${DESCRIPTION}
 runtime: nodejs
 template:
-  description: A minimal Packet.net JavaScript Pulumi program
+  description: A minimal Equinix Metal JavaScript Pulumi program

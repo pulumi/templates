@@ -1,9 +1,9 @@
 "use strict";
 const pulumi = require("@pulumi/pulumi");
-const packet = require("@pulumi/packet");
+const metal = require("@pulumi/equinix-metal");
 
-// Create a Packet resource (Project)
-const project = new packet.Project("my-test-project", {
+// Create an Equinix Metal resource (Project)
+const project = new metal.Project("my-test-project", {
     name: "my-project",
 });
 
