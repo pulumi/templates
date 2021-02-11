@@ -2,4 +2,4 @@ name: ${PROJECT}
 description: ${DESCRIPTION}
 runtime: go
 template:
-  description: A minimal Packet.net Go Pulumi program
+  description: A minimal Equinix Metal Go Pulumi program

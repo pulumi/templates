@@ -1,14 +1,14 @@
 package main
 
 import (
-	"github.com/pulumi/pulumi-packet/sdk/v3/go/packet"
+	metal "github.com/pulumi/pulumi-equinix-metal/sdk/go/equinix"
 	"github.com/pulumi/pulumi/sdk/v2/go/pulumi"
 )
 
 func main() {
 	pulumi.Run(func(ctx *pulumi.Context) error {
-		// Create a Packet resource (Project)
-		project, err := packet.NewProject(ctx, "my-project", &packet.ProjectArgs{
+		// Create an Equinix Metal resource (Project)
+		project, err := metal.NewProject(ctx, "my-project", &metal.ProjectArgs{
 			Name: pulumi.String("TestProject1"),
 		})
 		if err != nil {

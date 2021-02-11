@@ -1,8 +1,8 @@
 import * as pulumi from "@pulumi/pulumi";
-import * as packet from "@pulumi/packet";
+import * as metal from "@pulumi/equinix-metal";
 
-// Create a Packet resource (Project)
-const project = new packet.Project("my-test-project", {
+// Create an Equinix Metal resource (Project)
+const project = new metal.Project("my-test-project", {
   name: "My Test Project",
 });
 
