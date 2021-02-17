@@ -88,9 +88,11 @@ jobs:
       - name: Get dependencies
         run: make ensure
       - if: contains(matrix.platform, 'windows')
-        name: set python env var for test runner
-        run: echo "PULUMI_PYTHON_CMD=python" >> $GITHUB_ENV
-      - name: Run tests
+        run: |
+          make test_templates
+        env:
+          PULUMI_PYTHON_CMD: python
+      - if: contains(matrix.platform, 'macOS') || contains(matrix.platform, 'ubuntu')
         run: |
           make test_templates
       - if: 'failure()'
