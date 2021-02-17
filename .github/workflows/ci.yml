@@ -89,8 +89,7 @@ jobs:
         run: make ensure
       - if: contains(matrix.platform, 'windows')
         name: set python env var for test runner
-        env:
-          PULUMI_PYTHON_CMD: python
+        run: echo "PULUMI_PYTHON_CMD=python" >> $GITHUB_ENV
       - name: Run tests
         run: |
           make test_templates
