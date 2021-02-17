@@ -25,6 +25,7 @@ env:
   ARM_SUBSCRIPTION_ID:  ${{ secrets.ARM_SUBSCRIPTION_ID }}
   ARM_TENANT_ID:  ${{ secrets.ARM_TENANT_ID }}
   AZURE_LOCATION: westus
+
 jobs:
   build:
     name: Build
@@ -84,25 +85,15 @@ jobs:
           role-duration-seconds: 3600
           role-session-name: templates@githubActions
           role-to-assume: ${{ secrets.AWS_CI_ROLE_ARN }}
-      - if: contains(matrix.platform, 'macOS') || contains(matrix.platform, 'ubuntu')
-        name: Get dependencies non-windows
+      - name: Get dependencies
         run: make ensure
       - if: contains(matrix.platform, 'windows')
-        name: Get dependencies windows
-        run: |
-          cd tests
-          set GO111MODULE=on
-          go mod tidy
-          go mod download
-      - if: contains(matrix.platform, 'macOS') || contains(matrix.platform, 'ubuntu')
-        name: Run tests non-windows
+        name: set python env var for test runner
+        env:
+          PULUMI_PYTHON_CMD: python
+      - name: Run tests
         run: |
           make test_templates
-      - if: contains(matrix.platform, 'windows')
-        name: Run tests windows
-        run: |
-          cd tests
-          go test -v -count=1 -cover -timeout 6h -parallel 10 .
       - if: 'failure()'
         name: Notify Slack
         uses: 8398a7/action-slack@v3
