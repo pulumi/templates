@@ -1,33 +1,49 @@
 package main
 
 import (
-	"github.com/pulumi/pulumi-azure/sdk/v3/go/azure/core"
-	"github.com/pulumi/pulumi-azure/sdk/v3/go/azure/storage"
+	"github.com/pulumi/pulumi-azure-native/sdk/go/azure/resources"
+	"github.com/pulumi/pulumi-azure-native/sdk/go/azure/storage"
 	"github.com/pulumi/pulumi/sdk/v2/go/pulumi"
 )
 
 func main() {
 	pulumi.Run(func(ctx *pulumi.Context) error {
 		// Create an Azure Resource Group
-		resourceGroup, err := core.NewResourceGroup(ctx, "resourceGroup", &core.ResourceGroupArgs{
-			Location: pulumi.String("WestUS"),
-		})
+		resourceGroup, err := resources.NewResourceGroup(ctx, "resourceGroup")
 		if err != nil {
 			return err
 		}
 
 		// Create an Azure resource (Storage Account)
-		account, err := storage.NewAccount(ctx, "storage", &storage.AccountArgs{
-			ResourceGroupName:      resourceGroup.Name,
-			AccountTier:            pulumi.String("Standard"),
-			AccountReplicationType: pulumi.String("LRS"),
+		account, err := storage.NewStorageAccount(ctx, "sa", &storage.StorageAccountArgs{
+			ResourceGroupName: resourceGroup.Name,
+			AccessTier:        storage.AccessTierHot,
+			Sku: &storage.SkuArgs{
+				Name: storage.SkuName_Standard_LRS,
+			},
+			Kind: storage.KindStorageV2,
 		})
 		if err != nil {
 			return err
 		}
 
-		// Export the connection string for the storage account
-		ctx.Export("connectionString", account.PrimaryConnectionString)
+		// Export the primary key of the Storage Account
+		ctx.Export("primaryStorageKey", pulumi.All(resourceGroup.Name, account.Name).ApplyT(
+			func(args []interface{}) (string, error) {
+				resourceGroupName := args[0].(string)
+				accountName := args[1].(string)
+				accountKeys, err := storage.ListStorageAccountKeys(ctx, &storage.ListStorageAccountKeysArgs{
+					ResourceGroupName: resourceGroupName,
+					AccountName:       accountName,
+				})
+				if err != nil {
+					return "", err
+				}
+
+				return accountKeys.Keys[0].Value, nil
+			},
+		))
+
 		return nil
 	})
 }

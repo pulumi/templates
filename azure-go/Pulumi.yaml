@@ -2,9 +2,9 @@ name: ${PROJECT}
 description: ${DESCRIPTION}
 runtime: go
 template:
-  description: A minimal Azure Go Pulumi program
+  description: A minimal Azure Native Go Pulumi program
   important: true
   config:
-    azure:environment:
-      description: The Azure environment to use (`public`, `usgovernment`, `german`, `china`)
-      default: public
+    azure-native:location:
+      description: The Azure location to use
+      default: WestUS

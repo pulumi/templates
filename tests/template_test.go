@@ -101,13 +101,14 @@ func TestTemplates(t *testing.T) {
 			example := base.With(integration.ProgramTestOptions{
 				Dir: e.RootPath,
 				Config: map[string]string{
-					"aws:region":        awsRegion,
-					"azure:environment": azureEnviron,
-					"azure:location":    azureLocation,
-					"gcp:project":       gcpProject,
-					"gcp:region":        gcpRegion,
-					"gcp:zone":          gcpZone,
-					"cloud:provider":    "aws",
+					"aws:region":            awsRegion,
+					"azure:environment":     azureEnviron,
+					"azure:location":        azureLocation,
+					"azure-native:location": azureLocation,
+					"gcp:project":           gcpProject,
+					"gcp:region":            gcpRegion,
+					"gcp:zone":              gcpZone,
+					"cloud:provider":        "aws",
 				},
 			})
 

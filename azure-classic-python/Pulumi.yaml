@@ -1,9 +1,9 @@
 name: ${PROJECT}
 description: ${DESCRIPTION}
-runtime: dotnet
+runtime: python
 template:
-  description: "A minimal Azure Native F# Pulumi program"
+  description: A minimal Python Pulumi program with the classic Azure provider
   config:
-    azure-native:location:
+    azure:location:
       description: The Azure location to use
       default: WestUS

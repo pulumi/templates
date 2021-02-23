@@ -11,7 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Pulumi.AzureNextGen" Version="0.*" />
+    <PackageReference Include="Pulumi.Azure" Version="3.*" />
     <PackageReference Include="Pulumi.FSharp" Version="2.*" />
   </ItemGroup>
 
