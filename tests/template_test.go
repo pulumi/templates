@@ -47,6 +47,15 @@ func TestTemplates(t *testing.T) {
 		fmt.Println("Defaulting GOOGLE_ZONE to 'us-central1-a'.  You can override using the GOOGLE_ZONE variable")
 	}
 
+	// by default, we want to test the normal template url path
+	// if we have a specific template location set then we should
+	// use that in our tests
+	templateUrl := ""
+	specificTemplate := os.Getenv("PULUMI_TEMPLATE_LOCATION")
+	if specificTemplate != "" {
+		templateUrl = specificTemplate
+	}
+
 	base := integration.ProgramTestOptions{
 		ExpectRefreshChanges:   true,
 		Quick:                  true,
@@ -56,7 +65,7 @@ func TestTemplates(t *testing.T) {
 	}
 
 	// Retrieve the template repo.
-	repo, err := workspace.RetrieveTemplates("", false /*offline*/, workspace.TemplateKindPulumiProject)
+	repo, err := workspace.RetrieveTemplates(templateUrl, false /*offline*/, workspace.TemplateKindPulumiProject)
 	assert.NoError(t, err)
 	defer assert.NoError(t, repo.Delete())
 
