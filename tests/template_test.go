@@ -3,6 +3,7 @@ package tests
 import (
 	"fmt"
 	"os"
+	"path"
 	"strings"
 	"testing"
 
@@ -89,7 +90,12 @@ func TestTemplates(t *testing.T) {
 			e := ptesting.NewEnvironment(t)
 			defer deleteIfNotFailed(e)
 
-			e.RunCommand("pulumi", "new", templateName, "-f", "--yes", "-s", "template-test")
+			templatePath := templateName
+			if templateUrl != "" {
+				templatePath = path.Join(templateUrl, templateName)
+			}
+
+			e.RunCommand("pulumi", "new", templatePath, "-f", "--yes", "-s", "template-test")
 
 			path, err := workspace.DetectProjectPathFrom(e.RootPath)
 			assert.NoError(t, err)
