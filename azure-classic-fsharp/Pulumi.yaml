@@ -2,8 +2,8 @@ name: ${PROJECT}
 description: ${DESCRIPTION}
 runtime: dotnet
 template:
-  description: "A minimal Azure Native F# Pulumi program"
+  description: "A minimal F# Pulumi program with the classic Azure provider"
   config:
-    azure-native:location:
+    azure:location:
       description: The Azure location to use
       default: WestUS

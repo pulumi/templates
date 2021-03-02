@@ -1,8 +1,8 @@
 module ${PROJECT}
 
-go 1.14
+go 1.15
 
 require (
-	github.com/pulumi/pulumi-azure/sdk/v3 v3.45.0
-	github.com/pulumi/pulumi/sdk/v2 v2.19.0
+	github.com/pulumi/pulumi-azure-native/sdk v0.7.1
+	github.com/pulumi/pulumi/sdk/v2 v2.21.2
 )

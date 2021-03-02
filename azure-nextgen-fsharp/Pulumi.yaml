@@ -1,5 +1,0 @@
-name: ${PROJECT}
-description: ${DESCRIPTION}
-runtime: dotnet
-template:
-  description: "A minimal Azure NextGen F# Pulumi program"

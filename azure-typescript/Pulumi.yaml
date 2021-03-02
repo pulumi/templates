@@ -2,12 +2,9 @@ name: ${PROJECT}
 description: ${DESCRIPTION}
 runtime: nodejs
 template:
-  description: A minimal Azure TypeScript Pulumi program
+  description: A minimal Azure Native TypeScript Pulumi program
   important: true
   config:
-    azure:environment:
-      description: The Azure environment to use (`public`, `usgovernment`, `german`, `china`)
-      default: public
-    azure:location:
+    azure-native:location:
       description: The Azure location to use
       default: WestUS
