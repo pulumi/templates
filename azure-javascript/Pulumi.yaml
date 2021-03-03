@@ -1,0 +1,9 @@
+name: ${PROJECT}
+description: ${DESCRIPTION}
+runtime: nodejs
+template:
+  description: A minimal JavaScript Pulumi program with the native Azure provider
+  config:
+    azure-native:location:
+      description: The Azure location to use
+      default: WestUS
