@@ -1,9 +1,9 @@
 ﻿module Program
 
 open Pulumi.FSharp
-open Pulumi.AzureNative.Resources.Latest
-open Pulumi.AzureNative.Storage.Latest
-open Pulumi.AzureNative.Storage.Latest.Inputs
+open Pulumi.AzureNative.Resources
+open Pulumi.AzureNative.Storage
+open Pulumi.AzureNative.Storage.Inputs
 
 // Helper function to retrieve the primary key of a storage account
 let getStorageAccountPrimaryKey(resourceGroupName: string, accountName: string): Async<string> = async {
@@ -21,17 +21,17 @@ let infra () =
 
     // Create an Azure Storage Account
     let storageAccount =
-        StorageAccount("sa", 
+        StorageAccount("sa",
             StorageAccountArgs
                 (ResourceGroupName = io resourceGroup.Name,
                  Sku = input (SkuArgs(Name = inputUnion2Of2 SkuName.Standard_LRS)),
                  Kind = inputUnion2Of2 Kind.StorageV2))
-        
+
     // Get the primary key
     let primaryKey =
         Outputs.pair resourceGroup.Name storageAccount.Name
         |> Outputs.applyAsync getStorageAccountPrimaryKey
-    
+
     // Export the primary key for the storage account
     dict [("connectionString", primaryKey :> obj)]
 
