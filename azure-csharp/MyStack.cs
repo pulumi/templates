@@ -1,8 +1,8 @@
 using System.Threading.Tasks;
 using Pulumi;
-using Pulumi.AzureNative.Resources.Latest;
-using Pulumi.AzureNative.Storage.Latest;
-using Pulumi.AzureNative.Storage.Latest.Inputs;
+using Pulumi.AzureNative.Resources;
+using Pulumi.AzureNative.Storage;
+using Pulumi.AzureNative.Storage.Inputs;
 
 class MyStack : Stack
 {
