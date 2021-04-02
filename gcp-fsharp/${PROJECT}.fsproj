@@ -11,8 +11,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Pulumi.FSharp" Version="2.*" />
-    <PackageReference Include="Pulumi.Gcp" Version="4.*" />
+    <PackageReference Include="Pulumi.FSharp" Version="3.*-*" />
+    <PackageReference Include="Pulumi.Gcp" Version="5.*-*" />
   </ItemGroup>
 
 </Project>
