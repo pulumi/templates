@@ -1,8 +1,8 @@
 package main
 
 import (
-	metal "github.com/pulumi/pulumi-equinix-metal/sdk/go/equinix"
-	"github.com/pulumi/pulumi/sdk/v2/go/pulumi"
+	metal "github.com/pulumi/pulumi-equinix-metal/sdk/v2/go/equinix"
+	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 )
 
 func main() {
