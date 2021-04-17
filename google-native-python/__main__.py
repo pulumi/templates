@@ -7,7 +7,7 @@ config = pulumi.Config('google-native')
 project = config.require('project')
 
 # Create a Google Cloud resource (Storage Bucket)
-bucket_name = "google-native-bucket-py-01"
+bucket_name = "pulumi-goog-native-bucket-py-01"
 bucket = storage.Bucket('my-bucket', name=bucket_name, bucket=bucket_name, project=project)
 
 # Export the bucket self-link
