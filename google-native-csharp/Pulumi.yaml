@@ -1,0 +1,9 @@
+name: ${PROJECT}
+description: ${DESCRIPTION}
+runtime: dotnet
+template:
+  description: "A minimal Google Cloud C# Pulumi program"
+  important: true
+  config:
+    gcp-native:project:
+      description: The Google Cloud project to deploy into

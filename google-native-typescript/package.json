@@ -1,0 +1,10 @@
+{
+    "name": "${PROJECT}",
+    "devDependencies": {
+        "@types/node": "^10.0.0"
+    },
+    "dependencies": {
+        "@pulumi/pulumi": "^3.0.0-rc.1",
+        "@pulumi/google-native": "^0.0.1a"
+    }
+}

@@ -1,0 +1,8 @@
+name: ${PROJECT}
+description: ${DESCRIPTION}
+runtime: nodejs
+template:
+  description: A minimal Google Cloud TypeScript Pulumi program
+  config:
+    google-native:project:
+      description: The Google Cloud project to deploy into
