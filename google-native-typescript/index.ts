@@ -3,7 +3,7 @@ import * as pulumi from "@pulumi/pulumi";
 
 const config = new pulumi.Config("google-native");
 const project = config.require("project");
-const bucketName = "pulumi-google-native-ts-01";
+const bucketName = "pulumi-goog-native-ts-01";
 
 // Create a Google Cloud resource (Storage Bucket)
 const bucket = new storage.Bucket("my-bucket", {
