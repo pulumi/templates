@@ -114,6 +114,9 @@ func TestTemplates(t *testing.T) {
 					"gcp:project":           gcpProject,
 					"gcp:region":            gcpRegion,
 					"gcp:zone":              gcpZone,
+					"google-native:project": gcpProject,
+					"google-native:region":  gcpRegion,
+					"google-native:zone":    gcpZone,
 					"cloud:provider":        "aws",
 				},
 			})
