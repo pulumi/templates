@@ -1,0 +1,11 @@
+name: ${PROJECT}
+description: ${DESCRIPTION}
+runtime:
+  name: python
+  options:
+    virtualenv: venv
+template:
+  description: A minimal Google Cloud Python Pulumi program
+  config:
+    google-native:project:
+      description: The Google Cloud project to deploy into
