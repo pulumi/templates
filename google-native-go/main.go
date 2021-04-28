@@ -26,7 +26,7 @@ func main() {
 
 		// Create a Google Cloud resource (Storage Bucket)
 		bucket, err := storage.NewBucket(ctx, "bucket", &storage.BucketArgs{
-			Name:    pulumi.StringPtr(bucketName),
+			Name:    bucketName,
 			Bucket:  bucketName,
 			Project: pulumi.String(project),
 		})
