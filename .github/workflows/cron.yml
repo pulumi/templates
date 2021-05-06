@@ -53,10 +53,14 @@ jobs:
         name: Install Latest Pulumi CLI
         uses: pulumi/action-install-pulumi-cli@v1.0.1
       - if: matrix.pulumi-version == 'dev'
-        name: Install Specific Version of Pulumi CLI
+        name: Get Latest Dev Version of Pulumi
         run: |
-          curl -sSL https://get.pulumi.com | bash -s -- --version "$(curl -sSL "http://registry.npmjs.org/-/package/@pulumi/pulumi/dist-tags" | jq -r .dev)"
-          echo "/home/runner/.pulumi/bin" >> $GITHUB_PATH
+          echo "DEV_PULUMI_VERSION=v$(curl -sSL "http://registry.npmjs.org/-/package/@pulumi/pulumi/dist-tags" | jq -r .dev)" >> $GITHUB_ENV
+      - if: matrix.pulumi-version == 'dev'
+        name: Install Latest Pulumi CLI
+        uses: pulumi/action-install-pulumi-cli@v1
+        with:
+          pulumi-version: ${{ env.DEV_PULUMI_VERSION }}
       - run: echo "Currently Pulumi $(pulumi version) is installed"
       - name: Set up Python ${{ matrix.python-version }}
         uses: actions/setup-python@v1
