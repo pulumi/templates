@@ -1,11 +1,8 @@
-name: Run Template Tests on Push or as Part of a Release
+name: Run Template Tests Against Latest CLI + Dev CLI
 on:
-  push:
-    branches:
-      - master
-  repository_dispatch:
-    types:
-      - trigger-cron
+  schedule:
+    - cron: '0 8 * * *'
+  workflow_dispatch: {}
 
 env:
   PULUMI_TEST_OWNER: "moolumi"
@@ -16,7 +13,6 @@ env:
   BLACK_LISTED_TESTS: "alicloud,digitalocean,kubernetes,openstack,equinix-metal"
   PULUMI_API: https://api.pulumi-staging.io
   SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-  PULUMI_VERSION: ${{ github.event.client_payload.ref }}
   ARM_CLIENT_ID:  ${{ secrets.ARM_CLIENT_ID }}
   ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
   ARM_SUBSCRIPTION_ID:  ${{ secrets.ARM_SUBSCRIPTION_ID }}
@@ -34,6 +30,7 @@ jobs:
         node-version: [14.x]
         python-version: [3.7]
         dotnet: [3.1.x]
+        pulumi-version: [latest, dev]
     runs-on: ${{ matrix.platform }}
     steps:
       - name: Install DotNet ${{ matrix.dotnet }}
@@ -52,15 +49,15 @@ jobs:
         uses: actions/setup-go@v1
         with:
           go-version: ${{ matrix.go-version }}
-      - name: Install Latest Pulumi CLI
-        if: env.PULUMI_VERSION == ''
+      - if: ${{ matrix.platform }} == 'latest'
+        name: Install Latest Pulumi CLI
         uses: pulumi/action-install-pulumi-cli@v1.0.1
-      - name: Install Specific Version of Pulumi CLI
-        if: env.PULUMI_VERSION != ''
-        uses: pulumi/action-install-pulumi-cli@v1.0.1
-        with:
-          pulumi-version: ${{ env.PULUMI_VERSION }}
-      - run: pulumi version
+      - if: ${{ matrix.platform }} == 'dev'
+        name: Install Specific Version of Pulumi CLI
+        run: |
+          curl -sSL https://get.pulumi.com | bash -s -- --version "$(curl -sSL "http://registry.npmjs.org/-/package/@pulumi/pulumi/dist-tags" | jq -r .dev)"
+          echo "/home/runner/.pulumi/bin" >> $GITHUB_PATH
+      - run: echo "Currently Pulumi $(pulumi version) is installed"
       - name: Set up Python ${{ matrix.python-version }}
         uses: actions/setup-python@v1
         with:
