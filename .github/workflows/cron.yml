@@ -55,7 +55,7 @@ jobs:
       - if: matrix.pulumi-version == 'dev'
         name: Get Latest Dev Version of Pulumi
         run: |
-          echo "DEV_PULUMI_VERSION=v$(curl -sSL "http://registry.npmjs.org/-/package/@pulumi/pulumi/dist-tags" | jq -r .dev)" >> $GITHUB_ENV
+          echo "DEV_PULUMI_VERSION=$(curl -sSL "http://registry.npmjs.org/-/package/@pulumi/pulumi/dist-tags" | jq -r .dev)" >> $GITHUB_ENV
       - if: matrix.pulumi-version == 'dev'
         name: Install Latest Pulumi CLI
         uses: pulumi/action-install-pulumi-cli@v1
