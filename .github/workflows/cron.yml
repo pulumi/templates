@@ -49,10 +49,10 @@ jobs:
         uses: actions/setup-go@v1
         with:
           go-version: ${{ matrix.go-version }}
-      - if: ${{ matrix.platform }} == 'latest'
+      - if: ${{ matrix.pulumi-version }} == 'latest'
         name: Install Latest Pulumi CLI
         uses: pulumi/action-install-pulumi-cli@v1.0.1
-      - if: ${{ matrix.platform }} == 'dev'
+      - if: ${{ matrix.pulumi-version }} == 'dev'
         name: Install Specific Version of Pulumi CLI
         run: |
           curl -sSL https://get.pulumi.com | bash -s -- --version "$(curl -sSL "http://registry.npmjs.org/-/package/@pulumi/pulumi/dist-tags" | jq -r .dev)"
