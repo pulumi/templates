@@ -19,6 +19,10 @@ env:
   ARM_TENANT_ID:  ${{ secrets.ARM_TENANT_ID }}
   AZURE_LOCATION: westus
 
+defaults:
+  run:
+    shell: bash
+
 jobs:
   build:
     name: Build
@@ -54,7 +58,6 @@ jobs:
         uses: pulumi/action-install-pulumi-cli@v1.0.1
       - if: matrix.pulumi-version == 'dev'
         name: Get Latest Dev Version of Pulumi
-        shell: bash
         run: |
           echo "DEV_PULUMI_VERSION=$(curl -sSL "http://registry.npmjs.org/-/package/@pulumi/pulumi/dist-tags" | jq -r .dev)" >> $GITHUB_ENV
       - if: matrix.pulumi-version == 'dev'
