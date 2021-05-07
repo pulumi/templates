@@ -30,7 +30,7 @@ jobs:
         node-version: [14.x]
         python-version: [3.7]
         dotnet: [3.1.x]
-        pulumi-version: [latest, dev]
+        pulumi-version: [latest]
     runs-on: ${{ matrix.platform }}
     steps:
       - name: Install DotNet ${{ matrix.dotnet }}
