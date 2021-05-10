@@ -3,6 +3,7 @@ on:
   push:
     branches:
       - master
+  workflow_dispatch: {}
   repository_dispatch:
     types:
       - trigger-cron
@@ -85,11 +86,14 @@ jobs:
       - name: Get dependencies
         run: make ensure
       - if: contains(matrix.platform, 'windows')
+        name: Running Windows tests
         run: |
           make test_templates
         env:
           PULUMI_PYTHON_CMD: python
+          TESTPARALLELISM: 5
       - if: contains(matrix.platform, 'macOS') || contains(matrix.platform, 'ubuntu')
+        name: Running non-Windows tests
         run: |
           make test_templates
       - if: 'failure()'
