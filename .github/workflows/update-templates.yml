@@ -17,8 +17,8 @@ jobs:
         uses: actions/checkout@v2
       - name: Update Template Versions
         run: |
+          cd generator
           ./generate-go-mod.sh
-        working-directory: generator
       - name: Prepare git branch
         run: |
           git config --local user.email "bot@pulumi.com"
@@ -27,11 +27,11 @@ jobs:
           git add .
           git commit -m "Regenerating templates for updated go.mod files"
           git push origin templates/${{ github.run_id }}-${{ github.run_number }}
-#      - name: pull-request
-#        uses: repo-sync/pull-request@v2
-#        with:
-#          source_branch: "templates/${{ github.run_id }}-${{ github.run_number }}"
-#          destination_branch: "master"
-#          pr_title: "Regenerating Templates based on go.mod changes"
-#          pr_body: "Automated PR"
-#          github_token: ${{ secrets.PULUMI_BOT_TOKEN }}
+      - name: pull-request
+        uses: repo-sync/pull-request@v2
+        with:
+          source_branch: "templates/${{ github.run_id }}-${{ github.run_number }}"
+          destination_branch: "master"
+          pr_title: "Regenerating Templates based on go.mod changes"
+          pr_body: "Automated PR"
+          github_token: ${{ secrets.PULUMI_BOT_TOKEN }}
