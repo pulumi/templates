@@ -30,7 +30,7 @@ jobs:
         node-version: [14.x]
         python-version: [3.7]
         dotnet: [3.1.x]
-        pulumi-version: [latest]
+        pulumi-version: [latest, dev]
     runs-on: ${{ matrix.platform }}
     steps:
       - name: Install DotNet ${{ matrix.dotnet }}
@@ -51,7 +51,7 @@ jobs:
           go-version: ${{ matrix.go-version }}
       - if: matrix.pulumi-version == 'latest'
         name: Install Latest Pulumi CLI
-        uses: pulumi/action-install-pulumi-cli@v1.0.1
+        uses: pulumi/action-install-pulumi-cli@v1
       - if: matrix.pulumi-version == 'dev'
         name: Get Latest Dev Version of Pulumi
         shell: bash
@@ -87,11 +87,14 @@ jobs:
       - name: Get dependencies
         run: make ensure
       - if: contains(matrix.platform, 'windows')
+        name: Running Windows tests
         run: |
           make test_templates
         env:
           PULUMI_PYTHON_CMD: python
+          TESTPARALLELISM: 5
       - if: contains(matrix.platform, 'macOS') || contains(matrix.platform, 'ubuntu')
+        name: Running non-Windows tests
         run: |
           make test_templates
       - if: 'failure()'
