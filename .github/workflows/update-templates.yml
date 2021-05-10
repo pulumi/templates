@@ -17,8 +17,8 @@ jobs:
         uses: actions/checkout@v2
       - name: Update Template Versions
         run: |
+          cd generator
           ./generate-go-mod.sh
-        working-directory: generator
       - name: Prepare git branch
         run: |
           git config --local user.email "bot@pulumi.com"
