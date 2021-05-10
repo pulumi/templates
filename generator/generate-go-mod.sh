@@ -20,10 +20,10 @@ do
     PROVIDER_NAME="$i"
   fi
   PROVIDER_VERSION="$(curl -s https://api.github.com/repos/pulumi/pulumi-$PROVIDER_NAME/releases/latest | jq -r .name)"
-  sed -n -e "s/\${VERSION}/$PROVIDER_VERSION/g" -e "s/\${PULUMI_VERSION}/$PULUMI_VERSION/g"  mod-templates/$i-template.txt | tee ../$i-go/go.mod
+  sed -e "s/\${VERSION}/$PROVIDER_VERSION/g" -e "s/\${PULUMI_VERSION}/$PULUMI_VERSION/g" mod-templates/$i-template.txt > ../$i-go/go.mod
   echo "Updated $i go mod template to be Pulumi $PULUMI_VERSION and pulumi-$i to be" $PROVIDER_VERSION
 done
 
 echo "Updating go template"
-sed -n -e "s/\${PULUMI_VERSION}/$PULUMI_VERSION/g"  mod-templates/go-template.txt | tee ../go/go.mod
+sed -e "s/\${PULUMI_VERSION}/$PULUMI_VERSION/g"  mod-templates/go-template.txt | tee ../go/go.mod
 echo "Updated go template to be Pulumi $PULUMI_VERSION"
