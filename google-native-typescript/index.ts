@@ -16,7 +16,6 @@ const bucketName = pulumi.interpolate `pulumi-goog-native-ts-${randomString.resu
 // Create a Google Cloud resource (Storage Bucket)
 const bucket = new storage.Bucket("my-bucket", {
     name:bucketName,
-    bucket:bucketName,
     project: project,
 });
 

@@ -12,7 +12,7 @@ suffix = random_string.RandomString('suffix', length=5, number=False, upper=Fals
 bucket_name = pulumi.Output.concat("pulumi-goog-native-bucket-py-", suffix.result)
 
 # Create a Google Cloud resource (Storage Bucket)
-bucket = storage.Bucket('my-bucket', name=bucket_name, bucket=bucket_name, project=project)
+bucket = storage.Bucket('my-bucket', name=bucket_name, project=project)
 
 # Export the bucket self-link
 pulumi.export('bucketSelfLink', bucket.self_link)
