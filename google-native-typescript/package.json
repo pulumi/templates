@@ -5,7 +5,7 @@
     },
     "dependencies": {
         "@pulumi/pulumi": "^3.1.0",
-        "@pulumi/google-native": "^0.1.0",
+        "@pulumi/google-native": "^0.3.0",
         "@pulumi/random": "4.0.0"
     }
 }
