@@ -1,0 +1,90 @@
+name: Run Performance Metrics Cron Job
+"on":
+  workflow_dispatch: {}
+  schedule:
+    - cron: 0 9 * * *
+
+env:
+  PULUMI_TEST_OWNER: moolumi
+  PULUMI_ACCESS_TOKEN: ${{ secrets.PULUMI_ACCESS_TOKEN }}
+  AWS_REGION: us-west-2
+  GOOGLE_CREDENTIALS: ${{ secrets.GCP_CREDENTIALS }}
+  LINODE_TOKEN: ${{ secrets.LINODE_TOKEN }}
+  BLACK_LISTED_TESTS: "alicloud,digitalocean,kubernetes,openstack,equinix-metal"
+  PULUMI_API: https://api.pulumi-staging.io
+  SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+  ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
+  ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
+  ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
+  ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
+  AZURE_LOCATION: westus
+
+  # ARM_ENVIRONMENT: public
+  # ARM_LOCATION: westus
+  # AWS_ACCESS_KEY_ID: ' ${{ secrets.AWS_ACCESS_KEY_ID }}'
+  # AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+  # CLOUDSDK_CORE_DISABLE_PROMPTS: 1
+  # DIGITALOCEAN_TOKEN: ${{ secrets.DIGITALOCEAN_TOKEN }}
+  # GOOGLE_PROJECT: ${{ secrets.GCP_PROJECT_ID }}
+  # GOOGLE_REGION: us-central1
+  # GOOGLE_ZONE: us-central1-a
+  # PACKET_AUTH_TOKEN: ${{ secrets.PACKET_AUTH_TOKEN }}
+  # PULUMI_ENABLE_RESOURCE_REFERENCES: "1"
+
+jobs:
+  performance_metrics_cron:
+    name: performance_metrics_cron
+    strategy:
+      fail-fast: false
+      platform: [ubuntu-latest]
+      go-version: [1.16.x]
+      node-version: [14.x]
+      python-version: [3.7]
+      dotnet: [3.1.x]
+      pulumi-version: [latest, dev]
+    runs-on: ${{ matrix.platform }}
+    steps:
+      - name: Install DotNet ${{ matrix.dotnet }}
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: ${{matrix.dotnet}}
+      - if: contains(matrix.platform, 'windows')
+        name: DotNet clean on windows
+        run: |
+          dotnet nuget locals all --clear
+      - name: Install Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{matrix.node-version}}
+      - name: Install Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v1
+        with:
+          python-version: ${{matrix.python-version}}
+      - name: Install Go ${{ matrix.go-version }}
+        uses: actions/setup-go@v1
+        with:
+          go-version: ${{matrix.go-version}}
+      - name: Install Python Deps
+        run: |-
+          pip3 install virtualenv==20.0.23
+          pip3 install pipenv
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-region: ${{ env.AWS_REGION }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          role-duration-seconds: 3600
+          role-session-name: templates@githubActions
+          role-to-assume: ${{ secrets.AWS_CI_ROLE_ARN }}
+      - uses: actions/checkout@v2
+      - name: Install Latest Stable Pulumi CLI
+        uses: pulumi/setup-pulumi@v2
+      - run: echo "Currently Pulumi $(pulumi version) is installed"
+      - name: Install Testing Dependencies
+        run: make ensure
+      - name: Add Test Trace Details
+        run: |
+          echo "PULUMI_VERSION=$(pulumi version)" >> $GITHUB_ENV
+      - name: Running Performance Matrix
+        run: make performance_test_set
