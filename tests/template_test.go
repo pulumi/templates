@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"os"
 	"path"
-	"path/filepath"
 	"strings"
 	"testing"
 
@@ -121,7 +120,7 @@ func TestTemplates(t *testing.T) {
 					"google-native:zone":    gcpZone,
 					"cloud:provider":        "aws",
 				},
-			})
+			}).With(tracingOpts(t, guessBench(template)))
 
 			integration.ProgramTest(t, &example)
 		})
@@ -144,114 +143,4 @@ func isBlackListedTest(templateName string, backListedTests []string) bool {
 	}
 
 	return false
-}
-
-func withTracingOptions(
-	t *testing.T,
-	template *workspace.Template,
-	opts integration.ProgramTestOptions) integration.ProgramTestOptions {
-
-	dir := os.Getenv("PULUMI_TRACING_DIR")
-
-	if dir != "" {
-		return opts.With(integration.ProgramTestOptions{
-			Env: []string{
-				"PULUMI_TRACING_TAG_REPO=pulumi/templates",
-				fmt.Sprintf("PULUMI_TRACING_TAG_BENCHMARK_NAME=%s", template.Name),
-				fmt.Sprintf("PULUMI_TRACING_TAG_BENCHMARK_RUNTIME=%s", guessRuntime(template)),
-				fmt.Sprintf("PULUMI_TRACING_TAG_BENCHMARK_PROVIDER=%s", guessProvider(template)),
-				"PULUMI_TRACING_MEMSTATS_POLL_INTERVAL=100ms",
-			},
-
-			Tracing: fmt.Sprintf("file:%s",
-				filepath.Join(dir, fmt.Sprintf("%s-{command}.trace", template.Name))),
-		})
-	}
-
-	return opts
-}
-
-func guessRuntime(template *workspace.Template) string {
-	proj, err := workspace.LoadProject(filepath.Join(template.Dir, "Pulumi.yaml"))
-	if err != nil {
-		return ""
-	}
-
-	return proj.Runtime.Name()
-}
-
-func guessProvider(template *workspace.Template) string {
-	if strings.Contains(template.Name, "azure-classic") {
-		return "azure-classic"
-	}
-
-	if strings.Contains(template.Name, "azure") {
-		return "azure"
-	}
-
-	if strings.Contains(template.Name, "google-native") {
-		return "google-native"
-	}
-
-	if strings.Contains(template.Name, "gcp") {
-		return "gcp"
-	}
-
-	if strings.Contains(template.Name, "aws") {
-		return "aws"
-	}
-
-	if strings.Contains(template.Name, "kubernetes") {
-		return "kubernetes"
-	}
-
-	if strings.Contains(template.Name, "openstack") {
-		return "openstack"
-	}
-
-	if strings.Contains(template.Name, "linode") {
-		return "linode"
-	}
-
-	if strings.Contains(template.Name, "digitalocean") {
-		return "digitalocean"
-	}
-
-	if strings.Contains(template.Name, "alicloud") {
-		return "alicloud"
-	}
-
-	if strings.Contains(template.Name, "equinix-metal") {
-		return "equinix-metal"
-	}
-
-	return ""
-}
-
-func TestTemplateDiscov(t *testing.T) {
-
-	// by default, we want to test the normal template url path
-	// if we have a specific template location set then we should
-	// use that in our tests
-	templateUrl := ""
-	specificTemplate := os.Getenv("PULUMI_TEMPLATE_LOCATION")
-	if specificTemplate != "" {
-		templateUrl = specificTemplate
-	}
-
-	repo, err := workspace.RetrieveTemplates(templateUrl, false /*offline*/, workspace.TemplateKindPulumiProject)
-	assert.NoError(t, err)
-
-	defer assert.NoError(t, repo.Delete())
-
-	// List the templates from the repo.
-	templates, err := repo.Templates()
-	assert.NoError(t, err)
-
-	for _, te := range templates {
-		if guessProvider(&te) == "" {
-			t.Errorf("TEMPLATES %s runtime=%s provider=%s\n", te.Name, guessRuntime(&te), guessProvider(&te))
-		}
-	}
-
 }

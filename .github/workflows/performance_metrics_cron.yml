@@ -84,8 +84,18 @@ jobs:
       - run: echo "Currently Pulumi $(pulumi version) is installed"
       - name: Install Testing Dependencies
         run: make ensure
+      - name: Create a Folder for Collecting Traces
+        run: |-
+          mkdir "$PWD/traces"
       - name: Add Test Trace Details
         run: |
-          echo "PULUMI_VERSION=$(pulumi version)" >> $GITHUB_ENV
+          echo "PULUMI_VERSION=$(pulumi version)"                    >> $GITHUB_ENV
+          echo "PULUMI_TRACING_TAG_PULUMI_VERSION=$(pulumi version)" >> $GITHUB_ENV
+          echo "PULUMI_TRACING_DIR=$PWD/traces"                      >> $GITHUB_ENV
       - name: Running Performance Matrix
         run: make test_templates
+      - name: Upload Traces to s3://cli-performance-metrics
+        run: |-
+            gzip -9 "$PWD/traces/metrics.csv"
+            RAND=$(python -c 'import uuid; print(uuid.uuid4())')
+            aws s3 cp "$PWD/traces/metrics.csv.gz" "s3://cli-performance-metrics/$(date -u +'%Y-%m-%d')/cli_performance_metrics_$RAND.csv.gz"
