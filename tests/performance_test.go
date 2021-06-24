@@ -49,14 +49,7 @@ func tracingOpts(t *testing.T, benchmark bench) integration.ProgramTestOptions {
 
 	if dir != "" {
 		return integration.ProgramTestOptions{
-			Env: []string{
-				"PULUMI_TRACING_TAG_REPO=pulumi/templates",
-				fmt.Sprintf("PULUMI_TRACING_TAG_BENCHMARK_NAME=%s", benchmark.name),
-				fmt.Sprintf("PULUMI_TRACING_TAG_BENCHMARK_PROVIDER=%s", benchmark.provider),
-				fmt.Sprintf("PULUMI_TRACING_TAG_BENCHMARK_RUNTIME=%s", benchmark.runtime),
-				fmt.Sprintf("PULUMI_TRACING_TAG_BENCHMARK_LANGUAGE=%s", benchmark.language),
-				"PULUMI_TRACING_MEMSTATS_POLL_INTERVAL=100ms",
-			},
+			Env: tracingEnvVars(t, benchmark),
 			Tracing: fmt.Sprintf("file:%s",
 				filepath.Join(dir, fmt.Sprintf("%s-{command}.trace", benchmark.name))),
 		}
@@ -198,4 +191,22 @@ func tracingArgs(t *testing.T, bench bench, command string) []string {
 		return []string{"--tracing", strings.ReplaceAll(opts.Tracing, "{command}", command)}
 	}
 	return []string{}
+}
+
+func tracingEnvVars(t *testing.T, bench bench) []string {
+	if tracingDir() != "" {
+		return tracingEnvForBench(bench)
+	}
+	return []string{}
+}
+
+func tracingEnvForBench(benchmark bench) []string {
+	return []string{
+		"PULUMI_TRACING_TAG_REPO=pulumi/templates",
+		fmt.Sprintf("PULUMI_TRACING_TAG_BENCHMARK_NAME=%s", benchmark.name),
+		fmt.Sprintf("PULUMI_TRACING_TAG_BENCHMARK_PROVIDER=%s", benchmark.provider),
+		fmt.Sprintf("PULUMI_TRACING_TAG_BENCHMARK_RUNTIME=%s", benchmark.runtime),
+		fmt.Sprintf("PULUMI_TRACING_TAG_BENCHMARK_LANGUAGE=%s", benchmark.language),
+		"PULUMI_TRACING_MEMSTATS_POLL_INTERVAL=100ms",
+	}
 }
