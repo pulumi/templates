@@ -95,7 +95,13 @@ func TestTemplates(t *testing.T) {
 				templatePath = path.Join(templateUrl, templateName)
 			}
 
-			e.RunCommand("pulumi", "new", templatePath, "-f", "--yes", "-s", "template-test")
+			cmdArgs := []string{
+				"new", templatePath, "-f", "--yes", "-s", "template-test",
+			}
+
+			cmdArgs = append(cmdArgs, tracingArgs(t, guessBench(template), "new")...)
+
+			e.RunCommand("pulumi", cmdArgs...)
 
 			path, err := workspace.DetectProjectPathFrom(e.RootPath)
 			assert.NoError(t, err)

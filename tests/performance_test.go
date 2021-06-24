@@ -191,3 +191,11 @@ func guessProvider(template workspace.Template) string {
 
 	return ""
 }
+
+func tracingArgs(t *testing.T, bench bench, command string) []string {
+	opts := tracingOpts(t, bench)
+	if opts.Tracing != "" {
+		return []string{"--tracing", strings.ReplaceAll(opts.Tracing, "{command}", command)}
+	}
+	return []string{}
+}
