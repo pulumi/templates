@@ -76,8 +76,7 @@ func TestTemplates(t *testing.T) {
 
 	blackListed := strings.Split(blackListedTests, ",")
 
-	for _, template := range templates {
-
+	checkTemplate := func(template workspace.Template) {
 		templateName := template.Name
 		t.Run(templateName, func(t *testing.T) {
 			t.Parallel()
@@ -124,6 +123,10 @@ func TestTemplates(t *testing.T) {
 
 			integration.ProgramTest(t, &example)
 		})
+	}
+
+	for _, template := range templates {
+		checkTemplate(template)
 	}
 }
 

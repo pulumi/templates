@@ -109,9 +109,8 @@ func computeMetrics(dir string) error {
 // additional helpers specific to this repo (templates)
 
 func guessBench(template workspace.Template) bench {
-	name := filepath.Base(template.Dir)
 	return bench{
-		name:     name,
+		name:     template.Name,
 		provider: guessProvider(template),
 		language: guessLanguage(template),
 		runtime:  guessRuntime(template),
