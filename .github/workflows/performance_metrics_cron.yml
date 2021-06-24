@@ -88,4 +88,4 @@ jobs:
         run: |
           echo "PULUMI_VERSION=$(pulumi version)" >> $GITHUB_ENV
       - name: Running Performance Matrix
-        run: make performance_test_set
+        run: make test_templates
