@@ -36,12 +36,13 @@ jobs:
     name: performance_metrics_cron
     strategy:
       fail-fast: false
-      platform: [ubuntu-latest]
-      go-version: [1.16.x]
-      node-version: [14.x]
-      python-version: [3.7]
-      dotnet: [3.1.x]
-      pulumi-version: [latest, dev]
+      matrix:
+        platform: [ubuntu-latest]
+        go-version: [1.16.x]
+        node-version: [14.x]
+        python-version: [3.7]
+        dotnet: [3.1.x]
+        pulumi-version: [latest]
     runs-on: ${{ matrix.platform }}
     steps:
       - name: Install DotNet ${{ matrix.dotnet }}
