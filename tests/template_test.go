@@ -101,7 +101,7 @@ func TestTemplates(t *testing.T) {
 
 			cmdArgs := append(
 				[]string{"new", templatePath, "-f", "--yes", "-s", "template-test"},
-				tracingArgs(t, bench, "new")...,
+				tracingArgs(t, bench, "pulumi-new")...,
 			)
 
 			e.RunCommand("pulumi", cmdArgs...)
