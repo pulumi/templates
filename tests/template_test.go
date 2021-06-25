@@ -90,7 +90,7 @@ func TestTemplates(t *testing.T) {
 			bench := guessBench(template)
 
 			e := ptesting.NewEnvironment(t)
-			e.SetEnvVars(append(e.Env, tracingEnvVars(t, bench)...))
+			e.SetEnvVars(append(e.Env, bench.Env()...))
 
 			defer deleteIfNotFailed(e)
 
@@ -101,7 +101,7 @@ func TestTemplates(t *testing.T) {
 
 			cmdArgs := append(
 				[]string{"new", templatePath, "-f", "--yes", "-s", "template-test"},
-				tracingArgs(t, bench, "pulumi-new")...,
+				bench.CommandArgs("pulumi-new")...,
 			)
 
 			e.RunCommand("pulumi", cmdArgs...)
@@ -128,7 +128,7 @@ func TestTemplates(t *testing.T) {
 					"google-native:zone":    gcpZone,
 					"cloud:provider":        "aws",
 				},
-			}).With(tracingOpts(t, bench))
+			}).With(bench.ProgramTestOptions())
 
 			integration.ProgramTest(t, &example)
 		})

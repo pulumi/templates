@@ -1,11 +1,6 @@
-// TODO a lot of duplication here against pulumi/examples
-// performance_test.go, simplify somehow.
-
 package tests
 
 import (
-	"fmt"
-	"io/ioutil"
 	"log"
 	"os"
 	"path/filepath"
@@ -13,101 +8,28 @@ import (
 	"testing"
 
 	"github.com/pulumi/pulumi-trace-tool/traces"
-	"github.com/pulumi/pulumi/pkg/v3/testing/integration"
 	"github.com/pulumi/pulumi/sdk/v3/go/common/workspace"
 )
-
-type bench struct {
-	name     string
-	provider string
-	runtime  string
-	language string
-}
 
 func TestMain(m *testing.M) {
 	code := m.Run()
 
-	dir := tracingDir()
-	if dir != "" {
-		// After all tests run with tracing, compute metrics
-		// on the entire set.
-		err := computeMetrics(dir)
-		if err != nil {
-			log.Fatal(err)
-		}
+	// If tracing is enabled, compute metrics after running all the tests.
+	err := traces.ComputeMetrics()
+	if err != nil {
+		log.Fatal(err)
 	}
 
 	os.Exit(code)
 }
 
-func tracingDir() string {
-	return os.Getenv("PULUMI_TRACING_DIR")
-}
-
-func tracingOpts(t *testing.T, benchmark bench) integration.ProgramTestOptions {
-	dir := tracingDir()
-
-	if dir != "" {
-		return integration.ProgramTestOptions{
-			Env: tracingEnvVars(t, benchmark),
-			Tracing: fmt.Sprintf("file:%s",
-				filepath.Join(dir, fmt.Sprintf("%s-{command}.trace", benchmark.name))),
-		}
-	}
-
-	return integration.ProgramTestOptions{}
-}
-
-func computeMetrics(dir string) error {
-	cwd, err := os.Getwd()
-	if err != nil {
-		return err
-	}
-
-	defer os.Chdir(cwd)
-
-	err = os.Chdir(dir)
-	if err != nil {
-		return err
-	}
-
-	files, err := ioutil.ReadDir(".")
-	if err != nil {
-		return err
-	}
-
-	var traceFiles []string
-	for _, f := range files {
-		if strings.HasSuffix(f.Name(), ".trace") {
-			traceFiles = append(traceFiles, f.Name())
-		}
-	}
-
-	if err := traces.ToCsv(traceFiles, "traces.csv", "filename"); err != nil {
-		return err
-	}
-
-	f, err := os.Create("metrics.csv")
-	if err != nil {
-		return err
-	}
-
-	if err := traces.Metrics("traces.csv", "filename", f); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-// additional helpers specific to this repo (templates)
-
-func guessBench(template workspace.Template) bench {
-	return bench{
-		name:     template.Name,
-		provider: guessProvider(template),
-		language: guessLanguage(template),
-		runtime:  guessRuntime(template),
-	}
+func guessBench(template workspace.Template) traces.Benchmark {
+	b := traces.NewBenchmark(template.Name)
+	b.Provider = guessProvider(template)
+	b.Language = guessLanguage(template)
+	b.Runtime = guessRuntime(template)
+	b.Repository = "pulumi/templates"
+	return b
 }
 
 func guessLanguage(template workspace.Template) string {
@@ -183,30 +105,4 @@ func guessProvider(template workspace.Template) string {
 	}
 
 	return ""
-}
-
-func tracingArgs(t *testing.T, bench bench, command string) []string {
-	opts := tracingOpts(t, bench)
-	if opts.Tracing != "" {
-		return []string{"--tracing", strings.ReplaceAll(opts.Tracing, "{command}", command)}
-	}
-	return []string{}
-}
-
-func tracingEnvVars(t *testing.T, bench bench) []string {
-	if tracingDir() != "" {
-		return tracingEnvForBench(bench)
-	}
-	return []string{}
-}
-
-func tracingEnvForBench(benchmark bench) []string {
-	return []string{
-		"PULUMI_TRACING_TAG_REPO=pulumi/templates",
-		fmt.Sprintf("PULUMI_TRACING_TAG_BENCHMARK_NAME=%s", benchmark.name),
-		fmt.Sprintf("PULUMI_TRACING_TAG_BENCHMARK_PROVIDER=%s", benchmark.provider),
-		fmt.Sprintf("PULUMI_TRACING_TAG_BENCHMARK_RUNTIME=%s", benchmark.runtime),
-		fmt.Sprintf("PULUMI_TRACING_TAG_BENCHMARK_LANGUAGE=%s", benchmark.language),
-		"PULUMI_TRACING_MEMSTATS_POLL_INTERVAL=100ms",
-	}
 }
