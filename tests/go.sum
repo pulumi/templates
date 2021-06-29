@@ -731,6 +731,8 @@ github.com/pulumi/pulumi-trace-tool v0.0.0-20210625202649-2c354e4517ec h1:qwKnJX
 github.com/pulumi/pulumi-trace-tool v0.0.0-20210625202649-2c354e4517ec/go.mod h1:sQSr8A+PvvGfn5X8PsWOyQ3AlBWebBpsP1bk6RsiBWM=
 github.com/pulumi/pulumi-trace-tool v0.0.0-20210629174458-5321368c55d8 h1:oeImx+vW2ySI3yrQWDmDRRCMV9y9UdMdfUCXLhgenHg=
 github.com/pulumi/pulumi-trace-tool v0.0.0-20210629174458-5321368c55d8/go.mod h1:CrD+qPXZjdh0T0+DK5Xclbr1eKKWnQt6svOOeTh4pl4=
+github.com/pulumi/pulumi-trace-tool v0.0.0-20210629202931-10ae87ca9439 h1:8nwCPl0rSQOxRYWrr9u6ATVMdX/YWF1hcn3UyHHQ1mo=
+github.com/pulumi/pulumi-trace-tool v0.0.0-20210629202931-10ae87ca9439/go.mod h1:CrD+qPXZjdh0T0+DK5Xclbr1eKKWnQt6svOOeTh4pl4=
 github.com/pulumi/pulumi/pkg/v3 v3.5.1 h1:6+Y5Fot9mNRxNK23eT9HTeHt0bnjzpqtuJDAhK3re10=
 github.com/pulumi/pulumi/pkg/v3 v3.5.1/go.mod h1:aAGoadWl60wVSE8Ig2FqcxUdfrmMKV6xfErcTOToIV4=
 github.com/pulumi/pulumi/sdk/v3 v3.3.1/go.mod h1:GBHyQ7awNQSRmiKp/p8kIKrGrMOZeA/k2czoM/GOqds=
