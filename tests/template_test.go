@@ -76,7 +76,7 @@ func TestTemplates(t *testing.T) {
 
 	blackListed := strings.Split(blackListedTests, ",")
 
-	for _, template := range templates {
+	checkTemplate := func(template workspace.Template) {
 		templateName := template.Name
 		t.Run(templateName, func(t *testing.T) {
 			t.Parallel()
@@ -87,7 +87,11 @@ func TestTemplates(t *testing.T) {
 
 			t.Logf("Starting test run for %q", templateName)
 
+			bench := guessBench(template)
+
 			e := ptesting.NewEnvironment(t)
+			e.SetEnvVars(append(e.Env, bench.Env()...))
+
 			defer deleteIfNotFailed(e)
 
 			templatePath := templateName
@@ -95,7 +99,12 @@ func TestTemplates(t *testing.T) {
 				templatePath = path.Join(templateUrl, templateName)
 			}
 
-			e.RunCommand("pulumi", "new", templatePath, "-f", "--yes", "-s", "template-test")
+			cmdArgs := append(
+				[]string{"new", templatePath, "-f", "--yes", "-s", "template-test"},
+				bench.CommandArgs("pulumi-new")...,
+			)
+
+			e.RunCommand("pulumi", cmdArgs...)
 
 			path, err := workspace.DetectProjectPathFrom(e.RootPath)
 			assert.NoError(t, err)
@@ -119,10 +128,14 @@ func TestTemplates(t *testing.T) {
 					"google-native:zone":    gcpZone,
 					"cloud:provider":        "aws",
 				},
-			})
+			}).With(bench.ProgramTestOptions())
 
 			integration.ProgramTest(t, &example)
 		})
+	}
+
+	for _, template := range templates {
+		checkTemplate(template)
 	}
 }
 
