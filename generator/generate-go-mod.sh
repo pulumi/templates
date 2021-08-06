@@ -6,7 +6,7 @@ set -o pipefail
 
 PULUMI_VERSION="$(curl -s https://api.github.com/repos/pulumi/pulumi/releases/latest | jq -r .name)"
 
-PROVIDER_LIST="alicloud,aws,azure-classic,azure,digitalocean,equinix-metal,gcp,google-native,kubernetes,linode,openstack,civo"
+PROVIDER_LIST="alicloud,aws,azure-classic,azure,digitalocean,equinix-metal,gcp,google-native,kubernetes,linode,openstack,civo,aiven"
 IFS=',' read -ra PROVIDERS <<< "$PROVIDER_LIST"
 
 for i in "${PROVIDERS[@]}"
