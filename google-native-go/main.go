@@ -1,7 +1,8 @@
 package main
 
 import (
-	"github.com/pulumi/pulumi-google-native/sdk/go/google/storage/v1"
+	storage "github.com/pulumi/pulumi-google-native/sdk/go/google/storage/v1"
+	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 )
 
 func main() {
