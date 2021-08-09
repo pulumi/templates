@@ -1,34 +1,13 @@
 package main
 
 import (
-	storage "github.com/pulumi/pulumi-google-native/sdk/go/google/storage/v1"
-	"github.com/pulumi/pulumi-random/sdk/v4/go/random"
-	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
-	"github.com/pulumi/pulumi/sdk/v3/go/pulumi/config"
+	"github.com/pulumi/pulumi-google-native/sdk/go/google/storage/v1"
 )
 
 func main() {
 	pulumi.Run(func(ctx *pulumi.Context) error {
-		conf := config.New(ctx, "google-native")
-		project := conf.Require("project")
-
-		// Generate random bucket name
-		randStr, err := random.NewRandomString(ctx, "suffix", &random.RandomStringArgs{
-			Length:  pulumi.Int(5),
-			Number:  pulumi.Bool(false),
-			Special: pulumi.Bool(false),
-			Upper:   pulumi.Bool(false),
-		})
-		if err != nil {
-			return err
-		}
-		bucketName := pulumi.Sprintf("pulumi-goog-native-go-%s", randStr.Result)
-
 		// Create a Google Cloud resource (Storage Bucket)
-		bucket, err := storage.NewBucket(ctx, "bucket", &storage.BucketArgs{
-			Name:    bucketName,
-			Project: pulumi.String(project),
-		})
+		bucket, err := storage.NewBucket(ctx, "bucket", nil)
 		if err != nil {
 			return err
 		}
