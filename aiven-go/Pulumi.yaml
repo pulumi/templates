@@ -3,7 +3,6 @@ description: ${DESCRIPTION}
 runtime: go
 template:
   description: A minimal Aiven Go Pulumi program
-  important: true
   config:
     aiven:apiToken:
       description: The token that allows you access to your Aiven account
