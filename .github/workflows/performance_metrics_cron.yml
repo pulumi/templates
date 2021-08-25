@@ -2,7 +2,7 @@ name: Run Performance Metrics Cron Job
 "on":
   workflow_dispatch: {}
   schedule:
-    - cron: 0 9 * * *
+    - cron: 0 */6 * * *
 
 env:
   PULUMI_TEST_OWNER: moolumi
