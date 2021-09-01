@@ -41,8 +41,8 @@ jobs:
         uses: actions/setup-dotnet@v1
         with:
           dotnet-version: ${{ matrix.dotnet }}
-      - if: contains(matrix.platform, 'windows')
-        name: DotNet clean on windows
+      - if: contains(matrix.platform, 'ubuntu') || contains(matrix.platform, 'windows')
+        name: DotNet clean on windows and ubuntu
         run: |
           dotnet nuget locals all --clear
       - name: Use Node.js ${{ matrix.node-version }}
