@@ -1,8 +1,8 @@
 name: ${PROJECT}
 description: ${DESCRIPTION}
-runtime: go
+runtime: nodejs
 template:
-  description: A minimal Civo Go Pulumi program
+  description: A minimal Civo TypeScript Pulumi program
   config:
     civo:token:
       description: The token that allows you access your CIVO account
