@@ -6,7 +6,9 @@ Class MyStack
 
     Public Sub New()
         ' Create a GCP resource (Storage Bucket)
-        Dim bucket = New Bucket("my-bucket")
+        Dim bucket = New Bucket("my-bucket", New BucketArgs With {
+               .Location = "US"
+           })
 
         ' Export the DNS name of the bucket
         Me.BucketName = bucket.Url
