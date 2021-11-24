@@ -7,7 +7,7 @@ let infra () =
   // Create a GCP resource (Storage Bucket)
   let bucket = Bucket("my-bucket",
                     BucketArgs
-                        (Location = "US"))
+                        (Location = input  "US"))
 
   // Export the DNS name of the bucket
   dict [("bucketName", bucket.Url :> obj)]
