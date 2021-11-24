@@ -6,7 +6,10 @@ class MyStack : Stack
     public MyStack()
     {
         // Create a GCP resource (Storage Bucket)
-        var bucket = new Bucket("my-bucket");
+        var bucket = new Bucket("my-bucket", new BucketArgs
+        {
+            Location = "US"
+        });
 
         // Export the DNS name of the bucket
         this.BucketName = bucket.Url;
