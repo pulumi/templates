@@ -1,0 +1,8 @@
+{
+  "name": "${PROJECT}",
+  "main": "index.js",
+  "dependencies": {
+    "@pulumi/pulumi": "^3.19.0",
+    "@pulumi/github": "^4.8.1"
+  }
+}
