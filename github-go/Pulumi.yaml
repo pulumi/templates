@@ -1,0 +1,11 @@
+name: ${PROJECT}
+description: ${DESCRIPTION}
+runtime: go
+template:
+  description: A minimal GitHub Go Pulumi program
+  config:
+    github:token:
+      description: The GitHub token to use for authentication
+      secret: true
+    github:owner:
+      description: To target a specific GitHub organization or an individual user account, set the GitHub owner configuration value.
