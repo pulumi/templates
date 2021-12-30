@@ -93,6 +93,7 @@ jobs:
         run: make ensure
       - if: contains(matrix.platform, 'windows')
         name: Running Windows tests
+        shell: bash
         run: |
           set -euo pipefail
           cd tests && go test -v -json -count=1 -cover -timeout 6h -parallel ${{ env.TESTPARALLELISM }} . 2>&1 | tee /tmp/gotest.log | gotestfmt

@@ -5,6 +5,7 @@ on:
   workflow_dispatch: {}
 
 env:
+  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   PULUMI_TEST_OWNER: "moolumi"
   PULUMI_ACCESS_TOKEN: ${{ secrets.PULUMI_ACCESS_TOKEN }}
   AWS_REGION: "us-west-2"
@@ -84,19 +85,26 @@ jobs:
           role-duration-seconds: 3600
           role-session-name: templates@githubActions
           role-to-assume: ${{ secrets.AWS_CI_ROLE_ARN }}
+      - name: Install gotestfmt
+        uses: jaxxstorm/action-install-gh-release@v1.3.1
+        with:
+          repo: haveyoudebuggedit/gotestfmt
       - name: Get dependencies
         run: make ensure
       - if: contains(matrix.platform, 'windows')
         name: Running Windows tests
+        shell: bash
         run: |
-          make test_templates
+          set -euo pipefail
+          cd tests && go test -v -json -count=1 -cover -timeout 6h -parallel ${{ env.TESTPARALLELISM }} . 2>&1 | tee /tmp/gotest.log | gotestfmt
         env:
           PULUMI_PYTHON_CMD: python
           TESTPARALLELISM: 5
       - if: contains(matrix.platform, 'macOS') || contains(matrix.platform, 'ubuntu')
         name: Running non-Windows tests
         run: |
-          make test_templates
+          set -euo pipefail
+          cd tests && go test -v -json -count=1 -cover -timeout 6h -parallel ${{ env.TESTPARALLELISM }} . 2>&1 | tee /tmp/gotest.log | gotestfmt
       - if: 'failure()'
         name: Notify Slack
         uses: 8398a7/action-slack@v3
