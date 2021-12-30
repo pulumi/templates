@@ -10,7 +10,7 @@ env:
   AWS_REGION: "us-west-2"
   GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_CREDENTIALS }}
   LINODE_TOKEN: ${{ secrets.LINODE_TOKEN }}
-  BLACK_LISTED_TESTS: "alicloud,digitalocean,kubernetes,openstack,equinix-metal,civo,aiven"
+  BLACK_LISTED_TESTS: "alicloud,digitalocean,kubernetes,openstack,equinix-metal,civo,aiven,auth0"
   PULUMI_API: https://api.pulumi-staging.io
   SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
   ARM_CLIENT_ID:  ${{ secrets.ARM_CLIENT_ID }}

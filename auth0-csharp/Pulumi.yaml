@@ -1,0 +1,5 @@
+name: ${PROJECT}
+description: ${DESCRIPTION}
+runtime: dotnet
+template:
+  description: "A minimal Auth0 C# Pulumi program"
