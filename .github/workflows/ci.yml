@@ -23,6 +23,7 @@ env:
   ARM_SUBSCRIPTION_ID:  ${{ secrets.ARM_SUBSCRIPTION_ID }}
   ARM_TENANT_ID:  ${{ secrets.ARM_TENANT_ID }}
   AZURE_LOCATION: westus
+  TESTPARALLELISM: 10
 
 jobs:
   build:
@@ -83,19 +84,25 @@ jobs:
           role-duration-seconds: 3600
           role-session-name: templates@githubActions
           role-to-assume: ${{ secrets.AWS_CI_ROLE_ARN }}
+      - name: Set up gotestfmt
+        uses: haveyoudebuggedit/gotestfmt-action@v2
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
       - name: Get dependencies
         run: make ensure
       - if: contains(matrix.platform, 'windows')
         name: Running Windows tests
         run: |
-          make test_templates
+          set -euo pipefail
+          cd tests && go test -v -json -count=1 -cover -timeout 6h -parallel ${{ env.TESTPARALLELISM }} . 2>&1 | tee /tmp/gotest.log | gotestfmt
         env:
           PULUMI_PYTHON_CMD: python
           TESTPARALLELISM: 5
       - if: contains(matrix.platform, 'macOS') || contains(matrix.platform, 'ubuntu')
         name: Running non-Windows tests
         run: |
-          make test_templates
+          set -euo pipefail
+          cd tests && go test -v -json -count=1 -cover -timeout 6h -parallel ${{ env.TESTPARALLELISM }} . 2>&1 | tee /tmp/gotest.log | gotestfmt
       - if: 'failure()'
         name: Notify Slack
         uses: 8398a7/action-slack@v3
