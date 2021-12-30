@@ -1,0 +1,10 @@
+{
+  "name": "${PROJECT}",
+  "devDependencies": {
+    "@types/node": "^16.11.12"
+  },
+  "dependencies": {
+    "@pulumi/pulumi": "^3.19.0",
+    "@pulumi/github": "^4.8.1"
+  }
+}
