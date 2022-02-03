@@ -18,9 +18,9 @@ func main() {
 		account, err := storage.NewStorageAccount(ctx, "sa", &storage.StorageAccountArgs{
 			ResourceGroupName: resourceGroup.Name,
 			Sku: &storage.SkuArgs{
-				Name: storage.SkuName_Standard_LRS,
+				Name: pulumi.String("Standard_LRS"),
 			},
-			Kind: storage.KindStorageV2,
+			Kind: pulumi.String("StorageV2"),
 		})
 		if err != nil {
 			return err
