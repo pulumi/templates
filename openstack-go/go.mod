@@ -3,6 +3,6 @@ module ${PROJECT}
 go 1.14
 
 require (
-	github.com/pulumi/pulumi-openstack/sdk/v3 v3.7.0
-	github.com/pulumi/pulumi/sdk/v3 v3.24.1
+	github.com/pulumi/pulumi-openstack/sdk/v3 v3.8.0
+	github.com/pulumi/pulumi/sdk/v3 v3.25.0
 )
