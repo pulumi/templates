@@ -1,0 +1,6 @@
+name: ${PROJECT}
+description: ${DESCRIPTION}
+runtime: python
+template:
+  description: A minimal Azure DevOps Python Pulumi program to create an AzureDevOps Project
+  important: true
