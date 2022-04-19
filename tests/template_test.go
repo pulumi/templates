@@ -68,7 +68,10 @@ func TestTemplates(t *testing.T) {
 	// Retrieve the template repo.
 	repo, err := workspace.RetrieveTemplates(templateUrl, false /*offline*/, workspace.TemplateKindPulumiProject)
 	assert.NoError(t, err)
-	defer assert.NoError(t, repo.Delete())
+	t.Cleanup(func() {
+		err := repo.Delete()
+		assert.NoError(t, err, "Error cleaning up repository after deletion.")
+	})
 
 	// List the templates from the repo.
 	templates, err := repo.Templates()
@@ -76,8 +79,13 @@ func TestTemplates(t *testing.T) {
 
 	blackListed := strings.Split(blackListedTests, ",")
 
-	checkTemplate := func(template workspace.Template) {
+	for _, template := range templates {
+		template := template
 		templateName := template.Name
+
+		e := ptesting.NewEnvironment(t)
+		t.Cleanup(func() { deleteIfNotFailed(e) })
+
 		t.Run(templateName, func(t *testing.T) {
 			t.Parallel()
 			if isBlackListedTest(templateName, blackListed) {
@@ -89,10 +97,7 @@ func TestTemplates(t *testing.T) {
 
 			bench := guessBench(template)
 
-			e := ptesting.NewEnvironment(t)
 			e.SetEnvVars(append(e.Env, bench.Env()...))
-
-			defer deleteIfNotFailed(e)
 
 			templatePath := templateName
 			if templateUrl != "" {
@@ -114,7 +119,8 @@ func TestTemplates(t *testing.T) {
 			assert.NoError(t, err)
 
 			example := base.With(integration.ProgramTestOptions{
-				Dir: e.RootPath,
+				Dir:              e.RootPath,
+				DestroyOnCleanup: true,
 				Config: map[string]string{
 					"aws:region":            awsRegion,
 					"azure:environment":     azureEnviron,
@@ -132,10 +138,6 @@ func TestTemplates(t *testing.T) {
 
 			integration.ProgramTest(t, &example)
 		})
-	}
-
-	for _, template := range templates {
-		checkTemplate(template)
 	}
 }
 
