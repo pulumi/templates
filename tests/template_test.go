@@ -62,6 +62,7 @@ func TestTemplates(t *testing.T) {
 		Quick:                  true,
 		SkipRefresh:            true,
 		NoParallel:             true, // we mark tests as Parallel manually when instantiating
+		DestroyOnCleanup:       true,
 		UseAutomaticVirtualEnv: true,
 	}
 
@@ -83,15 +84,16 @@ func TestTemplates(t *testing.T) {
 		template := template
 		templateName := template.Name
 
+		if isBlackListedTest(templateName, blackListed) {
+			t.Logf("Skipping template test %s", templateName)
+			continue
+		}
+
 		e := ptesting.NewEnvironment(t)
 		t.Cleanup(func() { deleteIfNotFailed(e) })
 
 		t.Run(templateName, func(t *testing.T) {
 			t.Parallel()
-			if isBlackListedTest(templateName, blackListed) {
-				t.Skipf("Skipping template test %s", templateName)
-				return
-			}
 
 			t.Logf("Starting test run for %q", templateName)
 
@@ -119,8 +121,7 @@ func TestTemplates(t *testing.T) {
 			assert.NoError(t, err)
 
 			example := base.With(integration.ProgramTestOptions{
-				Dir:              e.RootPath,
-				DestroyOnCleanup: true,
+				Dir: e.RootPath,
 				Config: map[string]string{
 					"aws:region":            awsRegion,
 					"azure:environment":     azureEnviron,
@@ -144,6 +145,11 @@ func TestTemplates(t *testing.T) {
 // deleteIfNotFailed deletes the files in the testing environment if the testcase has
 // not failed. (Otherwise they are left to aid debugging.)
 func deleteIfNotFailed(e *ptesting.Environment) {
+	defer func() {
+		if err := recover(); err != nil {
+			e.T.Logf("Error deleting dir [%v]: %v", e.RootPath, err)
+		}
+	}()
 	if !e.T.Failed() {
 		e.DeleteEnvironment()
 	}
