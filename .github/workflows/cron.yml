@@ -100,7 +100,7 @@ jobs:
           cd tests && go test -v -json -count=1 -cover -timeout 6h -parallel ${{ env.TESTPARALLELISM }} . 2>&1 | tee /tmp/gotest.log | gotestfmt
         env:
           PULUMI_PYTHON_CMD: python
-          TESTPARALLELISM: 5
+          TESTPARALLELISM: 3
       - if: contains(matrix.platform, 'macOS') || contains(matrix.platform, 'ubuntu')
         name: Running non-Windows tests
         run: |
