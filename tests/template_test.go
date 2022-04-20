@@ -145,11 +145,10 @@ func TestTemplates(t *testing.T) {
 // deleteIfNotFailed deletes the files in the testing environment if the testcase has
 // not failed. (Otherwise they are left to aid debugging.)
 func deleteIfNotFailed(e *ptesting.Environment) {
-	defer func() {
-		if err := recover(); err != nil {
-			e.T.Logf("Error deleting dir [%v]: %v", e.RootPath, err)
-		}
-	}()
+	if _, found := os.LookupEnv("CI"); found {
+		// Skip cleanup on CI, workaround for https://github.com/pulumi/pulumi/issues/9437
+		return
+	}
 	if !e.T.Failed() {
 		e.DeleteEnvironment()
 	}
