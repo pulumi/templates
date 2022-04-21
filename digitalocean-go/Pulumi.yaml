@@ -3,3 +3,7 @@ description: ${DESCRIPTION}
 runtime: go
 template:
   description: A minimal DigitalOcean Go Pulumi program
+  config:
+    digitalocean:token:
+      description: The token that allows you access your DigitalOcean account
+      secret: true

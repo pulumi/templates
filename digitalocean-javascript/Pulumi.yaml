@@ -3,3 +3,7 @@ description: ${DESCRIPTION}
 runtime: nodejs
 template:
   description: A minimal DigitalOcean JavaScript Pulumi program
+  config:
+    digitalocean:token:
+      description: The token that allows you access your DigitalOcean account
+      secret: true
