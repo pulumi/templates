@@ -16,11 +16,13 @@ func main() {
 			return err
 		}
 		cluster, err := civo.NewKubernetesCluster(ctx, "civo-k3s-cluster", &civo.KubernetesClusterArgs{
-			Name:            pulumi.StringPtr("myFirstCivoCluster"),
-			NumTargetNodes:  pulumi.IntPtr(3),
-			TargetNodesSize: pulumi.StringPtr("g3.k3s.medium"),
-			Region:          pulumi.StringPtr("LON1"),
-			FirewallId:      firewall.ID(),
+			Name: pulumi.StringPtr("myFirstCivoCluster"),
+			Pools: civo.KubernetesClusterPoolsArgs{
+				Size:      pulumi.String("g4s.kube.medium"),
+				NodeCount: pulumi.Int(3),
+			},
+			Region:     pulumi.StringPtr("LON1"),
+			FirewallId: firewall.ID(),
 		})
 		if err != nil {
 			return err
