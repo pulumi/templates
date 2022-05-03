@@ -1,0 +1,11 @@
+
+resources:
+  # Create a GCP resource (Storage Bucket)
+  bucket:
+    type: gcp:storage:Bucket
+    properties:
+      location: US
+
+outputs:
+  # Export the DNS name of the bucket
+  bucketName: ${bucket.url}

@@ -1,0 +1,18 @@
+
+resources:
+  client:
+    type: auth0:Client
+    properties:
+      allowedLogoutUrls:
+        - "https://www.example.com/logout"
+      allowedOrigins:
+        - "https://www.example.com"
+      callbacks:
+        - "https://example.com/auth/callback"
+      appType: "regular_web"
+      jwtConfiguration:
+        alg: "RS256"
+
+outputs:
+  clientId: ${client.clientId}
+  clientSecret: ${client.clientSecret}
