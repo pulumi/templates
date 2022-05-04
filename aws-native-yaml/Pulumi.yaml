@@ -1,0 +1,18 @@
+name: ${PROJECT}
+description: ${DESCRIPTION}
+runtime: yaml
+template:
+  description: A minimal AWS Pulumi YAML program
+  config:
+    aws-native:region:
+      description: The AWS region to deploy into
+      default: us-east-1
+
+resources:
+  # Create an AWS resource (S3 Bucket)
+  bucket:
+    type: aws-native:s3:Bucket
+
+outputs:
+  # Export the name of the bucket
+  bucketName: ${bucket.id}

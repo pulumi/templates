@@ -1,0 +1,16 @@
+name: ${PROJECT}
+description: ${DESCRIPTION}
+runtime: yaml
+template:
+  description: A minimal DigitalOcean Pulumi YAML program
+
+resources:
+  # Create a DigitalOcean resource (Domain)
+  domain:
+    type: digitalocean:Domain
+    properties:
+      name: my-domain.io
+
+outputs:
+  # Export the name of the domain
+  domainName: ${domain.name}

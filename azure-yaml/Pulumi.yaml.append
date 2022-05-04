@@ -1,0 +1,25 @@
+
+resources:
+  # Create an Azure Resource Group
+  resourceGroup:
+    type: azure-native:resources:ResourceGroup
+  # Create an Azure resource (Storage Account)
+  storageAccount:
+    type: azure-native:storage:StorageAccount
+    properties:
+      resourceGroupName: ${resourceGroup.name}
+      sku:
+        name: Standard_LRS
+      kind: StorageV2
+
+variables:
+  storageAccountKeys:
+    Fn::Invoke:
+      Function: azure-native:storage:listStorageAccountKeys
+      Arguments:
+        resourceGroupName: ${resourceGroup.name}
+        accountName: ${storageAccount.name}
+
+outputs:
+  # Export the primary key of the Storage Account
+  primaryStorageKey: ${storageAccountKeys.keys[0].value}
