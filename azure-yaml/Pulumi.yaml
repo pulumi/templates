@@ -14,7 +14,7 @@ resources:
   resourceGroup:
     type: azure-native:resources:ResourceGroup
   # Create an Azure resource (Storage Account)
-  storageAccount:
+  sa:
     type: azure-native:storage:StorageAccount
     properties:
       resourceGroupName: ${resourceGroup.name}
@@ -28,7 +28,7 @@ variables:
       Function: azure-native:storage:listStorageAccountKeys
       Arguments:
         resourceGroupName: ${resourceGroup.name}
-        accountName: ${storageAccount.name}
+        accountName: ${sa.name}
 
 outputs:
   # Export the primary key of the Storage Account
