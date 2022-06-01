@@ -1,6 +1,6 @@
 module ${PROJECT}
 
-go 1.16
+go 1.17
 
 require (
 	github.com/pulumi/pulumi-aws-native/sdk v0.8.0

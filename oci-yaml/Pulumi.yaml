@@ -1,0 +1,28 @@
+name: ${PROJECT}
+description: ${DESCRIPTION}
+runtime: yaml
+
+variables:
+  myNamespace:
+    Fn::Invoke:
+      Function: oci:ObjectStorage/getNamespace:getNamespace
+      Arguments:
+        compartmentId: ${myCompartment.id}
+
+resources:
+  myCompartment:
+    type: oci:Identity:Compartment
+    properties:
+      name: my-compartment
+      description: "My description text"
+      enableDelete: true
+
+  myBucket:
+    type: oci:ObjectStorage:Bucket
+    properties:
+      name: my-bucket
+      compartmentId: ${myCompartment.id}
+      namespace: ${myNamespace.namespace}
+
+outputs:
+  name: ${myBucket.name}
