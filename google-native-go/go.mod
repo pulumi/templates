@@ -1,6 +1,6 @@
 module ${PROJECT}
 
-go 1.16
+go 1.17
 
 require (
 	github.com/pulumi/pulumi-google-native/sdk v0.19.1
