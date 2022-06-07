@@ -14,7 +14,7 @@ let infra () =
         StorageAccount("sa",
             StorageAccountArgs
                 (ResourceGroupName = resourceGroup.Name,
-                 Sku = SkuArgs(Name = SkuName.Standard_LRS),
+                 Sku = input (SkuArgs(Name = SkuName.Standard_LRS)),
                  Kind = Kind.StorageV2))
 
     // Get the primary key
