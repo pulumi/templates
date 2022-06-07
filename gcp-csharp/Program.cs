@@ -1,7 +1,18 @@
-﻿using System.Threading.Tasks;
-using Pulumi;
+﻿using Pulumi;
+using Pulumi.Gcp.Storage;
+using System.Collections.Generic;
 
-class Program
+await Deployment.RunAsync(() =>
 {
-    static Task<int> Main() => Deployment.RunAsync<MyStack>();
-}
+    // Create a GCP resource (Storage Bucket)
+    var bucket = new Bucket("my-bucket", new BucketArgs
+    {
+        Location = "US"
+    });
+    
+    // Export the DNS name of the bucket
+    return new Dictionary<string, object?>
+    {
+        ["BucketName"] = bucket.Url
+    };
+});

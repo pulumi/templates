@@ -1,7 +1,18 @@
-﻿using System.Threading.Tasks;
-using Pulumi;
+﻿using Pulumi;
+using Pulumi.Github;
+using System.Collections.Generic;
 
-class Program
+await Deployment.RunAsync(() =>
 {
-    static Task<int> Main() => Deployment.RunAsync<MyStack>();
-}
+    // Create a GitHub Repository
+    var repository = new Repository("demo-repo", new RepositoryArgs
+    {
+        Description = "Demo Repository for GitHub",
+    });
+
+    // Export the name of the repository
+    return new Dictionary<string, object?>
+    {
+        ["RepositoryName"] = repository.Name
+    };
+}); 
