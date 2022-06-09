@@ -10,6 +10,6 @@ await Deployment.RunAsync(() =>
    // Export the name of the bucket
    return new Dictionary<string, object?>
    {
-      ["BucketName"] = bucket.Id
+      ["bucketName"] = bucket.Id
    };
 });

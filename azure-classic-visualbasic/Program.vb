@@ -23,7 +23,7 @@ Module Program
 
         ' Export the connection string for the storage account
         Dim outputs = New Dictionary(Of String, Object)
-        outputs.Add("ConnectionString", storageAccount.PrimaryConnectionString)
+        outputs.Add("connectionString", storageAccount.PrimaryConnectionString)
         Return outputs
     End Function
 End Module

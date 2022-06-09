@@ -10,6 +10,6 @@ await Deployment.RunAsync(() =>
     // Export the DNS name of the bucket
     return new Dictionary<string, object?>
     {   
-        ["BucketSelfLink"] = bucket.SelfLink
+        ["bucketSelfLink"] = bucket.SelfLink
     };
 });

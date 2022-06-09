@@ -13,6 +13,6 @@ await Deployment.RunAsync(() =>
     // Export the DNS name of the bucket
     return new Dictionary<string, object?>
     {
-        ["BucketName"] = bucket.Url
+        ["bucketName"] = bucket.Url
     };
 });

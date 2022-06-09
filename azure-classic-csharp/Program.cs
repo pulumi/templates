@@ -19,6 +19,6 @@ await Deployment.RunAsync(() =>
     // Export the connection string for the storage account
     return new Dictionary<string, object?>
     {
-        ["ConnectionString"] = storageAccount.PrimaryConnectionString
+        ["connectionString"] = storageAccount.PrimaryConnectionString
     };
 });

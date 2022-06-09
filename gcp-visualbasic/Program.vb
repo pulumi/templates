@@ -14,7 +14,7 @@ Module Program
 
         ' Export the DNS name of the bucket
         Dim outputs = New Dictionary(Of String, Object)
-        outputs.Add("BucketName", bucket.Url)
+        outputs.Add("bucketName", bucket.Url)
         Return outputs
     End Function
 End Module

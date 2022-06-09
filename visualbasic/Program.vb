@@ -14,7 +14,7 @@ Module Program
         ' Export outputs here
         Dim outputs = New Dictionary(Of String, Object)
         ' for example
-        ' outputs.Add("ResourceId", res.Id)
+        ' outputs.Add("resourceId", res.Id)
         Return outputs
     End Function
 End Module

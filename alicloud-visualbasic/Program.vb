@@ -12,7 +12,7 @@ Module Program
         
         ' Export the name of the bucket
         Dim outputs = New Dictionary(Of String, Object) 
-        outputs.Add("BucketName", bucket.Id)
+        outputs.Add("bucketName", bucket.Id)
         Return outputs
     End Function
 End Module

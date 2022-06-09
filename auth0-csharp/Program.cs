@@ -30,7 +30,7 @@ await Deployment.RunAsync(() =>
     // Export Client ID and Secret
     return new Dictionary<string, object?>
     {
-        ["ClientID"] = auth0Client.ClientId,
-        ["ClientSecret"] = auth0Client.ClientSecret
+        ["clientID"] = auth0Client.ClientId,
+        ["clientSecret"] = auth0Client.ClientSecret
     };
 });

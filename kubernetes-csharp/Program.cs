@@ -51,6 +51,6 @@ await Deployment.RunAsync(() =>
     // export the deployment name
     return new Dictionary<string, object?>
     { 
-        ["DeploymentName"] =  deployment.Metadata.Apply(m => m.Name)
+        ["deploymentName"] =  deployment.Metadata.Apply(m => m.Name)
     };
 });

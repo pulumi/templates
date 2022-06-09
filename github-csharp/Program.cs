@@ -13,6 +13,6 @@ await Deployment.RunAsync(() =>
     // Export the name of the repository
     return new Dictionary<string, object?>
     {
-        ["RepositoryName"] = repository.Name
+        ["repositoryName"] = repository.Name
     };
-}); 
+});
