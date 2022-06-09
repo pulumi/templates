@@ -4,8 +4,8 @@ go 1.17
 
 require (
 	github.com/pulumi/pulumi-trace-tool v0.0.0-20210629202931-10ae87ca9439
-	github.com/pulumi/pulumi/pkg/v3 v3.33.1
-	github.com/pulumi/pulumi/sdk/v3 v3.33.1
+	github.com/pulumi/pulumi/pkg/v3 v3.34.1-0.20220609203536-d163a1de253a
+	github.com/pulumi/pulumi/sdk/v3 v3.34.1-0.20220609203536-d163a1de253a
 	github.com/stretchr/testify v1.7.1
 )
 
@@ -153,6 +153,6 @@ require (
 	gopkg.in/src-d/go-git.v4 v4.13.1 // indirect
 	gopkg.in/warnings.v0 v0.1.2 // indirect
 	gopkg.in/yaml.v2 v2.4.0 // indirect
-	gopkg.in/yaml.v3 v3.0.0-20210107192922-496545a6307b // indirect
+	gopkg.in/yaml.v3 v3.0.0 // indirect
 	sourcegraph.com/sourcegraph/appdash v0.0.0-20211028080628-e2786a622600 // indirect
 )
