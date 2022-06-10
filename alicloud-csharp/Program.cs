@@ -1,7 +1,15 @@
-﻿using System.Threading.Tasks;
-using Pulumi;
+﻿using Pulumi;
+using Pulumi.AliCloud.Oss;
+using System.Collections.Generic;
 
-class Program
+await Deployment.RunAsync(() =>
 {
-    static Task<int> Main() => Deployment.RunAsync<MyStack>();
-}
+    // Create an AliCloud resource (OSS Bucket)
+    var bucket = new Bucket("my-bucket");
+    
+    // Export the name of the bucket
+    return new Dictionary<string, object?>
+    {
+        ["bucketName"] = bucket.Id
+    };
+});
