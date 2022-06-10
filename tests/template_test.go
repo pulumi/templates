@@ -95,9 +95,7 @@ func TestTemplates(t *testing.T) {
 		e := ptesting.NewEnvironment(t)
 		t.Cleanup(func() { deleteIfNotFailed(e) })
 
-		runWithTimeout(t, testTimeout, templateName, func(t *testing.T) {
-			t.Parallel()
-
+		runWithTimeout(t, testTimeout, templateName, parallel, func(t *testing.T) {
 			t.Logf("Starting test run for %q", templateName)
 
 			bench := guessBench(template)
