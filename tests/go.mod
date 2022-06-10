@@ -4,8 +4,8 @@ go 1.17
 
 require (
 	github.com/pulumi/pulumi-trace-tool v0.0.0-20210629202931-10ae87ca9439
-	github.com/pulumi/pulumi/pkg/v3 v3.34.1-0.20220609203536-d163a1de253a
-	github.com/pulumi/pulumi/sdk/v3 v3.34.1-0.20220609203536-d163a1de253a
+	github.com/pulumi/pulumi/pkg/v3 v3.33.1
+	github.com/pulumi/pulumi/sdk/v3 v3.33.1
 	github.com/stretchr/testify v1.7.1
 )
 
@@ -114,8 +114,6 @@ require (
 	github.com/ryanuber/go-glob v1.0.0 // indirect
 	github.com/sabhiram/go-gitignore v0.0.0-20210923224102-525f6e181f06 // indirect
 	github.com/santhosh-tekuri/jsonschema/v5 v5.0.0 // indirect
-	github.com/segmentio/asm v1.1.3 // indirect
-	github.com/segmentio/encoding v0.3.5 // indirect
 	github.com/sergi/go-diff v1.2.0 // indirect
 	github.com/spf13/cobra v1.4.0 // indirect
 	github.com/spf13/pflag v1.0.5 // indirect
