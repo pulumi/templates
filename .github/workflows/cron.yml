@@ -38,7 +38,7 @@ jobs:
       - uses: actions/setup-java@v3
         # temurin 11 is already the default on ubuntu-latest
         if: |
-          ! contains(matrix.platform, ubuntu')
+          ! contains(matrix.platform, 'ubuntu')
         with:
           distribution: 'temurin'
           java-version: '11'
