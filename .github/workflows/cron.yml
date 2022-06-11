@@ -11,7 +11,7 @@ env:
   AWS_REGION: "us-west-2"
   GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_CREDENTIALS }}
   LINODE_TOKEN: ${{ secrets.LINODE_TOKEN }}
-  BLACK_LISTED_TESTS: "alicloud,digitalocean,kubernetes,openstack,equinix-metal,civo,aiven,auth0,github,java,yaml,oci"
+  BLACK_LISTED_TESTS: "alicloud,digitalocean,kubernetes,openstack,equinix-metal,civo,aiven,auth0,github,yaml,oci,java-jbang,java-gradle"
   PULUMI_API: https://api.pulumi-staging.io
   SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
   ARM_CLIENT_ID:  ${{ secrets.ARM_CLIENT_ID }}
@@ -35,6 +35,11 @@ jobs:
         pulumi-version: [latest, dev]
     runs-on: ${{ matrix.platform }}
     steps:
+      - name: Install Java 11 (temurin)
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '11'
       - name: Install DotNet ${{ matrix.dotnet }}
         uses: actions/setup-dotnet@v1
         with:

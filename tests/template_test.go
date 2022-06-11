@@ -6,12 +6,15 @@ import (
 	"path"
 	"strings"
 	"testing"
+	"time"
 
 	"github.com/pulumi/pulumi/pkg/v3/testing/integration"
 	ptesting "github.com/pulumi/pulumi/sdk/v3/go/common/testing"
 	"github.com/pulumi/pulumi/sdk/v3/go/common/workspace"
 	"github.com/stretchr/testify/assert"
 )
+
+const testTimeout = 30 * time.Minute
 
 func TestTemplates(t *testing.T) {
 	blackListedTests := os.Getenv("BLACK_LISTED_TESTS")
@@ -92,9 +95,7 @@ func TestTemplates(t *testing.T) {
 		e := ptesting.NewEnvironment(t)
 		t.Cleanup(func() { deleteIfNotFailed(e) })
 
-		t.Run(templateName, func(t *testing.T) {
-			t.Parallel()
-
+		runWithTimeout(t, testTimeout, templateName, parallel, func(t *testing.T) {
 			t.Logf("Starting test run for %q", templateName)
 
 			bench := guessBench(template)
