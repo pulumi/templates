@@ -39,15 +39,11 @@ jobs:
         dotnet: [6.0.x]
     runs-on: ${{ matrix.platform }}
     steps:
-      - uses: actions/setup-java@v3
-        # temurin 11 is already the default on ubuntu-latest
-        if: |
-          ! contains(matrix.platform, 'ubuntu')
+      - name: Install Java 11 (temurin)
+        uses: actions/setup-java@v3
         with:
           distribution: 'temurin'
           java-version: '11'
-      - run: |
-          java --version
       - name: Install DotNet ${{ matrix.dotnet }}
         uses: actions/setup-dotnet@v1
         with:

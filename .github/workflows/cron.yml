@@ -35,6 +35,11 @@ jobs:
         pulumi-version: [latest, dev]
     runs-on: ${{ matrix.platform }}
     steps:
+      - name: Install Java 11 (temurin)
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '11'
       - uses: actions/setup-java@v3
         # temurin 11 is already the default on ubuntu-latest
         if: |
