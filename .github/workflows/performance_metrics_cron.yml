@@ -45,6 +45,15 @@ jobs:
         pulumi-version: [latest]
     runs-on: ${{ matrix.platform }}
     steps:
+      - uses: actions/setup-java@v3
+        # temurin 11 is already the default on ubuntu-latest
+        if: |
+          ! contains(matrix.platform, ubuntu')
+        with:
+          distribution: 'temurin'
+          java-version: '11'
+      - run: |
+          java --version
       - name: Install DotNet ${{ matrix.dotnet }}
         uses: actions/setup-dotnet@v1
         with:
