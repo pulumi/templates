@@ -5,23 +5,32 @@ open Pulumi.AzureNative.Resources
 open Pulumi.AzureNative.Storage
 open Pulumi.AzureNative.Storage.Inputs
 
+// Helper function to retrieve the primary key of a storage account
+let getStorageAccountPrimaryKey(resourceGroupName: string, accountName: string): Async<string> = async {
+    let! accountKeys =
+        ListStorageAccountKeysArgs(ResourceGroupName = resourceGroupName, AccountName = accountName) |>
+        ListStorageAccountKeys.InvokeAsync
+        |> Async.AwaitTask
+    return accountKeys.Keys.[0].Value
+}
+
 let infra () =
     // Create an Azure Resource Group
-    let resourceGroup = ResourceGroup("resourceGroup")
+    let resourceGroup =
+        ResourceGroup("resourceGroup")
 
     // Create an Azure Storage Account
     let storageAccount =
         StorageAccount("sa",
             StorageAccountArgs
-                (ResourceGroupName = resourceGroup.Name,
-                 Sku = input (SkuArgs(Name = SkuName.Standard_LRS)),
-                 Kind = Kind.StorageV2))
+                (ResourceGroupName = io resourceGroup.Name,
+                 Sku = input (SkuArgs(Name = inputUnion2Of2 SkuName.Standard_LRS)),
+                 Kind = inputUnion2Of2 Kind.StorageV2))
 
     // Get the primary key
     let primaryKey =
-        ListStorageAccountKeysInvokeArgs(ResourceGroupName = resourceGroup.Name, AccountName = storageAccount.Name)
-        |> ListStorageAccountKeys.Invoke
-        |> Outputs.apply (fun storageKeys -> storageKeys.Keys[0].Value)
+        Outputs.pair resourceGroup.Name storageAccount.Name
+        |> Outputs.applyAsync getStorageAccountPrimaryKey
 
     // Export the primary key for the storage account
     dict [("connectionString", primaryKey :> obj)]
