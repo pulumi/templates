@@ -1,14 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System.Threading.Tasks;
 using Pulumi;
 
-await Deployment.RunAsync(() =>
+class Program
 {
-   // Add your resources here
-   // e.g. var resource = new Resource("name", new ResourceArgs { });
-
-   // Export outputs here
-   return new Dictionary<string, object?>
-   {
-      ["outputKey"] = "outputValue"
-   };
-});
+    static Task<int> Main() => Deployment.RunAsync<MyStack>();
+}

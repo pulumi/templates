@@ -1,15 +1,7 @@
-﻿using Pulumi;
-using Pulumi.GoogleNative.Storage.V1;
-using System.Collections.Generic;
+﻿using System.Threading.Tasks;
+using Pulumi;
 
-await Deployment.RunAsync(() =>
+class Program
 {
-    // Create a Google Cloud resource (Storage Bucket)
-    var bucket = new Bucket("my-bucket");
-    
-    // Export the DNS name of the bucket
-    return new Dictionary<string, object?>
-    {   
-        ["bucketSelfLink"] = bucket.SelfLink
-    };
-});
+    static Task<int> Main() => Deployment.RunAsync<MyStack>();
+}
