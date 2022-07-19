@@ -1,6 +1,9 @@
 name: ${PROJECT}
 description: ${DESCRIPTION}
-runtime: nodejs
+runtime:
+  name: nodejs
+  options:
+    typescript: false
 template:
   description: A simple AWS serverless JavaScript Pulumi program
   config:
