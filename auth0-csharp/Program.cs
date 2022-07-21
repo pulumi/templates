@@ -3,7 +3,7 @@ using Pulumi.Auth0;
 using Pulumi.Auth0.Inputs;
 using System.Collections.Generic;
 
-await Deployment.RunAsync(() =>
+return await Deployment.RunAsync(() =>
 {
     // create Auth0 client
     var auth0Client = new Client("client", new ClientArgs

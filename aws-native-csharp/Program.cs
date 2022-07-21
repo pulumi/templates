@@ -2,7 +2,7 @@
 using Pulumi.AwsNative.S3;
 using System.Collections.Generic;
 
-await Deployment.RunAsync(() =>
+return await Deployment.RunAsync(() =>
 {
     // Create an AWS resource (S3 Bucket)
     var bucket = new Bucket("my-bucket");
