@@ -2,7 +2,7 @@
 using Pulumi.Github;
 using System.Collections.Generic;
 
-await Deployment.RunAsync(() =>
+return await Deployment.RunAsync(() =>
 {
     // Create a GitHub Repository
     var repository = new Repository("demo-repo", new RepositoryArgs

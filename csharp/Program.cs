@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Pulumi;
 
-await Deployment.RunAsync(() =>
+return await Deployment.RunAsync(() =>
 {
    // Add your resources here
    // e.g. var resource = new Resource("name", new ResourceArgs { });
