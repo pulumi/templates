@@ -1,6 +1,8 @@
 name: ${PROJECT}
 description: ${DESCRIPTION}
+runtime: yaml
 template:
+  description: A containerized service on AWS Fargate
   config:
     aws:region:
       description: The AWS region to deploy into
