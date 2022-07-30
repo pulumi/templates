@@ -3,6 +3,6 @@ module ${PROJECT}
 go 1.17
 
 require (
-	github.com/pulumi/pulumi-kubernetes/sdk/v3 v3.19.4
-	github.com/pulumi/pulumi/sdk/v3 v3.35.3
+	github.com/pulumi/pulumi-kubernetes/sdk/v3 v3.20.2
+	github.com/pulumi/pulumi/sdk/v3 v3.37.2
 )
