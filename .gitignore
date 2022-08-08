@@ -4,3 +4,4 @@ tests/vendor/
 package-lock.json
 go.sum
 !tests/go.sum
+Pulumi.*.yaml
