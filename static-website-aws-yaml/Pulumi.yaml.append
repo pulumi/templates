@@ -1,0 +1,32 @@
+configuration:
+  sitePath:
+    type: String
+    default: ./site
+  indexDocument:
+    type: String
+    default: index.html
+  errorDocument:
+    type: String
+    default: error.html
+  withCDN:
+    type: String
+    default: "true"
+  withAccessLogs:
+    type: String
+    default: "false"
+  
+resources:
+  site:
+    type: aws-static-website:index:Website
+    properties:
+      sitePath: ${sitePath}
+      indexHTML: ${indexDocument}
+      error404: ${errorDocument}
+      withCDN: ${withCDN}
+      withLogs: ${withAccessLogs}
+
+outputs:
+  websiteBucket: ${site.bucketName}
+  logsBucket: ${site.logsBucketName}
+  originURL: ${site.bucketWebsiteURL}
+  cdnURL: ${site.cdnURL}
