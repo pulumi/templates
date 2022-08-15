@@ -17,7 +17,7 @@ repositories {
 
 dependencies {
     implementation("com.pulumi:pulumi:(,1.0]")
-    implementation("com.pulumi:kubernetes:3.19.1")
+    implementation("com.pulumi:kubernetes:(,3.20]")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
 }
