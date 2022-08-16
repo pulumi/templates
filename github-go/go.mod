@@ -3,7 +3,7 @@ module ${PROJECT}
 go 1.17
 
 require (
-	github.com/pulumi/pulumi-github/sdk/v4 v4.13.0
-	github.com/pulumi/pulumi/sdk/v3 v3.35.3
+	github.com/pulumi/pulumi-github/sdk/v4 v4.15.1
+	github.com/pulumi/pulumi/sdk/v3 v3.38.0
 )
 
