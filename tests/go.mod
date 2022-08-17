@@ -3,7 +3,7 @@ module github.com/pulumi/templates/v2
 go 1.17
 
 require (
-	github.com/pulumi/pulumi-trace-tool v0.0.0-20220817200725-ed8a970ff694
+	github.com/pulumi/pulumi-trace-tool v0.0.0-20220817225834-706e9fc5373d
 	github.com/pulumi/pulumi/pkg/v3 v3.33.1
 	github.com/pulumi/pulumi/sdk/v3 v3.33.1
 	github.com/stretchr/testify v1.7.1
