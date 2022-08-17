@@ -104,12 +104,21 @@ jobs:
           echo "PULUMI_TRACING_DIR=$PWD/traces"                      >> $GITHUB_ENV
       - name: Running Performance Matrix
         shell: bash
+        # Even if some Go tests fail, others may have succeded and
+        # produced perf data; continue to try to upload it.
+        continue-on-error: true
         run: |
           set -euo pipefail
           cd tests && go test -v -json -count=1 -cover -timeout 6h -parallel ${{ env.TESTPARALLELISM }} . 2>&1 | tee /tmp/gotest.log | gotestfmt
         env:
           PULUMI_PYTHON_CMD: python
           TESTPARALLELISM: 3
+      - name: Upload traces GHA artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: traces
+          path: traces
+          retention-days: 14
       - name: Upload Traces to s3://cli-performance-metrics
         run: |-
             F="$PWD/traces/metrics.parquet.snappy"
