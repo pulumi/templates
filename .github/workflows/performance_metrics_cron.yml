@@ -74,6 +74,10 @@ jobs:
         run: |-
           pip3 install virtualenv==20.0.23
           pip3 install pipenv
+      - name: Install gotestfmt
+        uses: jaxxstorm/action-install-gh-release@v1.7.1
+        with:
+          repo: haveyoudebuggedit/gotestfmt
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
@@ -98,7 +102,13 @@ jobs:
           echo "PULUMI_TRACING_TAG_PULUMI_VERSION=$(pulumi version)" >> $GITHUB_ENV
           echo "PULUMI_TRACING_DIR=$PWD/traces"                      >> $GITHUB_ENV
       - name: Running Performance Matrix
-        run: make test_templates
+        shell: bash
+        run: |
+          set -euo pipefail
+          cd tests && go test -v -json -count=1 -cover -timeout 6h -parallel ${{ env.TESTPARALLELISM }} . 2>&1 | tee /tmp/gotest.log | gotestfmt
+        env:
+          PULUMI_PYTHON_CMD: python
+          TESTPARALLELISM: 3
       - name: Upload Traces to s3://cli-performance-metrics
         run: |-
             F="$PWD/traces/metrics.parquet.snappy"
