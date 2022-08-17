@@ -9,7 +9,7 @@ test_templates::
 # Example: make test_template.typescript
 # This will run a test corresponding to the typescript template
 test_template.%:
-	cd tests && BLACK_LISTED_TESTS=none go test -run "TestTemplate/^$*$$" $(TESTFLAGS)
+	cd tests && BLACK_LISTED_TESTS=go go test -run "TestTemplate/^$*$$" $(TESTFLAGS)
 
 ensure::
 	cd tests && go mod download
