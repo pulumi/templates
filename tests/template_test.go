@@ -87,16 +87,15 @@ func TestTemplates(t *testing.T) {
 		template := template
 		templateName := template.Name
 
-		if isBlackListedTest(templateName, blackListed) {
-			t.Logf("Skipping template test %s", templateName)
-			continue
-		}
-
-		e := ptesting.NewEnvironment(t)
-		t.Cleanup(func() { deleteIfNotFailed(e) })
-
 		runWithTimeout(t, testTimeout, templateName, parallel, func(t *testing.T) {
+			if isBlackListedTest(templateName, blackListed) {
+				t.Skip("Skipping per BLACK_LISTED_TESTS")
+			}
+
 			t.Logf("Starting test run for %q", templateName)
+
+			e := ptesting.NewEnvironment(t)
+			t.Cleanup(func() { deleteIfNotFailed(e) })
 
 			bench := guessBench(template)
 
