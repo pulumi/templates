@@ -1,0 +1,12 @@
+{
+		"name": "templates-static-website-gcp-typescript",
+		"devDependencies": {
+			"@types/node": "^14"
+		},
+		"dependencies": {
+			"typescript": "^4.0.0",
+			"@pulumi/pulumi": "^3.0.0",
+			"@pulumi/gcp": "6.32.0",
+			"@pulumi/synced-folder": "*"
+		}
+}

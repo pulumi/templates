@@ -1,0 +1,43 @@
+
+configuration:
+  path:
+    type: String
+    default: ./site
+  indexDocument:
+    type: String
+    default: index.html
+  errorDocument:
+    type: String
+    default: error.html
+
+resources:
+
+  resource-group:
+    type: azure-native:resources:ResourceGroup
+
+  account:
+    type: azure-native:storage:StorageAccount
+    properties:
+      resourceGroupName: ${resource-group.name}
+      kind: StorageV2
+      sku:
+        name: Standard_LRS
+
+  website:
+    type: azure-native:storage:StorageAccountStaticWebsite
+    properties:
+      resourceGroupName: ${resource-group.name}
+      accountName: ${account.name}
+      indexDocument: ${indexDocument}
+      error404Document: ${errorDocument}
+
+  synced-folder:
+    type: synced-folder:index:AzureBlobFolder
+    properties:
+      path: ${path}
+      resourceGroupName: ${resource-group.name}
+      storageAccountName: ${account.name}
+      containerName: ${website.containerName}
+
+outputs:
+  url: ${account.primaryEndpoints.web}
