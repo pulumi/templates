@@ -1,0 +1,35 @@
+configuration:
+  gcpProject:
+    type: string
+    default: pulumi-development
+  path:
+    type: string
+    default: ./site
+  indexDocument:
+    type: string
+    default: index.html
+  errorDocument:
+    type: string
+    default: error.html
+resources:
+  bucket:
+    type: gcp:storage:Bucket
+    properties:
+      location: US
+      website:
+        mainPageSuffix: ${indexDocument}
+        notFoundPage: ${errorDocument}
+  bucket-iam-binding:
+    type: gcp:storage:BucketIAMBinding
+    properties:
+      bucket: ${bucket.name}
+      role: roles/storage.objectViewer
+      members:
+        - allUsers
+  synced-folder:
+    type: synced-folder:GoogleCloudFolder
+    properties:
+      path: ${path}
+      bucketName: ${bucket.name}
+outputs:
+  url: https://storage.googleapis.com/${bucket.name}/index.html

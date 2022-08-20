@@ -1,0 +1,29 @@
+configuration:
+  awsRegion:
+    type: string
+    default: us-west-2
+  path:
+    type: string
+    default: ./site
+  indexDocument:
+    type: string
+    default: index.html
+  errorDocument:
+    type: string
+    default: error.html
+resources:
+  bucket:
+    type: aws:s3:Bucket
+    properties:
+      acl: public-read
+      website:
+        indexDocument: ${indexDocument}
+        errorDocument: ${errorDocument}
+  bucket-folder:
+    type: synced-folder:S3BucketFolder
+    properties:
+      path: ${path}
+      bucketName: ${bucket.bucket}
+      acl: public-read
+outputs:
+  url: http://${bucket.websiteEndpoint}
