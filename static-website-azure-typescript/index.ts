@@ -26,4 +26,32 @@ const syncedFolder = new synced_folder.AzureBlobFolder("synced-folder", {
     storageAccountName: account.name,
     containerName: website.containerName,
 });
-export const url = account.primaryEndpoints.apply(primaryEndpoints => primaryEndpoints.web);
+const profile = new azure_native.cdn.Profile("profile", {
+    resourceGroupName: resourceGroup.name,
+    sku: {
+        name: "cdn.SkuName.Standard_Microsoft",
+    },
+});
+const endpoint = new azure_native.cdn.Endpoint("endpoint", {
+    resourceGroupName: resourceGroup.name,
+    profileName: profile.name,
+    isHttpAllowed: false,
+    isHttpsAllowed: true,
+    isCompressionEnabled: true,
+    contentTypesToCompress: [
+        "text/html",
+        "text/css",
+        "application/javascript",
+        "application/json",
+        "image/svg+xml",
+        "font/woff",
+        "font/woff2",
+    ],
+    originHostHeader: account.primaryEndpoints.apply(primaryEndpoints => primaryEndpoints.web),
+    origins: [{
+        name: account.name,
+        hostName: account.primaryEndpoints.apply(primaryEndpoints => primaryEndpoints.web),
+    }],
+});
+export const originURL = account.primaryEndpoints.apply(primaryEndpoints => primaryEndpoints.web);
+export const cdnURL = pulumi.interpolate`https://${endpoint.hostName}`;

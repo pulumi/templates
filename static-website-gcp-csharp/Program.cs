@@ -36,9 +36,36 @@ return await Deployment.RunAsync(() =>
         BucketName = bucket.Name,
     });
 
+    var backendBucket = new Gcp.Compute.BackendBucket("backend-bucket", new()
+    {
+        BucketName = bucket.Name,
+        EnableCdn = true,
+    });
+
+    var ip = new Gcp.Compute.GlobalAddress("ip");
+
+    var urlMap = new Gcp.Compute.URLMap("url-map", new()
+    {
+        DefaultService = backendBucket.SelfLink,
+    });
+
+    var httpProxy = new Gcp.Compute.TargetHttpProxy("http-proxy", new()
+    {
+        UrlMap = urlMap.SelfLink,
+    });
+
+    var httpForwardingRule = new Gcp.Compute.GlobalForwardingRule("http-forwarding-rule", new()
+    {
+        IpAddress = "ip.address",
+        IpProtocol = "TCP",
+        PortRange = "80",
+        Target = httpProxy.SelfLink,
+    });
+
     return new Dictionary<string, object?>
     {
-        ["url"] = bucket.Name.Apply(name => $"https://storage.googleapis.com/{name}/index.html"),
+        ["originURL"] = bucket.Name.Apply(name => $"https://storage.googleapis.com/{name}/index.html"),
+        ["cdnURL"] = ip.Address.Apply(address => $"http://{address}"),
     };
 });
 

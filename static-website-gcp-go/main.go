@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 
+	"github.com/pulumi/pulumi-gcp/sdk/v6/go/gcp/compute"
 	"github.com/pulumi/pulumi-gcp/sdk/v6/go/gcp/storage"
 	"github.com/pulumi/pulumi-synced-folder/sdk/go/synced-folder"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
@@ -55,8 +56,43 @@ func main() {
 		if err != nil {
 			return err
 		}
-		ctx.Export("url", bucket.Name.ApplyT(func(name string) (string, error) {
+		backendBucket, err := compute.NewBackendBucket(ctx, "backend-bucket", &compute.BackendBucketArgs{
+			BucketName: bucket.Name,
+			EnableCdn:  pulumi.Bool(true),
+		})
+		if err != nil {
+			return err
+		}
+		ip, err := compute.NewGlobalAddress(ctx, "ip", nil)
+		if err != nil {
+			return err
+		}
+		urlMap, err := compute.NewURLMap(ctx, "url-map", &compute.URLMapArgs{
+			DefaultService: backendBucket.SelfLink,
+		})
+		if err != nil {
+			return err
+		}
+		httpProxy, err := compute.NewTargetHttpProxy(ctx, "http-proxy", &compute.TargetHttpProxyArgs{
+			UrlMap: urlMap.SelfLink,
+		})
+		if err != nil {
+			return err
+		}
+		_, err = compute.NewGlobalForwardingRule(ctx, "http-forwarding-rule", &compute.GlobalForwardingRuleArgs{
+			IpAddress:  pulumi.String("ip.address"),
+			IpProtocol: pulumi.String("TCP"),
+			PortRange:  pulumi.String("80"),
+			Target:     httpProxy.SelfLink,
+		})
+		if err != nil {
+			return err
+		}
+		ctx.Export("originURL", bucket.Name.ApplyT(func(name string) (string, error) {
 			return fmt.Sprintf("https://storage.googleapis.com/%v/index.html", name), nil
+		}).(pulumi.StringOutput))
+		ctx.Export("cdnURL", ip.Address.ApplyT(func(address string) (string, error) {
+			return fmt.Sprintf("http://%v", address), nil
 		}).(pulumi.StringOutput))
 		return nil
 	})
