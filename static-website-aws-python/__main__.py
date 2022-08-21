@@ -3,9 +3,6 @@ import pulumi_aws as aws
 import pulumi_synced_folder as synced_folder
 
 config = pulumi.Config()
-aws_region = config.get("awsRegion")
-if aws_region is None:
-    aws_region = "us-west-2"
 path = config.get("path")
 if path is None:
     path = "./site"

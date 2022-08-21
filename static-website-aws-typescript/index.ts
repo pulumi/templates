@@ -3,7 +3,6 @@ import * as aws from "@pulumi/aws";
 import * as synced_folder from "@pulumi/synced-folder";
 
 const config = new pulumi.Config();
-const awsRegion = config.get("awsRegion") || "us-west-2";
 const path = config.get("path") || "./site";
 const indexDocument = config.get("indexDocument") || "index.html";
 const errorDocument = config.get("errorDocument") || "error.html";

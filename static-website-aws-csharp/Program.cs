@@ -6,7 +6,6 @@ using SyncedFolder = Pulumi.SyncedFolder;
 return await Deployment.RunAsync(() => 
 {
     var config = new Config();
-    var awsRegion = config.Get("awsRegion") ?? "us-west-2";
     var path = config.Get("path") ?? "./site";
     var indexDocument = config.Get("indexDocument") ?? "index.html";
     var errorDocument = config.Get("errorDocument") ?? "error.html";
