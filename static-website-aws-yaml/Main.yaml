@@ -1,7 +1,4 @@
 configuration:
-  awsRegion:
-    type: string
-    default: us-west-2
   path:
     type: string
     default: ./site

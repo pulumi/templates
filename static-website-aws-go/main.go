@@ -13,10 +13,6 @@ import (
 func main() {
 	pulumi.Run(func(ctx *pulumi.Context) error {
 		cfg := config.New(ctx, "")
-		awsRegion := "us-west-2"
-		if param := cfg.Get("awsRegion"); param != "" {
-			awsRegion = param
-		}
 		path := "./site"
 		if param := cfg.Get("path"); param != "" {
 			path = param

@@ -64,7 +64,6 @@ resources:
       portRange: "80"
       target: ${http-proxy.selfLink}
 
-
 outputs:
   originURL: https://storage.googleapis.com/${bucket.name}/index.html
   cdnURL: http://${ip.address}

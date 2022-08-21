@@ -19,9 +19,6 @@ template:
       default: error.html
 
 configuration:
-  aws:region:
-    type: String
-    default: us-west-2
   path:
     type: String
     default: ./site
@@ -33,7 +30,6 @@ configuration:
     default: error.html
 
 resources:
-
   bucket:
     type: aws:s3:Bucket
     properties:
