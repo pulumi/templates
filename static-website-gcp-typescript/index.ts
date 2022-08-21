@@ -23,4 +23,18 @@ const syncedFolder = new synced_folder.GoogleCloudFolder("synced-folder", {
     path: path,
     bucketName: bucket.name,
 });
-export const url = pulumi.interpolate`https://storage.googleapis.com/${bucket.name}/index.html`;
+const backendBucket = new gcp.compute.BackendBucket("backend-bucket", {
+    bucketName: bucket.name,
+    enableCdn: true,
+});
+const ip = new gcp.compute.GlobalAddress("ip", {});
+const urlMap = new gcp.compute.URLMap("url-map", {defaultService: backendBucket.selfLink});
+const httpProxy = new gcp.compute.TargetHttpProxy("http-proxy", {urlMap: urlMap.selfLink});
+const httpForwardingRule = new gcp.compute.GlobalForwardingRule("http-forwarding-rule", {
+    ipAddress: "ip.address",
+    ipProtocol: "TCP",
+    portRange: "80",
+    target: httpProxy.selfLink,
+});
+export const originURL = pulumi.interpolate`https://storage.googleapis.com/${bucket.name}/index.html`;
+export const cdnURL = pulumi.interpolate`http://${ip.address}`;

@@ -37,5 +37,34 @@ resources:
       path: ${path}
       bucketName: ${bucket.name}
 
+  backend-bucket:
+    type: gcp:compute:BackendBucket
+    properties:
+      bucketName: ${bucket.name}
+      enableCdn: true
+
+  ip:
+    type: gcp:compute:GlobalAddress
+
+  url-map:
+    type: gcp:compute:URLMap
+    properties:
+      defaultService: ${backend-bucket.selfLink}
+
+  http-proxy:
+    type: gcp:compute:TargetHttpProxy
+    properties:
+      urlMap: ${url-map.selfLink}
+
+  http-forwarding-rule:
+    type: gcp:compute:GlobalForwardingRule
+    properties:
+      ipAddress: ip.address
+      ipProtocol: TCP
+      portRange: "80"
+      target: ${http-proxy.selfLink}
+
+
 outputs:
-  url: https://storage.googleapis.com/${bucket.name}/index.html
+  originURL: https://storage.googleapis.com/${bucket.name}/index.html
+  cdnURL: http://${ip.address}

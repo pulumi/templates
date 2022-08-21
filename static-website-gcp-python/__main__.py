@@ -28,4 +28,16 @@ bucket_iam_binding = gcp.storage.BucketIAMBinding("bucket-iam-binding",
 synced_folder = synced_folder.GoogleCloudFolder("synced-folder",
     path=path,
     bucket_name=bucket.name)
-pulumi.export("url", bucket.name.apply(lambda name: f"https://storage.googleapis.com/{name}/index.html"))
+backend_bucket = gcp.compute.BackendBucket("backend-bucket",
+    bucket_name=bucket.name,
+    enable_cdn=True)
+ip = gcp.compute.GlobalAddress("ip")
+url_map = gcp.compute.URLMap("url-map", default_service=backend_bucket.self_link)
+http_proxy = gcp.compute.TargetHttpProxy("http-proxy", url_map=url_map.self_link)
+http_forwarding_rule = gcp.compute.GlobalForwardingRule("http-forwarding-rule",
+    ip_address="ip.address",
+    ip_protocol="TCP",
+    port_range="80",
+    target=http_proxy.self_link)
+pulumi.export("originURL", bucket.name.apply(lambda name: f"https://storage.googleapis.com/{name}/index.html"))
+pulumi.export("cdnURL", ip.address.apply(lambda address: f"http://{address}"))

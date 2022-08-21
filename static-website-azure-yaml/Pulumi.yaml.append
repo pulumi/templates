@@ -39,5 +39,34 @@ resources:
       storageAccountName: ${account.name}
       containerName: ${website.containerName}
 
+  profile:
+    type: azure-native:cdn:Profile
+    properties:
+      resourceGroupName: ${resource-group.name}
+      sku:
+        name: cdn.SkuName.Standard_Microsoft
+
+  endpoint:
+    type: azure-native:cdn:Endpoint
+    properties:
+      resourceGroupName: ${resource-group.name}
+      profileName: ${profile.name}
+      isHttpAllowed: false
+      isHttpsAllowed: true
+      isCompressionEnabled: true
+      contentTypesToCompress:
+        - text/html
+        - text/css
+        - application/javascript
+        - application/json
+        - image/svg+xml
+        - font/woff
+        - font/woff2
+      originHostHeader: ${account.primaryEndpoints.web}
+      origins:
+        - name: ${account.name}
+          hostName: ${account.primaryEndpoints.web}
+
 outputs:
-  url: ${account.primaryEndpoints.web}
+  originURL: ${account.primaryEndpoints.web}
+  cdnURL: https://${endpoint.hostName}

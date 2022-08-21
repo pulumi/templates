@@ -37,9 +37,47 @@ return await Deployment.RunAsync(() =>
         ContainerName = website.ContainerName,
     });
 
+    var profile = new AzureNative.Cdn.Profile("profile", new()
+    {
+        ResourceGroupName = resourceGroup.Name,
+        Sku = new AzureNative.Cdn.Inputs.SkuArgs
+        {
+            Name = "cdn.SkuName.Standard_Microsoft",
+        },
+    });
+
+    var endpoint = new AzureNative.Cdn.Endpoint("endpoint", new()
+    {
+        ResourceGroupName = resourceGroup.Name,
+        ProfileName = profile.Name,
+        IsHttpAllowed = false,
+        IsHttpsAllowed = true,
+        IsCompressionEnabled = true,
+        ContentTypesToCompress = new[]
+        {
+            "text/html",
+            "text/css",
+            "application/javascript",
+            "application/json",
+            "image/svg+xml",
+            "font/woff",
+            "font/woff2",
+        },
+        OriginHostHeader = account.PrimaryEndpoints.Apply(primaryEndpoints => primaryEndpoints.Web),
+        Origins = new[]
+        {
+            new AzureNative.Cdn.Inputs.DeepCreatedOriginArgs
+            {
+                Name = account.Name,
+                HostName = account.PrimaryEndpoints.Apply(primaryEndpoints => primaryEndpoints.Web),
+            },
+        },
+    });
+
     return new Dictionary<string, object?>
     {
-        ["url"] = account.PrimaryEndpoints.Apply(primaryEndpoints => primaryEndpoints.Web),
+        ["originURL"] = account.PrimaryEndpoints.Apply(primaryEndpoints => primaryEndpoints.Web),
+        ["cdnURL"] = endpoint.HostName.Apply(hostName => $"https://{hostName}"),
     };
 });
 
