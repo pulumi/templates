@@ -23,6 +23,10 @@ func TestMain(m *testing.M) {
 	os.Exit(code)
 }
 
+func isTracingEnabled() bool {
+	return traces.IsTracingEnabled()
+}
+
 func guessBench(template workspace.Template) traces.Benchmark {
 	b := traces.NewBenchmark(template.Name)
 	b.Provider = guessProvider(template)

@@ -62,7 +62,7 @@ func TestTemplates(t *testing.T) {
 
 	base := integration.ProgramTestOptions{
 		ExpectRefreshChanges:   true,
-		Quick:                  true,
+		Quick:                  !isTracingEnabled(),
 		SkipRefresh:            true,
 		NoParallel:             true, // we mark tests as Parallel manually when instantiating
 		DestroyOnCleanup:       true,
