@@ -21,7 +21,7 @@ let infra () =
     let primaryKey =
         ListStorageAccountKeysInvokeArgs(ResourceGroupName = resourceGroup.Name, AccountName = storageAccount.Name)
         |> ListStorageAccountKeys.Invoke
-        |> Outputs.apply (fun storageKeys -> storageKeys.Keys[0].Value)
+        |> Outputs.apply (fun storageKeys -> Output.CreateSecret(storageKeys.Keys[0].Value))
 
     // Export the primary key for the storage account
     dict [("connectionString", primaryKey :> obj)]
