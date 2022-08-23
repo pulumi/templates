@@ -60,9 +60,14 @@ func TestTemplates(t *testing.T) {
 		templateUrl = specificTemplate
 	}
 
+	// When tracing is enabled to collect performance data, using
+	// Quick: true skews the measurements, therefore prefer Quick:
+	// false in that case.
+	quick := !isTracingEnabled()
+
 	base := integration.ProgramTestOptions{
 		ExpectRefreshChanges:   true,
-		Quick:                  true,
+		Quick:                  quick,
 		SkipRefresh:            true,
 		NoParallel:             true, // we mark tests as Parallel manually when instantiating
 		DestroyOnCleanup:       true,
