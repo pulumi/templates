@@ -1,5 +1,6 @@
 ﻿module Program
 
+open Pulumi
 open Pulumi.FSharp
 open Pulumi.AzureNative.Resources
 open Pulumi.AzureNative.Storage
