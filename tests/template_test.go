@@ -61,7 +61,7 @@ func TestTemplates(t *testing.T) {
 	}
 
 	// When tracing is enabled to collect performance data, using
-	// Quick: true skews the measurements, therefore prefor Quick:
+	// Quick: true skews the measurements, therefore prefer Quick:
 	// false in that case.
 	quick := !isTracingEnabled()
 
