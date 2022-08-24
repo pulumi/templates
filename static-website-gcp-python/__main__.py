@@ -3,9 +3,6 @@ import pulumi_gcp as gcp
 import pulumi_synced_folder as synced_folder
 
 config = pulumi.Config()
-gcp_project = config.get("gcpProject")
-if gcp_project is None:
-    gcp_project = "pulumi-development"
 path = config.get("path")
 if path is None:
     path = "./site"
@@ -35,7 +32,7 @@ ip = gcp.compute.GlobalAddress("ip")
 url_map = gcp.compute.URLMap("url-map", default_service=backend_bucket.self_link)
 http_proxy = gcp.compute.TargetHttpProxy("http-proxy", url_map=url_map.self_link)
 http_forwarding_rule = gcp.compute.GlobalForwardingRule("http-forwarding-rule",
-    ip_address="ip.address",
+    ip_address=ip.address,
     ip_protocol="TCP",
     port_range="80",
     target=http_proxy.self_link)

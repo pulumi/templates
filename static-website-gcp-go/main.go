@@ -5,7 +5,7 @@ import (
 
 	"github.com/pulumi/pulumi-gcp/sdk/v6/go/gcp/compute"
 	"github.com/pulumi/pulumi-gcp/sdk/v6/go/gcp/storage"
-	"github.com/pulumi/pulumi-synced-folder/sdk/go/synced-folder"
+	synced "github.com/pulumi/pulumi-synced-folder/sdk/go/synced-folder"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi/config"
 )
@@ -13,10 +13,6 @@ import (
 func main() {
 	pulumi.Run(func(ctx *pulumi.Context) error {
 		cfg := config.New(ctx, "")
-		gcpProject := "pulumi-development"
-		if param := cfg.Get("gcpProject"); param != "" {
-			gcpProject = param
-		}
 		path := "./site"
 		if param := cfg.Get("path"); param != "" {
 			path = param
@@ -49,7 +45,7 @@ func main() {
 		if err != nil {
 			return err
 		}
-		_, err = synced - folder.NewGoogleCloudFolder(ctx, "synced-folder", &synced-folder.GoogleCloudFolderArgs{
+		_, err = synced.NewGoogleCloudFolder(ctx, "synced-folder", &synced.GoogleCloudFolderArgs{
 			Path:       pulumi.String(path),
 			BucketName: bucket.Name,
 		})
@@ -80,7 +76,7 @@ func main() {
 			return err
 		}
 		_, err = compute.NewGlobalForwardingRule(ctx, "http-forwarding-rule", &compute.GlobalForwardingRuleArgs{
-			IpAddress:  pulumi.String("ip.address"),
+			IpAddress:  ip.Address,
 			IpProtocol: pulumi.String("TCP"),
 			PortRange:  pulumi.String("80"),
 			Target:     httpProxy.SelfLink,

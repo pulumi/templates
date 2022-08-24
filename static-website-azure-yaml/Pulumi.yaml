@@ -29,6 +29,14 @@ configuration:
     type: String
     default: error.html
 
+variables:
+  originHostname:
+    Fn::Select:
+      - 2
+      - Fn::Split:
+        - /
+        - ${account.primaryEndpoints.web}
+
 resources:
 
   resource-group:
@@ -63,7 +71,7 @@ resources:
     properties:
       resourceGroupName: ${resource-group.name}
       sku:
-        name: cdn.SkuName.Standard_Microsoft
+        name: Standard_Microsoft
 
   endpoint:
     type: azure-native:cdn:Endpoint
@@ -81,10 +89,10 @@ resources:
         - image/svg+xml
         - font/woff
         - font/woff2
-      originHostHeader: ${account.primaryEndpoints.web}
+      originHostHeader: ${originHostname}
       origins:
         - name: ${account.name}
-          hostName: ${account.primaryEndpoints.web}
+          hostName: ${originHostname}
 
 outputs:
   originURL: ${account.primaryEndpoints.web}

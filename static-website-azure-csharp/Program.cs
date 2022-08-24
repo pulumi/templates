@@ -1,9 +1,10 @@
+using System;
 using System.Collections.Generic;
 using Pulumi;
 using AzureNative = Pulumi.AzureNative;
 using SyncedFolder = Pulumi.SyncedFolder;
 
-return await Deployment.RunAsync(() => 
+return await Deployment.RunAsync(() =>
 {
     var config = new Config();
     var path = config.Get("path") ?? "./site";
@@ -42,9 +43,11 @@ return await Deployment.RunAsync(() =>
         ResourceGroupName = resourceGroup.Name,
         Sku = new AzureNative.Cdn.Inputs.SkuArgs
         {
-            Name = "cdn.SkuName.Standard_Microsoft",
+            Name = "Standard_Microsoft",
         },
     });
+
+    var originHostname = account.PrimaryEndpoints.Apply(endpoints => new Uri(endpoints.Web).Host);
 
     var endpoint = new AzureNative.Cdn.Endpoint("endpoint", new()
     {
@@ -63,13 +66,13 @@ return await Deployment.RunAsync(() =>
             "font/woff",
             "font/woff2",
         },
-        OriginHostHeader = account.PrimaryEndpoints.Apply(primaryEndpoints => primaryEndpoints.Web),
+        OriginHostHeader = originHostname,
         Origins = new[]
         {
             new AzureNative.Cdn.Inputs.DeepCreatedOriginArgs
             {
                 Name = account.Name,
-                HostName = account.PrimaryEndpoints.Apply(primaryEndpoints => primaryEndpoints.Web),
+                HostName = originHostname,
             },
         },
     });
@@ -80,4 +83,3 @@ return await Deployment.RunAsync(() =>
         ["cdnURL"] = endpoint.HostName.Apply(hostName => $"https://{hostName}"),
     };
 });
-

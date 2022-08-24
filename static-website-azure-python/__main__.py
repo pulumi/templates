@@ -1,6 +1,7 @@
 import pulumi
 import pulumi_azure_native as azure_native
 import pulumi_synced_folder as synced_folder
+import urllib
 
 config = pulumi.Config()
 path = config.get("path")
@@ -32,8 +33,9 @@ synced_folder = synced_folder.AzureBlobFolder("synced-folder",
 profile = azure_native.cdn.Profile("profile",
     resource_group_name=resource_group.name,
     sku=azure_native.cdn.SkuArgs(
-        name="cdn.SkuName.Standard_Microsoft",
+        name="Standard_Microsoft",
     ))
+origin_hostname = account.primary_endpoints.web.apply(lambda endpoint: urllib.parse.urlparse(endpoint).hostname)
 endpoint = azure_native.cdn.Endpoint("endpoint",
     resource_group_name=resource_group.name,
     profile_name=profile.name,
@@ -49,10 +51,10 @@ endpoint = azure_native.cdn.Endpoint("endpoint",
         "font/woff",
         "font/woff2",
     ],
-    origin_host_header=account.primary_endpoints.web,
+    origin_host_header=origin_hostname,
     origins=[azure_native.cdn.DeepCreatedOriginArgs(
         name=account.name,
-        host_name=account.primary_endpoints.web,
+        host_name=origin_hostname,
     )])
 pulumi.export("originURL", account.primary_endpoints.web)
 pulumi.export("cdnURL", endpoint.host_name.apply(lambda host_name: f"https://{host_name}"))

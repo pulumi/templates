@@ -6,7 +6,6 @@ using SyncedFolder = Pulumi.SyncedFolder;
 return await Deployment.RunAsync(() => 
 {
     var config = new Config();
-    var gcpProject = config.Get("gcpProject") ?? "pulumi-development";
     var path = config.Get("path") ?? "./site";
     var indexDocument = config.Get("indexDocument") ?? "index.html";
     var errorDocument = config.Get("errorDocument") ?? "error.html";
@@ -56,7 +55,7 @@ return await Deployment.RunAsync(() =>
 
     var httpForwardingRule = new Gcp.Compute.GlobalForwardingRule("http-forwarding-rule", new()
     {
-        IpAddress = "ip.address",
+        IpAddress = ip.Address,
         IpProtocol = "TCP",
         PortRange = "80",
         Target = httpProxy.SelfLink,

@@ -5,7 +5,7 @@ import (
 
 	"github.com/pulumi/pulumi-aws/sdk/v5/go/aws/cloudfront"
 	"github.com/pulumi/pulumi-aws/sdk/v5/go/aws/s3"
-	"github.com/pulumi/pulumi-synced-folder/sdk/go/synced-folder"
+	synced "github.com/pulumi/pulumi-synced-folder/sdk/go/synced-folder"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi/config"
 )
@@ -35,7 +35,7 @@ func main() {
 		if err != nil {
 			return err
 		}
-		_, err = synced - folder.NewS3BucketFolder(ctx, "bucket-folder", &synced-folder.S3BucketFolderArgs{
+		_, err = synced.NewS3BucketFolder(ctx, "bucket-folder", &synced.S3BucketFolderArgs{
 			Path:       pulumi.String(path),
 			BucketName: bucket.Bucket,
 			Acl:        pulumi.String("public-read"),
