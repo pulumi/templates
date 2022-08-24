@@ -1,6 +1,6 @@
 name: ${PROJECT}
 description: ${DESCRIPTION}
-runtime: yaml
+runtime: dotnet
 
 template:
   description: A static website on AWS
@@ -63,7 +63,7 @@ resources:
     properties:
       resourceGroupName: ${resource-group.name}
       sku:
-        name: cdn.SkuName.Standard_Microsoft
+        name: Standard_Microsoft
 
   endpoint:
     type: azure-native:cdn:Endpoint

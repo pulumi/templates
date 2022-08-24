@@ -3,7 +3,6 @@ import * as gcp from "@pulumi/gcp";
 import * as synced_folder from "@pulumi/synced-folder";
 
 const config = new pulumi.Config();
-const gcpProject = config.get("gcpProject") || "pulumi-development";
 const path = config.get("path") || "./site";
 const indexDocument = config.get("indexDocument") || "index.html";
 const errorDocument = config.get("errorDocument") || "error.html";
@@ -31,7 +30,7 @@ const ip = new gcp.compute.GlobalAddress("ip", {});
 const urlMap = new gcp.compute.URLMap("url-map", {defaultService: backendBucket.selfLink});
 const httpProxy = new gcp.compute.TargetHttpProxy("http-proxy", {urlMap: urlMap.selfLink});
 const httpForwardingRule = new gcp.compute.GlobalForwardingRule("http-forwarding-rule", {
-    ipAddress: "ip.address",
+    ipAddress: ip.address,
     ipProtocol: "TCP",
     portRange: "80",
     target: httpProxy.selfLink,

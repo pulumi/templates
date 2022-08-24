@@ -29,9 +29,10 @@ const syncedFolder = new synced_folder.AzureBlobFolder("synced-folder", {
 const profile = new azure_native.cdn.Profile("profile", {
     resourceGroupName: resourceGroup.name,
     sku: {
-        name: "cdn.SkuName.Standard_Microsoft",
+        name: "Standard_Microsoft",
     },
 });
+const originHostname = account.primaryEndpoints.apply(endpoints => new URL(endpoints.web)).hostname;
 const endpoint = new azure_native.cdn.Endpoint("endpoint", {
     resourceGroupName: resourceGroup.name,
     profileName: profile.name,
@@ -47,10 +48,10 @@ const endpoint = new azure_native.cdn.Endpoint("endpoint", {
         "font/woff",
         "font/woff2",
     ],
-    originHostHeader: account.primaryEndpoints.apply(primaryEndpoints => primaryEndpoints.web),
+    originHostHeader: originHostname,
     origins: [{
         name: account.name,
-        hostName: account.primaryEndpoints.apply(primaryEndpoints => primaryEndpoints.web),
+        hostName: originHostname,
     }],
 });
 export const originURL = account.primaryEndpoints.apply(primaryEndpoints => primaryEndpoints.web);

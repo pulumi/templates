@@ -2,11 +2,12 @@ package main
 
 import (
 	"fmt"
+	"net/url"
 
 	cdn "github.com/pulumi/pulumi-azure-native/sdk/go/azure/cdn"
 	resources "github.com/pulumi/pulumi-azure-native/sdk/go/azure/resources"
 	storage "github.com/pulumi/pulumi-azure-native/sdk/go/azure/storage"
-	"github.com/pulumi/pulumi-synced-folder/sdk/go/synced-folder"
+	synced "github.com/pulumi/pulumi-synced-folder/sdk/go/synced-folder"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi/config"
 )
@@ -49,7 +50,7 @@ func main() {
 		if err != nil {
 			return err
 		}
-		_, err = synced - folder.NewAzureBlobFolder(ctx, "synced-folder", &synced-folder.AzureBlobFolderArgs{
+		_, err = synced.NewAzureBlobFolder(ctx, "synced-folder", &synced.AzureBlobFolderArgs{
 			Path:               pulumi.String(path),
 			ResourceGroupName:  resourceGroup.Name,
 			StorageAccountName: account.Name,
@@ -61,12 +62,21 @@ func main() {
 		profile, err := cdn.NewProfile(ctx, "profile", &cdn.ProfileArgs{
 			ResourceGroupName: resourceGroup.Name,
 			Sku: &cdn.SkuArgs{
-				Name: pulumi.String("cdn.SkuName.Standard_Microsoft"),
+				Name: pulumi.String("Standard_Microsoft"),
 			},
 		})
 		if err != nil {
 			return err
 		}
+
+		originHostname := account.PrimaryEndpoints.ApplyT(func(endpoints storage.EndpointsResponse) (string, error) {
+			parsed, err := url.Parse(endpoints.Web)
+			if err != nil {
+				return "", err
+			}
+			return parsed.Hostname(), nil
+		}).(pulumi.StringOutput)
+
 		endpoint, err := cdn.NewEndpoint(ctx, "endpoint", &cdn.EndpointArgs{
 			ResourceGroupName:    resourceGroup.Name,
 			ProfileName:          profile.Name,
@@ -82,15 +92,11 @@ func main() {
 				pulumi.String("font/woff"),
 				pulumi.String("font/woff2"),
 			},
-			OriginHostHeader: account.PrimaryEndpoints.ApplyT(func(primaryEndpoints storage.EndpointsResponse) (string, error) {
-				return primaryEndpoints.Web, nil
-			}).(pulumi.StringOutput),
+			OriginHostHeader: originHostname,
 			Origins: cdn.DeepCreatedOriginArray{
 				&cdn.DeepCreatedOriginArgs{
 					Name: account.Name,
-					HostName: account.PrimaryEndpoints.ApplyT(func(primaryEndpoints storage.EndpointsResponse) (string, error) {
-						return primaryEndpoints.Web, nil
-					}).(pulumi.StringOutput),
+					HostName: originHostname,
 				},
 			},
 		})

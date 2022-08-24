@@ -1,6 +1,6 @@
 name: ${PROJECT}
 description: ${DESCRIPTION}
-runtime: yaml
+runtime: nodejs
 
 template:
   description: A static website on AWS

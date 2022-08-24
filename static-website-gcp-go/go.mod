@@ -3,7 +3,7 @@ module templates-static-website-gcp-go
 go 1.17
 
 require (
-	github.com/pulumi/pulumi-gcp/sdk/v6 v6.32.0
+	github.com/pulumi/pulumi-gcp/sdk/v6 v6.34.0
 	github.com/pulumi/pulumi-synced-folder/sdk v0.0.7
 	github.com/pulumi/pulumi/sdk/v3 v3.31.1
 )

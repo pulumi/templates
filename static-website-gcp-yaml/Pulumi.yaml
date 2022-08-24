@@ -19,9 +19,6 @@ template:
       default: error.html
 
 configuration:
-  gcp:project:
-    type: String
-    default: pulumi-development
   path:
     type: String
     default: ./site
@@ -78,7 +75,7 @@ resources:
   http-forwarding-rule:
     type: gcp:compute:GlobalForwardingRule
     properties:
-      ipAddress: ip.address
+      ipAddress: ${ip.address}
       ipProtocol: TCP
       portRange: "80"
       target: ${http-proxy.selfLink}
