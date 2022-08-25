@@ -104,7 +104,7 @@ func TestTemplates(t *testing.T) {
 
 			bench := guessBench(template)
 
-			e.SetEnvVars(append(e.Env, bench.Env()...))
+			e.SetEnvVars(append(e.Env, bench.Env()...)...)
 
 			templatePath := templateName
 			if templateUrl != "" {
