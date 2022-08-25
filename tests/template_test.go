@@ -111,12 +111,7 @@ func TestTemplates(t *testing.T) {
 				templatePath = path.Join(templateUrl, templateName)
 			}
 
-			cmdArgs := append(
-				[]string{"new", templatePath, "-f", "--yes", "-s", "template-test"},
-				bench.CommandArgs("pulumi-new")...,
-			)
-
-			e.RunCommand("pulumi", cmdArgs...)
+			pulumiNew(e, templatePath, bench.CommandArgs("pulumi-new")...)
 
 			path, err := workspace.DetectProjectPathFrom(e.RootPath)
 			assert.NoError(t, err)
@@ -145,6 +140,22 @@ func TestTemplates(t *testing.T) {
 			integration.ProgramTest(t, &example)
 		})
 	}
+}
+
+func pulumiNew(e *ptesting.Environment, templatePath string, extraArgs ...string) {
+	// Pulumi new expects a stack name or assumes dev, we generate
+	// a random one here to prevent conflicts. Note that
+	// ProgramTest will use its own stack, so we take care to
+	// delete this one right away. There is a --generate-only
+	// option but that opts out of installing dependencies, but we
+	// want that to happen as part of pulumi new
+	tempStack := (&integration.ProgramTestOptions{}).GetStackName().String()
+	cmdArgs := append(
+		[]string{"new", templatePath, "-f", "--yes", "-s", tempStack},
+		extraArgs...,
+	)
+	e.RunCommand("pulumi", cmdArgs...)
+	e.RunCommand("pulumi", "stack", "rm", tempStack, "--yes")
 }
 
 // deleteIfNotFailed deletes the files in the testing environment if the testcase has
