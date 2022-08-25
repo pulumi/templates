@@ -106,9 +106,11 @@ func main() {
 		ctx.Export("originURL", account.PrimaryEndpoints.ApplyT(func(primaryEndpoints storage.EndpointsResponse) (string, error) {
 			return primaryEndpoints.Web, nil
 		}).(pulumi.StringOutput))
+		ctx.Export("originHostname", originHostname)
 		ctx.Export("cdnURL", endpoint.HostName.ApplyT(func(hostName string) (string, error) {
 			return fmt.Sprintf("https://%v", hostName), nil
 		}).(pulumi.StringOutput))
+		ctx.Export("cdnHostname", endpoint.HostName)
 		return nil
 	})
 }

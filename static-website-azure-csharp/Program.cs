@@ -80,6 +80,8 @@ return await Deployment.RunAsync(() =>
     return new Dictionary<string, object?>
     {
         ["originURL"] = account.PrimaryEndpoints.Apply(primaryEndpoints => primaryEndpoints.Web),
+        ["originHostname"] = originHostname,
         ["cdnURL"] = endpoint.HostName.Apply(hostName => $"https://{hostName}"),
+        ["cdnHostname"] = endpoint.HostName,
     };
 });

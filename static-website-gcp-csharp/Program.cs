@@ -3,7 +3,7 @@ using Pulumi;
 using Gcp = Pulumi.Gcp;
 using SyncedFolder = Pulumi.SyncedFolder;
 
-return await Deployment.RunAsync(() => 
+return await Deployment.RunAsync(() =>
 {
     var config = new Config();
     var path = config.Get("path") ?? "./site";
@@ -64,7 +64,8 @@ return await Deployment.RunAsync(() =>
     return new Dictionary<string, object?>
     {
         ["originURL"] = bucket.Name.Apply(name => $"https://storage.googleapis.com/{name}/index.html"),
+        ["originHostname"] = bucket.Name.Apply(name => $"storage.googleapis.com/{name}"),
         ["cdnURL"] = ip.Address.Apply(address => $"http://{address}"),
+        ["cdnHostname"] = ip.Address,
     };
 });
-

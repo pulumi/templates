@@ -106,9 +106,11 @@ func main() {
 		ctx.Export("originURL", bucket.WebsiteEndpoint.ApplyT(func(websiteEndpoint string) (string, error) {
 			return fmt.Sprintf("http://%v", websiteEndpoint), nil
 		}).(pulumi.StringOutput))
+		ctx.Export("originHostname", bucket.WebsiteEndpoint)
 		ctx.Export("cdnURL", cdn.DomainName.ApplyT(func(domainName string) (string, error) {
 			return fmt.Sprintf("https://%v", domainName), nil
 		}).(pulumi.StringOutput))
+		ctx.Export("cdnHostname", cdn.DomainName)
 		return nil
 	})
 }

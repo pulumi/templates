@@ -102,7 +102,9 @@ return await Deployment.RunAsync(() =>
     return new Dictionary<string, object?>
     {
         ["originURL"] = bucket.WebsiteEndpoint.Apply(websiteEndpoint => $"http://{websiteEndpoint}"),
+        ["originHostname"] = bucket.WebsiteEndpoint,
         ["cdnURL"] = cdn.DomainName.Apply(domainName => $"https://{domainName}"),
+        ["cdnHostname"] = cdn.DomainName,
     };
 });
 

@@ -87,9 +87,13 @@ func main() {
 		ctx.Export("originURL", bucket.Name.ApplyT(func(name string) (string, error) {
 			return fmt.Sprintf("https://storage.googleapis.com/%v/index.html", name), nil
 		}).(pulumi.StringOutput))
+		ctx.Export("originHostname", bucket.Name.ApplyT(func(name string) (string, error) {
+			return fmt.Sprintf("storage.googleapis.com/%v", name), nil
+		}).(pulumi.StringOutput))
 		ctx.Export("cdnURL", ip.Address.ApplyT(func(address string) (string, error) {
 			return fmt.Sprintf("http://%v", address), nil
 		}).(pulumi.StringOutput))
+		ctx.Export("cdnHostname", ip.Address)
 		return nil
 	})
 }

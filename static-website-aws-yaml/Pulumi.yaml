@@ -90,4 +90,6 @@ resources:
 
 outputs:
   originURL: http://${bucket.websiteEndpoint}
+  originHostname: ${bucket.websiteEndpoint}
   cdnURL: https://${cdn.domainName}
+  cdnHostname: ${cdn.domainName}
