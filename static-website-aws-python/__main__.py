@@ -73,4 +73,6 @@ cdn = aws.cloudfront.Distribution("cdn",
         ssl_support_method="sni-only",
     ))
 pulumi.export("originURL", bucket.website_endpoint.apply(lambda website_endpoint: f"http://{website_endpoint}"))
+pulumi.export("originHostname", bucket.website_endpoint)
 pulumi.export("cdnURL", cdn.domain_name.apply(lambda domain_name: f"https://{domain_name}"))
+pulumi.export("cdnHostname", cdn.domain_name)

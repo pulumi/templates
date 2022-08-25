@@ -57,4 +57,6 @@ endpoint = azure_native.cdn.Endpoint("endpoint",
         host_name=origin_hostname,
     )])
 pulumi.export("originURL", account.primary_endpoints.web)
+pulumi.export("originHostname", origin_hostname)
 pulumi.export("cdnURL", endpoint.host_name.apply(lambda host_name: f"https://{host_name}"))
+pulumi.export("cdnHostname", endpoint.host_name)

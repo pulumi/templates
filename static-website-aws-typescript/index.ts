@@ -70,4 +70,6 @@ const cdn = new aws.cloudfront.Distribution("cdn", {
     },
 });
 export const originURL = pulumi.interpolate`http://${bucket.websiteEndpoint}`;
+export const originHostname = bucket.websiteEndpoint;
 export const cdnURL = pulumi.interpolate`https://${cdn.domainName}`;
+export const cdnHostname = cdn.domainName;

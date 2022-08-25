@@ -63,4 +63,6 @@ resources:
 
 outputs:
   originURL: https://storage.googleapis.com/${bucket.name}/index.html
+  originHostname: storage.googleapis.com/${bucket.name}
   cdnURL: http://${ip.address}
+  cdnHostname: ${ip.address}

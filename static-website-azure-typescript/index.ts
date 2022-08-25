@@ -32,7 +32,7 @@ const profile = new azure_native.cdn.Profile("profile", {
         name: "Standard_Microsoft",
     },
 });
-const originHostname = account.primaryEndpoints.apply(endpoints => new URL(endpoints.web)).hostname;
+export const originHostname = account.primaryEndpoints.apply(endpoints => new URL(endpoints.web)).hostname;
 const endpoint = new azure_native.cdn.Endpoint("endpoint", {
     resourceGroupName: resourceGroup.name,
     profileName: profile.name,
@@ -56,3 +56,4 @@ const endpoint = new azure_native.cdn.Endpoint("endpoint", {
 });
 export const originURL = account.primaryEndpoints.apply(primaryEndpoints => primaryEndpoints.web);
 export const cdnURL = pulumi.interpolate`https://${endpoint.hostName}`;
+export const cdnHostname = endpoint.hostName;

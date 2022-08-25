@@ -37,4 +37,6 @@ http_forwarding_rule = gcp.compute.GlobalForwardingRule("http-forwarding-rule",
     port_range="80",
     target=http_proxy.self_link)
 pulumi.export("originURL", bucket.name.apply(lambda name: f"https://storage.googleapis.com/{name}/index.html"))
+pulumi.export("originHostname", bucket.name.apply(lambda name: f"storage.googleapis.com/{name}"))
 pulumi.export("cdnURL", ip.address.apply(lambda address: f"http://{address}"))
+pulumi.export("cdnHostname", ip.address)
