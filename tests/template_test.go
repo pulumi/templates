@@ -14,7 +14,7 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-const testTimeout = 30 * time.Minute
+const testTimeout = 60 * time.Minute
 
 func TestTemplates(t *testing.T) {
 	blackListedTests := os.Getenv("BLACK_LISTED_TESTS")
