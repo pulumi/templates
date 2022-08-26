@@ -35,6 +35,12 @@ jobs:
         pulumi-version: [latest, dev]
     runs-on: ${{ matrix.platform }}
     steps:
+      - name: Cache Pulumi plugins
+        id: cache-plugins
+        uses: actions/cache@v3
+        with:
+          path: ~/.pulumi/plugins
+          key: ${{ runner.os }}-pulumi-plugins-cache
       - name: Install Java 11 (temurin)
         uses: actions/setup-java@v3
         with:
@@ -49,9 +55,10 @@ jobs:
         run: |
           dotnet nuget locals all --clear
       - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
+          cache: 'npm'
       - name: Set up Go ${{ matrix.go-version }}
         uses: actions/setup-go@v1
         with:
