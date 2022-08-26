@@ -58,6 +58,42 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
           cache: 'npm'
+          cache-dependency-path: |
+            tests/npm-lockfiles/alicloud-javascript/package-lock.json
+            tests/npm-lockfiles/alicloud-typescript/package-lock.json
+            tests/npm-lockfiles/auth0-javascript/package-lock.json
+            tests/npm-lockfiles/auth0-typescript/package-lock.json
+            tests/npm-lockfiles/aws-javascript/package-lock.json
+            tests/npm-lockfiles/aws-native-javascript/package-lock.json
+            tests/npm-lockfiles/aws-native-typescript/package-lock.json
+            tests/npm-lockfiles/aws-typescript/package-lock.json
+            tests/npm-lockfiles/azure-classic-javascript/package-lock.json
+            tests/npm-lockfiles/azure-classic-typescript/package-lock.json
+            tests/npm-lockfiles/azure-javascript/package-lock.json
+            tests/npm-lockfiles/azure-typescript/package-lock.json
+            tests/npm-lockfiles/civo-javascript/package-lock.json
+            tests/npm-lockfiles/civo-typescript/package-lock.json
+            tests/npm-lockfiles/digitalocean-javascript/package-lock.json
+            tests/npm-lockfiles/digitalocean-typescript/package-lock.json
+            tests/npm-lockfiles/equinix-metal-javascript/package-lock.json
+            tests/npm-lockfiles/equinix-metal-typescript/package-lock.json
+            tests/npm-lockfiles/gcp-javascript/package-lock.json
+            tests/npm-lockfiles/gcp-typescript/package-lock.json
+            tests/npm-lockfiles/github-javascript/package-lock.json
+            tests/npm-lockfiles/github-typescript/package-lock.json
+            tests/npm-lockfiles/google-native-typescript/package-lock.json
+            tests/npm-lockfiles/hello-aws-javascript/package-lock.json
+            tests/npm-lockfiles/javascript/package-lock.json
+            tests/npm-lockfiles/kubernetes-javascript/package-lock.json
+            tests/npm-lockfiles/kubernetes-typescript/package-lock.json
+            tests/npm-lockfiles/linode-javascript/package-lock.json
+            tests/npm-lockfiles/linode-typescript/package-lock.json
+            tests/npm-lockfiles/oci-javascript/package-lock.json
+            tests/npm-lockfiles/oci-typescript/package-lock.json
+            tests/npm-lockfiles/openstack-javascript/package-lock.json
+            tests/npm-lockfiles/openstack-typescript/package-lock.json
+            tests/npm-lockfiles/typescript/package-lock.json
+
       - name: Set up Go ${{ matrix.go-version }}
         uses: actions/setup-go@v1
         with:
