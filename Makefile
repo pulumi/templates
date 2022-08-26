@@ -21,3 +21,9 @@ bench_template.%:
 
 ensure::
 	cd tests && go mod download
+
+# tests/npm-lockfiles are derived from */package.json and are only
+# used to speed up CI runs with node caching. This target recomputes
+# them from raw */package.json files.
+rebuild-npm-lock-cache::
+	cd tests && go run ./cmd/relock
