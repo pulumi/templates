@@ -8,13 +8,15 @@ import (
 	"testing"
 	"time"
 
+	"github.com/stretchr/testify/assert"
+
+	"github.com/pulumi/pulumi/pkg/v3/engine"
 	"github.com/pulumi/pulumi/pkg/v3/testing/integration"
 	ptesting "github.com/pulumi/pulumi/sdk/v3/go/common/testing"
 	"github.com/pulumi/pulumi/sdk/v3/go/common/workspace"
-	"github.com/stretchr/testify/assert"
 )
 
-const testTimeout = 30 * time.Minute
+const testTimeout = 60 * time.Minute
 
 func TestTemplates(t *testing.T) {
 	blackListedTests := os.Getenv("BLACK_LISTED_TESTS")
@@ -60,9 +62,14 @@ func TestTemplates(t *testing.T) {
 		templateUrl = specificTemplate
 	}
 
+	// When tracing is enabled to collect performance data, using
+	// Quick: true skews the measurements, therefore prefer Quick:
+	// false in that case.
+	quick := !isTracingEnabled()
+
 	base := integration.ProgramTestOptions{
 		ExpectRefreshChanges:   true,
-		Quick:                  true,
+		Quick:                  quick,
 		SkipRefresh:            true,
 		NoParallel:             true, // we mark tests as Parallel manually when instantiating
 		DestroyOnCleanup:       true,
@@ -99,29 +106,41 @@ func TestTemplates(t *testing.T) {
 
 			bench := guessBench(template)
 
-			e.SetEnvVars(append(e.Env, bench.Env()...))
+			e.SetEnvVars(append(e.Env, bench.Env()...)...)
 
 			templatePath := templateName
 			if templateUrl != "" {
 				templatePath = path.Join(templateUrl, templateName)
 			}
 
-			cmdArgs := append(
-				[]string{"new", templatePath, "-f", "--yes", "-s", "template-test"},
-				bench.CommandArgs("pulumi-new")...,
-			)
-
-			e.RunCommand("pulumi", cmdArgs...)
+			pulumiNew(e, templatePath, bench.CommandArgs("pulumi-new")...)
 
 			path, err := workspace.DetectProjectPathFrom(e.RootPath)
 			assert.NoError(t, err)
 			assert.NotEmpty(t, path)
 
-			_, err = workspace.LoadProject(path)
+			projinfo, err := workspace.LoadProject(path)
 			assert.NoError(t, err)
 
+			var prepareProject func(*engine.Projinfo) error
+			switch rt := projinfo.Runtime.Name(); rt {
+			case integration.NodeJSRuntime:
+				// Default PrepareProject for Node
+				// uses yarn install to install
+				// dependencies; template tests do not
+				// need it because pulumi new already
+				// installs them with npm, which is
+				// also what will happen on user systems.
+				prepareProject = func(*engine.Projinfo) error {
+					return nil
+				}
+			default:
+				prepareProject = nil // use default logic
+			}
+
 			example := base.With(integration.ProgramTestOptions{
-				Dir: e.RootPath,
+				PrepareProject: prepareProject,
+				Dir:            e.RootPath,
 				Config: map[string]string{
 					"aws:region":            awsRegion,
 					"azure:environment":     azureEnviron,
@@ -140,6 +159,22 @@ func TestTemplates(t *testing.T) {
 			integration.ProgramTest(t, &example)
 		})
 	}
+}
+
+func pulumiNew(e *ptesting.Environment, templatePath string, extraArgs ...string) {
+	// Pulumi new expects a stack name or assumes dev, we generate
+	// a random one here to prevent conflicts. Note that
+	// ProgramTest will use its own stack, so we take care to
+	// delete this one right away. There is a --generate-only
+	// option but that opts out of installing dependencies, but we
+	// want that to happen as part of pulumi new
+	tempStack := (&integration.ProgramTestOptions{}).GetStackName().String()
+	cmdArgs := append(
+		[]string{"new", templatePath, "-f", "--yes", "-s", tempStack},
+		extraArgs...,
+	)
+	e.RunCommand("pulumi", cmdArgs...)
+	e.RunCommand("pulumi", "stack", "rm", tempStack, "--yes")
 }
 
 // deleteIfNotFailed deletes the files in the testing environment if the testcase has
