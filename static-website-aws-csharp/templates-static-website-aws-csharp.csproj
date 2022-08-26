@@ -8,8 +8,8 @@
 
 	<ItemGroup>
 		<PackageReference Include="Pulumi" Version="3.*" />
-		<PackageReference Include="Pulumi.Aws" Version="5.11.0" />
-		<PackageReference Include="Pulumi.SyncedFolder" Version="*" />
+		<PackageReference Include="Pulumi.Aws" Version="5.12.1" />
+		<PackageReference Include="Pulumi.SyncedFolder" Version="0.0.8" />
 	</ItemGroup>
 
 </Project>
