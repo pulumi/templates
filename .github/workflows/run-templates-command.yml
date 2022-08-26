@@ -53,6 +53,30 @@ jobs:
         name: DotNet clean on windows and ubuntu
         run: |
           dotnet nuget locals all --clear
+      - name: Set up Go ${{ matrix.go-version }}
+        uses: actions/setup-go@v1
+        with:
+          go-version: ${{ matrix.go-version }}
+      - run: go env
+      - name: Install Pulumi CLI
+        uses: pulumi/action-install-pulumi-cli@v1.0.1
+      - run: pulumi version
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v1
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Install Python Deps
+        run: |
+          pip3 install pyenv-win
+          pip3 install pipenv
+      - name: Check out code into the Go module directory
+        uses: actions/checkout@v2
+        with:
+          token: ${{ secrets.REPO_ACCESS_TOKEN }}
+          repository: ${{ github.event.client_payload.pull_request.head.repo.full_name }}
+          ref: ${{ github.event.client_payload.pull_request.head.sha }}
+      - name: Unshallow clone for tags
+        run: git fetch --prune --unshallow --tags
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v3
         with:
@@ -93,31 +117,6 @@ jobs:
             tests/npm-lockfiles/openstack-javascript/package-lock.json
             tests/npm-lockfiles/openstack-typescript/package-lock.json
             tests/npm-lockfiles/typescript/package-lock.json
-
-      - name: Set up Go ${{ matrix.go-version }}
-        uses: actions/setup-go@v1
-        with:
-          go-version: ${{ matrix.go-version }}
-      - run: go env
-      - name: Install Pulumi CLI
-        uses: pulumi/action-install-pulumi-cli@v1.0.1
-      - run: pulumi version
-      - name: Set up Python ${{ matrix.python-version }}
-        uses: actions/setup-python@v1
-        with:
-          python-version: ${{ matrix.python-version }}
-      - name: Install Python Deps
-        run: |
-          pip3 install pyenv-win
-          pip3 install pipenv
-      - name: Check out code into the Go module directory
-        uses: actions/checkout@v2
-        with:
-          token: ${{ secrets.REPO_ACCESS_TOKEN }}
-          repository: ${{ github.event.client_payload.pull_request.head.repo.full_name }}
-          ref: ${{ github.event.client_payload.pull_request.head.sha }}
-      - name: Unshallow clone for tags
-        run: git fetch --prune --unshallow --tags
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
