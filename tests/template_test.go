@@ -8,10 +8,12 @@ import (
 	"testing"
 	"time"
 
+	"github.com/stretchr/testify/assert"
+
+	"github.com/pulumi/pulumi/pkg/v3/engine"
 	"github.com/pulumi/pulumi/pkg/v3/testing/integration"
 	ptesting "github.com/pulumi/pulumi/sdk/v3/go/common/testing"
 	"github.com/pulumi/pulumi/sdk/v3/go/common/workspace"
-	"github.com/stretchr/testify/assert"
 )
 
 const testTimeout = 60 * time.Minute
@@ -117,11 +119,28 @@ func TestTemplates(t *testing.T) {
 			assert.NoError(t, err)
 			assert.NotEmpty(t, path)
 
-			_, err = workspace.LoadProject(path)
+			projinfo, err := workspace.LoadProject(path)
 			assert.NoError(t, err)
 
+			var prepareProject func(*engine.Projinfo) error
+			switch rt := projinfo.Runtime.Name(); rt {
+			case integration.NodeJSRuntime:
+				// Default PrepareProject for Node
+				// uses yarn install to install
+				// dependencies; template tests do not
+				// need it because pulumi new already
+				// installs them with npm, which is
+				// also what will happen on user systems.
+				prepareProject = func(*engine.Projinfo) error {
+					return nil
+				}
+			default:
+				prepareProject = nil // use default logic
+			}
+
 			example := base.With(integration.ProgramTestOptions{
-				Dir: e.RootPath,
+				PrepareProject: prepareProject,
+				Dir:            e.RootPath,
 				Config: map[string]string{
 					"aws:region":            awsRegion,
 					"azure:environment":     azureEnviron,
