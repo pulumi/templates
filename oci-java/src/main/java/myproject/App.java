@@ -7,7 +7,7 @@ import com.pulumi.oci.Identity.CompartmentArgs;
 import com.pulumi.oci.ObjectStorage.Bucket;
 import com.pulumi.oci.ObjectStorage.BucketArgs;
 import com.pulumi.oci.ObjectStorage.ObjectStorageFunctions;
-import com.pulumi.oci.ObjectStorage.inputs.GetNamespaceArgs;
+import com.pulumi.oci.ObjectStorage.inputs.GetNamespacePlainArgs;
 import com.pulumi.oci.ObjectStorage.outputs.GetNamespaceResult;
 
 import java.util.concurrent.CompletableFuture;
@@ -26,7 +26,7 @@ public class App {
 
             Output<String> namespace = Output.all(myCompartment.getId()).apply(values -> {
                 try {
-                    CompletableFuture<GetNamespaceResult> result = ObjectStorageFunctions.getNamespace(GetNamespaceArgs.builder()
+                    CompletableFuture<GetNamespaceResult> result = ObjectStorageFunctions.getNamespacePlain(GetNamespacePlainArgs.builder()
                             .compartmentId(values.get(0))
                             .build());
                     return Output.of(result.get().namespace());
