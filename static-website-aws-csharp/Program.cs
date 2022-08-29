@@ -3,12 +3,15 @@ using Pulumi;
 using Aws = Pulumi.Aws;
 using SyncedFolder = Pulumi.SyncedFolder;
 
-return await Deployment.RunAsync(() => 
+return await Deployment.RunAsync(() =>
 {
+    // Import the program's configuration settings.
     var config = new Config();
     var path = config.Get("path") ?? "./site";
     var indexDocument = config.Get("indexDocument") ?? "index.html";
     var errorDocument = config.Get("errorDocument") ?? "error.html";
+
+    // Create an S3 bucket and configure it as a website.
     var bucket = new Aws.S3.Bucket("bucket", new()
     {
         Acl = "public-read",
@@ -19,6 +22,7 @@ return await Deployment.RunAsync(() =>
         },
     });
 
+    // Create an S3BucketFolder to manage the files of the website.
     var bucketFolder = new SyncedFolder.S3BucketFolder("bucket-folder", new()
     {
         Path = path,
@@ -26,6 +30,7 @@ return await Deployment.RunAsync(() =>
         Acl = "public-read",
     });
 
+    // Create a CloudFront CDN to distribute and cache the website.
     var cdn = new Aws.CloudFront.Distribution("cdn", new()
     {
         Enabled = true,
@@ -95,16 +100,15 @@ return await Deployment.RunAsync(() =>
         ViewerCertificate = new Aws.CloudFront.Inputs.DistributionViewerCertificateArgs
         {
             CloudfrontDefaultCertificate = true,
-            SslSupportMethod = "sni-only",
         },
     });
 
+    // Export the URLs and hostnames of the bucket and distribution.
     return new Dictionary<string, object?>
     {
-        ["originURL"] = bucket.WebsiteEndpoint.Apply(websiteEndpoint => $"http://{websiteEndpoint}"),
+        ["originURL"] = Output.Format($"http://{bucket.WebsiteEndpoint}"),
         ["originHostname"] = bucket.WebsiteEndpoint,
-        ["cdnURL"] = cdn.DomainName.Apply(domainName => $"https://{domainName}"),
+        ["cdnURL"] = Output.Format($"https://{cdn.DomainName}"),
         ["cdnHostname"] = cdn.DomainName,
     };
 });
-

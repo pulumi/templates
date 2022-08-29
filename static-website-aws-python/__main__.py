@@ -2,26 +2,27 @@ import pulumi
 import pulumi_aws as aws
 import pulumi_synced_folder as synced_folder
 
+# Import the program's configuration settings.
 config = pulumi.Config()
-path = config.get("path")
-if path is None:
-    path = "./site"
-index_document = config.get("indexDocument")
-if index_document is None:
-    index_document = "index.html"
-error_document = config.get("errorDocument")
-if error_document is None:
-    error_document = "error.html"
+path = config.get("path") or "./site"
+index_document = config.get("indexDocument") or "index.html"
+error_document = config.get("errorDocument") or "error.html"
+
+# Create an S3 bucket and configure it as a website.
 bucket = aws.s3.Bucket("bucket",
     acl="public-read",
     website=aws.s3.BucketWebsiteArgs(
         index_document=index_document,
         error_document=error_document,
     ))
+
+# Create an S3BucketFolder to manage the files of the website.
 bucket_folder = synced_folder.S3BucketFolder("bucket-folder",
     path=path,
     bucket_name=bucket.bucket,
     acl="public-read")
+
+# Create a CloudFront CDN to distribute and cache the website.
 cdn = aws.cloudfront.Distribution("cdn",
     enabled=True,
     origins=[aws.cloudfront.DistributionOriginArgs(
@@ -70,9 +71,10 @@ cdn = aws.cloudfront.Distribution("cdn",
     ),
     viewer_certificate=aws.cloudfront.DistributionViewerCertificateArgs(
         cloudfront_default_certificate=True,
-        ssl_support_method="sni-only",
     ))
-pulumi.export("originURL", bucket.website_endpoint.apply(lambda website_endpoint: f"http://{website_endpoint}"))
+
+# Export the URLs and hostnames of the bucket and distribution.
+pulumi.export("originURL", pulumi.Output.concat("http://", bucket.website_endpoint))
 pulumi.export("originHostname", bucket.website_endpoint)
-pulumi.export("cdnURL", cdn.domain_name.apply(lambda domain_name: f"https://{domain_name}"))
+pulumi.export("cdnURL", pulumi.Output.concat("https://", cdn.domain_name))
 pulumi.export("cdnHostname", cdn.domain_name)

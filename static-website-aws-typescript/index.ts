@@ -2,10 +2,13 @@ import * as pulumi from "@pulumi/pulumi";
 import * as aws from "@pulumi/aws";
 import * as synced_folder from "@pulumi/synced-folder";
 
+// Import the program's configuration settings.
 const config = new pulumi.Config();
 const path = config.get("path") || "./site";
 const indexDocument = config.get("indexDocument") || "index.html";
 const errorDocument = config.get("errorDocument") || "error.html";
+
+// Create an S3 bucket and configure it as a website.
 const bucket = new aws.s3.Bucket("bucket", {
     acl: "public-read",
     website: {
@@ -13,11 +16,15 @@ const bucket = new aws.s3.Bucket("bucket", {
         errorDocument: errorDocument,
     },
 });
+
+// Create an S3BucketFolder to manage the files of the website.
 const bucketFolder = new synced_folder.S3BucketFolder("bucket-folder", {
     path: path,
     bucketName: bucket.bucket,
     acl: "public-read",
 });
+
+// Create a CloudFront CDN to distribute and cache the website.
 const cdn = new aws.cloudfront.Distribution("cdn", {
     enabled: true,
     origins: [{
@@ -66,9 +73,10 @@ const cdn = new aws.cloudfront.Distribution("cdn", {
     },
     viewerCertificate: {
         cloudfrontDefaultCertificate: true,
-        sslSupportMethod: "sni-only",
     },
 });
+
+// Export the URLs and hostnames of the bucket and distribution.
 export const originURL = pulumi.interpolate`http://${bucket.websiteEndpoint}`;
 export const originHostname = bucket.websiteEndpoint;
 export const cdnURL = pulumi.interpolate`https://${cdn.domainName}`;

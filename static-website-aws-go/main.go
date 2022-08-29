@@ -12,6 +12,8 @@ import (
 
 func main() {
 	pulumi.Run(func(ctx *pulumi.Context) error {
+
+		// Import the program's configuration settings.
 		cfg := config.New(ctx, "")
 		path := "./site"
 		if param := cfg.Get("path"); param != "" {
@@ -25,6 +27,8 @@ func main() {
 		if param := cfg.Get("errorDocument"); param != "" {
 			errorDocument = param
 		}
+
+		// Create an S3 bucket and configure it as a website.
 		bucket, err := s3.NewBucket(ctx, "bucket", &s3.BucketArgs{
 			Acl: pulumi.String("public-read"),
 			Website: &s3.BucketWebsiteArgs{
@@ -35,6 +39,8 @@ func main() {
 		if err != nil {
 			return err
 		}
+
+		// Create an S3BucketFolder to manage the files of the website.
 		_, err = synced.NewS3BucketFolder(ctx, "bucket-folder", &synced.S3BucketFolderArgs{
 			Path:       pulumi.String(path),
 			BucketName: bucket.Bucket,
@@ -43,6 +49,8 @@ func main() {
 		if err != nil {
 			return err
 		}
+
+		// Create a CloudFront CDN to distribute and cache the website.
 		cdn, err := cloudfront.NewDistribution(ctx, "cdn", &cloudfront.DistributionArgs{
 			Enabled: pulumi.Bool(true),
 			Origins: cloudfront.DistributionOriginArray{
@@ -97,19 +105,16 @@ func main() {
 			},
 			ViewerCertificate: &cloudfront.DistributionViewerCertificateArgs{
 				CloudfrontDefaultCertificate: pulumi.Bool(true),
-				SslSupportMethod:             pulumi.String("sni-only"),
 			},
 		})
 		if err != nil {
 			return err
 		}
-		ctx.Export("originURL", bucket.WebsiteEndpoint.ApplyT(func(websiteEndpoint string) (string, error) {
-			return fmt.Sprintf("http://%v", websiteEndpoint), nil
-		}).(pulumi.StringOutput))
+
+		// Export the URLs and hostnames of the bucket and distribution.
+		ctx.Export("originURL", pulumi.Sprintf("http://%s", bucket.WebsiteEndpoint))
 		ctx.Export("originHostname", bucket.WebsiteEndpoint)
-		ctx.Export("cdnURL", cdn.DomainName.ApplyT(func(domainName string) (string, error) {
-			return fmt.Sprintf("https://%v", domainName), nil
-		}).(pulumi.StringOutput))
+		ctx.Export("cdnURL", pulumi.Sprintf("https://%s", cdn.DomainName))
 		ctx.Export("cdnHostname", cdn.DomainName)
 		return nil
 	})

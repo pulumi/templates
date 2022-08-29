@@ -3,7 +3,7 @@ using Pulumi;
 using Gcp = Pulumi.Gcp;
 using SyncedFolder = Pulumi.SyncedFolder;
 
-return await Deployment.RunAsync(() =>
+return await Deployment.RunAsync(() => 
 {
     var config = new Config();
     var path = config.Get("path") ?? "./site";
@@ -69,3 +69,4 @@ return await Deployment.RunAsync(() =>
         ["cdnHostname"] = ip.Address,
     };
 });
+

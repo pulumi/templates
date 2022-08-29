@@ -86,7 +86,6 @@ resources:
           restrictionType: none
       viewerCertificate:
         cloudfrontDefaultCertificate: true
-        sslSupportMethod: sni-only
 
 outputs:
   originURL: http://${bucket.websiteEndpoint}

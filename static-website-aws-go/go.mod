@@ -3,8 +3,8 @@ module templates-static-website-aws-go
 go 1.17
 
 require (
-	github.com/pulumi/pulumi-aws/sdk/v5 v5.11.0
-	github.com/pulumi/pulumi-synced-folder/sdk v0.0.7
+	github.com/pulumi/pulumi-aws/sdk/v5 v5.13.0
+	github.com/pulumi/pulumi-synced-folder/sdk v0.0.8
 	github.com/pulumi/pulumi/sdk/v3 v3.34.1
 )
 
