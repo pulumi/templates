@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"net/url"
 
 	cdn "github.com/pulumi/pulumi-azure-native/sdk/go/azure/cdn"
@@ -14,6 +13,8 @@ import (
 
 func main() {
 	pulumi.Run(func(ctx *pulumi.Context) error {
+
+		// Import the program's configuration settings.
 		cfg := config.New(ctx, "")
 		path := "./site"
 		if param := cfg.Get("path"); param != "" {
@@ -27,10 +28,14 @@ func main() {
 		if param := cfg.Get("errorDocument"); param != "" {
 			errorDocument = param
 		}
+
+		// Create a resource group for the website.
 		resourceGroup, err := resources.NewResourceGroup(ctx, "resource-group", nil)
 		if err != nil {
 			return err
 		}
+
+		// Create a blob storage account.
 		account, err := storage.NewStorageAccount(ctx, "account", &storage.StorageAccountArgs{
 			ResourceGroupName: resourceGroup.Name,
 			Kind:              pulumi.String("StorageV2"),
@@ -41,6 +46,8 @@ func main() {
 		if err != nil {
 			return err
 		}
+
+		// Configure the storage account as a website.
 		website, err := storage.NewStorageAccountStaticWebsite(ctx, "website", &storage.StorageAccountStaticWebsiteArgs{
 			ResourceGroupName: resourceGroup.Name,
 			AccountName:       account.Name,
@@ -50,6 +57,8 @@ func main() {
 		if err != nil {
 			return err
 		}
+
+		// Create an AzureBlobFolder to manage the files of the website.
 		_, err = synced.NewAzureBlobFolder(ctx, "synced-folder", &synced.AzureBlobFolderArgs{
 			Path:               pulumi.String(path),
 			ResourceGroupName:  resourceGroup.Name,
@@ -59,6 +68,8 @@ func main() {
 		if err != nil {
 			return err
 		}
+
+		// Create a CDN profile.
 		profile, err := cdn.NewProfile(ctx, "profile", &cdn.ProfileArgs{
 			ResourceGroupName: resourceGroup.Name,
 			Sku: &cdn.SkuArgs{
@@ -69,6 +80,7 @@ func main() {
 			return err
 		}
 
+		// Pull the hostname out of the storage-account endpoint.
 		originHostname := account.PrimaryEndpoints.ApplyT(func(endpoints storage.EndpointsResponse) (string, error) {
 			parsed, err := url.Parse(endpoints.Web)
 			if err != nil {
@@ -77,6 +89,7 @@ func main() {
 			return parsed.Hostname(), nil
 		}).(pulumi.StringOutput)
 
+		// Create a CDN endpoint to distribute and cache the website.
 		endpoint, err := cdn.NewEndpoint(ctx, "endpoint", &cdn.EndpointArgs{
 			ResourceGroupName:    resourceGroup.Name,
 			ProfileName:          profile.Name,
@@ -103,14 +116,15 @@ func main() {
 		if err != nil {
 			return err
 		}
-		ctx.Export("originURL", account.PrimaryEndpoints.ApplyT(func(primaryEndpoints storage.EndpointsResponse) (string, error) {
-			return primaryEndpoints.Web, nil
+
+		// Export the URLs and hostnames of the storage account and distribution.
+		ctx.Export("originURL", account.PrimaryEndpoints.ApplyT(func(endpoints storage.EndpointsResponse) (string, error) {
+			return endpoints.Web, nil
 		}).(pulumi.StringOutput))
 		ctx.Export("originHostname", originHostname)
-		ctx.Export("cdnURL", endpoint.HostName.ApplyT(func(hostName string) (string, error) {
-			return fmt.Sprintf("https://%v", hostName), nil
-		}).(pulumi.StringOutput))
+		ctx.Export("cdnURL", pulumi.Sprintf("http://%s", endpoint.HostName))
 		ctx.Export("cdnHostname", endpoint.HostName)
+
 		return nil
 	})
 }

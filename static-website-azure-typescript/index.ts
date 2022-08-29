@@ -2,11 +2,16 @@ import * as pulumi from "@pulumi/pulumi";
 import * as azure_native from "@pulumi/azure-native";
 import * as synced_folder from "@pulumi/synced-folder";
 
+// Import the program's configuration settings.
 const config = new pulumi.Config();
 const path = config.get("path") || "./site";
 const indexDocument = config.get("indexDocument") || "index.html";
 const errorDocument = config.get("errorDocument") || "error.html";
+
+// Create a resource group for the website.
 const resourceGroup = new azure_native.resources.ResourceGroup("resource-group", {});
+
+// Create a blob storage account.
 const account = new azure_native.storage.StorageAccount("account", {
     resourceGroupName: resourceGroup.name,
     kind: "StorageV2",
@@ -14,25 +19,35 @@ const account = new azure_native.storage.StorageAccount("account", {
         name: "Standard_LRS",
     },
 });
+
+// Configure the storage account as a website.
 const website = new azure_native.storage.StorageAccountStaticWebsite("website", {
     resourceGroupName: resourceGroup.name,
     accountName: account.name,
     indexDocument: indexDocument,
     error404Document: errorDocument,
 });
+
+// Create an AzureBlobFolder to manage the files of the website.
 const syncedFolder = new synced_folder.AzureBlobFolder("synced-folder", {
     path: path,
     resourceGroupName: resourceGroup.name,
     storageAccountName: account.name,
     containerName: website.containerName,
 });
+
+// Create a CDN profile.
 const profile = new azure_native.cdn.Profile("profile", {
     resourceGroupName: resourceGroup.name,
     sku: {
         name: "Standard_Microsoft",
     },
 });
-export const originHostname = account.primaryEndpoints.apply(endpoints => new URL(endpoints.web)).hostname;
+
+// Pull the hostname out of the storage-account endpoint.
+const originHostname = account.primaryEndpoints.apply(endpoints => new URL(endpoints.web)).hostname;
+
+// Create a CDN endpoint to distribute and cache the website.
 const endpoint = new azure_native.cdn.Endpoint("endpoint", {
     resourceGroupName: resourceGroup.name,
     profileName: profile.name,
@@ -54,6 +69,9 @@ const endpoint = new azure_native.cdn.Endpoint("endpoint", {
         hostName: originHostname,
     }],
 });
-export const originURL = account.primaryEndpoints.apply(primaryEndpoints => primaryEndpoints.web);
+
+// Export the URLs and hostnames of the storage account and CDN.
+export const originURL = pulumi.interpolate`http://${originHostname}`;
+export { originHostname };
 export const cdnURL = pulumi.interpolate`https://${endpoint.hostName}`;
 export const cdnHostname = endpoint.hostName;

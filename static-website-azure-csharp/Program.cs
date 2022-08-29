@@ -6,12 +6,16 @@ using SyncedFolder = Pulumi.SyncedFolder;
 
 return await Deployment.RunAsync(() =>
 {
+    // Import the program's configuration settings.
     var config = new Config();
     var path = config.Get("path") ?? "./site";
     var indexDocument = config.Get("indexDocument") ?? "index.html";
     var errorDocument = config.Get("errorDocument") ?? "error.html";
+
+    // Create a resource group for the website.
     var resourceGroup = new AzureNative.Resources.ResourceGroup("resource-group");
 
+    // Create a blob storage account.
     var account = new AzureNative.Storage.StorageAccount("account", new()
     {
         ResourceGroupName = resourceGroup.Name,
@@ -22,6 +26,7 @@ return await Deployment.RunAsync(() =>
         },
     });
 
+    // Configure the storage account as a website.
     var website = new AzureNative.Storage.StorageAccountStaticWebsite("website", new()
     {
         ResourceGroupName = resourceGroup.Name,
@@ -30,6 +35,7 @@ return await Deployment.RunAsync(() =>
         Error404Document = errorDocument,
     });
 
+    // Create an AzureBlobFolder to manage the files of the website.
     var syncedFolder = new SyncedFolder.AzureBlobFolder("synced-folder", new()
     {
         Path = path,
@@ -38,6 +44,7 @@ return await Deployment.RunAsync(() =>
         ContainerName = website.ContainerName,
     });
 
+    // Create a CDN profile.
     var profile = new AzureNative.Cdn.Profile("profile", new()
     {
         ResourceGroupName = resourceGroup.Name,
@@ -47,8 +54,10 @@ return await Deployment.RunAsync(() =>
         },
     });
 
+    // Pull the hostname out of the storage-account endpoint.
     var originHostname = account.PrimaryEndpoints.Apply(endpoints => new Uri(endpoints.Web).Host);
 
+    // Create a CDN endpoint to distribute and cache the website.
     var endpoint = new AzureNative.Cdn.Endpoint("endpoint", new()
     {
         ResourceGroupName = resourceGroup.Name,
@@ -77,6 +86,7 @@ return await Deployment.RunAsync(() =>
         },
     });
 
+    // Export the URLs and hostnames of the storage account and CDN.
     return new Dictionary<string, object?>
     {
         ["originURL"] = account.PrimaryEndpoints.Apply(primaryEndpoints => primaryEndpoints.Web),
