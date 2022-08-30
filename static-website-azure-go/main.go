@@ -58,7 +58,7 @@ func main() {
 			return err
 		}
 
-		// Create an AzureBlobFolder to manage the files of the website.
+		// Use a synced folder to manage the files of the website.
 		_, err = synced.NewAzureBlobFolder(ctx, "synced-folder", &synced.AzureBlobFolderArgs{
 			Path:               pulumi.String(path),
 			ResourceGroupName:  resourceGroup.Name,

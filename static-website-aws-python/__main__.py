@@ -16,7 +16,7 @@ bucket = aws.s3.Bucket("bucket",
         error_document=error_document,
     ))
 
-# Create an S3BucketFolder to manage the files of the website.
+# Use a synced folder to manage the files of the website.
 bucket_folder = synced_folder.S3BucketFolder("bucket-folder",
     path=path,
     bucket_name=bucket.bucket,

@@ -22,7 +22,7 @@ return await Deployment.RunAsync(() =>
         },
     });
 
-    // Create an S3BucketFolder to manage the files of the website.
+    // Use a synced folder to manage the files of the website.
     var bucketFolder = new SyncedFolder.S3BucketFolder("bucket-folder", new()
     {
         Path = path,

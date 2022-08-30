@@ -17,7 +17,7 @@ const bucket = new aws.s3.Bucket("bucket", {
     },
 });
 
-// Create an S3BucketFolder to manage the files of the website.
+// Use a synced folder to manage the files of the website.
 const bucketFolder = new synced_folder.S3BucketFolder("bucket-folder", {
     path: path,
     bucketName: bucket.bucket,

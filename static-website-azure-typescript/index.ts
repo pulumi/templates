@@ -28,7 +28,7 @@ const website = new azure_native.storage.StorageAccountStaticWebsite("website", 
     error404Document: errorDocument,
 });
 
-// Create an AzureBlobFolder to manage the files of the website.
+// Use a synced folder to manage the files of the website.
 const syncedFolder = new synced_folder.AzureBlobFolder("synced-folder", {
     path: path,
     resourceGroupName: resourceGroup.name,

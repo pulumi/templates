@@ -35,7 +35,7 @@ return await Deployment.RunAsync(() =>
         Error404Document = errorDocument,
     });
 
-    // Create an AzureBlobFolder to manage the files of the website.
+    // Use a synced folder to manage the files of the website.
     var syncedFolder = new SyncedFolder.AzureBlobFolder("synced-folder", new()
     {
         Path = path,

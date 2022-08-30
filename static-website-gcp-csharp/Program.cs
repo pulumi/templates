@@ -3,12 +3,15 @@ using Pulumi;
 using Gcp = Pulumi.Gcp;
 using SyncedFolder = Pulumi.SyncedFolder;
 
-return await Deployment.RunAsync(() => 
+return await Deployment.RunAsync(() =>
 {
+    // Import the program's configuration settings.
     var config = new Config();
     var path = config.Get("path") ?? "./site";
     var indexDocument = config.Get("indexDocument") ?? "index.html";
     var errorDocument = config.Get("errorDocument") ?? "error.html";
+
+    // Create a storage bucket and configure it as a website.
     var bucket = new Gcp.Storage.Bucket("bucket", new()
     {
         Location = "US",
@@ -19,6 +22,7 @@ return await Deployment.RunAsync(() =>
         },
     });
 
+    // Create an IAM binding to allow public read access to the bucket.
     var bucketIamBinding = new Gcp.Storage.BucketIAMBinding("bucket-iam-binding", new()
     {
         Bucket = bucket.Name,
@@ -29,30 +33,36 @@ return await Deployment.RunAsync(() =>
         },
     });
 
+    // Use a synced folder to manage the files of the website.
     var syncedFolder = new SyncedFolder.GoogleCloudFolder("synced-folder", new()
     {
         Path = path,
         BucketName = bucket.Name,
     });
 
+    // Enable the storage bucket as a CDN.
     var backendBucket = new Gcp.Compute.BackendBucket("backend-bucket", new()
     {
         BucketName = bucket.Name,
         EnableCdn = true,
     });
 
+    // Provision a global IP address for the CDN.
     var ip = new Gcp.Compute.GlobalAddress("ip");
 
+    // Create a URLMap to route requests to the storage bucket.
     var urlMap = new Gcp.Compute.URLMap("url-map", new()
     {
         DefaultService = backendBucket.SelfLink,
     });
 
+    // Create an HTTP proxy to route requests to the URLMap.
     var httpProxy = new Gcp.Compute.TargetHttpProxy("http-proxy", new()
     {
         UrlMap = urlMap.SelfLink,
     });
 
+    // Create a GlobalForwardingRule rule to route requests to the HTTP proxy.
     var httpForwardingRule = new Gcp.Compute.GlobalForwardingRule("http-forwarding-rule", new()
     {
         IpAddress = ip.Address,
@@ -61,6 +71,7 @@ return await Deployment.RunAsync(() =>
         Target = httpProxy.SelfLink,
     });
 
+    // Export the URLs and hostnames of the bucket and CDN.
     return new Dictionary<string, object?>
     {
         ["originURL"] = bucket.Name.Apply(name => $"https://storage.googleapis.com/{name}/index.html"),
@@ -69,4 +80,3 @@ return await Deployment.RunAsync(() =>
         ["cdnHostname"] = ip.Address,
     };
 });
-

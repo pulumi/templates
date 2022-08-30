@@ -22,7 +22,7 @@ resources:
         indexDocument: ${indexDocument}
         errorDocument: ${errorDocument}
 
-  # Create an S3BucketFolder to manage the files of the website.
+  # Use a synced folder to manage the files of the website.
   bucket-folder:
     type: synced-folder:index:S3BucketFolder
     properties:

@@ -40,7 +40,7 @@ func main() {
 			return err
 		}
 
-		// Create an S3BucketFolder to manage the files of the website.
+		// Use a synced folder to manage the files of the website.
 		_, err = synced.NewS3BucketFolder(ctx, "bucket-folder", &synced.S3BucketFolderArgs{
 			Path:       pulumi.String(path),
 			BucketName: bucket.Bucket,

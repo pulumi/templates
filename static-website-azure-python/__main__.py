@@ -27,7 +27,7 @@ website = azure_native.storage.StorageAccountStaticWebsite("website",
     index_document=index_document,
     error404_document=error_document)
 
-# Create an AzureBlobFolder to manage the files of the website.
+# Use a synced folder to manage the files of the website.
 synced_folder = synced_folder.AzureBlobFolder("synced-folder",
     path=path,
     resource_group_name=resource_group.name,
