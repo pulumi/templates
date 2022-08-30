@@ -1,11 +1,3 @@
-name: ${PROJECT}
-runtime: yaml
-description: ${DESCRIPTION}
-template:
-  config:
-    aws:region:
-      description: The AWS region to deploy into
-      default: us-west-2
 configuration:
   minClusterSize:
     type: Number
