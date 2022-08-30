@@ -9,32 +9,36 @@ index_document = config.get("indexDocument") or "index.html"
 error_document = config.get("errorDocument") or "error.html"
 
 # Create an S3 bucket and configure it as a website.
-bucket = aws.s3.Bucket("bucket",
+bucket = aws.s3.Bucket(
+    "bucket",
     acl="public-read",
     website=aws.s3.BucketWebsiteArgs(
         index_document=index_document,
         error_document=error_document,
-    ))
+    ),
+)
 
 # Use a synced folder to manage the files of the website.
-bucket_folder = synced_folder.S3BucketFolder("bucket-folder",
-    path=path,
-    bucket_name=bucket.bucket,
-    acl="public-read")
+bucket_folder = synced_folder.S3BucketFolder(
+    "bucket-folder", path=path, bucket_name=bucket.bucket, acl="public-read"
+)
 
 # Create a CloudFront CDN to distribute and cache the website.
-cdn = aws.cloudfront.Distribution("cdn",
+cdn = aws.cloudfront.Distribution(
+    "cdn",
     enabled=True,
-    origins=[aws.cloudfront.DistributionOriginArgs(
-        origin_id=bucket.arn,
-        domain_name=bucket.website_endpoint,
-        custom_origin_config=aws.cloudfront.DistributionOriginCustomOriginConfigArgs(
-            origin_protocol_policy="http-only",
-            http_port=80,
-            https_port=443,
-            origin_ssl_protocols=["TLSv1.2"],
-        ),
-    )],
+    origins=[
+        aws.cloudfront.DistributionOriginArgs(
+            origin_id=bucket.arn,
+            domain_name=bucket.website_endpoint,
+            custom_origin_config=aws.cloudfront.DistributionOriginCustomOriginConfigArgs(
+                origin_protocol_policy="http-only",
+                http_port=80,
+                https_port=443,
+                origin_ssl_protocols=["TLSv1.2"],
+            ),
+        )
+    ],
     default_cache_behavior=aws.cloudfront.DistributionDefaultCacheBehaviorArgs(
         target_origin_id=bucket.arn,
         viewer_protocol_policy="redirect-to-https",
@@ -59,11 +63,13 @@ cdn = aws.cloudfront.Distribution("cdn",
         ),
     ),
     price_class="PriceClass_100",
-    custom_error_responses=[aws.cloudfront.DistributionCustomErrorResponseArgs(
-        error_code=404,
-        response_code=404,
-        response_page_path=f"/{error_document}",
-    )],
+    custom_error_responses=[
+        aws.cloudfront.DistributionCustomErrorResponseArgs(
+            error_code=404,
+            response_code=404,
+            response_page_path=f"/{error_document}",
+        )
+    ],
     restrictions=aws.cloudfront.DistributionRestrictionsArgs(
         geo_restriction=aws.cloudfront.DistributionRestrictionsGeoRestrictionArgs(
             restriction_type="none",
@@ -71,7 +77,8 @@ cdn = aws.cloudfront.Distribution("cdn",
     ),
     viewer_certificate=aws.cloudfront.DistributionViewerCertificateArgs(
         cloudfront_default_certificate=True,
-    ))
+    ),
+)
 
 # Export the URLs and hostnames of the bucket and distribution.
 pulumi.export("originURL", pulumi.Output.concat("http://", bucket.website_endpoint))
