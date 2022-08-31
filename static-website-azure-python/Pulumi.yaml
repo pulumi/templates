@@ -9,11 +9,11 @@ template:
       description: The Azure region to deploy into
       default: WestUS
     path:
-      type: String
+      description: The path to the folder containing the website
       default: ./site
     indexDocument:
-      type: String
+      description: The file to use for top-level pages
       default: index.html
     errorDocument:
-      type: String
+      description: The file to use for error pages
       default: error.html

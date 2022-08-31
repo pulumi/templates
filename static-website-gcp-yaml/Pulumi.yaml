@@ -9,13 +9,13 @@ template:
       description: The Google Cloud project to deploy into
       default: pulumi-development
     path:
-      type: String
+      description: The path to the folder containing the website
       default: ./site
     indexDocument:
-      type: String
+      description: The file to use for top-level pages
       default: index.html
     errorDocument:
-      type: String
+      description: The file to use for error pages
       default: error.html
 
 configuration:
