@@ -18,6 +18,7 @@ template:
       description: The file to use for error pages
       default: error.html
 
+# Import the program's configuration settings.
 configuration:
   path:
     type: String
@@ -30,6 +31,8 @@ configuration:
     default: error.html
 
 resources:
+
+  # Create an S3 bucket and configure it as a website.
   bucket:
     type: aws:s3:Bucket
     properties:
@@ -38,6 +41,7 @@ resources:
         indexDocument: ${indexDocument}
         errorDocument: ${errorDocument}
 
+# Use a synced folder to manage the files of the website.
   bucket-folder:
     type: synced-folder:index:S3BucketFolder
     properties:
@@ -45,6 +49,7 @@ resources:
       bucketName: ${bucket.bucket}
       acl: public-read
 
+# Create a CloudFront CDN to distribute and cache the website.
   cdn:
     type: aws:cloudfront:Distribution
     properties:
@@ -69,6 +74,7 @@ resources:
           - GET
           - HEAD
           - OPTIONS
+        compress: true
         defaultTtl: 600
         maxTtl: 600
         minTtl: 0
@@ -87,6 +93,7 @@ resources:
       viewerCertificate:
         cloudfrontDefaultCertificate: true
 
+# Export the URLs and hostnames of the bucket and distribution.
 outputs:
   originURL: http://${bucket.websiteEndpoint}
   originHostname: ${bucket.websiteEndpoint}

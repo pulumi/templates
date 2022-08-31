@@ -17,6 +17,7 @@ template:
       description: The file to use for error pages
       default: error.html
 
+# Import the program's configuration settings.
 configuration:
   path:
     type: String
@@ -30,6 +31,7 @@ configuration:
 
 resources:
 
+  # Create a storage bucket and configure it as a website.
   bucket:
     type: gcp:storage:Bucket
     properties:
@@ -38,6 +40,7 @@ resources:
         mainPageSuffix: ${indexDocument}
         notFoundPage: ${errorDocument}
 
+  # Create an IAM binding to allow public read access to the bucket.
   bucket-iam-binding:
     type: gcp:storage:BucketIAMBinding
     properties:
@@ -46,31 +49,37 @@ resources:
       members:
         - allUsers
 
+  # Use a synced folder to manage the files of the website.
   synced-folder:
     type: synced-folder:index:GoogleCloudFolder
     properties:
       path: ${path}
       bucketName: ${bucket.name}
 
+  # Enable the storage bucket as a CDN.
   backend-bucket:
     type: gcp:compute:BackendBucket
     properties:
       bucketName: ${bucket.name}
       enableCdn: true
 
+  # Provision a global IP address for the CDN.
   ip:
     type: gcp:compute:GlobalAddress
 
+  # Create a URLMap to route requests to the storage bucket.
   url-map:
     type: gcp:compute:URLMap
     properties:
       defaultService: ${backend-bucket.selfLink}
 
+  # Create an HTTP proxy to route requests to the URLMap.
   http-proxy:
     type: gcp:compute:TargetHttpProxy
     properties:
       urlMap: ${url-map.selfLink}
 
+  # Create a GlobalForwardingRule rule to route requests to the HTTP proxy.
   http-forwarding-rule:
     type: gcp:compute:GlobalForwardingRule
     properties:
@@ -79,6 +88,7 @@ resources:
       portRange: "80"
       target: ${http-proxy.selfLink}
 
+# Export the URLs and hostnames of the bucket and CDN.
 outputs:
   originURL: https://storage.googleapis.com/${bucket.name}/index.html
   originHostname: storage.googleapis.com/${bucket.name}

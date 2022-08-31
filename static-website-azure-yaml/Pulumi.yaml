@@ -18,6 +18,7 @@ template:
       description: The file to use for error pages
       default: error.html
 
+# Import the program's configuration settings.
 configuration:
   path:
     type: String
@@ -29,6 +30,7 @@ configuration:
     type: String
     default: error.html
 
+# Pull the hostname out of the storage-account endpoint.
 variables:
   originHostname:
     Fn::Select:
@@ -39,9 +41,11 @@ variables:
 
 resources:
 
+  # Create a resource group for the website.
   resource-group:
     type: azure-native:resources:ResourceGroup
 
+  # Create a blob storage account.
   account:
     type: azure-native:storage:StorageAccount
     properties:
@@ -50,6 +54,7 @@ resources:
       sku:
         name: Standard_LRS
 
+  # Configure the storage account as a website.
   website:
     type: azure-native:storage:StorageAccountStaticWebsite
     properties:
@@ -58,6 +63,7 @@ resources:
       indexDocument: ${indexDocument}
       error404Document: ${errorDocument}
 
+  # Use a synced folder to manage the files of the website.
   synced-folder:
     type: synced-folder:index:AzureBlobFolder
     properties:
@@ -66,6 +72,7 @@ resources:
       storageAccountName: ${account.name}
       containerName: ${website.containerName}
 
+  # Create a CDN profile.
   profile:
     type: azure-native:cdn:Profile
     properties:
@@ -73,6 +80,7 @@ resources:
       sku:
         name: Standard_Microsoft
 
+  # Create a CDN endpoint to distribute and cache the website.
   endpoint:
     type: azure-native:cdn:Endpoint
     properties:
@@ -94,6 +102,7 @@ resources:
         - name: ${account.name}
           hostName: ${originHostname}
 
+# Export the URLs and hostnames of the storage account and distribution.
 outputs:
   originURL: ${account.primaryEndpoints.web}
   originHostname: ${originHostname}
