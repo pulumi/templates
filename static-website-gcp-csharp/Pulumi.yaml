@@ -7,7 +7,6 @@ template:
   config:
     gcp:project:
       description: The Google Cloud project to deploy into
-      default: pulumi-development
     path:
       description: The path to the folder containing the website
       default: ./site
