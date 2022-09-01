@@ -10,7 +10,7 @@ template:
       default: us-west-2
     path:
       description: The path to the folder containing the website
-      default: ./site
+      default: ./www
     indexDocument:
       description: The file to use for top-level pages
       default: index.html
@@ -22,7 +22,7 @@ template:
 configuration:
   path:
     type: String
-    default: ./site
+    default: ./www
   indexDocument:
     type: String
     default: index.html

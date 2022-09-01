@@ -9,7 +9,7 @@ template:
       description: The Google Cloud project to deploy into
     path:
       description: The path to the folder containing the website
-      default: ./site
+      default: ./www
     indexDocument:
       description: The file to use for top-level pages
       default: index.html

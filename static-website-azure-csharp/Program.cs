@@ -8,7 +8,7 @@ return await Deployment.RunAsync(() =>
 {
     // Import the program's configuration settings.
     var config = new Config();
-    var path = config.Get("path") ?? "./site";
+    var path = config.Get("path") ?? "./www";
     var indexDocument = config.Get("indexDocument") ?? "index.html";
     var errorDocument = config.Get("errorDocument") ?? "error.html";
 
