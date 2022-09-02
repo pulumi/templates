@@ -42,7 +42,7 @@ public class App {
                     .resourceGroupName(actualResourceGroupName)
                     .accountName(actualAccountName)
                     .build(), InvokeOptions.Empty);
-            return Output.of(invokeResult)
+            return invokeResult
                     .applyValue(r -> r.keys().get(0).value())
                     .asSecret();
         });
