@@ -70,7 +70,7 @@ return await Deployment.RunAsync(() =>
             },
             DefaultTtl = 600,
             MaxTtl = 600,
-            MinTtl = 0,
+            MinTtl = 600,
             ForwardedValues = new Aws.CloudFront.Inputs.DistributionDefaultCacheBehaviorForwardedValuesArgs
             {
                 QueryString = true,

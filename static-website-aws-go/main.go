@@ -82,7 +82,7 @@ func main() {
 				},
 				DefaultTtl: pulumi.Int(600),
 				MaxTtl:     pulumi.Int(600),
-				MinTtl:     pulumi.Int(0),
+				MinTtl:     pulumi.Int(600),
 				ForwardedValues: &cloudfront.DistributionDefaultCacheBehaviorForwardedValuesArgs{
 					QueryString: pulumi.Bool(true),
 					Cookies: &cloudfront.DistributionDefaultCacheBehaviorForwardedValuesCookiesArgs{

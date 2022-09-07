@@ -54,7 +54,7 @@ cdn = aws.cloudfront.Distribution(
         ],
         default_ttl=600,
         max_ttl=600,
-        min_ttl=0,
+        min_ttl=600,
         forwarded_values=aws.cloudfront.DistributionDefaultCacheBehaviorForwardedValuesArgs(
             query_string=True,
             cookies=aws.cloudfront.DistributionDefaultCacheBehaviorForwardedValuesCookiesArgs(
