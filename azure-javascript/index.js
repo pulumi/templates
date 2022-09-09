@@ -16,7 +16,7 @@ const storageAccount = new storage.StorageAccount("sa", {
 });
 
 // Export the primary key of the Storage Account
-const storageAccountKeys = azure.storage.listStorageAccountKeysOutput({
+const storageAccountKeys = storage.listStorageAccountKeysOutput({
     resourceGroupName: resourceGroup.name,
     accountName: storageAccount.name
 });
