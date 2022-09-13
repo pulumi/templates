@@ -17,7 +17,6 @@ import (
 const testTimeout = 60 * time.Minute
 
 func TestTemplates(t *testing.T) {
-
 	cfg := newTemplateTestConfigFromEnv()
 
 	// When tracing is enabled to collect performance data, using
@@ -35,8 +34,8 @@ func TestTemplates(t *testing.T) {
 	}
 
 	for _, templateInfo := range findAllTemplates(t, cfg.templateUrl) {
-		template := templateInfo.template
-		templateName := template.Name
+		templateInfo := templateInfo
+		templateName := templateInfo.template.Name
 
 		runWithTimeout(t, testTimeout, templateName, parallel, func(t *testing.T) {
 			if isBlackListedTest(templateName, cfg.skipped) {
@@ -48,42 +47,21 @@ func TestTemplates(t *testing.T) {
 			e := ptesting.NewEnvironment(t)
 			t.Cleanup(func() { deleteIfNotFailed(e) })
 
-			bench := guessBench(template)
+			bench := guessBench(templateInfo.template)
 
 			e.SetEnvVars(append(e.Env, bench.Env()...)...)
 
 			pulumiNew(e, templateInfo.templatePath, bench.CommandArgs("pulumi-new")...)
 
-			path, err := workspace.DetectProjectPathFrom(e.RootPath)
-			assert.NoError(t, err)
-			assert.NotEmpty(t, path)
+			opts := base.
+				With(detectOptionsFromTestingEnvironment(t, e)).
+				With(integration.ProgramTestOptions{
+					Dir:    e.RootPath,
+					Config: cfg.config,
+				}).
+				With(bench.ProgramTestOptions())
 
-			projinfo, err := workspace.LoadProject(path)
-			assert.NoError(t, err)
-
-			var prepareProject func(*engine.Projinfo) error
-			switch rt := projinfo.Runtime.Name(); rt {
-			case integration.NodeJSRuntime:
-				// Default PrepareProject for Node
-				// uses yarn install to install
-				// dependencies; template tests do not
-				// need it because pulumi new already
-				// installs them with npm, which is
-				// also what will happen on user systems.
-				prepareProject = func(*engine.Projinfo) error {
-					return nil
-				}
-			default:
-				prepareProject = nil // use default logic
-			}
-
-			example := base.With(integration.ProgramTestOptions{
-				PrepareProject: prepareProject,
-				Dir:            e.RootPath,
-				Config:         cfg.config,
-			}).With(bench.ProgramTestOptions())
-
-			integration.ProgramTest(t, &example)
+			integration.ProgramTest(t, &opts)
 		})
 	}
 }
@@ -102,6 +80,33 @@ func pulumiNew(e *ptesting.Environment, templatePath string, extraArgs ...string
 	)
 	e.RunCommand("pulumi", cmdArgs...)
 	e.RunCommand("pulumi", "stack", "rm", tempStack, "--yes")
+}
+
+func detectOptionsFromTestingEnvironment(t *testing.T, e *ptesting.Environment) integration.ProgramTestOptions {
+	path, err := workspace.DetectProjectPathFrom(e.RootPath)
+	assert.NoError(t, err)
+	assert.NotEmpty(t, path)
+
+	projinfo, err := workspace.LoadProject(path)
+	assert.NoError(t, err)
+
+	var prepareProject func(*engine.Projinfo) error
+	switch rt := projinfo.Runtime.Name(); rt {
+	case integration.NodeJSRuntime:
+		// Default PrepareProject for Node uses yarn install
+		// to install dependencies; template tests do not need
+		// it because pulumi new already installs them with
+		// npm, which is also what will happen on user
+		// systems.
+		prepareProject = func(*engine.Projinfo) error {
+			return nil
+		}
+	default:
+		prepareProject = nil // use default logic
+	}
+	return integration.ProgramTestOptions{
+		PrepareProject: prepareProject,
+	}
 }
 
 // deleteIfNotFailed deletes the files in the testing environment if the testcase has
