@@ -3,7 +3,6 @@ package tests
 import (
 	"fmt"
 	"os"
-	"path"
 	"strings"
 	"testing"
 	"time"
@@ -57,9 +56,8 @@ func TestTemplates(t *testing.T) {
 	// if we have a specific template location set then we should
 	// use that in our tests
 	templateUrl := ""
-	specificTemplate := os.Getenv("PULUMI_TEMPLATE_LOCATION")
-	if specificTemplate != "" {
-		templateUrl = specificTemplate
+	if loc := os.Getenv("PULUMI_TEMPLATE_LOCATION"); loc != "" {
+		templateUrl = loc
 	}
 
 	// When tracing is enabled to collect performance data, using
@@ -76,22 +74,10 @@ func TestTemplates(t *testing.T) {
 		UseAutomaticVirtualEnv: true,
 	}
 
-	// Retrieve the template repo.
-	repo, err := workspace.RetrieveTemplates(templateUrl, false /*offline*/, workspace.TemplateKindPulumiProject)
-	assert.NoError(t, err)
-	t.Cleanup(func() {
-		err := repo.Delete()
-		assert.NoError(t, err, "Error cleaning up repository after deletion.")
-	})
-
-	// List the templates from the repo.
-	templates, err := repo.Templates()
-	assert.NoError(t, err)
-
 	blackListed := strings.Split(blackListedTests, ",")
 
-	for _, template := range templates {
-		template := template
+	for _, templateInfo := range findAllTemplates(t, templateUrl) {
+		template := templateInfo.template
 		templateName := template.Name
 
 		runWithTimeout(t, testTimeout, templateName, parallel, func(t *testing.T) {
@@ -108,12 +94,7 @@ func TestTemplates(t *testing.T) {
 
 			e.SetEnvVars(append(e.Env, bench.Env()...)...)
 
-			templatePath := templateName
-			if templateUrl != "" {
-				templatePath = path.Join(templateUrl, templateName)
-			}
-
-			pulumiNew(e, templatePath, bench.CommandArgs("pulumi-new")...)
+			pulumiNew(e, templateInfo.templatePath, bench.CommandArgs("pulumi-new")...)
 
 			path, err := workspace.DetectProjectPathFrom(e.RootPath)
 			assert.NoError(t, err)
