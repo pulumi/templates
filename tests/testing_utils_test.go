@@ -17,8 +17,10 @@ func runWithTimeout(
 		timeoutEvent := time.After(timeout)
 		done := make(chan bool)
 		go func() {
+			defer func() {
+				done <- true
+			}()
 			run(t)
-			done <- true
 		}()
 		select {
 		case <-timeoutEvent:

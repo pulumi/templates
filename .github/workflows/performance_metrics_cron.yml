@@ -5,6 +5,7 @@ name: Run Performance Metrics Cron Job
     - cron: 0 */6 * * *
 
 env:
+  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   PULUMI_TEST_OWNER: moolumi
   PULUMI_ACCESS_TOKEN: ${{ secrets.PULUMI_ACCESS_TOKEN }}
   AWS_REGION: us-west-2
@@ -74,6 +75,10 @@ jobs:
         run: |-
           pip3 install virtualenv==20.0.23
           pip3 install pipenv
+      - name: Install gotestfmt
+        uses: jaxxstorm/action-install-gh-release@v1.7.1
+        with:
+          repo: haveyoudebuggedit/gotestfmt
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
@@ -98,7 +103,22 @@ jobs:
           echo "PULUMI_TRACING_TAG_PULUMI_VERSION=$(pulumi version)" >> $GITHUB_ENV
           echo "PULUMI_TRACING_DIR=$PWD/traces"                      >> $GITHUB_ENV
       - name: Running Performance Matrix
-        run: make test_templates
+        shell: bash
+        # Even if some Go tests fail, others may have succeded and
+        # produced perf data; continue to try to upload it.
+        continue-on-error: true
+        run: |
+          set -euo pipefail
+          cd tests && go test -v -json -count=1 -cover -timeout 6h -parallel ${{ env.TESTPARALLELISM }} . 2>&1 | tee /tmp/gotest.log | gotestfmt
+        env:
+          PULUMI_PYTHON_CMD: python
+          TESTPARALLELISM: 3
+      - name: Upload traces GHA artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: traces
+          path: traces
+          retention-days: 14
       - name: Upload Traces to s3://cli-performance-metrics
         run: |-
             F="$PWD/traces/metrics.parquet.snappy"

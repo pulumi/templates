@@ -6,7 +6,7 @@ open Pulumi.AwsNative.S3
 let infra () =
 
   // Create an AWS resource (S3 Bucket)
-  let bucket = Bucket "my-bucket"
+  let bucket = Bucket "my-aws-native-fsharp-bucket"
 
   // Export the name of the bucket
   dict [("bucketName", bucket.Id :> obj)]
