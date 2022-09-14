@@ -16,48 +16,77 @@ import (
 const testTimeout = 60 * time.Minute
 
 func TestTemplatePerf(t *testing.T) {
+	if !traces.IsTracingEnabled() {
+		t.Fatalf("Required environment variable not set: %s", traces.TRACING_DIR_ENV_VAR)
+	}
+
 	cfg := testutils.NewTemplateTestConfigFromEnv()
 
 	for _, templateInfo := range testutils.FindAllTemplates(t, cfg.TemplateUrl) {
 		templateInfo := templateInfo
-		templateName := templateInfo.Template.Name
 
-		prepare := func(t *testing.T) {
+		t.Run(templateInfo.Template.Name, func(t *testing.T) {
 			cfg.PossiblySkip(t, templateInfo)
-		}
 
-		testutils.RunWithTimeout(t, testTimeout, templateName, prepare, func(t *testing.T) {
-			t.Logf("Starting test run for %q", templateName)
+			testutils.RunWithTimeout(t, testTimeout, "prewarm", nil, func(t *testing.T) {
+				prewarm(t, cfg, templateInfo)
+			})
 
-			bench := guessBench(templateInfo.Template)
-
-			e := testutils.NewEnvironment(t, cfg)
-			e.SetEnvVars(append(e.Env, bench.Env()...)...)
-
-			testutils.PulumiNew(e, templateInfo.TemplatePath,
-				bench.CommandArgs("pulumi-new")...)
-
-			opts := integration.ProgramTestOptions{
-				Dir:                    e.RootPath,
-				Config:                 cfg.Config,
-				ExpectRefreshChanges:   true,
-				Quick:                  false, // true skews measurements
-				SkipRefresh:            true,
-				NoParallel:             true, // minimize interference
-				DestroyOnCleanup:       true,
-				UseAutomaticVirtualEnv: true,
-				PrepareProject:         testutils.PrepareProject(t, e),
-			}.With(bench.ProgramTestOptions())
-
-			integration.ProgramTest(t, &opts)
+			testutils.RunWithTimeout(t, testTimeout, "benchmark", nil, func(t *testing.T) {
+				benchmark(t, cfg, templateInfo)
+			})
 		})
 	}
 
 	if err := traces.ComputeMetrics(); err != nil {
-		t.Fatalf("ComputeMetrics failed: %v", err)
-		t.FailNow()
+		t.Fatalf("traces.ComputeMetrics() failed: %v", err)
 	}
+}
 
+// Prewarming runs preview only to make sure all needed plugins are
+// downloaded so that these downloads do not skew measurements.
+func prewarm(t *testing.T, cfg testutils.TemplateTestConfig, templateInfo testutils.TemplateInfo) {
+	e := testutils.NewEnvironment(t, cfg)
+	testutils.PulumiNew(e, templateInfo.TemplatePath)
+
+	integration.ProgramTest(t, &integration.ProgramTestOptions{
+		Dir:                    e.RootPath,
+		Config:                 cfg.Config,
+		NoParallel:             true,
+		PrepareProject:         testutils.PrepareProject(t, e),
+		SkipRefresh:            true,
+		SkipEmptyPreviewUpdate: true,
+		SkipExportImport:       true,
+		SkipUpdate:             true,
+	})
+}
+
+func benchmark(t *testing.T, cfg testutils.TemplateTestConfig, templateInfo testutils.TemplateInfo) {
+	templateName := templateInfo.Template.Name
+
+	t.Logf("Starting test run for %q", templateName)
+
+	bench := guessBench(templateInfo.Template)
+
+	e := testutils.NewEnvironment(t, cfg)
+	e.SetEnvVars(append(e.Env, bench.Env()...)...)
+
+	testutils.PulumiNew(e, templateInfo.TemplatePath,
+		bench.CommandArgs("pulumi-new")...)
+
+	opts := integration.ProgramTestOptions{
+		Dir:                    e.RootPath,
+		Config:                 cfg.Config,
+		ExpectRefreshChanges:   true,
+		Quick:                  false, // true skews measurements
+		SkipRefresh:            true,
+		NoParallel:             true, // minimize interference
+		DestroyOnCleanup:       true,
+		UseAutomaticVirtualEnv: true,
+		PrepareProject:         testutils.PrepareProject(t, e),
+	}.With(bench.ProgramTestOptions())
+
+	integration.ProgramTest(t, &opts)
 }
 
 func guessBench(template workspace.Template) traces.Benchmark {

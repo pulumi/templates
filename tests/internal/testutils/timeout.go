@@ -13,7 +13,9 @@ func RunWithTimeout(
 	run func(*testing.T),
 ) {
 	t.Run(name, func(t *testing.T) {
-		prepare(t)
+		if prepare != nil {
+			prepare(t)
+		}
 		timeoutEvent := time.After(timeout)
 		done := make(chan bool)
 		go func() {
