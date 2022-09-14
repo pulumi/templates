@@ -81,7 +81,7 @@ jobs:
         run: |
           echo "DEV_PULUMI_VERSION=$(curl -sSL "http://registry.npmjs.org/-/package/@pulumi/pulumi/dist-tags" | jq -r .dev)" >> $GITHUB_ENV
       - name: Install Latest Dev Version of Pulumi CLI
-        uses: pulumi/action-install-pulumi-cli@v1
+        uses: pulumi/setup-pulumi@v2
         with:
           pulumi-version: ${{ env.DEV_PULUMI_VERSION }}
       - run: echo "Currently Pulumi $(pulumi version) is installed"
