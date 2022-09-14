@@ -7,7 +7,7 @@ import (
 	"testing"
 )
 
-const skipEnvVar = "BLACK_LISTED_TESTS"
+const skipEnvVar = "SKIPPED_TESTS"
 
 type TemplateTestConfig struct {
 	Config      map[string]string
