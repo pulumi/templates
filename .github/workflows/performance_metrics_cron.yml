@@ -76,14 +76,12 @@ jobs:
           role-session-name: templates@githubActions
           role-to-assume: ${{ secrets.AWS_CI_ROLE_ARN }}
       - uses: actions/checkout@v2
-      - name: Get Latest Dev Version of Pulumi
-        shell: bash
-        run: |
-          echo "DEV_PULUMI_VERSION=$(curl -sSL "http://registry.npmjs.org/-/package/@pulumi/pulumi/dist-tags" | jq -r .dev)" >> $GITHUB_ENV
-      - name: Install Latest Dev Version of Pulumi CLI
+      # TODO find a way to preferably use latest dev builds here instead:
+      # https://github.com/pulumi/pulumi/issues/10728
+      - name: Install Latest Pulumi CLI
         uses: pulumi/setup-pulumi@v2
         with:
-          pulumi-version: ${{ env.DEV_PULUMI_VERSION }}
+          pulumi-version: latest
       - run: echo "Currently Pulumi $(pulumi version) is installed"
       - name: Install Testing Dependencies
         run: make ensure
