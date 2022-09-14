@@ -43,7 +43,6 @@ jobs:
         node-version: [14.x]
         python-version: [3.7]
         dotnet: [6.0.x]
-        pulumi-version: [latest]
     runs-on: ${{ matrix.platform }}
     steps:
       - name: Install Java 11 (temurin)
@@ -89,8 +88,14 @@ jobs:
           role-session-name: templates@githubActions
           role-to-assume: ${{ secrets.AWS_CI_ROLE_ARN }}
       - uses: actions/checkout@v2
-      - name: Install Latest Stable Pulumi CLI
-        uses: pulumi/setup-pulumi@v2
+      - name: Get Latest Dev Version of Pulumi
+        shell: bash
+        run: |
+          echo "DEV_PULUMI_VERSION=$(curl -sSL "http://registry.npmjs.org/-/package/@pulumi/pulumi/dist-tags" | jq -r .dev)" >> $GITHUB_ENV
+      - name: Install Latest Dev Version of Pulumi CLI
+        uses: pulumi/action-install-pulumi-cli@v1
+        with:
+          pulumi-version: ${{ env.DEV_PULUMI_VERSION }}
       - run: echo "Currently Pulumi $(pulumi version) is installed"
       - name: Install Testing Dependencies
         run: make ensure
