@@ -20,6 +20,7 @@ func NewTemplateTestConfigFromEnv() TemplateTestConfig {
 	skipped := []string{}
 	if l := os.Getenv(skipEnvVar); l != "" {
 		skipped = strings.Split(l, ",")
+		fmt.Printf("Reading test skip pattern from env var %s\n", skipEnvVar)
 	}
 
 	awsRegion := os.Getenv("AWS_REGION")
@@ -60,11 +61,13 @@ func NewTemplateTestConfigFromEnv() TemplateTestConfig {
 	templateUrl := ""
 	if loc := os.Getenv("PULUMI_TEMPLATE_LOCATION"); loc != "" {
 		templateUrl = loc
+		fmt.Printf("Using templates from PULUMI_TEMPLATE_LOCATION=%s\n", loc)
 	}
 
 	ci := false
-	if _, found := os.LookupEnv("CI"); found {
+	if ciValue, found := os.LookupEnv("CI"); found {
 		ci = true
+		fmt.Printf("Assume running on a CI system based on env var CI=%s\n", ciValue)
 	}
 
 	return TemplateTestConfig{
