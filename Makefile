@@ -9,7 +9,8 @@ test_templates::
 # Example: make test_template.typescript
 # This will run a test corresponding to the typescript template.
 test_template.%:
-	cd tests && BLACK_LISTED_TESTS=none go test -run "TestTemplate/^$*$$" $(TESTFLAGS)
+	mkdir -p ${PWD}/state
+	cd tests && PULUMI_BACKEND_URL=file://${PWD}/state go test -run "TestTemplate/^$*$$" $(TESTFLAGS)
 
 # Every template doubles up as a benchmark.
 # Example: make bench_template.typescript
