@@ -11,7 +11,7 @@ env:
   AWS_REGION: us-west-2
   GOOGLE_CREDENTIALS: ${{ secrets.GCP_CREDENTIALS }}
   LINODE_TOKEN: ${{ secrets.LINODE_TOKEN }}
-  SKIPPED_BENCHMARKS: "alicloud,digitalocean,kubernetes,openstack,equinix-metal,civo,aiven,auth0,github,yaml,oci,java-jbang,java-gradle,azuredevops,static-website"
+  SKIPPED_BENCHMARKS: "alicloud,digitalocean,kubernetes,openstack,equinix-metal,civo,aiven,auth0,github,yaml,oci,java-jbang,java-gradle,azuredevops,static-website,visualbasic"
   PULUMI_API: https://api.pulumi-staging.io
   SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
   ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
@@ -19,18 +19,6 @@ env:
   ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
   ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
   AZURE_LOCATION: westus
-
-  # ARM_ENVIRONMENT: public
-  # ARM_LOCATION: westus
-  # AWS_ACCESS_KEY_ID: ' ${{ secrets.AWS_ACCESS_KEY_ID }}'
-  # AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-  # CLOUDSDK_CORE_DISABLE_PROMPTS: 1
-  # DIGITALOCEAN_TOKEN: ${{ secrets.DIGITALOCEAN_TOKEN }}
-  # GOOGLE_PROJECT: ${{ secrets.GCP_PROJECT_ID }}
-  # GOOGLE_REGION: us-central1
-  # GOOGLE_ZONE: us-central1-a
-  # PACKET_AUTH_TOKEN: ${{ secrets.PACKET_AUTH_TOKEN }}
-  # PULUMI_ENABLE_RESOURCE_REFERENCES: "1"
 
 jobs:
   performance_metrics_cron:
@@ -114,7 +102,7 @@ jobs:
         continue-on-error: true
         run: |
           set -euo pipefail
-          cd tests/perf && go test -v -json -count=1 -cover -timeout 6h . 2>&1 | tee /tmp/gotest.log | gotestfmt
+          cd tests/perf && go test -v -json -count=1 -timeout 6h . 2>&1 | tee /tmp/gotest.log | gotestfmt
         env:
           PULUMI_PYTHON_CMD: python
       - name: Upload traces GHA artifact
