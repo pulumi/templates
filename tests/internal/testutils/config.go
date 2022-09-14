@@ -1,32 +1,24 @@
-package tests
+package testutils
 
 import (
 	"fmt"
 	"os"
-	"path"
 	"strings"
 	"testing"
-	"time"
-
-	"github.com/stretchr/testify/assert"
-
-	"github.com/pulumi/pulumi/sdk/v3/go/common/workspace"
 )
 
-type templateInfo struct {
-	template     workspace.Template
-	templatePath string
+const skipEnvVar = "BLACK_LISTED_TESTS"
+
+type TemplateTestConfig struct {
+	Config      map[string]string
+	TemplateUrl string
+	Skipped     []string
+	CI          bool
 }
 
-type templateTestConfig struct {
-	config      map[string]string
-	templateUrl string
-	skipped     []string
-}
-
-func newTemplateTestConfigFromEnv() templateTestConfig {
+func NewTemplateTestConfigFromEnv() TemplateTestConfig {
 	skipped := []string{}
-	if l := os.Getenv("BLACK_LISTED_TESTS"); l != "" {
+	if l := os.Getenv(skipEnvVar); l != "" {
 		skipped = strings.Split(l, ",")
 	}
 
@@ -70,10 +62,16 @@ func newTemplateTestConfigFromEnv() templateTestConfig {
 		templateUrl = loc
 	}
 
-	return templateTestConfig{
-		skipped:     skipped,
-		templateUrl: templateUrl,
-		config: map[string]string{
+	ci := false
+	if _, found := os.LookupEnv("CI"); found {
+		ci = true
+	}
+
+	return TemplateTestConfig{
+		CI:          ci,
+		Skipped:     skipped,
+		TemplateUrl: templateUrl,
+		Config: map[string]string{
 			"aws:region":            awsRegion,
 			"azure:environment":     azureEnviron,
 			"azure:location":        azureLocation,
@@ -89,61 +87,17 @@ func newTemplateTestConfigFromEnv() templateTestConfig {
 	}
 }
 
-func findAllTemplates(t *testing.T, templateUrl string) []templateInfo {
-	// Retrieve the template repo.
-	repo, err := workspace.RetrieveTemplates(templateUrl, false /*offline*/, workspace.TemplateKindPulumiProject)
-	assert.NoError(t, err)
-	t.Cleanup(func() {
-		err := repo.Delete()
-		assert.NoError(t, err, "Error cleaning up repository after deletion.")
-	})
-
-	// List the templates from the repo.
-	templates, err := repo.Templates()
-	assert.NoError(t, err)
-
-	infos := []templateInfo{}
-	for _, t := range templates {
-		templateName := t.Name
-		templatePath := templateName
-		if templateUrl != "" {
-			templatePath = path.Join(templateUrl, templateName)
+func (cfg TemplateTestConfig) IsSkipped(info TemplateInfo) bool {
+	for _, s := range cfg.Skipped {
+		if strings.Contains(info.Template.Name, s) {
+			return true
 		}
-
-		infos = append(infos, templateInfo{
-			template:     t,
-			templatePath: templatePath,
-		})
 	}
-	return infos
+	return false
 }
 
-func runWithTimeout(
-	t *testing.T,
-	timeout time.Duration,
-	name string,
-	prepare func(*testing.T),
-	run func(*testing.T),
-) {
-	t.Run(name, func(t *testing.T) {
-		prepare(t)
-		timeoutEvent := time.After(timeout)
-		done := make(chan bool)
-		go func() {
-			defer func() {
-				done <- true
-			}()
-			run(t)
-		}()
-		select {
-		case <-timeoutEvent:
-			t.Fatalf("%s timed out after %s", name, timeout)
-		case <-done:
-			return
-		}
-	})
-}
-
-func parallel(t *testing.T) {
-	t.Parallel()
+func (cfg TemplateTestConfig) PossiblySkip(t *testing.T, info TemplateInfo) {
+	if cfg.IsSkipped(info) {
+		t.Skip(fmt.Sprintf("Skipping per %s", skipEnvVar))
+	}
 }

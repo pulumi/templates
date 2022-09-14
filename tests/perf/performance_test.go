@@ -1,30 +1,63 @@
-package tests
+package perf
 
 import (
-	"log"
-	"os"
 	"path/filepath"
 	"strings"
 	"testing"
+	"time"
 
 	"github.com/pulumi/pulumi-trace-tool/traces"
+	"github.com/pulumi/pulumi/pkg/v3/testing/integration"
 	"github.com/pulumi/pulumi/sdk/v3/go/common/workspace"
+
+	"github.com/pulumi/templates/v2/internal/testutils"
 )
 
-func TestMain(m *testing.M) {
-	code := m.Run()
+const testTimeout = 60 * time.Minute
 
-	// If tracing is enabled, compute metrics after running all the tests.
-	err := traces.ComputeMetrics()
-	if err != nil {
-		log.Fatal(err)
+func TestTemplatePerf(t *testing.T) {
+	cfg := testutils.NewTemplateTestConfigFromEnv()
+
+	for _, templateInfo := range testutils.FindAllTemplates(t, cfg.TemplateUrl) {
+		templateInfo := templateInfo
+		templateName := templateInfo.Template.Name
+
+		prepare := func(t *testing.T) {
+			cfg.PossiblySkip(t, templateInfo)
+		}
+
+		testutils.RunWithTimeout(t, testTimeout, templateName, prepare, func(t *testing.T) {
+			t.Logf("Starting test run for %q", templateName)
+
+			bench := guessBench(templateInfo.Template)
+
+			e := testutils.NewEnvironment(t, cfg)
+			e.SetEnvVars(append(e.Env, bench.Env()...)...)
+
+			testutils.PulumiNew(e, templateInfo.TemplatePath,
+				bench.CommandArgs("pulumi-new")...)
+
+			opts := integration.ProgramTestOptions{
+				Dir:                    e.RootPath,
+				Config:                 cfg.Config,
+				ExpectRefreshChanges:   true,
+				Quick:                  false, // true skews measurements
+				SkipRefresh:            true,
+				NoParallel:             true, // minimize interference
+				DestroyOnCleanup:       true,
+				UseAutomaticVirtualEnv: true,
+				PrepareProject:         testutils.PrepareProject(t, e),
+			}.With(bench.ProgramTestOptions())
+
+			integration.ProgramTest(t, &opts)
+		})
 	}
 
-	os.Exit(code)
-}
+	if err := traces.ComputeMetrics(); err != nil {
+		t.Fatalf("ComputeMetrics failed: %v", err)
+		t.FailNow()
+	}
 
-func isTracingEnabled() bool {
-	return traces.IsTracingEnabled()
 }
 
 func guessBench(template workspace.Template) traces.Benchmark {
