@@ -80,6 +80,7 @@ func benchmark(t *testing.T, cfg testutils.TemplateTestConfig, templateInfo test
 		ExpectRefreshChanges:   true,
 		Quick:                  false, // true skews measurements
 		SkipRefresh:            true,
+		SkipExportImport:       true, // save time on CI
 		NoParallel:             true, // minimize interference
 		DestroyOnCleanup:       true,
 		UseAutomaticVirtualEnv: true,
