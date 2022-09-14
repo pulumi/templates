@@ -20,7 +20,7 @@ func TestTemplatePerf(t *testing.T) {
 		t.Fatalf("Required environment variable not set: %s", traces.TRACING_DIR_ENV_VAR)
 	}
 
-	cfg := testutils.NewTemplateTestConfigFromEnv()
+	cfg := testutils.NewTemplateTestConfigFromEnv(testutils.SKIPPED_BENCHMARKS)
 
 	for _, templateInfo := range testutils.FindAllTemplates(t, cfg.TemplateUrl) {
 		templateInfo := templateInfo

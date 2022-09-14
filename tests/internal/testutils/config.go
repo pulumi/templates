@@ -7,16 +7,18 @@ import (
 	"testing"
 )
 
-const skipEnvVar = "SKIPPED_TESTS"
+const SKIPPED_TESTS = "SKIPPED_TESTS"
+const SKIPPED_BENCHMARKS = "SKIPPED_BENCHMARKS"
 
 type TemplateTestConfig struct {
 	Config      map[string]string
 	TemplateUrl string
 	Skipped     []string
 	CI          bool
+	SkipEnvVar  string
 }
 
-func NewTemplateTestConfigFromEnv() TemplateTestConfig {
+func NewTemplateTestConfigFromEnv(skipEnvVar string) TemplateTestConfig {
 	skipped := []string{}
 	if l := os.Getenv(skipEnvVar); l != "" {
 		skipped = strings.Split(l, ",")
@@ -72,6 +74,7 @@ func NewTemplateTestConfigFromEnv() TemplateTestConfig {
 
 	return TemplateTestConfig{
 		CI:          ci,
+		SkipEnvVar:  skipEnvVar,
 		Skipped:     skipped,
 		TemplateUrl: templateUrl,
 		Config: map[string]string{
@@ -101,6 +104,6 @@ func (cfg TemplateTestConfig) IsSkipped(info TemplateInfo) bool {
 
 func (cfg TemplateTestConfig) PossiblySkip(t *testing.T, info TemplateInfo) {
 	if cfg.IsSkipped(info) {
-		t.Skip(fmt.Sprintf("Skipping per %s", skipEnvVar))
+		t.Skip(fmt.Sprintf("Skipping per %s", cfg.SkipEnvVar))
 	}
 }

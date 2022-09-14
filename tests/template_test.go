@@ -12,7 +12,7 @@ import (
 const testTimeout = 60 * time.Minute
 
 func TestTemplates(t *testing.T) {
-	cfg := testutils.NewTemplateTestConfigFromEnv()
+	cfg := testutils.NewTemplateTestConfigFromEnv(testutils.SKIPPED_TESTS)
 
 	for _, templateInfo := range testutils.FindAllTemplates(t, cfg.TemplateUrl) {
 		templateInfo := templateInfo
