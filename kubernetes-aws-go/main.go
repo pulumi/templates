@@ -43,20 +43,28 @@ func main() {
 
 		// Create a new EKS cluster
 		eksCluster, err := eks.NewCluster(ctx, "eks-cluster", &eks.ClusterArgs{
+			// Put the cluster in the new VPC created earlier
 			VpcId:                        eksVpc.VpcId,
+			// Public subnets will be used for load balancers
 			PublicSubnetIds:              eksVpc.PublicSubnetIds,
+			// Private subnets will be used for cluster nodes
 			PrivateSubnetIds:             eksVpc.PrivateSubnetIds,
+			// Change configuration values above to change any of the following settings
 			InstanceType:                 pulumi.String(eksNodeInstanceType),
 			DesiredCapacity:              pulumi.Int(desiredClusterSize),
 			MinSize:                      pulumi.Int(minClusterSize),
 			MaxSize:                      pulumi.Int(maxClusterSize),
+			// Do not give the worker nodes a public IP address
 			NodeAssociatePublicIpAddress: pulumi.Bool(false),
+			// Uncomment the next two lines for a private cluster (VPN access required)
+			// EndpointPrivateAccess: 	      pulumi.Bool(true),
+			// EndpointPublicAccess:         pulumi.Bool(false),
 		})
 		if err != nil {
 			return err
 		}
 
-		// Export some values in case they are needed
+		// Export some values in case they are needed elsewhere
 		ctx.Export("kubeconfig", eksCluster.Kubeconfig)
 		ctx.Export("vpcId", eksVpc.VpcId)
 		return nil

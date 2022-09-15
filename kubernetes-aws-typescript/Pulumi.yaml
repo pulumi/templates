@@ -2,7 +2,7 @@ name: ${PROJECT}
 description: ${DESCRIPTION}
 runtime: nodejs
 template:
-  description: A Nodejs program to create a Kubernetes cluster on AWS
+  description: A Typescript program to create a Kubernetes cluster on AWS
   important: true
   config:
     aws:region:
