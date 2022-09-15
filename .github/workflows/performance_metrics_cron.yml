@@ -100,7 +100,7 @@ jobs:
         continue-on-error: true
         run: |
           set -euo pipefail
-          cd tests/perf && go test -v -json -count=1 -timeout 6h . 2>&1 | tee /tmp/gotest.log | gotestfmt
+          cd tests/perf && go test -v -json -count=1 -timeout 6h -parallel 1 . 2>&1 | tee /tmp/gotest.log | gotestfmt
         env:
           PULUMI_PYTHON_CMD: python
       - name: Upload traces GHA artifact

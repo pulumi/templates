@@ -9,7 +9,8 @@ TESTFLAGS       := -v -count=1 -cover -timeout 6h -parallel $(TESTPARALLELISM)
 #
 # Useful for verifying local changes. Uses filestate backend.
 test.%:
-	mkdir -p ${PWD}/state
+	rm -rf ./state
+	mkdir -p ./state
 	cd tests && \
 		PULUMI_TEMPLATE_LOCATION=${PWD} \
 		PULUMI_BACKEND_URL=file://${PWD}/state \
@@ -51,8 +52,8 @@ test_template.%:
 #
 # Accepts the same environment variables as `test_template.%` target.
 bench_template.%:
-	rm -rf ${PWD}/traces
-	mkdir -p ${PWD}/traces
+	rm -rf ./traces
+	mkdir -p ./traces
 	cd tests/perf && \
 		PULUMI_TRACING_DIR=${PWD}/traces \
 		go test -run "TestTemplatePerf/^$*$$" $(TESTFLAGS)
