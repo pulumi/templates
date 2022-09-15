@@ -1,0 +1,10 @@
+name: ${PROJECT}
+description: ${DESCRIPTION}
+runtime: go
+template:
+  description: A Go program to create a Kubernetes cluster on AWS
+  important: true
+  config:
+    aws:region:
+      description: The AWS region to deploy into
+      default: us-west-2
