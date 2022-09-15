@@ -1,11 +1,11 @@
-package tests
+package testutils
 
 import (
 	"testing"
 	"time"
 )
 
-func runWithTimeout(
+func RunWithTimeout(
 	t *testing.T,
 	timeout time.Duration,
 	name string,
@@ -13,7 +13,9 @@ func runWithTimeout(
 	run func(*testing.T),
 ) {
 	t.Run(name, func(t *testing.T) {
-		prepare(t)
+		if prepare != nil {
+			prepare(t)
+		}
 		timeoutEvent := time.After(timeout)
 		done := make(chan bool)
 		go func() {
@@ -29,8 +31,4 @@ func runWithTimeout(
 			return
 		}
 	})
-}
-
-func parallel(t *testing.T) {
-	t.Parallel()
 }
