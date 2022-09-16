@@ -19,7 +19,7 @@ const eksVpc = new awsx.ec2.Vpc("eks-vpc", {
 // Create the EKS cluster
 const eksCluster = new eks.Cluster("eks-cluster", {
     // Put the cluster in the new VPC created earlier
-    vpcId: eksVpc.id,
+    vpcId: eksVpc.vpcId,
     // Public subnets will be used for load balancers
     publicSubnetIds: eksVpc.publicSubnetIds,
     // Private subnets will be used for cluster nodes
@@ -38,4 +38,4 @@ const eksCluster = new eks.Cluster("eks-cluster", {
 
 // Export some values for use elsewhere
 export const kubeconfig = eksCluster.kubeconfig;
-export const vpcId = eksVpc.id;
+export const vpcId = eksVpc.vpcId;

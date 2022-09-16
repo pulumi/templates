@@ -4,11 +4,11 @@ import pulumi_eks as eks
 
 # Get some values from the Pulumi configuration (or use defaults)
 config = pulumi.Config()
-min_cluster_size = 3 if config.get_float("minClusterSize") is None else config.get_float("minClusterSize")
-max_cluster_size = 6 if config.get_float("maxClusterSize") is None else config.get_float("maxClusterSize")
-desired_cluster_size = 3 if config.get_float("desiredClusterSize") is None else config.get_float("desiredClusterSize")
-eks_node_instance_type = "t2.medium" if config.get("eksNodeInstanceType") is None else config.get("eksNodeInstanceType")
-vpc_network_cidr = "10.0.0.0/16" if config.get("vpcNetworkCidr") is None else config.get("vpcNetworkCidr")
+min_cluster_size = config.get_float("minClusterSize", 3)
+max_cluster_size = config.get_float("maxClusterSize", 6)
+desired_cluster_size = config.get_float("desiredClusterSize", 3)
+eks_node_instance_type = config.get("eksNodeInstanceType" "t2.medium")
+vpc_network_cidr = config.get("vpcNetworkCidr", "10.0.0.0/16")
 
 # Create a VPC for the EKS cluster
 eks_vpc = awsx.ec2.Vpc("eks-vpc",
