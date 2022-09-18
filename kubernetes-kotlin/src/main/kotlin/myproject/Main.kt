@@ -2,7 +2,7 @@ package myproject
 
 import com.pulumi.Context
 import com.pulumi.Pulumi
-import com.pulumi.kubernetes.meta_v1.outputs.ObjectMeta
+import com.pulumi.kubernetes.meta.v1.outputs.ObjectMeta
 import java.util.*
 
 fun run(ctx: Context) {
