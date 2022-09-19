@@ -59,12 +59,12 @@ func main() {
 			TaskDefinitionArgs: &ecsx.FargateServiceTaskDefinitionArgs{
 				Container: &ecsx.TaskDefinitionContainerDefinitionArgs{
 					Image:     image.ImageUri,
-					Cpu:       pulumi.Float64(cpu),
-					Memory:    pulumi.Float64(memory),
+					Cpu:       pulumi.Int(cpu),
+					Memory:    pulumi.Int(memory),
 					Essential: pulumi.Bool(true),
-					PortMappings: []ecsx.TaskDefinitionPortMappingArgs{
+					PortMappings: ecsx.TaskDefinitionPortMappingArray{
 						&ecsx.TaskDefinitionPortMappingArgs{
-							ContainerPort: pulumi.Float64(containerPort),
+							ContainerPort: pulumi.Int(containerPort),
 							TargetGroup:   loadbalancer.DefaultTargetGroup,
 						},
 					},
@@ -76,7 +76,7 @@ func main() {
 		}
 
 		// The URL at which the container's HTTP endpoint will be available
-		ctx.Export("url", pulumi.Sprintf("http://%s", loadbalancer.LoadBalancer.DnsName))
+		ctx.Export("url", pulumi.Sprintf("http://%s", loadbalancer.LoadBalancer.DnsName()))
 		return nil
 	})
 }
