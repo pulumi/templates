@@ -1,6 +1,8 @@
 .idea/
 .DS_Store
 tests/vendor/
+state
+traces
 package-lock.json
 go.sum
 !tests/go.sum
