@@ -3,9 +3,9 @@ import pulumi_aws as aws
 import pulumi_awsx as awsx
 
 config = Config()
-container_port = config.get_int("containerPort") or 80
-cpu = config.get_int("cpu") or 512
-memory = config.get_int("memory") or 128
+container_port = config.get_int("containerPort", 80)
+cpu = config.get_int("cpu", 512)
+memory = config.get_int("memory", 128)
 
 # An ECS cluster to deploy into
 cluster = aws.ecs.Cluster("cluster")
@@ -17,12 +17,14 @@ loadbalancer = awsx.lb.ApplicationLoadBalancer("loadbalancer")
 repo = awsx.ecr.Repository("repo")
 
 # Build and publish our application's container image from ./app to the ECR repository
-image = awsx.ecr.Image("image",
+image = awsx.ecr.Image(
+    "image",
     repository_url=repo.url,
     path="./app")
 
 # Deploy an ECS Service on Fargate to host the application container
-service = awsx.ecs.FargateService("service",
+service = awsx.ecs.FargateService(
+    "service",
     cluster=cluster.arn,
     task_definition_args=awsx.ecs.FargateServiceTaskDefinitionArgs(
         container=awsx.ecs.TaskDefinitionContainerDefinitionArgs(

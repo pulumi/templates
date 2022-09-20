@@ -9,10 +9,10 @@ template:
       default: us-west-2
     containerPort:
       description: The port to expose on the container
-      default: "80"
+      default: 80
     cpu:
       description: The amount of CPU to allocate for the container
-      default: "512"
+      default: 512
     memory:
       description: The amount of memory to allocate for the container
-      default: "128"
+      default: 128

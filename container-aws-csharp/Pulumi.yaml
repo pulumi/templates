@@ -1,6 +1,6 @@
 name: ${PROJECT}
 description: ${DESCRIPTION}
-runtime: yaml
+runtime: dotnet
 template:
   description: A containerized service on AWS Fargate
   config:
