@@ -1,0 +1,4 @@
+pulumi>=3.0.0,<4.0.0
+pulumi-aws>=5.10.0,<6.0.0
+pulumi-aws-apigateway>=0.0.11
+pulumi-awsx==1.0.0-beta.9
