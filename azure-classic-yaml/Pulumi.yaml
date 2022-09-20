@@ -6,7 +6,7 @@ template:
   config:
     azure:location:
       description: The Azure location to use
-      default: WestUS
+      default: WestUS2
 
 resources:
   # Create an Azure Resource Group

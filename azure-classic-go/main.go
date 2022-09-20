@@ -10,7 +10,7 @@ func main() {
 	pulumi.Run(func(ctx *pulumi.Context) error {
 		// Create an Azure Resource Group
 		resourceGroup, err := core.NewResourceGroup(ctx, "resourceGroup", &core.ResourceGroupArgs{
-			Location: pulumi.String("WestUS"),
+			Location: pulumi.String("WestUS2"),
 		})
 		if err != nil {
 			return err
