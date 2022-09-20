@@ -9,7 +9,11 @@ env:
   PULUMI_TEST_OWNER: "moolumi"
   PULUMI_ACCESS_TOKEN: ${{ secrets.PULUMI_ACCESS_TOKEN }}
   AWS_REGION: "us-west-2"
-  GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_CREDENTIALS }}
+  GOOGLE_CI_SERVICE_ACCOUNT_EMAIL: pulumi-ci@pulumi-ci-gcp-provider.iam.gserviceaccount.com
+  GOOGLE_CI_WORKLOAD_IDENTITY_POOL: pulumi-ci
+  GOOGLE_CI_WORKLOAD_IDENTITY_PROVIDER: pulumi-ci
+  GOOGLE_PROJECT: pulumi-ci-gcp-provider
+  GOOGLE_PROJECT_NUMBER: 895284651812
   LINODE_TOKEN: ${{ secrets.LINODE_TOKEN }}
   SKIPPED_TESTS: "alicloud,digitalocean,kubernetes,openstack,equinix-metal,civo,aiven,auth0,github,yaml,oci,java-jbang,java-gradle,azuredevops"
   PULUMI_API: https://api.pulumi-staging.io
@@ -34,6 +38,9 @@ jobs:
         dotnet: [6.0.x]
         pulumi-version: [latest, dev]
     runs-on: ${{ matrix.platform }}
+    permissions:
+      contents: read
+      id-token: write
     steps:
       - name: Install Java 11 (temurin)
         uses: actions/setup-java@v3
@@ -91,6 +98,18 @@ jobs:
           role-duration-seconds: 3600
           role-session-name: templates@githubActions
           role-to-assume: ${{ secrets.AWS_CI_ROLE_ARN }}
+      - name: Authenticate to Google Cloud
+        uses: google-github-actions/auth@v0
+        with:
+          workload_identity_provider: projects/${{ env.GOOGLE_PROJECT_NUMBER
+            }}/locations/global/workloadIdentityPools/${{
+            env.GOOGLE_CI_WORKLOAD_IDENTITY_POOL }}/providers/${{
+            env.GOOGLE_CI_WORKLOAD_IDENTITY_PROVIDER }}
+          service_account: ${{ env.GOOGLE_CI_SERVICE_ACCOUNT_EMAIL }}
+      - name: Setup gcloud auth
+        uses: google-github-actions/setup-gcloud@v0
+        with:
+          install_components: gke-gcloud-auth-plugin
       - name: Install gotestfmt
         uses: jaxxstorm/action-install-gh-release@v1.3.1
         with:
