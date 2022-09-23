@@ -85,7 +85,7 @@ jobs:
           pip3 install pyenv-win
           pip3 install pipenv
       - name: Check out code into the Go module directory
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           token: ${{ secrets.REPO_ACCESS_TOKEN }}
           repository: ${{ github.event.client_payload.pull_request.head.repo.full_name }}
