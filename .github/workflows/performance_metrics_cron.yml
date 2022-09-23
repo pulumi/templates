@@ -15,7 +15,7 @@ env:
   GOOGLE_PROJECT: pulumi-ci-gcp-provider
   GOOGLE_PROJECT_NUMBER: 895284651812
   LINODE_TOKEN: ${{ secrets.LINODE_TOKEN }}
-  SKIPPED_BENCHMARKS: "alicloud,digitalocean,kubernetes,openstack,equinix-metal,civo,aiven,auth0,github,oci,java-jbang,java-gradle,azuredevops,static-website,visualbasic"
+  SKIPPED_BENCHMARKS: "alicloud,digitalocean,kubernetes,openstack,equinix-metal,civo,aiven,auth0,github,oci,java-jbang,java-gradle,azuredevops,static-website,visualbasic,serverless,container-aws"
   PULUMI_API: https://api.pulumi-staging.io
   SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
   ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
@@ -119,7 +119,7 @@ jobs:
         continue-on-error: true
         run: |
           set -euo pipefail
-          cd tests/perf && go test -v -json -count=1 -timeout 6h -parallel 1 . 2>&1 | tee /tmp/gotest.log | gotestfmt
+          cd tests/perf && go test -v -json -count=1 -timeout 6h -parallel 1 . 2>&1 | gotestfmt
         env:
           PULUMI_PYTHON_CMD: python
       - name: Upload traces GHA artifact
