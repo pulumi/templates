@@ -1,0 +1,21 @@
+name: ${PROJECT}
+description: ${DESCRIPTION}
+runtime: nodejs
+template:
+  description: A TypeScript program to create a Kubernetes cluster on Azure
+  config:
+    azure-native:location:
+      default: westus2
+      description: The Azure location (region) in which to create the cluster
+    numWorkerNodes:
+      default: 3
+      description: Number of worker nodes in the cluster
+    prefixForDns:
+      default: pulumi
+      description: DNS prefix for the cluster
+    kubernetesVersion:
+      default: 1.24.3
+      description: Kubernetes version to deploy in the cluster
+    nodeVmSize:
+      default: Standard_DS2_v2
+      description: VM size to use for worker nodes in the cluster

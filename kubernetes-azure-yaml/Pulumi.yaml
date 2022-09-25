@@ -1,0 +1,137 @@
+name: ${PROJECT}
+description: ${DESCRIPTION}
+runtime: yaml
+template:
+  description: A YAML document to create a Kubernetes cluster on Azure
+  config:
+    azure-native:location:
+      default: westus2
+      description: The Azure region in which to create the cluster
+    numWorkerNodes:
+      default: 3
+      description: Number of worker nodes in the cluster
+    prefixForDns:
+      default: pulumi
+      description: DNS prefix for the cluster
+    kubernetesVersion:
+      default: 1.24.3
+      description: Kubernetes version to deploy in the cluster
+    azureVmSize:
+      default: Standard_DS2_v2
+      description: VM size to use for worker nodes in the cluster
+configuration:
+  azure-native:location:
+    type: String
+  numWorkerNodes:
+    type: Number
+    default: 3
+  prefixForDns:
+    type: String
+    default: pulumi
+  kubernetesVersion:
+    type: String
+    default: 1.24.3
+  azureVmSize:
+    type: String
+    default: Standard_DS2_v2
+  mgmtGroupId:
+    type: String
+  sshPubKey:
+    type: String
+resources:
+  # Create a new resource group
+  resourceGroup:
+    type: azure-native:resources:ResourceGroup
+    properties:
+      location: ${azure-native:location}
+      resourceGroupName: aks-rg
+  # Create a new virtual network
+  virtualNetwork:
+    type: azure-native:network:VirtualNetwork
+    properties:
+      addressSpace:
+        # Define the CIDR used in the new virtual network
+        addressPrefixes:
+          - 10.0.0.0/16
+      location: ${azure-native:location}
+      resourceGroupName: ${resourceGroup.name}
+      virtualNetworkName: aks-vnet
+  # Create subnets in the virtual network
+  subnet1:
+    type: azure-native:network:Subnet
+    properties:
+      addressPrefix: 10.0.0.0/22
+      name: aks-subnet-1
+      resourceGroupName: ${resourceGroup.name}
+      virtualNetworkName: ${virtualNetwork.name}
+  subnet2:
+    type: azure-native:network:Subnet
+    properties:
+      addressPrefix: 10.0.4.0/22
+      name: aks-subnet-2
+      resourceGroupName: ${resourceGroup.name}
+      virtualNetworkName: ${virtualNetwork.name}
+  subnet3:
+    type: azure-native:network:Subnet
+    properties:
+      addressPrefix: 10.0.8.0/22
+      name: aks-subnet-3
+      resourceGroupName: ${resourceGroup.name}
+      virtualNetworkName: ${virtualNetwork.name}
+  # Create a managed cluster
+  managedCluster:
+    type: azure-native:containerservice:ManagedCluster
+    properties:
+      aadProfile:
+        enableAzureRBAC: true
+        managed: true
+        # Supply the object ID of an existing Azure AD group to serve as cluster admins
+        adminGroupObjectIDs:
+          - ${mgmtGroupId}
+      addonProfiles: {}
+      agentPoolProfiles:
+        - availabilityZones: ["1","2","3"]
+          count: ${numWorkerNodes}
+          enableNodePublicIP: false
+          mode: System
+          name: systempool
+          osType: Linux
+          type: VirtualMachineScaleSets
+          vmSize: ${azureVmSize}
+          vnetSubnetID: ${subnet1.id}
+      apiServerAccessProfile:
+        authorizedIPRanges:
+          - 0.0.0.0/0
+        enablePrivateCluster: false
+      dnsPrefix: ${prefixForDns}
+      enableRBAC: true
+      identity:
+        type: SystemAssigned
+      kubernetesVersion: ${kubernetesVersion}
+      linuxProfile:
+        adminUsername: azureuser
+        ssh:
+          publicKeys:
+            - keyData: ${sshPubKey}
+      location: ${azure-native:location}
+      networkProfile:
+        networkPlugin: azure
+        networkPolicy: azure
+        serviceCidr: 10.96.0.0/16
+        dnsServiceIP: 10.96.0.10
+      resourceGroupName: ${resourceGroup.name}
+      resourceName: aks-cluster
+variables:
+  # Get the credentials for the AKS cluster created above
+  aksCredentials:
+    Fn::Invoke:
+      Function: azure-native:containerservice:listManagedClusterUserCredentials
+      Arguments:
+        resourceGroupName: ${resourceGroup.name}
+        resourceName: ${managedCluster.name}
+  actualKubeConfig:
+    Fn::FromBase64: ${aksCredentials.kubeconfigs[0].value}
+outputs:
+    # Export the Kubeconfig of the cluster
+    clusterName: ${managedCluster.name}
+    kubeconfig: ${actualKubeConfig}
