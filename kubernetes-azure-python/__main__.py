@@ -7,8 +7,10 @@ from pulumi_azure_native import network
 from pulumi_azure_native import containerservice
 
 # Get some values from the Pulumi configuration (or use defaults)
+# First pull provider-namespaced configuration values
 azure_cfg = pulumi.Config("azure-native")
 azureLocation = azure_cfg.require("location")
+# Second get project-namespaced configuration values
 proj_cfg = pulumi.Config()
 num_worker_nodes = proj_cfg.get_float("numWorkerNodes", 3)
 k8s_version = proj_cfg.get("kubernetesVersion", "1.24.3")
@@ -21,17 +23,17 @@ ssh_pub_key = proj_cfg.require("sshPubKey")
 resource_group = resources.ResourceGroup("resource_group",
     location=azureLocation,
     resource_group_name="aks-rg"
-    )
+)
 
 # Create an Azure Virtual Network
 virtual_network = network.VirtualNetwork("virtual_network",
     address_space=network.AddressSpaceArgs(
         address_prefixes=["10.0.0.0/16"],
-        ),
+    ),
     location=azureLocation,
     resource_group_name=resource_group.name,
     virtual_network_name="aks-vnet"
-    )
+)
 
 # Create three subnets in the virtual network
 subnet1 = network.Subnet("subnet-1",
@@ -39,19 +41,19 @@ subnet1 = network.Subnet("subnet-1",
     resource_group_name=resource_group.name,
     subnet_name="aks-subnet-1",
     virtual_network_name=virtual_network.name
-    )
+)
 subnet2 = network.Subnet("subnet-2",
     address_prefix="10.0.4.0/22",
     resource_group_name=resource_group.name,
     subnet_name="aks-subnet-2",
     virtual_network_name=virtual_network.name
-    )
+)
 subnet3 = network.Subnet("subnet-3",
     address_prefix="10.0.8.0/22",
     resource_group_name=resource_group.name,
     subnet_name="aks-subnet-3",
     virtual_network_name=virtual_network.name
-    )
+)
 
 # Create an Azure Kubernetes Service cluster
 managed_cluster = containerservice.ManagedCluster("managed_cluster",
