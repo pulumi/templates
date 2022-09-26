@@ -86,7 +86,7 @@ jobs:
           pip3 install pyenv-win
           pip3 install pipenv
       - name: Check out code into the Go module directory
-        uses: actions/checkout@v3
+        uses: actions/checkout@v2
       - name: Unshallow clone for tags
         run: git fetch --prune --unshallow --tags
       - name: Configure AWS Credentials
@@ -125,11 +125,11 @@ jobs:
         env:
           PULUMI_PYTHON_CMD: python
           TESTPARALLELISM: 3
-      - if: contains(matrix.platform, 'macOS') || contains(matrix.platform, 'ubuntu')
-        name: Running non-Windows tests
-        run: |
-          set -euo pipefail
-          cd tests && go test -v -json -count=1 -cover -timeout 6h -parallel ${{ env.TESTPARALLELISM }} . 2>&1 | tee /tmp/gotest.log | gotestfmt
+      # - if: contains(matrix.platform, 'macOS') || contains(matrix.platform, 'ubuntu')
+      #   name: Running non-Windows tests
+      #   run: |
+      #     set -euo pipefail
+      #     cd tests && go test -v -json -count=1 -cover -timeout 6h -parallel ${{ env.TESTPARALLELISM }} . 2>&1 | tee /tmp/gotest.log | gotestfmt
       - if: 'failure()'
         name: Notify Slack
         uses: 8398a7/action-slack@v3
