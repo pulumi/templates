@@ -6,27 +6,30 @@ from pulumi_azure_native import resources
 from pulumi_azure_native import network
 from pulumi_azure_native import containerservice
 
-# Get some values from the Pulumi configuration (or use defaults)
-# First pull provider-namespaced configuration values
+# Get some values from the Pulumi configuration
+# Pull a required provider-namespaced configuration value
 azure_cfg = pulumi.Config("azure-native")
 azureLocation = azure_cfg.require("location")
-# Second get project-namespaced configuration values
+# Get some project-namespaced configuration values or use default values
 proj_cfg = pulumi.Config()
 num_worker_nodes = proj_cfg.get_float("numWorkerNodes", 3)
 k8s_version = proj_cfg.get("kubernetesVersion", "1.24.3")
 prefix_for_dns = proj_cfg.get("prefixForDns", "pulumi")
 node_vm_size = proj_cfg.get("nodeVmSize", "Standard_DS2_v2")
+# The next two configuration values are required (no default can be provided)
 mgmt_group_id = proj_cfg.require("mgmtGroupId")
 ssh_pub_key = proj_cfg.require("sshPubKey")
 
 # Create an Azure Resource Group
-resource_group = resources.ResourceGroup("resource_group",
+resource_group = resources.ResourceGroup(
+    "resource_group",
     location=azureLocation,
     resource_group_name="aks-rg"
 )
 
 # Create an Azure Virtual Network
-virtual_network = network.VirtualNetwork("virtual_network",
+virtual_network = network.VirtualNetwork(
+    "virtual_network",
     address_space=network.AddressSpaceArgs(
         address_prefixes=["10.0.0.0/16"],
     ),
@@ -36,19 +39,22 @@ virtual_network = network.VirtualNetwork("virtual_network",
 )
 
 # Create three subnets in the virtual network
-subnet1 = network.Subnet("subnet-1",
+subnet1 = network.Subnet(
+    "subnet-1",
     address_prefix="10.0.0.0/22",
     resource_group_name=resource_group.name,
     subnet_name="aks-subnet-1",
     virtual_network_name=virtual_network.name
 )
-subnet2 = network.Subnet("subnet-2",
+subnet2 = network.Subnet(
+    "subnet-2",
     address_prefix="10.0.4.0/22",
     resource_group_name=resource_group.name,
     subnet_name="aks-subnet-2",
     virtual_network_name=virtual_network.name
 )
-subnet3 = network.Subnet("subnet-3",
+subnet3 = network.Subnet(
+    "subnet-3",
     address_prefix="10.0.8.0/22",
     resource_group_name=resource_group.name,
     subnet_name="aks-subnet-3",
@@ -56,7 +62,8 @@ subnet3 = network.Subnet("subnet-3",
 )
 
 # Create an Azure Kubernetes Service cluster
-managed_cluster = containerservice.ManagedCluster("managed_cluster",
+managed_cluster = containerservice.ManagedCluster(
+    "managed_cluster",
     aad_profile=containerservice.ManagedClusterAADProfileArgs(
         enable_azure_rbac=True,
         managed=True,
