@@ -73,6 +73,7 @@ jobs:
         uses: jaxxstorm/action-install-gh-release@v1.7.1
         with:
           repo: haveyoudebuggedit/gotestfmt
+      - uses: actions/checkout@v3
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
@@ -94,7 +95,6 @@ jobs:
         uses: google-github-actions/setup-gcloud@v0
         with:
           install_components: gke-gcloud-auth-plugin
-      - uses: actions/checkout@v2
       # TODO find a way to preferably use latest dev builds here instead:
       # https://github.com/pulumi/pulumi/issues/10728
       - name: Install Latest Pulumi CLI
