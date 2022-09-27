@@ -1,0 +1,55 @@
+name: abc
+description: abc
+runtime: yaml
+template:
+  description: A YAML document to create a base networking setup on AWS
+  config:
+    aws:region:
+      description: The AWS region to deploy into
+      default: us-west-2
+    vpcNetworkCidr:
+      description: Network CIDR to use for new VPC
+      default: 10.0.0.0/16
+configuration:
+  vpcNetworkCidr:
+    type: String
+    default: 10.0.0.0/16
+resources:
+  # Create a VPC
+  vpc:
+    type: awsx:ec2:Vpc
+    properties:
+      enableDnsHostnames: true
+      cidrBlock: ${vpcNetworkCidr}
+      tags:
+        https: allow
+    options:
+      version: 1.0.0-beta.10
+  allowHttps:
+    type: aws:ec2:SecurityGroup
+    properties:
+      description: Allow HTTPs inbound traffic
+      vpcId: ${vpc.vpcId}
+      ingress:
+        - description: HTTPs from VPC
+          fromPort: 443
+          toPort: 443
+          protocol: tcp
+          cidrBlocks:
+            - ${vpc.vpc.cidrBlock}
+          ipv6CidrBlocks:
+            - ${vpc.vpc.ipv6CidrBlock}
+      egress:
+        - fromPort: 0
+          toPort: 0
+          protocol: -1
+          cidrBlocks:
+            - 0.0.0.0/0
+          ipv6CidrBlocks:
+            - ::/0
+      # I believe we need to modify pulumi/pulumi-awsx to support a property
+      # like publicSubnetTags?
+      tags:
+        Name: https
+outputs:
+  vpcId: ${vpc.vpcId}
