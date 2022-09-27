@@ -121,7 +121,7 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          cd tests && go test -v -json -count=1 -cover -timeout 6h -parallel ${{ env.TESTPARALLELISM }} . 2>&1 | tee /tmp/gotest.log | gotestfmt
+          cd tests && go test -v -json -count=1 -cover -timeout 6h -parallel ${{ env.TESTPARALLELISM }} . 2>&1 | gotestfmt
         env:
           PULUMI_PYTHON_CMD: python
           TESTPARALLELISM: 3
@@ -129,7 +129,7 @@ jobs:
         name: Running non-Windows tests
         run: |
           set -euo pipefail
-          cd tests && go test -v -json -count=1 -cover -timeout 6h -parallel ${{ env.TESTPARALLELISM }} . 2>&1 | tee /tmp/gotest.log | gotestfmt
+          cd tests && go test -v -json -count=1 -cover -timeout 6h -parallel ${{ env.TESTPARALLELISM }} . 2>&1 | gotestfmt
       - if: 'failure()'
         name: Notify Slack
         uses: 8398a7/action-slack@v3

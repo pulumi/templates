@@ -126,7 +126,7 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          cd tests && go test -v -json -count=1 -cover -timeout 6h -parallel ${{ env.TESTPARALLELISM }} . 2>&1 | tee /tmp/gotest.log | gotestfmt
+          cd tests && go test -v -json -count=1 -cover -timeout 6h -parallel ${{ env.TESTPARALLELISM }} . 2>&1 | gotestfmt
         env:
           PULUMI_PYTHON_CMD: python
           TESTPARALLELISM: 3
@@ -134,7 +134,7 @@ jobs:
         name: Running non-Windows tests
         run: |
           set -euo pipefail
-          cd tests && go test -v -json -count=1 -cover -timeout 6h -parallel ${{ env.TESTPARALLELISM }} . 2>&1 | tee /tmp/gotest.log | gotestfmt
+          cd tests && go test -v -json -count=1 -cover -timeout 6h -parallel ${{ env.TESTPARALLELISM }} . 2>&1 | gotestfmt
       - name: Create URL to the run output
         id: vars
         run: echo ::set-output name=run-url::https://github.com/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID
