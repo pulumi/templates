@@ -39,6 +39,7 @@ func TestTemplates(t *testing.T) {
 				DestroyOnCleanup:       true,
 				UseAutomaticVirtualEnv: true,
 				PrepareProject:         testutils.PrepareProject(t, e),
+				RequireService:         true,
 			})
 		})
 	}

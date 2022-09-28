@@ -85,6 +85,7 @@ func benchmark(t *testing.T, cfg testutils.TemplateTestConfig, templateInfo test
 		DestroyOnCleanup:       true,
 		UseAutomaticVirtualEnv: true,
 		PrepareProject:         testutils.PrepareProject(t, e),
+		RequireService:         true,
 	}.With(bench.ProgramTestOptions())
 
 	integration.ProgramTest(t, &opts)
