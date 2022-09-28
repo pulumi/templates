@@ -1,3 +1,4 @@
+.blox/build
 .idea/
 .DS_Store
 tests/vendor/

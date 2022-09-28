@@ -1,0 +1,25 @@
+name: Validate Templates
+on: push
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    name: CueBlox
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Build & Validate Blox Data
+        id: build
+        uses: cueblox/github-action@v0.0.9
+        with:
+          directory: .
+
+      - uses: marvinpinto/action-automatic-releases@latest
+        with:
+          repo_token: "${{ secrets.GITHUB_TOKEN }}"
+          automatic_release_tag: "metadata"
+          prerelease: true
+          title: "Metadata"
+          files: |
+            .blox/build/data.json
