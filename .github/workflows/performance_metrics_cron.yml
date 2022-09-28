@@ -17,6 +17,7 @@ env:
   LINODE_TOKEN: ${{ secrets.LINODE_TOKEN }}
   SKIPPED_BENCHMARKS: "alicloud,digitalocean,kubernetes,openstack,equinix-metal,civo,aiven,auth0,github,oci,java-jbang,java-gradle,azuredevops,static-website,visualbasic,serverless,container-aws"
   PULUMI_API: https://api.pulumi-staging.io
+  PULUMI_TRACING_NO_PAYLOADS: 1
   SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
   ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
   ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
