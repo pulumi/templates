@@ -1,0 +1,74 @@
+name: vm-aws-yaml
+description: A YAML program to create a virtual machine on AWS
+runtime: yaml
+
+template: 
+    description: A YAML program to create a virtual machine on AWS
+    config:
+        aws:region:
+            description: The AWS region to deploy into
+            default: us-west-2
+        instanceType:
+            description: Instance type of EC2
+            default: t2.micro
+
+configuration:
+    instanceType:
+        type: String
+        default: t2.micro
+
+resources:  
+    # Create EC2 Security Group
+    secGroup:
+        type: aws:ec2:SecurityGroup
+        properties:
+            description: Enable HTTP access
+            ingress:
+                - fromPort: 80
+                  toPort: 80
+                  protocol: tcp
+                  cidrBlocks: 
+                    - 0.0.0.0/0
+            tags:
+                Name: web-secgrp
+    # Create EC2 server
+    server:
+        type: aws:ec2:Instance
+        properties:
+            instanceType: ${instanceType}
+            vpcSecurityGroupIds: 
+                - ${secGroup}
+            userData: ${userData}
+            ami: ${ami}
+            tags:
+                Name: web-server-www
+
+variables:
+    # Create EC2 AMI
+    ami:
+        Fn::Invoke:
+            Function: aws:ec2:getAmi
+            Arguments:
+                filters:
+                    - name: name
+                      values: 
+                        - "amzn-ami-hvm-*"
+                owners: 
+                    - "137112412989"
+                mostRecent: true
+            Options:
+                Version: 5.9.0
+            Return: id    
+    # User data to start a HTTP server in the EC2 instance
+    userData: "#!/bin/bash
+            
+            echo \"Hello, World from Pulumi!\" > index.html
+            
+            nohup python -m SimpleHTTPServer 80 &"
+            
+
+outputs:
+    # Export the public IP
+    publicIP: ${server.publicIp}
+    # Export the DNS name
+    publicDNS: ${server.publicDns}
