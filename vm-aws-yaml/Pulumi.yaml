@@ -56,8 +56,6 @@ variables:
                 owners: 
                     - "137112412989"
                 mostRecent: true
-            Options:
-                Version: 5.9.0
             Return: id    
     # User data to start a HTTP server in the EC2 instance
     userData: "#!/bin/bash
