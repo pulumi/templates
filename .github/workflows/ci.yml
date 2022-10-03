@@ -125,6 +125,7 @@ jobs:
         env:
           PULUMI_PYTHON_CMD: python
           TESTPARALLELISM: 3
+          SKIPPED_TESTS: "${{ env.SKIPPED_TESTS }},container-"
       - if: contains(matrix.platform, 'macOS') || contains(matrix.platform, 'ubuntu')
         name: Running non-Windows tests
         run: |
