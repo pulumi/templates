@@ -130,8 +130,16 @@ jobs:
         env:
           PULUMI_PYTHON_CMD: python
           TESTPARALLELISM: 3
-      - if: contains(matrix.platform, 'macOS') || contains(matrix.platform, 'ubuntu')
-        name: Running non-Windows tests
+          SKIPPED_TESTS: "alicloud,digitalocean,kubernetes,openstack,equinix-metal,civo,aiven,auth0,github,oci,java-jbang,java-gradle,azuredevops,container"
+      - if: contains(matrix.platform, 'macOS')
+        name: Running macOS tests
+        run: |
+          set -euo pipefail
+          cd tests && go test -v -json -count=1 -cover -timeout 6h -parallel ${{ env.TESTPARALLELISM }} . 2>&1 | gotestfmt
+        env:
+          SKIPPED_TESTS: "alicloud,digitalocean,kubernetes,openstack,equinix-metal,civo,aiven,auth0,github,oci,java-jbang,java-gradle,azuredevops,container"
+      - if: contains(matrix.platform, 'ubuntu')
+        name: Running Linux tests
         run: |
           set -euo pipefail
           cd tests && go test -v -json -count=1 -cover -timeout 6h -parallel ${{ env.TESTPARALLELISM }} . 2>&1 | gotestfmt
