@@ -1,0 +1,128 @@
+name: ${PROJECT}
+description: ${DESCRIPTION}
+runtime: yaml
+template:
+  description: A YAML program to create a Kubernetes cluster on GCP
+  config:
+    gcp:project:
+      description: The GCP project in which to create resources
+    gcp:region:
+      default: us-central1
+      description: The GCP region in which resources should be created
+    nodePoolCount:
+      default: 1
+      description: The desired number of nodes PER ZONE in the nodepool
+configuration:
+  gcp:project:
+    type: String
+  gcp:region:
+    type: String
+    default: us-central1
+  nodePoolCount:
+    type: Number
+    default: 1
+resources:
+  # Create a GCP network (global VPC)
+  gke-nodepool-sa:
+    type: gcp:serviceAccount:Account
+    properties:
+      accountId: nodepool-1-sa
+      displayName: Nodepool 1 Service Account
+  gke-network:
+    type: gcp:compute:Network
+    properties:
+      # Disable autoCreateSubnetworks because Private Google Access is needed
+      autoCreateSubnetworks: false
+      description: A virtual network for your GKE cluster(s)
+      name: gke-network
+      project: ${gcp:project}
+  gke-subnet:
+    type: gcp:compute:Subnetwork
+    properties:
+      ipCidrRange: 10.128.0.0/12
+      name: gke-subnet
+      network: ${gke-network.id}
+      privateIpGoogleAccess: true
+      region: ${gcp:region}
+  gke-cluster:
+    type: gcp:container:Cluster
+    properties:
+      addonsConfig:
+        dnsCacheConfig:
+          enabled: true
+      binaryAuthorization:
+        evaluationMode: PROJECT_SINGLETON_POLICY_ENFORCE
+      datapathProvider: ADVANCED_DATAPATH
+      description: A GKE cluster
+      # Enabling Autopilot will invalidate many of the other settings included here
+      # enableAutopilot: false
+      initialNodeCount: 1
+      ipAllocationPolicy:
+        clusterIpv4CidrBlock: /14
+        servicesIpv4CidrBlock: /20
+      location: ${gcp:region}
+      masterAuthorizedNetworksConfig:
+        cidrBlocks:
+        # Change this CIDR block to something more restrictive for enhanced security
+        - cidrBlock: 0.0.0.0/0
+          displayName: All networks
+      name: gke-cluster
+      network: ${gke-network.name}
+      networkingMode: VPC_NATIVE
+      privateClusterConfig:
+        enablePrivateNodes: true
+        # Changing this to true requires some form of connectivity to GCP (VPN or equivalent)
+        enablePrivateEndpoint: false
+        masterIpv4CidrBlock: 10.100.0.0/28
+      project: ${gcp:project}
+      removeDefaultNodePool: true
+      releaseChannel:
+        channel: STABLE
+      subnetwork: ${gke-subnet.name}
+      workloadIdentityConfig:
+        workloadPool: ${gcp:project}.svc.id.goog
+  gke-nodepool:
+    type: gcp:container:NodePool
+    properties:
+      cluster: ${gke-cluster.id}
+      # Specify the number of nodes PER ZONE
+      nodeCount: ${nodePoolCount}
+      location: ${gcp:region}
+      name: gke-nodepool-1
+      nodeConfig:
+        # These scopes should be tightened down to only the required services/access
+        oauthScopes:
+        - https://www.googleapis.com/auth/cloud-platform
+        serviceAccount: ${gke-nodepool-sa.email}
+variables:
+  clusterKubeconfig: |
+    apiVersion: v1
+    clusters:
+    - cluster:
+        certificate-authority-data: ${gke-cluster.masterAuth["clusterCaCertificate"]}
+        server: https://${gke-cluster.endpoint}
+      name: ${gke-cluster.name}
+    contexts:
+    - context:
+        cluster: ${gke-cluster.name}
+        user: ${gke-cluster.name}
+      name: ${gke-cluster.name}
+    current-context: ${gke-cluster.name}
+    kind: Config
+    preferences: {}
+    users:
+    - name: ${gke-cluster.name}
+      user:
+        exec:
+          apiVersion: client.authentication.k8s.io/v1beta1
+          command: gke-gcloud-auth-plugin
+          installHint: Install gke-gcloud-auth-plugin for use with kubectl by following
+            https://cloud.google.com/blog/products/containers-kubernetes/kubectl-auth-changes-in-gke
+          provideClusterInfo: true
+outputs:
+  # Export some values to be used elsewhere
+  networkName: ${gke-network.name}
+  networkId: ${gke-network.id}
+  clusterName: ${gke-cluster.name}
+  clusterId: ${gke-cluster.id}
+  kubeconfig: ${clusterKubeconfig}

@@ -1,0 +1,14 @@
+name: ${PROJECT}
+description: ${DESCRIPTION}
+runtime: nodejs
+template:
+  description: A TypeScript program to create a Kubernetes cluster on GCP
+  config:
+    gcp:project:
+      description: The GCP project in which to create resources
+    gcp:region:
+      default: us-central1
+      description: The GCP region in which resources should be created
+    nodePoolCount:
+      default: 1
+      description: The desired number of nodes (PER ZONE) in the nodepool
