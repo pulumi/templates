@@ -23,7 +23,11 @@ const allTemplates = glob.sync("*/Pulumi.yaml")
             runtime: template.runtime,
             template: template.template,
         };
-    });
+    })
+    .reduce((templates, template) => {
+        templates[template.name] = template;
+        return templates;
+    }, {});
 
 // Build the list of architectures and groups.
 const architectureTemplates = Object.keys(architectures)
