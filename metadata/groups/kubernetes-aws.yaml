@@ -1,0 +1,25 @@
+name: Kubernetes Cluster on AWS
+kind: architecture
+parent: kubernetes
+slug: aws
+description:
+  cta: |
+    Deploy a Kubernetes cluster on AWS with Pulumi and Amazon EKS.
+  meta: |
+    The AWS Kubernetes template makes it easy to deploy a Kubernetes cluster on AWS with Pulumi and Amazon EKS.
+  full: |
+    The AWS Kubernetes Cluster template creates an infrastructure as code project in your
+    favorite language and deploys a managed Kubernetes cluster to AWS. The architecture
+    includes a VPC with public and private subnets and deploys an Amazon EKS cluster that
+    provides a managed Kubernetes control plane. Kubernetes worker nodes are deployed on
+    private subnets for improved security. Load balancers created by workloads deployed on
+    the EKS cluster will be automatically created in the public subnets. The template
+    generates a complete infrastructure as code program to give you a working project out
+    of the box that you can customize easily and extend to suit your needs.
+clouds:
+  - aws
+templates:
+  - kubernetes-aws-typescript
+  - kubernetes-aws-python
+  - kubernetes-aws-go
+  - kubernetes-aws-yaml

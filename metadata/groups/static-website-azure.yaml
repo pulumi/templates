@@ -1,0 +1,25 @@
+name: Azure Static Website
+kind: architecture
+parent: static-website
+slug: azure
+description:
+  cta: |
+    Deploy a static website on Azure with Pulumi, Azure Blob Storage, and Azure CDN.
+  meta: |
+    The Azure Static Website template makes it easy to deploy a static website on Azure
+    with Pulumi, Azure Blob Storage, and Azure CDN.
+  full: |
+    The Azure Static Website template deploys an HTML website on Microsoft Azure. It uses
+    an Azure Blob Storage account for file storage, configures the storage account to host
+    a website, and deploys an Azure CDN Endpoint to serve the website with low latency,
+    caching, and HTTPS. The template generates a complete Pulumi program, including
+    placeholder web content, to give you a working project out of the box that you can
+    customize easily and extend to suit your needs.
+clouds:
+  - azure
+templates:
+  - static-website-azure-typescript
+  - static-website-azure-python
+  - static-website-azure-go
+  - static-website-azure-csharp
+  - static-website-azure-yaml

@@ -1,0 +1,12 @@
+{
+    "name": "pulumi-templates",
+    "version": "0.1.0",
+    "private": true,
+    "scripts": {
+        "metadata": "node scripts/build-metadata.js"
+    },
+    "dependencies": {
+        "glob": "^8.0.3",
+        "js-yaml": "^4.1.0"
+    }
+}

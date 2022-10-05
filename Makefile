@@ -63,5 +63,8 @@ test_templates::
 	cd tests && \
 		go test $(TESTFLAGS)
 
+metadata::
+	yarn && yarn run metadata
+
 ensure::
 	cd tests && go mod download

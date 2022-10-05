@@ -1,0 +1,43 @@
+static-website:
+  name: Static Website
+  slug: static-website
+  meta: |
+    Pulumi program templates that make it easy to deploy static websites on AWS, Azure, or
+    Google Cloud Platform.
+  description: |
+    Pulumi program templates are the fastest way to deploy static websites on AWS, Azure,
+    or Google Cloud Platform. Templates come with predefined infrastructure as code so you
+    can get started instantly.
+
+serverless-application:
+  name: Serverless
+  slug: serverless-application
+  meta: |
+    Pulumi program templates that make it easy to deploy serverless applications on AWS,
+    Azure, or Google Cloud Platform.
+  description: |
+    Pulumi program templates are the fastest way to deploy serverless applications on AWS,
+    Azure, or Google Cloud Platform. Templates come with predefined infrastructure as code
+    so you can get started instantly.
+
+container-service:
+  name: Container Service
+  slug: container-service
+  meta: |
+    Pulumi program templates that make it easy to deploy container services on AWS, Azure,
+    or Google Cloud Platform.
+  description: |
+    Pulumi program templates are the fastest way to deploy container services on AWS,
+    Azure, or Google Cloud Platform. Templates come with predefined infrastructure as code
+    so you can get started instantly.
+
+kubernetes:
+  name: Kubernetes
+  slug: kubernetes
+  meta: |
+    Pulumi program templates that make it easy to deploy Kubernetes on AWS, Azure, or
+    Google Cloud Platform.
+  description: |
+    Pulumi program templates are the fastest way to deploy Kubernetes clusters and their
+    associated infrastructure on AWS, Azure, or Google Cloud Platform. Templates come with
+    predefined infrastructure as code so you can get started instantly.
