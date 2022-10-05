@@ -10,4 +10,4 @@ template:
   config:
     azure-native:location:
       description: The Azure location to use
-      default: WestUS
+      default: WestUS2
