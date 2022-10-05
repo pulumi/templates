@@ -16,9 +16,13 @@ template:
     kubernetesVersion:
       default: 1.24.3
       description: Kubernetes version to deploy in the cluster
-    azureVmSize:
+    nodeVmSize:
       default: Standard_DS2_v2
       description: VM size to use for worker nodes in the cluster
+    mgmtGroupId:
+      description: The object ID (from az ad group list) of a group to make cluster admins
+    sshPubKey:
+      description: The public key for SSH access to cluster nodes
 configuration:
   azure-native:location:
     type: String
@@ -31,7 +35,7 @@ configuration:
   kubernetesVersion:
     type: String
     default: 1.24.3
-  azureVmSize:
+  nodeVmSize:
     type: String
     default: Standard_DS2_v2
   mgmtGroupId:
@@ -42,9 +46,6 @@ resources:
   # Create a new resource group
   resourceGroup:
     type: azure-native:resources:ResourceGroup
-    properties:
-      location: ${azure-native:location}
-      resourceGroupName: aks-rg
   # Create a new virtual network
   virtualNetwork:
     type: azure-native:network:VirtualNetwork
@@ -53,29 +54,24 @@ resources:
         # Define the CIDR used in the new virtual network
         addressPrefixes:
           - 10.0.0.0/16
-      location: ${azure-native:location}
       resourceGroupName: ${resourceGroup.name}
-      virtualNetworkName: aks-vnet
   # Create subnets in the virtual network
   subnet1:
     type: azure-native:network:Subnet
     properties:
       addressPrefix: 10.0.0.0/22
-      name: aks-subnet-1
       resourceGroupName: ${resourceGroup.name}
       virtualNetworkName: ${virtualNetwork.name}
   subnet2:
     type: azure-native:network:Subnet
     properties:
       addressPrefix: 10.0.4.0/22
-      name: aks-subnet-2
       resourceGroupName: ${resourceGroup.name}
       virtualNetworkName: ${virtualNetwork.name}
   subnet3:
     type: azure-native:network:Subnet
     properties:
       addressPrefix: 10.0.8.0/22
-      name: aks-subnet-3
       resourceGroupName: ${resourceGroup.name}
       virtualNetworkName: ${virtualNetwork.name}
   # Create a managed cluster
@@ -97,7 +93,7 @@ resources:
           name: systempool
           osType: Linux
           type: VirtualMachineScaleSets
-          vmSize: ${azureVmSize}
+          vmSize: ${nodeVmSize}
           vnetSubnetID: ${subnet1.id}
       apiServerAccessProfile:
         authorizedIPRanges:
@@ -113,14 +109,12 @@ resources:
         ssh:
           publicKeys:
             - keyData: ${sshPubKey}
-      location: ${azure-native:location}
       networkProfile:
         networkPlugin: azure
         networkPolicy: azure
         serviceCidr: 10.96.0.0/16
         dnsServiceIP: 10.96.0.10
       resourceGroupName: ${resourceGroup.name}
-      resourceName: aks-cluster
 variables:
   # Get the credentials for the AKS cluster created above
   aksCredentials:

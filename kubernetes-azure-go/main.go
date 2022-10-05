@@ -14,7 +14,6 @@ func main() {
 	pulumi.Run(func(ctx *pulumi.Context) error {
 		// Get some configuration values or set default values
 		cfg := config.New(ctx, "")
-		azureLocation := config.Require(ctx, "azure-native:location")
 		sshPubKey := cfg.Require("sshPubKey")
 		mgmtGroup := cfg.Require("mgmtGroupId")
 		prefixForDns, err := cfg.Try("prefixForDns")
@@ -35,14 +34,10 @@ func main() {
 		}
 
 		// Create an Azure Resource Group
-		resourceGroup, err := resources.NewResourceGroup(ctx, "resourceGroup", &resources.ResourceGroupArgs{
-			Location:          pulumi.String(azureLocation),
-			ResourceGroupName: pulumi.String("aks-rg"),
-		})
+		resourceGroup, err := resources.NewResourceGroup(ctx, "resourceGroup")
 		if err != nil {
 			return err
 		}
-		ctx.Export("resourceGroupName", resourceGroup.Name)
 
 		// Create an Azure Virtual Network
 		virtualNetwork, err := network.NewVirtualNetwork(ctx, "aks-network", &network.VirtualNetworkArgs{
@@ -51,48 +46,39 @@ func main() {
 					pulumi.String("10.0.0.0/16"),
 				},
 			},
-			Location:           pulumi.String(azureLocation),
-			ResourceGroupName:  resourceGroup.Name,
-			VirtualNetworkName: pulumi.String("aks-network"),
+			ResourceGroupName: resourceGroup.Name,
 		})
 		if err != nil {
 			return err
 		}
-		ctx.Export("networkName", virtualNetwork.Name)
 
 		// Create three subnets in the virtual network
 		subnet1, err := network.NewSubnet(ctx, "subnet-1", &network.SubnetArgs{
 			AddressPrefix:      pulumi.String("10.0.0.0/22"),
 			ResourceGroupName:  resourceGroup.Name,
-			SubnetName:         pulumi.String("aks-subnet-1"),
 			VirtualNetworkName: virtualNetwork.Name,
 		})
 		if err != nil {
 			return err
 		}
-		ctx.Export("subnet1Id", subnet1.ID())
 
 		subnet2, err := network.NewSubnet(ctx, "subnet-2", &network.SubnetArgs{
 			AddressPrefix:      pulumi.String("10.0.4.0/22"),
 			ResourceGroupName:  resourceGroup.Name,
-			SubnetName:         pulumi.String("aks-subnet-2"),
 			VirtualNetworkName: virtualNetwork.Name,
 		})
 		if err != nil {
 			return err
 		}
-		ctx.Export("subnet2Id", subnet2.ID())
 
 		subnet3, err := network.NewSubnet(ctx, "subnet-3", &network.SubnetArgs{
 			AddressPrefix:      pulumi.String("10.0.8.0/22"),
 			ResourceGroupName:  resourceGroup.Name,
-			SubnetName:         pulumi.String("aks-subnet-3"),
 			VirtualNetworkName: virtualNetwork.Name,
 		})
 		if err != nil {
 			return err
 		}
-		ctx.Export("subnet3Id", subnet3.ID())
 
 		// Create a managed AKS cluster
 		cluster, err := containerservice.NewManagedCluster(ctx, "aks-cluster", &containerservice.ManagedClusterArgs{
@@ -146,7 +132,6 @@ func main() {
 					},
 				},
 			},
-			Location: pulumi.String(azureLocation),
 			NetworkProfile: containerservice.ContainerServiceNetworkProfileArgs{
 				NetworkPlugin: pulumi.String("azure"),
 				NetworkPolicy: pulumi.String("azure"),
@@ -154,12 +139,10 @@ func main() {
 				DnsServiceIP:  pulumi.String("10.96.0.10"),
 			},
 			ResourceGroupName: resourceGroup.Name,
-			ResourceName:      pulumi.String("aks-cluster"),
 		})
 		if err != nil {
 			return err
 		}
-		ctx.Export("clusterName", cluster.Name)
 
 		// Build a Kubeconfig for accessing the cluster
 		creds := containerservice.ListManagedClusterUserCredentialsOutput(ctx,
@@ -176,6 +159,11 @@ func main() {
 				}
 				return string(kubeconfig)
 			})
+
+		// Export some values for use elsewhere
+		ctx.Export("resourceGroupName", resourceGroup.Name)
+		ctx.Export("networkName", virtualNetwork.Name)
+		ctx.Export("clusterName", cluster.Name)
 		ctx.Export("kubeconfig", kubeconfig)
 
 		return nil

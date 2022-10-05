@@ -4,8 +4,6 @@ import * as network from "@pulumi/azure-native/network";
 import * as containerservice from "@pulumi/azure-native/containerservice";
 
 // Grab some values from the Pulumi stack configuration (or use defaults)
-const azureCfg = new pulumi.Config("azure-native");
-const azureLocation = azureCfg.require("location");
 const projCfg = new pulumi.Config();
 const numWorkerNodes = projCfg.getNumber("numWorkerNodes") || 3;
 const k8sVersion = projCfg.get("kubernetesVersion") || "1.24.3";
@@ -15,39 +13,31 @@ const mgmtGroupId = projCfg.require("mgmtGroupId");
 const sshPubKey = projCfg.require("sshPubKey");
 
 // Create a new Azure Resource Group
-const resourceGroup = new resources.ResourceGroup("resourceGroup", {
-    location: azureLocation,
-    resourceGroupName: "aks-rg",
-});
+const resourceGroup = new resources.ResourceGroup("resourceGroup", {});
 
 // Create a new Azure Virtual Network
 const virtualNetwork = new network.VirtualNetwork("virtualNetwork", {
     addressSpace: {
         addressPrefixes: ["10.0.0.0/16"],
     },
-    location: azureLocation,
     resourceGroupName: resourceGroup.name,
-    virtualNetworkName: "aks-network",
 });
 
 // Create three subnets in the virtual network
 const subnet1 = new network.Subnet("subnet1", {
     addressPrefix: "10.0.0.0/22",
-    name: "aks-subnet-1",
     resourceGroupName: resourceGroup.name,
     virtualNetworkName: virtualNetwork.name,
 });
 
 const subnet2 = new network.Subnet("subnet2", {
     addressPrefix: "10.0.4.0/22",
-    name: "aks-subnet-2",
     resourceGroupName: resourceGroup.name,
     virtualNetworkName: virtualNetwork.name,
 });
 
 const subnet3 = new network.Subnet("subnet3", {
     addressPrefix: "10.0.8.0/22",
-    name: "aks-subnet-3",
     resourceGroupName: resourceGroup.name,
     virtualNetworkName: virtualNetwork.name,
 });
@@ -94,7 +84,6 @@ const managedCluster = new containerservice.ManagedCluster("managedCluster", {
             }],
         },
     },
-    location: azureLocation,
     networkProfile: {
         networkPlugin: "azure",
         networkPolicy: "azure",
@@ -102,7 +91,6 @@ const managedCluster = new containerservice.ManagedCluster("managedCluster", {
         dnsServiceIP: "10.96.0.10",
     },
     resourceGroupName: resourceGroup.name,
-    resourceName: "aks-cluster",
 });
 
 // Build a Kubeconfig to access the cluster
