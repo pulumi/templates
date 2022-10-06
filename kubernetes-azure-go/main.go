@@ -34,7 +34,7 @@ func main() {
 		}
 
 		// Create an Azure Resource Group
-		resourceGroup, err := resources.NewResourceGroup(ctx, "resourceGroup")
+		resourceGroup, err := resources.NewResourceGroup(ctx, "resourceGroup", &resources.ResourceGroupArgs{})
 		if err != nil {
 			return err
 		}
@@ -163,6 +163,9 @@ func main() {
 		// Export some values for use elsewhere
 		ctx.Export("resourceGroupName", resourceGroup.Name)
 		ctx.Export("networkName", virtualNetwork.Name)
+		ctx.Export("subnet1Name", subnet1.Name)
+		ctx.Export("subnet2Name", subnet2.Name)
+		ctx.Export("subnet3Name", subnet3.Name)
 		ctx.Export("clusterName", cluster.Name)
 		ctx.Export("kubeconfig", kubeconfig)
 
