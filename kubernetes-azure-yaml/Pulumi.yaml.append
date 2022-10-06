@@ -13,10 +13,12 @@ configuration:
   nodeVmSize:
     type: String
     default: Standard_DS2_v2
+  # The next two configuration values are required (no default can be provided)
   mgmtGroupId:
     type: String
   sshPubKey:
     type: String
+
 resources:
   # Create a new resource group
   resourceGroup:
@@ -90,6 +92,7 @@ resources:
         serviceCidr: 10.96.0.0/16
         dnsServiceIP: 10.96.0.10
       resourceGroupName: ${resourceGroup.name}
+
 variables:
   # Get the credentials for the AKS cluster created above
   aksCredentials:
@@ -100,6 +103,7 @@ variables:
         resourceName: ${managedCluster.name}
   actualKubeConfig:
     Fn::FromBase64: ${aksCredentials.kubeconfigs[0].value}
+
 outputs:
     # Export the Kubeconfig of the cluster
     clusterName: ${managedCluster.name}

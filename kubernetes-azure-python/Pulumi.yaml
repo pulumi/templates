@@ -22,4 +22,4 @@ template:
     mgmtGroupId:
       description: The object ID (from az ad group list) of a group to make cluster admins
     sshPubKey:
-      description: The public key for SSH access to cluster nodes
+      description: Contents of the public key for SSH access to cluster nodes

@@ -14,8 +14,6 @@ func main() {
 	pulumi.Run(func(ctx *pulumi.Context) error {
 		// Get some configuration values or set default values
 		cfg := config.New(ctx, "")
-		sshPubKey := cfg.Require("sshPubKey")
-		mgmtGroup := cfg.Require("mgmtGroupId")
 		prefixForDns, err := cfg.Try("prefixForDns")
 		if err != nil {
 			prefixForDns = "pulumi"
@@ -32,6 +30,9 @@ func main() {
 		if err != nil {
 			nodeVmSize = "Standard_DS2_v2"
 		}
+		// The next two configuration values are required (no default can be provided)
+		sshPubKey := cfg.Require("sshPubKey")
+		mgmtGroup := cfg.Require("mgmtGroupId")
 
 		// Create an Azure Resource Group
 		resourceGroup, err := resources.NewResourceGroup(ctx, "resourceGroup", &resources.ResourceGroupArgs{})

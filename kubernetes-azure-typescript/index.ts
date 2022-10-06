@@ -9,6 +9,7 @@ const numWorkerNodes = projCfg.getNumber("numWorkerNodes") || 3;
 const k8sVersion = projCfg.get("kubernetesVersion") || "1.24.3";
 const prefixForDns = projCfg.get("prefixForDns") || "pulumi";
 const nodeVmSize = projCfg.get("nodeVmSize") || "Standard_DS2_v2";
+// The next two configuration values are required (no default can be provided)
 const mgmtGroupId = projCfg.require("mgmtGroupId");
 const sshPubKey = projCfg.require("sshPubKey");
 
