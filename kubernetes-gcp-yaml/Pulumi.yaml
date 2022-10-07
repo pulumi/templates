@@ -12,6 +12,7 @@ template:
     nodePoolCount:
       default: 1
       description: The desired number of nodes PER ZONE in the nodepool
+
 configuration:
   gcp:project:
     type: String
@@ -21,6 +22,7 @@ configuration:
   nodePoolCount:
     type: Number
     default: 1
+
 resources:
   # Create a GCP network (global VPC)
   gke-nodepool-sa:
@@ -34,16 +36,12 @@ resources:
       # Disable autoCreateSubnetworks because Private Google Access is needed
       autoCreateSubnetworks: false
       description: A virtual network for your GKE cluster(s)
-      name: gke-network
-      project: ${gcp:project}
   gke-subnet:
     type: gcp:compute:Subnetwork
     properties:
       ipCidrRange: 10.128.0.0/12
-      name: gke-subnet
       network: ${gke-network.id}
       privateIpGoogleAccess: true
-      region: ${gcp:region}
   gke-cluster:
     type: gcp:container:Cluster
     properties:
@@ -66,7 +64,6 @@ resources:
         # Change this CIDR block to something more restrictive for enhanced security
         - cidrBlock: 0.0.0.0/0
           displayName: All networks
-      name: gke-cluster
       network: ${gke-network.name}
       networkingMode: VPC_NATIVE
       privateClusterConfig:
@@ -74,7 +71,6 @@ resources:
         # Changing this to true requires some form of connectivity to GCP (VPN or equivalent)
         enablePrivateEndpoint: false
         masterIpv4CidrBlock: 10.100.0.0/28
-      project: ${gcp:project}
       removeDefaultNodePool: true
       releaseChannel:
         channel: STABLE
@@ -87,13 +83,12 @@ resources:
       cluster: ${gke-cluster.id}
       # Specify the number of nodes PER ZONE
       nodeCount: ${nodePoolCount}
-      location: ${gcp:region}
-      name: gke-nodepool-1
       nodeConfig:
         # These scopes should be tightened down to only the required services/access
         oauthScopes:
         - https://www.googleapis.com/auth/cloud-platform
         serviceAccount: ${gke-nodepool-sa.email}
+
 variables:
   clusterKubeconfig: |
     apiVersion: v1
@@ -119,6 +114,7 @@ variables:
           installHint: Install gke-gcloud-auth-plugin for use with kubectl by following
             https://cloud.google.com/blog/products/containers-kubernetes/kubectl-auth-changes-in-gke
           provideClusterInfo: true
+
 outputs:
   # Export some values to be used elsewhere
   networkName: ${gke-network.name}

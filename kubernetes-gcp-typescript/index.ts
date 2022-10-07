@@ -5,24 +5,23 @@ import * as gcp from "@pulumi/gcp";
 const providerCfg = new pulumi.Config("gcp");
 const gcpProject = providerCfg.require("project");
 const gcpRegion = providerCfg.get("region") || "us-central1";
-// Get some other configuration values
+// Get some other configuration values or use defaults
 const cfg = new pulumi.Config();
 const nodePoolCount = cfg.getNumber("nodePoolCount") || 1;
+
 // Create a new network
 const gkeNetwork = new gcp.compute.Network("gke-network", {
     autoCreateSubnetworks: false,
     description: "A virtual network for your GKE cluster(s)",
-    name: "gke-network",
-    project: gcpProject,
 });
+
 // Create a new subnet in the network created above
 const gkeSubnet = new gcp.compute.Subnetwork("gke-subnet", {
     ipCidrRange: "10.128.0.0/12",
-    name: "gke-subnet",
     network: gkeNetwork.id,
     privateIpGoogleAccess: true,
-    region: gcpRegion,
 });
+
 // Create a new GKE cluster
 const gkeCluster = new gcp.container.Cluster("gke-cluster", {
     addonsConfig: {
@@ -47,7 +46,6 @@ const gkeCluster = new gcp.container.Cluster("gke-cluster", {
             displayName: "All networks",
         }],
     },
-    name: "gke-cluster",
     network: gkeNetwork.name,
     networkingMode: "VPC_NATIVE",
     privateClusterConfig: {
@@ -55,7 +53,6 @@ const gkeCluster = new gcp.container.Cluster("gke-cluster", {
         enablePrivateEndpoint: false,
         masterIpv4CidrBlock: "10.100.0.0/28",
     },
-    project: gcpProject,
     removeDefaultNodePool: true,
     releaseChannel: {
         channel: "STABLE",
@@ -65,6 +62,7 @@ const gkeCluster = new gcp.container.Cluster("gke-cluster", {
         workloadPool: `${gcpProject}.svc.id.goog`,
     },
 });
+
 // Build a Kubeconfig for accessing the cluster
 const clusterKubeconfig = pulumi.interpolate `apiVersion: v1
 clusters:
@@ -90,22 +88,23 @@ users:
         https://cloud.google.com/blog/products/containers-kubernetes/kubectl-auth-changes-in-gke
       provideClusterInfo: true
 `;
+
 // Create a service account for the node pool
 const gkeNodepoolSa = new gcp.serviceaccount.Account("gke-nodepool-sa", {
     accountId: "nodepool-1-sa",
     displayName: "Nodepool 1 Service Account",
 });
+
 // Create a nodepool for the GKE cluster
 const gkeNodepool = new gcp.container.NodePool("gke-nodepool", {
     cluster: gkeCluster.id,
     nodeCount: nodePoolCount,
-    location: gcpRegion,
-    name: "gke-nodepool-1",
     nodeConfig: {
         oauthScopes: ["https://www.googleapis.com/auth/cloud-platform"],
         serviceAccount: gkeNodepoolSa.email,
     },
 });
+
 // Export some values for use elsewhere
 export const networkName = gkeNetwork.name;
 export const networkId = gkeNetwork.id;
