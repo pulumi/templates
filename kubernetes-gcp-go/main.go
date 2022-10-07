@@ -19,33 +19,32 @@ func main() {
 		if err != nil {
 			gcpRegion = "us-central1"
 		}
-		// Get some additional configuration values
+		// Get some additional configuration values or use defaults
 		cfg := config.New(ctx, "")
 		nodePoolCount, err := cfg.TryInt("nodePoolCount")
 		if err != nil {
 			nodePoolCount = 1
 		}
+
 		// Create a new network
 		gkeNetwork, err := compute.NewNetwork(ctx, "gke-network", &compute.NetworkArgs{
 			AutoCreateSubnetworks: pulumi.Bool(false),
 			Description:           pulumi.String("A virtual network for your GKE cluster(s)"),
-			Name:                  pulumi.String("gke-network"),
-			Project:               pulumi.String(gcpProject),
 		})
 		if err != nil {
 			return err
 		}
+
 		// Create a subnet in the network
 		gkeSubnet, err := compute.NewSubnetwork(ctx, "gke-subnet", &compute.SubnetworkArgs{
 			IpCidrRange:           pulumi.String("10.128.0.0/12"),
-			Name:                  pulumi.String("gke-subnet"),
 			Network:               gkeNetwork.ID(),
 			PrivateIpGoogleAccess: pulumi.Bool(true),
-			Region:                pulumi.String(gcpRegion),
 		})
 		if err != nil {
 			return err
 		}
+
 		// Create a new GKE cluster
 		gkeCluster, err := container.NewCluster(ctx, "gke-cluster", &container.ClusterArgs{
 			AddonsConfig: &container.ClusterAddonsConfigArgs{
@@ -72,7 +71,6 @@ func main() {
 					},
 				},
 			},
-			Name:           pulumi.String("gke-cluster"),
 			Network:        gkeNetwork.Name,
 			NetworkingMode: pulumi.String("VPC_NATIVE"),
 			PrivateClusterConfig: &container.ClusterPrivateClusterConfigArgs{
@@ -80,7 +78,6 @@ func main() {
 				EnablePrivateEndpoint: pulumi.Bool(false),
 				MasterIpv4CidrBlock:   pulumi.String("10.100.0.0/28"),
 			},
-			Project:               pulumi.String(gcpProject),
 			RemoveDefaultNodePool: pulumi.Bool(true),
 			ReleaseChannel: &container.ClusterReleaseChannelArgs{
 				Channel: pulumi.String("STABLE"),
@@ -93,6 +90,7 @@ func main() {
 		if err != nil {
 			return err
 		}
+
 		// Create a GCP Service Account for the node pool
 		gkeNodepoolSa, err := serviceaccount.NewAccount(ctx, "gke-nodepool-sa", &serviceaccount.AccountArgs{
 			AccountId:   pulumi.String("nodepool-1-sa"),
@@ -101,12 +99,11 @@ func main() {
 		if err != nil {
 			return err
 		}
+
 		// Create a new node pool
 		_, err = container.NewNodePool(ctx, "gke-nodepool", &container.NodePoolArgs{
 			Cluster:   gkeCluster.ID(),
 			NodeCount: pulumi.Int(nodePoolCount),
-			Location:  pulumi.String(gcpRegion),
-			Name:      pulumi.String("gke-nodepool-1"),
 			NodeConfig: &container.NodePoolNodeConfigArgs{
 				OauthScopes: pulumi.StringArray{
 					pulumi.String("https://www.googleapis.com/auth/cloud-platform"),
@@ -117,6 +114,7 @@ func main() {
 		if err != nil {
 			return err
 		}
+
 		// Build Kubeconfig for accessing the cluster
 		clusterKubeconfig := pulumi.Sprintf(`apiVersion: v1
 clusters:
@@ -142,6 +140,7 @@ users:
         https://cloud.google.com/blog/products/containers-kubernetes/kubectl-auth-changes-in-gke
       provideClusterInfo: true
         `, gkeCluster.Name, gkeCluster.Endpoint, gkeCluster.MasterAuth.ClusterCaCertificate().Elem())
+
 		// Export some values for use elsewhere
 		ctx.Export("networkName", gkeNetwork.Name)
 		ctx.Export("networkId", gkeNetwork.ID())
