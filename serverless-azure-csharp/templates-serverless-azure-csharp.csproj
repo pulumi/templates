@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<OutputType>Exe</OutputType>
+		<TargetFramework>net6.0</TargetFramework>
+		<Nullable>enable</Nullable>
+
+        <!-- Ignore the files in the api folder. -->
+        <DefaultItemExcludes>app/**;$(DefaultItemExcludes)</DefaultItemExcludes>
+
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Pulumi" Version="3.*" />
+		<PackageReference Include="Pulumi.AzureNative" Version="1.78.0" />
+		<PackageReference Include="Pulumi.Command" Version="4.5.0" />
+		<PackageReference Include="Pulumi.SyncedFolder" Version="*" />
+	</ItemGroup>
+</Project>
