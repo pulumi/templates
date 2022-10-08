@@ -115,10 +115,6 @@ jobs:
           install_components: gke-gcloud-auth-plugin
       - name: Set the Template URL using local repo path
         run: echo "PULUMI_TEMPLATE_LOCATION=${{ github.workspace}}" >> $GITHUB_ENV
-      - name: Install gotestfmt
-        uses: jaxxstorm/action-install-gh-release@v1.3.1
-        with:
-          repo: haveyoudebuggedit/gotestfmt
       - name: Get dependencies
         run: make ensure
       - if: contains(matrix.platform, 'windows')
