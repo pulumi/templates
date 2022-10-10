@@ -1,0 +1,16 @@
+
+resources:
+  # Create an Azure Resource Group
+  resourceGroup:
+    type: azure:core:ResourceGroup
+  # Create an Azure resource (Storage Account)
+  account:
+    type: azure:storage:Account
+    properties:
+      resourceGroupName: ${resourceGroup.name}
+      accountTier: Standard
+      accountReplicationType: LRS
+
+outputs:
+  # Export the connection string for the storage account
+  connectionString: ${account.primaryConnectionString}

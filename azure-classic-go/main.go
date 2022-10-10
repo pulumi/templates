@@ -1,8 +1,8 @@
 package main
 
 import (
-	"github.com/pulumi/pulumi-azure/sdk/v4/go/azure/core"
-	"github.com/pulumi/pulumi-azure/sdk/v4/go/azure/storage"
+	"github.com/pulumi/pulumi-azure/sdk/v5/go/azure/core"
+	"github.com/pulumi/pulumi-azure/sdk/v5/go/azure/storage"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 )
 
@@ -10,7 +10,7 @@ func main() {
 	pulumi.Run(func(ctx *pulumi.Context) error {
 		// Create an Azure Resource Group
 		resourceGroup, err := core.NewResourceGroup(ctx, "resourceGroup", &core.ResourceGroupArgs{
-			Location: pulumi.String("WestUS"),
+			Location: pulumi.String("WestUS2"),
 		})
 		if err != nil {
 			return err

@@ -1,0 +1,22 @@
+name: ${PROJECT}
+description: ${DESCRIPTION}
+runtime: yaml
+template:
+  description: A minimal Linode Pulumi YAML program
+  config:
+    linode:token:
+      description: The token that allows you access to your Linode account
+      secret: true
+
+resources:
+  # Create a Linode resource (Linode Instance)
+  instance:
+    type: linode:Instance
+    properties:
+      type: g6-nanode-1
+      region: us-east
+      image: linode/ubuntu18.04
+
+outputs:
+  # Export the Instance label of the instance
+  instanceLabel: ${instance.label}

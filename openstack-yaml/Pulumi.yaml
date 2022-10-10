@@ -1,0 +1,17 @@
+name: ${PROJECT}
+description: ${DESCRIPTION}
+runtime: yaml
+template:
+  description: A minimal OpenStack Pulumi YAML program
+
+resources:
+  # Create an OpenStack resource (Compute Instance)
+  instance:
+    type: openstack:compute:Instance
+    properties:
+      flavorName: s1-2
+      imageName: Ubuntu 16.04
+
+outputs:
+  # Export the IP of the instance
+  instanceIP: ${instance.accessIpV4}

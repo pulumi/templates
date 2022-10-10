@@ -1,0 +1,19 @@
+name: ${PROJECT}
+description: ${DESCRIPTION}
+runtime: yaml
+template:
+  description: A minimal GitHub Pulumi YAML program.
+  config:
+    github:token:
+      description: The GitHub token to use for authentication
+      secret: true
+    github:owner:
+      description: To target a specific GitHub organization or an individual user account, set the GitHub owner configuration value.
+
+resources:
+  type: github:Repository
+  properties:
+    description: Demo Repository for GitHub
+
+outputs:
+  clusterName: ${repo.name}

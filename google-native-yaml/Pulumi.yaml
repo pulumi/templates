@@ -1,0 +1,17 @@
+name: ${PROJECT}
+description: ${DESCRIPTION}
+runtime: yaml
+template:
+  description: A minimal Google Cloud Pulumi YAML program
+  config:
+    google-native:project:
+      description: The Google Cloud project to deploy into
+
+resources:
+  # Create a Google Cloud resource (Storage Bucket)
+  bucket:
+    type: google-native:storage/v1:Bucket
+
+outputs:
+  # Export the bucket self-link
+  bucketSelfLink: ${bucket.selfLink}

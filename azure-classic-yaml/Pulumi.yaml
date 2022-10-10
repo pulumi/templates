@@ -1,0 +1,25 @@
+name: ${PROJECT}
+description: ${DESCRIPTION}
+runtime: yaml
+template:
+  description: A minimal Pulumi YAML program with the classic Azure provider
+  config:
+    azure:location:
+      description: The Azure location to use
+      default: WestUS2
+
+resources:
+  # Create an Azure Resource Group
+  resourceGroup:
+    type: azure:core:ResourceGroup
+  # Create an Azure resource (Storage Account)
+  account:
+    type: azure:storage:Account
+    properties:
+      resourceGroupName: ${resourceGroup.name}
+      accountTier: Standard
+      accountReplicationType: LRS
+
+outputs:
+  # Export the connection string for the storage account
+  connectionString: ${account.primaryConnectionString}

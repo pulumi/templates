@@ -1,0 +1,17 @@
+name: ${PROJECT}
+description: ${DESCRIPTION}
+runtime:
+  name: nodejs
+  options:
+    typescript: false
+template:
+  description: A minimal Auth0 TypeScript Pulumi program
+  config:
+    auth0:clientId:
+      description: The Auth0 client ID
+      secret: true
+    auth0:clientSecret:
+      description: The Auth0 client secret
+      secret: true
+    auth0:domain:
+      description: The Auth0 domain

@@ -1,0 +1,8 @@
+name: ${PROJECT}
+description: ${DESCRIPTION}
+runtime:
+  name: nodejs
+  options:
+    typescript: false
+template:
+  description: A minimal OCI JavaScript Pulumi program

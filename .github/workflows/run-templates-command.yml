@@ -7,44 +7,69 @@ on:
     types: [run-templates-command]
 
 env:
+  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   PULUMI_TEST_OWNER: "moolumi"
   PULUMI_ACCESS_TOKEN: ${{ secrets.PULUMI_ACCESS_TOKEN }}
   AWS_REGION: "us-west-2"
-  GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_CREDENTIALS }}
+  GOOGLE_CI_SERVICE_ACCOUNT_EMAIL: pulumi-ci@pulumi-ci-gcp-provider.iam.gserviceaccount.com
+  GOOGLE_CI_WORKLOAD_IDENTITY_POOL: pulumi-ci
+  GOOGLE_CI_WORKLOAD_IDENTITY_PROVIDER: pulumi-ci
+  GOOGLE_PROJECT: pulumi-ci-gcp-provider
+  GOOGLE_PROJECT_NUMBER: 895284651812
   LINODE_TOKEN: ${{ secrets.LINODE_TOKEN }}
-  BLACK_LISTED_TESTS: "alicloud,digitalocean,kubernetes,openstack,equinix-metal,civo,aiven"
+  SKIPPED_TESTS: "alicloud,digitalocean,kubernetes,openstack,equinix-metal,civo,aiven,auth0,github,oci,java-jbang,java-gradle,azuredevops"
   PULUMI_API: https://api.pulumi-staging.io
   ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
   ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
   ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
   ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
   AZURE_LOCATION: westus
+  TESTPARALLELISM: 10
 jobs:
+  sentinel:
+    if: github.event_name == 'repository_dispatch' ||
+      github.event.pull_request.head.repo.full_name == github.repository
+    name: sentinel
+    needs:
+    - test
+    runs-on: ubuntu-latest
+    steps:
+    - name: Is workflow a success
+      run: echo yes
   test:
     if: github.event_name == 'repository_dispatch' || github.event.pull_request.head.repo.full_name == github.repository
-    runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
-        go-version: [ 1.16.x ]
-        node-version: [ 14.x ]
-        python-version: [ 3.7 ]
-        dotnet: [ 3.1.x ]
+        platform: [ubuntu-latest, windows-latest]
+        go-version: [1.18.x]
+        node-version: [14.x]
+        python-version: [3.7]
+        dotnet: [6.0.x]
+    runs-on: ${{ matrix.platform }}
+    permissions:
+      contents: read
+      id-token: write
     steps:
+      - name: Install Java 11 (temurin)
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '11'
       - name: Install DotNet ${{ matrix.dotnet }}
         uses: actions/setup-dotnet@v1
         with:
           dotnet-version: ${{ matrix.dotnet }}
-      - if: contains(matrix.platform, 'windows')
-        name: DotNet clean on windows
+      - if: contains(matrix.platform, 'ubuntu') || contains(matrix.platform, 'windows')
+        name: DotNet clean on windows and ubuntu
         run: |
           dotnet nuget locals all --clear
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
-      - name: Set up Go${{ matrix.go-version }}
-        uses: actions/setup-go@v1
+      - name: Set up Go ${{ matrix.go-version }}
+        uses: actions/setup-go@v3
         with:
           go-version: ${{ matrix.go-version }}
       - run: go env
@@ -59,30 +84,65 @@ jobs:
         run: |
           pip3 install pyenv-win
           pip3 install pipenv
+      - name: Check out code into the Go module directory
+        uses: actions/checkout@v3
+        with:
+          token: ${{ secrets.REPO_ACCESS_TOKEN }}
+          repository: ${{ github.event.client_payload.pull_request.head.repo.full_name }}
+          ref: ${{ github.event.client_payload.pull_request.head.sha }}
+      - name: Unshallow clone for tags
+        run: git fetch --prune --unshallow --tags
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-region: ${{ env.AWS_REGION }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          role-duration-seconds: 3600
+          role-duration-seconds: 14400 # 4 hours
           role-session-name: templates@githubActions
           role-to-assume: ${{ secrets.AWS_CI_ROLE_ARN }}
-      - name: Check out code into the Go module directory
-        uses: actions/checkout@v2
+      - name: Authenticate to Google Cloud
+        uses: google-github-actions/auth@v0
         with:
-          token: ${{ secrets.REPO_ACCESS_TOKEN }}
-          repository: ${{ github.event.client_payload.pull_request.head.repo.full_name }}
-          ref: ${{ github.event.client_payload.pull_request.head.ref }}
-      - name: Unshallow clone for tags
-        run: git fetch --prune --unshallow --tags
+          workload_identity_provider: projects/${{ env.GOOGLE_PROJECT_NUMBER
+            }}/locations/global/workloadIdentityPools/${{
+            env.GOOGLE_CI_WORKLOAD_IDENTITY_POOL }}/providers/${{
+            env.GOOGLE_CI_WORKLOAD_IDENTITY_PROVIDER }}
+          service_account: ${{ env.GOOGLE_CI_SERVICE_ACCOUNT_EMAIL }}
+      - name: Setup gcloud auth
+        uses: google-github-actions/setup-gcloud@v0
+        with:
+          install_components: gke-gcloud-auth-plugin
       - name: Set the Template URL using local repo path
         run: echo "PULUMI_TEMPLATE_LOCATION=${{ github.workspace}}" >> $GITHUB_ENV
-      - name: Get dependencies non-windows
+      - name: Install gotestfmt
+        uses: jaxxstorm/action-install-gh-release@v1.3.1
+        with:
+          repo: haveyoudebuggedit/gotestfmt
+      - name: Get dependencies
         run: make ensure
-      - name: Run tests
+      - if: contains(matrix.platform, 'windows')
+        name: Running Windows tests
+        shell: bash
         run: |
-          make test_templates
+          set -euo pipefail
+          cd tests && go test -v -json -count=1 -cover -timeout 6h -parallel ${{ env.TESTPARALLELISM }} . 2>&1 | gotestfmt
+        env:
+          PULUMI_PYTHON_CMD: python
+          TESTPARALLELISM: 3
+          SKIPPED_TESTS: "alicloud,digitalocean,kubernetes,openstack,equinix-metal,civo,aiven,auth0,github,oci,java-jbang,java-gradle,azuredevops,container"
+      - if: contains(matrix.platform, 'macOS')
+        name: Running macOS tests
+        run: |
+          set -euo pipefail
+          cd tests && go test -v -json -count=1 -cover -timeout 6h -parallel ${{ env.TESTPARALLELISM }} . 2>&1 | gotestfmt
+        env:
+          SKIPPED_TESTS: "alicloud,digitalocean,kubernetes,openstack,equinix-metal,civo,aiven,auth0,github,oci,java-jbang,java-gradle,azuredevops,container"
+      - if: contains(matrix.platform, 'ubuntu')
+        name: Running Linux tests
+        run: |
+          set -euo pipefail
+          cd tests && go test -v -json -count=1 -cover -timeout 6h -parallel ${{ env.TESTPARALLELISM }} . 2>&1 | gotestfmt
       - name: Create URL to the run output
         id: vars
         run: echo ::set-output name=run-url::https://github.com/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID

@@ -1,0 +1,32 @@
+name: ${PROJECT}
+description: ${DESCRIPTION}
+runtime: yaml
+template:
+  description: A minimal Auth0 Pulumi YAML program
+  config:
+    auth0:clientId:
+      description: The Auth0 client ID
+      secret: true
+    auth0:clientSecret:
+      description: The Auth0 client secret
+      secret: true
+    auth0:domain:
+      description: The Auth0 domain
+
+resources:
+  client:
+    type: auth0:Client
+    properties:
+      allowedLogoutUrls:
+        - "https://www.example.com/logout"
+      allowedOrigins:
+        - "https://www.example.com"
+      callbacks:
+        - "https://example.com/auth/callback"
+      appType: "regular_web"
+      jwtConfiguration:
+        alg: "RS256"
+
+outputs:
+  clientId: ${client.clientId}
+  clientSecret: ${client.clientSecret}

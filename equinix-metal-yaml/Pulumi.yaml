@@ -1,0 +1,16 @@
+name: ${PROJECT}
+description: ${DESCRIPTION}
+runtime: yaml
+template:
+  description: A minimal Equinix Metal Pulumi YAML program
+
+resources:
+  # Create an Equinix Metal resource (Project)
+  project:
+    type: metal:Project
+    properties:
+      name: My Test Project
+
+outputs:
+  # Export the name of the project
+  projectName: ${project.name}

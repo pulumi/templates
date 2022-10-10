@@ -1,6 +1,9 @@
 name: ${PROJECT}
 description: ${DESCRIPTION}
-runtime: nodejs
+runtime:
+  name: nodejs
+  options:
+    typescript: false
 template:
   description: A minimal Kubernetes JavaScript Pulumi program
   important: true

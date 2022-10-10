@@ -1,0 +1,19 @@
+
+resources:
+  firewall:
+    type: civo:Firewall
+    properties:
+      name: myFirstFirewall
+      region: LON1
+      createDefaultRules: true
+  cluster:
+    type: civo:KubernetesCluster
+    properties:
+      name: myFirstCivoCluster
+      numTargetNodes: 3
+      targetNodesSize: g3.k3s.medium
+      region: LON1
+      firewallId: ${firewall.id}
+
+outputs:
+  clusterName: ${cluster.name}

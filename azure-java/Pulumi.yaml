@@ -1,0 +1,10 @@
+name: ${PROJECT}
+description: ${DESCRIPTION}
+runtime: java
+template:
+  description: A minimal Azure Native Java Pulumi program
+  important: true
+  config:
+    azure-native:location:
+      description: The Azure location to use
+      default: WestUS2

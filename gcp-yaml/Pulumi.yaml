@@ -1,0 +1,20 @@
+name: ${PROJECT}
+description: ${DESCRIPTION}
+runtime: yaml
+template:
+  description: A minimal Google Cloud Pulumi YAML program
+  important: true
+  config:
+    gcp:project:
+      description: The Google Cloud project to deploy into
+
+resources:
+  # Create a GCP resource (Storage Bucket)
+  my-bucket:
+    type: gcp:storage:Bucket
+    properties:
+      location: US
+
+outputs:
+  # Export the DNS name of the bucket
+  bucketName: ${my-bucket.url}

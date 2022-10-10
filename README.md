@@ -16,3 +16,4 @@ The following special strings can be included in any template file; these will b
 
  - `${PROJECT}` - The name of the project.
  - `${DESCRIPTION}` - The description of the project.
+
