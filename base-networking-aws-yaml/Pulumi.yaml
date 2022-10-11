@@ -1,0 +1,50 @@
+name: ${PROJECT}
+description: ${DESCRIPTION}
+runtime: yaml
+template:
+  description: A YAML document to create a base networking setup on AWS
+  config:
+    aws:region:
+      description: The AWS region to deploy into
+      default: us-west-2
+    vpcNetworkCidr:
+      description: The network CIDR to use for new VPC
+      default: 10.0.0.0/16
+configuration:
+  vpcNetworkCidr:
+    type: String
+    default: 10.0.0.0/16
+resources:
+  # Create a VPC
+  vpc:
+    type: awsx:ec2:Vpc
+    properties:
+      enableDnsHostnames: true
+      cidrBlock: ${vpcNetworkCidr}
+      tags:
+        https: allow
+  # Create a security group to allow HTTPS traffic
+  securityGroup:
+    type: aws:ec2:SecurityGroup
+    properties:
+      description: Allow HTTPS inbound traffic
+      vpcId: ${vpc.vpcId}
+      ingress:
+        - description: HTTPS from VPC
+          fromPort: 443
+          toPort: 443
+          protocol: tcp
+          cidrBlocks:
+            - ${vpcNetworkCidr}
+      egress:
+        - fromPort: 0
+          toPort: 0
+          protocol: -1
+          cidrBlocks:
+            - 0.0.0.0/0
+      tags:
+        Name: https
+# Export some values for use elsewhere
+outputs:
+  vpcId: ${vpc.vpcId}
+  securityGroupId: ${securityGroup.id}
