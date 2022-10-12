@@ -1,0 +1,11 @@
+{
+		"name": "test",
+		"devDependencies": {
+			"@types/node": "^14"
+		},
+		"dependencies": {
+			"typescript": "^4.0.0",
+			"@pulumi/pulumi": "^3.0.0",
+			"@pulumi/azure-native": "1.80.0"
+		}
+}

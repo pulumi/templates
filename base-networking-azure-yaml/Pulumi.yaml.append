@@ -1,0 +1,50 @@
+resources:
+  # Create a new resource group
+  resourceGroup:
+    type: azure-native:resources:ResourceGroup
+  # Create a new virtual network
+  virtualNetwork:
+    type: azure-native:network:VirtualNetwork
+    properties:
+      addressSpace:
+        # Define the CIDR used in the new virtual network
+        addressPrefixes:
+          - 10.0.0.0/16
+      resourceGroupName: ${resourceGroup.name}
+  # Create subnets in the virtual network
+  subnet1:
+    type: azure-native:network:Subnet
+    properties:
+      addressPrefix: 10.0.0.0/22
+      resourceGroupName: ${resourceGroup.name}
+      virtualNetworkName: ${virtualNetwork.name}
+  subnet2:
+    type: azure-native:network:Subnet
+    properties:
+      addressPrefix: 10.0.4.0/22
+      resourceGroupName: ${resourceGroup.name}
+      virtualNetworkName: ${virtualNetwork.name}
+  subnet3:
+    type: azure-native:network:Subnet
+    properties:
+      addressPrefix: 10.0.8.0/22
+      resourceGroupName: ${resourceGroup.name}
+      virtualNetworkName: ${virtualNetwork.name}
+  # Create a security group to allow HTTPS traffic
+  securityGroup:
+    type: azure-native:network:NetworkSecurityGroup
+    properties:
+      resourceGroupName: ${resourceGroup.name}
+      securityRules:
+        - access: Allow
+          destinationAddressPrefix: '*'
+          destinationPortRange: '443'
+          direction: Inbound
+          name: allow-inbound-https
+          priority: 200
+          protocol: TCP
+          sourceAddressPrefix: '*'
+          sourcePortRange: '*'
+outputs:
+  virtualNetworkId: ${virtualNetwork.id}
+  securityGroupId: ${securityGroup.id}

@@ -1,0 +1,9 @@
+name: ${PROJECT}
+description: ${DESCRIPTION}
+runtime: nodejs
+template:
+  description: A TypeScript program to create a base networking setup on Azure
+  config:
+    azure-native:location:
+      default: westus2
+      description: The Azure region in which to create the infrastructure
