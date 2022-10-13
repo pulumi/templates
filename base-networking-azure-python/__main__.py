@@ -14,24 +14,13 @@ virtual_network = azure_native.network.VirtualNetwork(
 )
 
 # Create three subnets in the virtual network
-subnet1 = azure_native.network.Subnet(
-    "subnet1",
-    address_prefix="10.0.0.0/22",
-    resource_group_name=resource_group.name,
-    virtual_network_name=virtual_network.name
-)
-subnet2 = azure_native.network.Subnet(
-    "subnet2",
-    address_prefix="10.0.4.0/22",
-    resource_group_name=resource_group.name,
-    virtual_network_name=virtual_network.name
-)
-subnet3 = azure_native.network.Subnet(
-    "subnet3",
-    address_prefix="10.0.8.0/22",
-    resource_group_name=resource_group.name,
-    virtual_network_name=virtual_network.name
-)
+for i in range(3):
+    subnet = azure_native.network.Subnet(
+        f"subnet{i+1}",
+        address_prefix=f"10.0.{i*4}.0/22",
+        resource_group_name=resource_group.name,
+        virtual_network_name=virtual_network.name
+    )
 
 # Create a security group to allow HTTPS traffic
 security_group = azure_native.network.NetworkSecurityGroup(

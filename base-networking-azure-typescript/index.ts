@@ -12,21 +12,13 @@ const virtualNetwork = new azure_native.network.VirtualNetwork("virtualNetwork",
 });
 
 // Create three subnets in the new virtual network
-const subnet1 = new azure_native.network.Subnet("subnet1", {
-    addressPrefix: "10.0.0.0/22",
-    resourceGroupName: resourceGroup.name,
-    virtualNetworkName: virtualNetwork.name,
-});
-const subnet2 = new azure_native.network.Subnet("subnet2", {
-    addressPrefix: "10.0.4.0/22",
-    resourceGroupName: resourceGroup.name,
-    virtualNetworkName: virtualNetwork.name,
-});
-const subnet3 = new azure_native.network.Subnet("subnet3", {
-    addressPrefix: "10.0.8.0/22",
-    resourceGroupName: resourceGroup.name,
-    virtualNetworkName: virtualNetwork.name,
-});
+for (let i = 0; i < 3; i++) {
+    var subnet = new azure_native.network.Subnet(`subnet${i + 1}`, {
+        addressPrefix: `10.0.${i * 4}.0/22`,
+        resourceGroupName: resourceGroup.name,
+        virtualNetworkName: virtualNetwork.name,
+    })
+};
 
 // Create a security group to allow HTTPS traffic
 const securityGroup = new azure_native.network.NetworkSecurityGroup("securityGroup", {
