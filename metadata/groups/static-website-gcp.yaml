@@ -2,20 +2,6 @@ name: Google Cloud Static Website
 kind: architecture
 parent: static-website
 slug: gcp
-description:
-  cta: |
-    Deploy a static website on Google Cloud with Pulumi, Google Cloud Storage, and Google
-    Cloud CDN.
-  meta: |
-    The Google Cloud Static Website template makes it easy to deploy a static website on
-    Google Cloud with Pulumi, Google Cloud Storage, and Google Cloud CDN.
-  full: |
-    The Google Cloud Static Website template deploys an HTML website on Google Cloud
-    Platform. It uses a Cloud Storage bucket for file storage, configures the storage
-    account to host a website, and provisions a Global Address to route traffic to the CDN
-    for lower latency and caching. The template generates a complete Pulumi program,
-    including placeholder web content, to give you a working project out of the box that
-    you can customize easily and extend to suit your needs.
 clouds:
   - gcp
 templates:

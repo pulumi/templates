@@ -2,23 +2,6 @@ name: Container Service on AWS
 kind: architecture
 parent: container-service
 slug: azure
-description:
-  cta: |
-    Deploy a container service on AWS with Pulumi and Amazon ECS.
-  meta: |
-    The Container Service template makes it easy to deploy a container service on AWS with
-    Pulumi and Amazon Elastic Container Service (ECS).
-  full: |
-    The Container Service template creates an infrastructure as code project in your
-    favorite language that deploys a container service to AWS. You can then use the
-    container service to build your own containerized application. The architecture
-    includes Amazon Elastic Container Service (ECS) for cluster management, AWS Fargate to
-    run the cluster on serverless compute, and an Application Load Balancer that serves
-    the container endpoint to the internet. It also uses an Amazon Elastic Container
-    Repository (ECR) that stores the container image. The template generates a complete
-    Pulumi program that provisions the cloud resources and installs Nginx in a container,
-    providing you with a working project out of the box that you can customize easily and
-    extend to suit your needs.
 clouds:
   - aws
 templates:

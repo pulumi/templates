@@ -2,19 +2,6 @@ name: AWS Static Website
 kind: architecture
 parent: static-website
 slug: aws
-description:
-  cta: |
-    Deploy a static website on AWS with Pulumi, Amazon S3, and Amazon CloudFront.
-  meta: |
-    The AWS Static Website template makes it easy to deploy a static website on AWS with
-    Pulumi, Amazon S3, and Amazon CloudFront.
-  full: |
-    The AWS Static Website template deploys an HTML-based website on AWS with Pulumi.
-    It uses an Amazon S3 bucket for file storage, configures the bucket to host a
-    website, and deploys an Amazon CloudFront Distribution to serve the website with
-    low latency, caching, and HTTPS. The template generates a complete Pulumi program,
-    including placeholder web content, to give you a working project out of the box
-    that you can customize easily and extend to suit your needs.
 clouds:
   - aws
 templates:

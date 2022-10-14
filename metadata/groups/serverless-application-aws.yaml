@@ -2,19 +2,6 @@ name: AWS Serverless Application
 kind: architecture
 parent: serverless-application
 slug: azure
-description:
-  cta: |
-    Deploy a serverless application on AWS with Pulumi, AWS Lambda, and Amazon API Gateway.
-  meta: |
-    Pulumi program templates that make it easy to deploy serverless applications on AWS, Azure, or Google Cloud Platform.
-  full: |
-    The AWS Serverless Application template deploys a serverless website to AWS that
-    displays the current time. It deploys an Amazon S3 bucket for hosting a static
-    website, deploys an AWS Lambda function that runs the business logic, and an Amazon
-    API Gateway REST API that routes requests to HTML content and the Lambda function. The
-    template ships with a placeholder website that displays the current time to give you a
-    working Pulumi project out of the box that you can customize easily and extend to suit
-    your needs.
 clouds:
   - aws
 templates:
