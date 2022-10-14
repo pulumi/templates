@@ -42,7 +42,12 @@ const image = new docker.Image("image", {
     },
 });
 
-const group = new containerinstance.ContainerGroup("group", {
+const dnsName = new random.RandomString("dns-name", {
+    length: 8,
+    special: false,
+}).result.apply(result => `${imageName}-${result.toLowerCase()}`);
+
+const containerGroup = new containerinstance.ContainerGroup("container-group", {
     resourceGroupName: resourceGroup.name,
     osType: "linux",
     restartPolicy: "always",
@@ -79,7 +84,7 @@ const group = new containerinstance.ContainerGroup("group", {
     ],
     ipAddress: {
         type: containerinstance.ContainerGroupIpAddressType.Public,
-        dnsNameLabel: new random.RandomPet("host", { length: 2 }).id,
+        dnsNameLabel: dnsName,
         ports: [
             {
                 port: containerPort,
@@ -89,6 +94,6 @@ const group = new containerinstance.ContainerGroup("group", {
     },
 });
 
-export const ipAddress = group.ipAddress.apply(address => address!.ip!);
-export const hostname = group.ipAddress.apply(address => address!.fqdn!);
-export const url = group.ipAddress.apply(address => `http://${address!.fqdn!}:${containerPort}`);
+export const ipAddress = containerGroup.ipAddress.apply(addr => addr!.ip!);
+export const hostname = containerGroup.ipAddress.apply(addr => addr!.fqdn!);
+export const url = containerGroup.ipAddress.apply(addr => `http://${addr!.fqdn!}:${containerPort}`);

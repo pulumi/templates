@@ -6,7 +6,9 @@ from pulumi_azure_native import resources, containerregistry, containerinstance
 config = pulumi.Config()
 image_name = config.get("imageName", "my-app")
 app_path = config.get("appPath", "./app")
-container_port = config.get_number("containerPort", 80)
+container_port = config.get_int("containerPort", 80)
+cpu = config.get_float("cpu", 1.0)
+memory = config.get_float("memory", 1.5)
 
 resource_group = resources.ResourceGroup('resource_group')
 
@@ -38,11 +40,12 @@ image = docker.Image("image",
     ),
 )
 
-hostname = random.RandomPet("hostname", random.RandomPetArgs(
-    length=2,
-))
+dns_name = random.RandomString("dns-name", random.RandomStringArgs(
+    length=8,
+    special=False,
+)).result.apply(lambda result: f"{image_name}-{result.lower()}")
 
-group = containerinstance.ContainerGroup("group", containerinstance.ContainerGroupArgs(
+container_group = containerinstance.ContainerGroup("container-group", containerinstance.ContainerGroupArgs(
     resource_group_name=resource_group.name,
     os_type="linux",
     restart_policy="always",
@@ -75,15 +78,15 @@ group = containerinstance.ContainerGroup("group", containerinstance.ContainerGro
             ],
             resources=containerinstance.ResourceRequirementsArgs(
                 requests=containerinstance.ResourceRequestsArgs(
-                    cpu=1.0,
-                    memory_in_gb=1.5,
+                    cpu=cpu,
+                    memory_in_gb=memory,
                 ),
             ),
         ),
     ],
     ip_address=containerinstance.IpAddressArgs(
         type=containerinstance.ContainerGroupIpAddressType.PUBLIC,
-        dns_name_label=hostname,
+        dns_name_label=dns_name,
         ports=[
             containerinstance.PortArgs(
                 port=container_port,
@@ -93,6 +96,6 @@ group = containerinstance.ContainerGroup("group", containerinstance.ContainerGro
     ),
 ))
 
-pulumi.export("ipAddress", group.ip_address.apply(lambda addr: addr.ip))
-pulumi.export("hostname", group.ip_address.apply(lambda addr: addr.fqdn))
-pulumi.export("url", group.ip_address.apply(lambda addr: f"http://{addr.fqdn}:{container_port}"))
+pulumi.export("ipAddress", container_group.ip_address.apply(lambda addr: addr.ip))
+pulumi.export("hostname", container_group.ip_address.apply(lambda addr: addr.fqdn))
+pulumi.export("url", container_group.ip_address.apply(lambda addr: f"http://{addr.fqdn}:{container_port}"))

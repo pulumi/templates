@@ -1,15 +1,18 @@
-﻿using Pulumi;
+﻿using System;
+using System.Collections.Generic;
+using Pulumi;
 using AzureNative = Pulumi.AzureNative;
 using Docker = Pulumi.Docker;
 using Random = Pulumi.Random;
-using System.Collections.Generic;
 
 return await Pulumi.Deployment.RunAsync(() =>
 {
     var config = new Config();
     var appPath = config.Get("appPath") ?? "./app";
-    var containerPort = config.GetInt32("containerPort") ?? 80;
     var imageName = config.Get("imageName") ?? "my-app";
+    var containerPort = config.GetInt32("containerPort") ?? 80;
+    var cpu = Math.Max(config.GetObject<double>("cpu"), 1.0);
+    var memory = Math.Max(config.GetObject<double>("memory"), 1.5);
 
     var resourceGroup = new AzureNative.Resources.ResourceGroup("resourceGroup");
 
@@ -44,12 +47,13 @@ return await Pulumi.Deployment.RunAsync(() =>
         },
     });
 
-    var hostname = new Random.RandomPet("hostname", new()
+    var dnsName = new Random.RandomString("dns-name", new()
     {
-        Length = 2,
-    });
+        Length = 8,
+        Special = false,
+    }).Result.Apply(result => $"{imageName}-{result.ToLower()}");
 
-    var group = new AzureNative.ContainerInstance.ContainerGroup("group", new()
+    var containerGroup = new AzureNative.ContainerInstance.ContainerGroup("container-group", new()
     {
         ResourceGroupName = resourceGroup.Name,
         OsType = "linux",
@@ -80,15 +84,15 @@ return await Pulumi.Deployment.RunAsync(() =>
                 },
                 Resources = new AzureNative.ContainerInstance.Inputs.ResourceRequirementsArgs {
                     Requests = new AzureNative.ContainerInstance.Inputs.ResourceRequestsArgs {
-                        Cpu = 1.0,
-                        MemoryInGB = 1.5,
+                        Cpu = cpu,
+                        MemoryInGB = memory,
                     },
                 },
             },
         },
         IpAddress = new AzureNative.ContainerInstance.Inputs.IpAddressArgs {
             Type = AzureNative.ContainerInstance.ContainerGroupIpAddressType.Public,
-            DnsNameLabel = hostname.Id,
+            DnsNameLabel = dnsName,
             Ports = new[]
             {
                 new AzureNative.ContainerInstance.Inputs.PortArgs {
@@ -101,8 +105,8 @@ return await Pulumi.Deployment.RunAsync(() =>
 
     return new Dictionary<string, object?>
     {
-        ["ipAddress"] = group.IpAddress.Apply(address => address!.Ip),
-        ["hostname"] = group.IpAddress.Apply(address => address!.Fqdn),
-        ["url"] = group.IpAddress.Apply(address => $"http://{address!.Fqdn}"),
+        ["ipAddress"] = containerGroup.IpAddress.Apply(addr => addr!.Ip),
+        ["hostname"] = containerGroup.IpAddress.Apply(addr => addr!.Fqdn),
+        ["url"] = containerGroup.IpAddress.Apply(addr => $"http://{addr!.Fqdn}:{containerPort}"),
     };
 });

@@ -1,6 +1,9 @@
 package main
 
 import (
+	"fmt"
+	"strings"
+
 	"github.com/pulumi/pulumi-azure-native/sdk/go/azure/containerinstance"
 	"github.com/pulumi/pulumi-azure-native/sdk/go/azure/containerregistry"
 	"github.com/pulumi/pulumi-azure-native/sdk/go/azure/resources"
@@ -25,6 +28,14 @@ func main() {
 		containerPort := 80
 		if param := cfg.GetInt("containerPort"); param != 0 {
 			containerPort = param
+		}
+		cpu := 1.0
+		if param := cfg.GetFloat64("cpu"); param != 0 {
+			cpu = param
+		}
+		memory := 1.0
+		if param := cfg.GetFloat64("memory"); param != 0 {
+			memory = param
 		}
 
 		resourceGroup, err := resources.NewResourceGroup(ctx, "resource-group", nil)
@@ -65,14 +76,19 @@ func main() {
 			return err
 		}
 
-		hostname, err := random.NewRandomPet(ctx, "hostname", &random.RandomPetArgs{
-			Length: pulumi.Int(2),
+		dnsNameSuffix, err := random.NewRandomString(ctx, "dns-name-suffix", &random.RandomStringArgs{
+			Length:  pulumi.Int(8),
+			Special: pulumi.Bool(false),
 		})
 		if err != nil {
 			return err
 		}
 
-		group, err := containerinstance.NewContainerGroup(ctx, "group", &containerinstance.ContainerGroupArgs{
+		dnsName := dnsNameSuffix.Result.ApplyT(func(result string) string {
+			return fmt.Sprintf("%s-%s", imageName, strings.ToLower(result))
+		}).(pulumi.StringOutput)
+
+		containerGroup, err := containerinstance.NewContainerGroup(ctx, "container-group", &containerinstance.ContainerGroupArgs{
 			ResourceGroupName: resourceGroup.Name,
 			OsType:            pulumi.String("linux"),
 			RestartPolicy:     pulumi.String("always"),
@@ -101,15 +117,15 @@ func main() {
 					},
 					Resources: containerinstance.ResourceRequirementsArgs{
 						Requests: containerinstance.ResourceRequestsArgs{
-							Cpu:        pulumi.Float64(1.0),
-							MemoryInGB: pulumi.Float64(1.5),
+							Cpu:        pulumi.Float64(cpu),
+							MemoryInGB: pulumi.Float64(memory),
 						},
 					},
 				},
 			},
 			IpAddress: containerinstance.IpAddressArgs{
 				Type:         pulumi.String("public"),
-				DnsNameLabel: hostname.ID(),
+				DnsNameLabel: dnsName,
 				Ports: containerinstance.PortArray{
 					containerinstance.PortArgs{
 						Port:     pulumi.Int(containerPort),
@@ -119,9 +135,9 @@ func main() {
 			},
 		})
 
-		ctx.Export("ipAddress", group.IpAddress.Elem().Ip())
-		ctx.Export("hostname", group.IpAddress.Elem().Fqdn())
-		ctx.Export("url", pulumi.Sprintf("http://%s:%d", group.IpAddress.Elem().Fqdn(), containerPort))
+		ctx.Export("ipAddress", containerGroup.IpAddress.Elem().Ip())
+		ctx.Export("hostname", containerGroup.IpAddress.Elem().Fqdn())
+		ctx.Export("url", pulumi.Sprintf("http://%s:%d", containerGroup.IpAddress.Elem().Fqdn(), containerPort))
 
 		return nil
 	})
