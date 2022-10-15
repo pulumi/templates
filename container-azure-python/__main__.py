@@ -10,7 +10,7 @@ container_port = config.get_int("containerPort", 80)
 cpu = config.get_float("cpu", 1.0)
 memory = config.get_float("memory", 1.5)
 
-resource_group = resources.ResourceGroup('resource_group')
+resource_group = resources.ResourceGroup("resource-group")
 
 registry = containerregistry.Registry("registry", containerregistry.RegistryArgs(
     resource_group_name=resource_group.name,

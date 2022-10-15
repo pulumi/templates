@@ -14,7 +14,7 @@ return await Pulumi.Deployment.RunAsync(() =>
     var cpu = Math.Max(config.GetObject<double>("cpu"), 1.0);
     var memory = Math.Max(config.GetObject<double>("memory"), 1.5);
 
-    var resourceGroup = new AzureNative.Resources.ResourceGroup("resourceGroup");
+    var resourceGroup = new AzureNative.Resources.ResourceGroup("resource-group");
 
     var registry = new AzureNative.ContainerRegistry.Registry("registry", new()
     {
