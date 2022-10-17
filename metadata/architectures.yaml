@@ -1,0 +1,15 @@
+static-website:
+  name: Static Website
+  slug: static-website
+
+serverless-application:
+  name: Serverless
+  slug: serverless-application
+
+container-service:
+  name: Container Service
+  slug: container-service
+
+kubernetes:
+  name: Kubernetes
+  slug: kubernetes
