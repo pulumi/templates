@@ -7,6 +7,7 @@ using Random = Pulumi.Random;
 
 return await Pulumi.Deployment.RunAsync(() =>
 {
+    // Import the program's configuration settings.
     var config = new Config();
     var appPath = config.Get("appPath") ?? "./app";
     var imageName = config.Get("imageName") ?? "my-app";
@@ -14,8 +15,10 @@ return await Pulumi.Deployment.RunAsync(() =>
     var cpu = Math.Max(config.GetObject<double>("cpu"), 1.0);
     var memory = Math.Max(config.GetObject<double>("memory"), 1.5);
 
+    // Create a resource group for the container registry.
     var resourceGroup = new AzureNative.Resources.ResourceGroup("resource-group");
 
+    // Create a container registry.
     var registry = new AzureNative.ContainerRegistry.Registry("registry", new()
     {
         ResourceGroupName = resourceGroup.Name,
@@ -25,15 +28,16 @@ return await Pulumi.Deployment.RunAsync(() =>
         },
     });
 
+    // Fetch login credentials for the registry.
     var credentials = AzureNative.ContainerRegistry.ListRegistryCredentials.Invoke(new()
     {
         ResourceGroupName = resourceGroup.Name,
         RegistryName = registry.Name,
     });
-
     var registryUsername = credentials.Apply(result => result.Username!);
     var registryPassword = credentials.Apply(result => result.Passwords[0]!.Value!);
 
+    // Create a container image for the service.
     var image = new Docker.Image("image", new()
     {
         ImageName = Pulumi.Output.Format($"{registry.LoginServer}/{imageName}"),
@@ -47,12 +51,14 @@ return await Pulumi.Deployment.RunAsync(() =>
         },
     });
 
+    // Use a random string to give the service a unique DNS name.
     var dnsName = new Random.RandomString("dns-name", new()
     {
         Length = 8,
         Special = false,
     }).Result.Apply(result => $"{imageName}-{result.ToLower()}");
 
+    // Create a container group for the service that makes it publicly accessible.
     var containerGroup = new AzureNative.ContainerInstance.ContainerGroup("container-group", new()
     {
         ResourceGroupName = resourceGroup.Name,
@@ -103,10 +109,11 @@ return await Pulumi.Deployment.RunAsync(() =>
         }
     });
 
+    // Export the service's IP address, hostname, and fully-qualified URL.
     return new Dictionary<string, object?>
     {
-        ["ipAddress"] = containerGroup.IpAddress.Apply(addr => addr!.Ip),
         ["hostname"] = containerGroup.IpAddress.Apply(addr => addr!.Fqdn),
+        ["ip"] = containerGroup.IpAddress.Apply(addr => addr!.Ip),
         ["url"] = containerGroup.IpAddress.Apply(addr => $"http://{addr!.Fqdn}:{containerPort}"),
     };
 });

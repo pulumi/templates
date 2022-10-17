@@ -16,6 +16,7 @@ import (
 func main() {
 	pulumi.Run(func(ctx *pulumi.Context) error {
 
+		// Import the program's configuration settings.
 		cfg := config.New(ctx, "")
 		imageName := "my-app"
 		if param := cfg.Get("imageName"); param != "" {
@@ -33,16 +34,18 @@ func main() {
 		if param := cfg.GetFloat64("cpu"); param != 0 {
 			cpu = param
 		}
-		memory := 1.0
+		memory := 1.5
 		if param := cfg.GetFloat64("memory"); param != 0 {
 			memory = param
 		}
 
+		// Create a resource group for the container registry.
 		resourceGroup, err := resources.NewResourceGroup(ctx, "resource-group", nil)
 		if err != nil {
 			return err
 		}
 
+		// Create a container registry.
 		registry, err := containerregistry.NewRegistry(ctx, "registry", &containerregistry.RegistryArgs{
 			ResourceGroupName: resourceGroup.Name,
 			AdminUserEnabled:  pulumi.Bool(true),
@@ -54,6 +57,7 @@ func main() {
 			return err
 		}
 
+		// Fetch login credentials for the registry.
 		credentials := containerregistry.ListRegistryCredentialsOutput(ctx, containerregistry.ListRegistryCredentialsOutputArgs{
 			ResourceGroupName: resourceGroup.Name,
 			RegistryName:      registry.Name,
@@ -61,6 +65,7 @@ func main() {
 		registryUsername := credentials.Username().Elem()
 		registryPassword := credentials.Passwords().Index(pulumi.Int(0)).Value().Elem()
 
+		// Create a container image for the service.
 		image, err := docker.NewImage(ctx, "image", &docker.ImageArgs{
 			ImageName: pulumi.Sprintf("%s/%s", registry.LoginServer, imageName),
 			Build: docker.DockerBuildArgs{
@@ -76,6 +81,7 @@ func main() {
 			return err
 		}
 
+		// Use a random string to give the service a unique DNS name.
 		dnsNameSuffix, err := random.NewRandomString(ctx, "dns-name-suffix", &random.RandomStringArgs{
 			Length:  pulumi.Int(8),
 			Special: pulumi.Bool(false),
@@ -83,11 +89,11 @@ func main() {
 		if err != nil {
 			return err
 		}
-
 		dnsName := dnsNameSuffix.Result.ApplyT(func(result string) string {
 			return fmt.Sprintf("%s-%s", imageName, strings.ToLower(result))
 		}).(pulumi.StringOutput)
 
+		// Create a container group for the service that makes it publicly accessible.
 		containerGroup, err := containerinstance.NewContainerGroup(ctx, "container-group", &containerinstance.ContainerGroupArgs{
 			ResourceGroupName: resourceGroup.Name,
 			OsType:            pulumi.String("linux"),
@@ -135,7 +141,8 @@ func main() {
 			},
 		})
 
-		ctx.Export("ipAddress", containerGroup.IpAddress.Elem().Ip())
+		// Export the service's IP address, hostname, and fully-qualified URL.
+		ctx.Export("ip", containerGroup.IpAddress.Elem().Ip())
 		ctx.Export("hostname", containerGroup.IpAddress.Elem().Fqdn())
 		ctx.Export("url", pulumi.Sprintf("http://%s:%d", containerGroup.IpAddress.Elem().Fqdn(), containerPort))
 
