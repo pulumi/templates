@@ -1,7 +1,7 @@
 name: AWS Serverless Application
 kind: architecture
 parent: serverless-application
-slug: azure
+slug: aws
 clouds:
   - aws
 templates:
