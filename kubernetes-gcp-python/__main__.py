@@ -10,20 +10,23 @@ config = pulumi.Config()
 nodes_per_zone = config.get_float("nodesPerZone", 1)
 
 # Create a new network
-gke_network = gcp.compute.Network("gke-network",
+gke_network = gcp.compute.Network(
+    "gke-network",
     auto_create_subnetworks=False,
     description="A virtual network for your GKE cluster(s)"
 )
 
 # Create a subnet in the new network
-gke_subnet = gcp.compute.Subnetwork("gke-subnet",
+gke_subnet = gcp.compute.Subnetwork(
+    "gke-subnet",
     ip_cidr_range="10.128.0.0/12",
     network=gke_network.id,
     private_ip_google_access=True
 )
 
 # Create a cluster in the new network and subnet
-gke_cluster = gcp.container.Cluster("gke-cluster",
+gke_cluster = gcp.container.Cluster(
+    "gke-cluster",
     addons_config=gcp.container.ClusterAddonsConfigArgs(
         dns_cache_config=gcp.container.ClusterAddonsConfigDnsCacheConfigArgs(
             enabled=True
@@ -64,13 +67,15 @@ gke_cluster = gcp.container.Cluster("gke-cluster",
 )
 
 # Create a GCP service account for the nodepool
-gke_nodepool_sa = gcp.serviceaccount.Account("gke-nodepool-sa",
+gke_nodepool_sa = gcp.serviceaccount.Account(
+    "gke-nodepool-sa",
     account_id=pulumi.Output.concat(gke_cluster.name, "-np-1-sa"),
     display_name="Nodepool 1 Service Account"
 )
 
 # Create a nodepool for the cluster
-gke_nodepool = gcp.container.NodePool("gke-nodepool",
+gke_nodepool = gcp.container.NodePool(
+    "gke-nodepool",
     cluster=gke_cluster.id,
     node_count=nodes_per_zone,
     node_config=gcp.container.NodePoolNodeConfigArgs(
@@ -80,7 +85,11 @@ gke_nodepool = gcp.container.NodePool("gke-nodepool",
 )
 
 # Build a Kubeconfig to access the cluster
-cluster_kubeconfig = pulumi.Output.all(gke_cluster.master_auth.cluster_ca_certificate, gke_cluster.endpoint, gke_cluster.name).apply(lambda l: f"""apiVersion: v1
+cluster_kubeconfig = pulumi.Output.all(
+    gke_cluster.master_auth.cluster_ca_certificate,
+    gke_cluster.endpoint,
+    gke_cluster.name).apply(lambda l:
+    f"""apiVersion: v1
 clusters:
 - cluster:
     certificate-authority-data: {l[0]}
