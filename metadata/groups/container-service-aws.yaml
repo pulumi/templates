@@ -1,7 +1,7 @@
 name: Container Service on AWS
 kind: architecture
 parent: container-service
-slug: azure
+slug: aws
 clouds:
   - aws
 templates:
