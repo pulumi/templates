@@ -7,7 +7,7 @@ const gcpProject = providerCfg.require("project");
 const gcpRegion = providerCfg.get("region") || "us-central1";
 // Get some other configuration values or use defaults
 const cfg = new pulumi.Config();
-const nodePoolCount = cfg.getNumber("nodePoolCount") || 1;
+const nodesPerZone = cfg.getNumber("nodesPerZone") || 1;
 
 // Create a new network
 const gkeNetwork = new gcp.compute.Network("gke-network", {
@@ -63,6 +63,22 @@ const gkeCluster = new gcp.container.Cluster("gke-cluster", {
     },
 });
 
+// Create a service account for the node pool
+const gkeNodepoolSa = new gcp.serviceaccount.Account("gke-nodepool-sa", {
+    accountId: pulumi.interpolate `${gkeCluster.name}-np-1-sa`,
+    displayName: "Nodepool 1 Service Account",
+});
+
+// Create a nodepool for the GKE cluster
+const gkeNodepool = new gcp.container.NodePool("gke-nodepool", {
+    cluster: gkeCluster.id,
+    nodeCount: nodesPerZone,
+    nodeConfig: {
+        oauthScopes: ["https://www.googleapis.com/auth/cloud-platform"],
+        serviceAccount: gkeNodepoolSa.email,
+    },
+});
+
 // Build a Kubeconfig for accessing the cluster
 const clusterKubeconfig = pulumi.interpolate `apiVersion: v1
 clusters:
@@ -88,22 +104,6 @@ users:
         https://cloud.google.com/blog/products/containers-kubernetes/kubectl-auth-changes-in-gke
       provideClusterInfo: true
 `;
-
-// Create a service account for the node pool
-const gkeNodepoolSa = new gcp.serviceaccount.Account("gke-nodepool-sa", {
-    accountId: "nodepool-1-sa",
-    displayName: "Nodepool 1 Service Account",
-});
-
-// Create a nodepool for the GKE cluster
-const gkeNodepool = new gcp.container.NodePool("gke-nodepool", {
-    cluster: gkeCluster.id,
-    nodeCount: nodePoolCount,
-    nodeConfig: {
-        oauthScopes: ["https://www.googleapis.com/auth/cloud-platform"],
-        serviceAccount: gkeNodepoolSa.email,
-    },
-});
 
 // Export some values for use elsewhere
 export const networkName = gkeNetwork.name;

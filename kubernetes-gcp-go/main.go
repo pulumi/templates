@@ -21,9 +21,9 @@ func main() {
 		}
 		// Get some additional configuration values or use defaults
 		cfg := config.New(ctx, "")
-		nodePoolCount, err := cfg.TryInt("nodePoolCount")
+		nodesPerZone, err := cfg.TryInt("nodesPerZone")
 		if err != nil {
-			nodePoolCount = 1
+			nodesPerZone = 1
 		}
 
 		// Create a new network
@@ -93,7 +93,7 @@ func main() {
 
 		// Create a GCP Service Account for the node pool
 		gkeNodepoolSa, err := serviceaccount.NewAccount(ctx, "gke-nodepool-sa", &serviceaccount.AccountArgs{
-			AccountId:   pulumi.String("nodepool-1-sa"),
+			AccountId:   pulumi.Sprintf("%v-np-1-sa", gkeCluster.Name),
 			DisplayName: pulumi.String("Nodepool 1 Service Account"),
 		})
 		if err != nil {
@@ -103,7 +103,7 @@ func main() {
 		// Create a new node pool
 		_, err = container.NewNodePool(ctx, "gke-nodepool", &container.NodePoolArgs{
 			Cluster:   gkeCluster.ID(),
-			NodeCount: pulumi.Int(nodePoolCount),
+			NodeCount: pulumi.Int(nodesPerZone),
 			NodeConfig: &container.NodePoolNodeConfigArgs{
 				OauthScopes: pulumi.StringArray{
 					pulumi.String("https://www.googleapis.com/auth/cloud-platform"),
