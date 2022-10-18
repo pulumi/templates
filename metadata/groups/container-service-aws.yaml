@@ -1,0 +1,12 @@
+name: Container Service on AWS
+kind: architecture
+parent: container-service
+slug: azure
+clouds:
+  - aws
+templates:
+  - container-aws-typescript
+  - container-aws-python
+  - container-aws-go
+  - container-aws-csharp
+  - container-aws-yaml

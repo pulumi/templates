@@ -11,7 +11,7 @@ return await Deployment.RunAsync(() =>
     // Import the program's configuration settings.
     var config = new Config();
     var sitePath = config.Get("sitePath") ?? "./www";
-    var appPath = Path.Combine(config.Get("appPath") ?? "./app");
+    var appPath = config.Get("appPath") ?? "./app";
     var indexDocument = config.Get("indexDocument") ?? "index.html";
     var errorDocument = config.Get("errorDocument") ?? "error.html";
 
@@ -55,15 +55,12 @@ return await Deployment.RunAsync(() =>
         PublicAccess = AzureNative.Storage.PublicAccess.None,
     });
 
-    // Compile the the app for the Azure Linux environment.
-    var buildResult = Run.Invoke(new()
+    // Compile the the app.
+    var outputPath = "publish";
+    var publishCommand = Run.Invoke(new()
     {
-        Command = "dotnet publish",
+        Command = $"dotnet publish --output {outputPath}",
         Dir = appPath,
-        ArchivePaths = new[]
-        {
-            "*",
-        },
     });
 
     // Upload the serverless app to the storage container.
@@ -72,7 +69,7 @@ return await Deployment.RunAsync(() =>
         AccountName = account.Name,
         ResourceGroupName = resourceGroup.Name,
         ContainerName = appContainer.Name,
-        Source = buildResult.Apply(result => result.Archive! as AssetOrArchive),
+        Source = publishCommand.Apply(result => new FileArchive(Path.Combine(appPath, outputPath)) as AssetOrArchive),
     });
 
     // Create a shared access signature to give the Function App access to the code.
@@ -135,8 +132,7 @@ return await Deployment.RunAsync(() =>
                         var containerName = values.Item2;
                         var blobName = values.Item3;
                         var token = values.Item4;
-                        var url = $"https://{accountName}.blob.core.windows.net/{containerName}/{blobName}?{token}";
-                        return url;
+                        return $"https://{accountName}.blob.core.windows.net/{containerName}/{blobName}?{token}";
                     }),
                 },
             },

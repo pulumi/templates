@@ -113,7 +113,7 @@ jobs:
       - name: Install gotestfmt
         uses: jaxxstorm/action-install-gh-release@v1.3.1
         with:
-          repo: haveyoudebuggedit/gotestfmt
+          repo: gotesttools/gotestfmt
       - name: Get dependencies
         run: make ensure
       - if: contains(matrix.platform, 'windows')
