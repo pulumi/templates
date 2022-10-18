@@ -2,14 +2,14 @@ name: ${PROJECT}
 description: ${DESCRIPTION}
 runtime: yaml
 template:
-  description: A YAML program to create a Kubernetes cluster on GCP
+  description: A YAML program to create a Kubernetes cluster on Google Cloud
   config:
     gcp:project:
-      description: The GCP project in which to create resources
+      description: The Google Cloud project to deploy into
     gcp:region:
       default: us-central1
-      description: The GCP region in which resources should be created
-    nodePoolCount:
+      description: The Google Cloud region to deploy into
+    nodesPerZone:
       default: 1
       description: The desired number of nodes PER ZONE in the nodepool
 
@@ -19,29 +19,26 @@ configuration:
   gcp:region:
     type: String
     default: us-central1
-  nodePoolCount:
+  nodesPerZone:
     type: Number
     default: 1
 
 resources:
   # Create a GCP network (global VPC)
-  gke-nodepool-sa:
-    type: gcp:serviceAccount:Account
-    properties:
-      accountId: nodepool-1-sa
-      displayName: Nodepool 1 Service Account
   gke-network:
     type: gcp:compute:Network
     properties:
       # Disable autoCreateSubnetworks because Private Google Access is needed
       autoCreateSubnetworks: false
       description: A virtual network for your GKE cluster(s)
+  # Create a subnet in the new GCP network
   gke-subnet:
     type: gcp:compute:Subnetwork
     properties:
       ipCidrRange: 10.128.0.0/12
       network: ${gke-network.id}
       privateIpGoogleAccess: true
+  # Create a new GKE cluster
   gke-cluster:
     type: gcp:container:Cluster
     properties:
@@ -77,12 +74,19 @@ resources:
       subnetwork: ${gke-subnet.name}
       workloadIdentityConfig:
         workloadPool: ${gcp:project}.svc.id.goog
+  # Create a new service account for the nodepool
+  gke-nodepool-sa:
+    type: gcp:serviceAccount:Account
+    properties:
+      accountId: ${gke-cluster.name}-np-1-sa
+      displayName: Nodepool 1 Service Account
+  # Create a new nodepool for the cluster
   gke-nodepool:
     type: gcp:container:NodePool
     properties:
       cluster: ${gke-cluster.id}
       # Specify the number of nodes PER ZONE
-      nodeCount: ${nodePoolCount}
+      nodeCount: ${nodesPerZone}
       nodeConfig:
         # These scopes should be tightened down to only the required services/access
         oauthScopes:

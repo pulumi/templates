@@ -2,13 +2,13 @@ name: ${PROJECT}
 description: ${DESCRIPTION}
 runtime: go
 template:
-  description: A Go program to create a Kubernetes cluster on GCP
+  description: A Go program to create a Kubernetes cluster on Google Cloud
   config:
     gcp:project:
-      description: The GCP project in which to create resources
+      description: The Google Cloud project to deploy into
     gcp:region:
       default: us-central1
-      description: The GCP region in which resources should be created
-    nodePoolCount:
+      description: The Google Cloud region to deploy into
+    nodesPerZone:
       default: 1
-      description: The desired number of nodes (PER ZONE) in the nodepool
+      description: The desired number of nodes PER ZONE in the nodepool

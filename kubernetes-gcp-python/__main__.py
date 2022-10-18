@@ -4,14 +4,10 @@ import pulumi_gcp as gcp
 # Get some provider-namespaced configuration values
 provider_cfg = pulumi.Config("gcp")
 gcp_project = provider_cfg.require("project")
-gcp_region = provider_cfg.get("region")
-if gcp_region is None:
-    gcp_region = "us-central1"
+gcp_region = provider_cfg.get("region", "us-central1")
 # Get some additional configuration values
 config = pulumi.Config()
-node_pool_count = config.get_float("nodePoolCount")
-if node_pool_count is None:
-    node_pool_count = 1
+nodes_per_zone = config.get_float("nodesPerZone", 1)
 
 # Create a new network
 gke_network = gcp.compute.Network("gke-network",
@@ -67,6 +63,22 @@ gke_cluster = gcp.container.Cluster("gke-cluster",
     )
 )
 
+# Create a GCP service account for the nodepool
+gke_nodepool_sa = gcp.serviceaccount.Account("gke-nodepool-sa",
+    account_id=pulumi.Output.concat(gke_cluster.name, "-np-1-sa"),
+    display_name="Nodepool 1 Service Account"
+)
+
+# Create a nodepool for the cluster
+gke_nodepool = gcp.container.NodePool("gke-nodepool",
+    cluster=gke_cluster.id,
+    node_count=nodes_per_zone,
+    node_config=gcp.container.NodePoolNodeConfigArgs(
+        oauth_scopes=["https://www.googleapis.com/auth/cloud-platform"],
+        service_account=gke_nodepool_sa.email
+    )
+)
+
 # Build a Kubeconfig to access the cluster
 cluster_kubeconfig = pulumi.Output.all(gke_cluster.master_auth.cluster_ca_certificate, gke_cluster.endpoint, gke_cluster.name).apply(lambda l: f"""apiVersion: v1
 clusters:
@@ -92,22 +104,6 @@ users:
         https://cloud.google.com/blog/products/containers-kubernetes/kubectl-auth-changes-in-gke
       provideClusterInfo: true
 """)
-
-# Create a GCP service account for the nodepool
-gke_nodepool_sa = gcp.serviceaccount.Account("gke-nodepool-sa",
-    account_id="nodepool-1-sa",
-    display_name="Nodepool 1 Service Account"
-)
-
-# Create a nodepool for the cluster
-gke_nodepool = gcp.container.NodePool("gke-nodepool",
-    cluster=gke_cluster.id,
-    node_count=node_pool_count,
-    node_config=gcp.container.NodePoolNodeConfigArgs(
-        oauth_scopes=["https://www.googleapis.com/auth/cloud-platform"],
-        service_account=gke_nodepool_sa.email
-    )
-)
 
 # Export some values for use elsewhere
 pulumi.export("networkName", gke_network.name)
