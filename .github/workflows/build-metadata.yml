@@ -8,23 +8,22 @@ jobs:
     runs-on: ubuntu-latest
     name: Build
     steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-
       - name: Install Node
         uses: actions/setup-node@v1
         with:
-          node-version: 16.x
-
+          node-version: "16.x"
+      
+      - name: Check out branch
+        uses: actions/checkout@v3
+        with:
+          token: ${{ secrets.PULUMI_BOT_TOKEN }}
+      
       - name: Build metadata
         run: |
           make metadata
-
-      - uses: marvinpinto/action-automatic-releases@latest
+      
+      - name: Publish metadata.json file
+        uses: stefanzweifel/git-auto-commit-action@v4
         with:
-          repo_token: "${{ secrets.GITHUB_TOKEN }}"
-          automatic_release_tag: "latest"
-          prerelease: true
-          title: "Metadata"
-          files: |
-            metadata.json
+          file_pattern: metadata/dist/metadata.json
+          commit_message: Update metadata.json
