@@ -50,4 +50,4 @@ const result = {
 };
 
 // Write the list to an output file.
-fs.writeFileSync("dist/metadata.json", JSON.stringify(result, null, 4), "utf-8");
+fs.writeFileSync("metadata/dist/metadata.json", JSON.stringify(result, null, 4), "utf-8");

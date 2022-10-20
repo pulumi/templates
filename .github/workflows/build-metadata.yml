@@ -25,5 +25,5 @@ jobs:
       - name: Publish metadata.json file
         uses: stefanzweifel/git-auto-commit-action@v4
         with:
-          file_pattern: dist/metadata.json
-          commit_message: update dist/metadata.json
+          file_pattern: metadata/dist/metadata.json
+          commit_message: update metadata.json

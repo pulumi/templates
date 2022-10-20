@@ -1,4 +1,4 @@
-const metadata = require("../../dist/metadata.json");
+const metadata = require("../../metadata/dist/metadata.json");
 
 describe("Template metadata", () => {
 
