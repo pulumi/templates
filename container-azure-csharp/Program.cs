@@ -11,6 +11,7 @@ return await Pulumi.Deployment.RunAsync(() =>
     var config = new Config();
     var appPath = config.Get("appPath") ?? "./app";
     var imageName = config.Get("imageName") ?? "my-app";
+    var imageTag = config.Get("imageTag") ?? "latest";
     var containerPort = config.GetInt32("containerPort") ?? 80;
     var cpu = config.GetInt32("cpu") ?? 1;
     var memory = config.GetInt32("memory") ?? 2;
@@ -40,7 +41,7 @@ return await Pulumi.Deployment.RunAsync(() =>
     // Create a container image for the service.
     var image = new Docker.Image("image", new()
     {
-        ImageName = Pulumi.Output.Format($"{registry.LoginServer}/{imageName}"),
+        ImageName = Pulumi.Output.Format($"{registry.LoginServer}/{imageName}:{imageTag}"),
         Build = new Docker.DockerBuild {
             Context = appPath,
         },

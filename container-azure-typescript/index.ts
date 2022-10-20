@@ -9,6 +9,7 @@ import * as docker from "@pulumi/docker";
 const config = new pulumi.Config();
 const appPath = config.get("appPath") || "./app";
 const imageName = config.get("imageName") || "my-app";
+const imageTag = config.get("imageTag") || "latest";
 const containerPort = config.getNumber("containerPort") || 80;
 const cpu = config.getNumber("cpu") || 1;
 const memory = config.getNumber("memory") || 2;
@@ -38,7 +39,7 @@ const credentials = containerregistry.listRegistryCredentialsOutput({
 
 // Create a container image for the service.
 const image = new docker.Image("image", {
-    imageName: pulumi.interpolate`${registry.loginServer}/${imageName}`,
+    imageName: pulumi.interpolate`${registry.loginServer}/${imageName}:${imageTag}`,
     build: {
         context: appPath,
     },

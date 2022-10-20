@@ -7,6 +7,7 @@ from pulumi_azure_native import resources, containerregistry, containerinstance
 config = pulumi.Config()
 app_path = config.get("appPath", "./app")
 image_name = config.get("imageName", "my-app")
+image_tag = config.get("imageTag", "latest")
 container_port = config.get_int("containerPort", 80)
 cpu = config.get_int("cpu", 1)
 memory = config.get_int("memory", 2)
@@ -38,7 +39,7 @@ registry_password = credentials.apply(lambda creds: creds.passwords[0].value)
 # Create a container image for the service.
 image = docker.Image(
     "image",
-    image_name=pulumi.Output.concat(registry.login_server, "/", image_name),
+    image_name=pulumi.Output.concat(registry.login_server, f"/{image_name}:{image_tag}"),
     build=docker.DockerBuild(
         context=app_path,
     ),

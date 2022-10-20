@@ -1,6 +1,5 @@
 {
-    "name": "azure-container",
-    "main": "index.ts",
+    "name": "${PROJECT}",
     "devDependencies": {
         "@types/node": "^14"
     },

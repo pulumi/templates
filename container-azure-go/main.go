@@ -26,6 +26,10 @@ func main() {
 		if param := cfg.Get("imageName"); param != "" {
 			imageName = param
 		}
+		imageTag := "latest"
+		if param := cfg.Get("imageTag"); param != "" {
+			imageName = param
+		}
 		containerPort := 80
 		if param := cfg.GetInt("containerPort"); param != 0 {
 			containerPort = param
@@ -67,7 +71,7 @@ func main() {
 
 		// Create a container image for the service.
 		image, err := docker.NewImage(ctx, "image", &docker.ImageArgs{
-			ImageName: pulumi.Sprintf("%s/%s", registry.LoginServer, imageName),
+			ImageName: pulumi.Sprintf("%s/%s:%s", registry.LoginServer, imageName, imageTag),
 			Build: docker.DockerBuildArgs{
 				Context: pulumi.String(appPath),
 			},
