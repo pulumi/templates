@@ -18,13 +18,13 @@ func main() {
 
 		// Import the program's configuration settings.
 		cfg := config.New(ctx, "")
-		imageName := "my-app"
-		if param := cfg.Get("imageName"); param != "" {
-			imageName = param
-		}
 		appPath := "./app"
 		if param := cfg.Get("appPath"); param != "" {
 			appPath = param
+		}
+		imageName := "my-app"
+		if param := cfg.Get("imageName"); param != "" {
+			imageName = param
 		}
 		containerPort := 80
 		if param := cfg.GetInt("containerPort"); param != 0 {

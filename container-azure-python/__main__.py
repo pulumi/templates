@@ -5,8 +5,8 @@ from pulumi_azure_native import resources, containerregistry, containerinstance
 
 # Import the program's configuration settings.
 config = pulumi.Config()
-image_name = config.get("imageName", "my-app")
 app_path = config.get("appPath", "./app")
+image_name = config.get("imageName", "my-app")
 container_port = config.get_int("containerPort", 80)
 cpu = config.get_float("cpu", 1.0)
 memory = config.get_float("memory", 1.5)

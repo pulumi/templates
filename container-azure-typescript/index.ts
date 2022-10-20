@@ -7,9 +7,11 @@ import * as docker from "@pulumi/docker";
 
 // Import the program's configuration settings.
 const config = new pulumi.Config();
-const imageName = config.get("imageName") || "my-app";
 const appPath = config.get("appPath") || "./app";
+const imageName = config.get("imageName") || "my-app";
 const containerPort = config.getNumber("containerPort") || 80;
+const cpu = config.getNumber("cpu") || 1.0;
+const memory = config.getNumber("memory") || 1.5;
 
 // Create a resource group for the container registry.
 const resourceGroup = new resources.ResourceGroup("resource-group");
@@ -83,8 +85,8 @@ const containerGroup = new containerinstance.ContainerGroup("container-group", {
             ],
             resources: {
                 requests: {
-                    cpu: 1.0,
-                    memoryInGB: 1.5,
+                    cpu: cpu,
+                    memoryInGB: memory,
                 },
             },
         },
