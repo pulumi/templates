@@ -1,4 +1,3 @@
-
 import pulumi
 import pulumi_docker as docker
 from pulumi_gcp import cloudrun, config as gcp_config
@@ -27,45 +26,50 @@ image = docker.Image(
 )
 
 # Create a Cloud Run service definition.
-service = cloudrun.Service("service", cloudrun.ServiceArgs(
-    location=location,
-    template=cloudrun.ServiceTemplateArgs(
-        spec=cloudrun.ServiceTemplateSpecArgs(
-            containers=[
-                cloudrun.ServiceTemplateSpecContainerArgs(
-                    image=image.image_name,
-                    resources=cloudrun.ServiceTemplateSpecContainerResourcesArgs(
-                        limits=dict(
-                            memory=memory,
-                            cpu=cpu,
+service = cloudrun.Service(
+    "service",
+    cloudrun.ServiceArgs(
+        location=location,
+        template=cloudrun.ServiceTemplateArgs(
+            spec=cloudrun.ServiceTemplateSpecArgs(
+                containers=[
+                    cloudrun.ServiceTemplateSpecContainerArgs(
+                        image=image.image_name,
+                        resources=cloudrun.ServiceTemplateSpecContainerResourcesArgs(
+                            limits=dict(
+                                memory=memory,
+                                cpu=cpu,
+                            ),
                         ),
+                        ports=[
+                            cloudrun.ServiceTemplateSpecContainerPortArgs(
+                                container_port=container_port,
+                            ),
+                        ],
+                        envs=[
+                            cloudrun.ServiceTemplateSpecContainerEnvArgs(
+                                name="FLASK_RUN_PORT",
+                                value=container_port,
+                            ),
+                        ],
                     ),
-                    ports=[
-                        cloudrun.ServiceTemplateSpecContainerPortArgs(
-                            container_port=container_port,
-                            protocol="TCP",
-                        ),
-                    ],
-                    envs=[
-                        cloudrun.ServiceTemplateSpecContainerEnvArgs(
-                            name="FLASK_RUN_PORT",
-                            value=container_port,
-                        ),
-                    ],
-                ),
-            ],
-            container_concurrency=concurrency,
+                ],
+                container_concurrency=concurrency,
+            ),
         ),
     ),
-))
+)
 
 # Create an IAM member to make the service publicly accessible.
-invoker = cloudrun.IamMember("invoker", cloudrun.IamMemberArgs(
-    location=location,
-    service=service.name,
-    role="roles/run.invoker",
-    member="allUsers",
-))
+invoker = cloudrun.IamMember(
+    "invoker",
+    cloudrun.IamMemberArgs(
+        location=location,
+        service=service.name,
+        role="roles/run.invoker",
+        member="allUsers",
+    ),
+)
 
 # Export the URL of the service.
 pulumi.export("url", service.statuses.apply(lambda statuses: statuses[0].url))
