@@ -5,6 +5,7 @@ using System.Collections.Generic;
 
 return await Deployment.RunAsync(() =>
 {
+    // Import the program's configuration settings.
     var config = new Config();
     var appPath = config.Get("appPath") ?? "./app";
     var imageName = config.Get("imageName") ?? "my-app";
@@ -13,10 +14,12 @@ return await Deployment.RunAsync(() =>
     var memory = config.Get("memory") ?? "1Gi";
     var concurrency = config.GetInt32("concurrency") ?? 50;
 
+    // Import the provider's configuration settings.
     var gcpConfig = new Config("gcp");
     var location = gcpConfig.Require("region");
     var project = gcpConfig.Require("project");
 
+    // Create a container image for the service.
     var image = new Docker.Image("image", new()
     {
         ImageName = $"gcr.io/{project}/{imageName}",
@@ -25,6 +28,7 @@ return await Deployment.RunAsync(() =>
         },
     });
 
+    // Create a Cloud Run service definition.
     var service = new Gcp.CloudRun.Service("service", new Gcp.CloudRun.ServiceArgs
     {
         Location = location!,
@@ -66,6 +70,7 @@ return await Deployment.RunAsync(() =>
         },
     });
 
+    // Create an IAM member to make the service publicly accessible.
     var invoker = new Gcp.CloudRun.IamMember("invoker", new Gcp.CloudRun.IamMemberArgs
     {
         Location = location!,
@@ -74,6 +79,7 @@ return await Deployment.RunAsync(() =>
         Member = "allUsers",
     });
 
+    // Export the URL of the service.
     return new Dictionary<string, object?>
     {
         ["url"] = service.Statuses.Apply(statuses => statuses[0]?.Url),

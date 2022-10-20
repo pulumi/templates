@@ -39,10 +39,12 @@ func main() {
 			concurrency = param
 		}
 
+		// Import the provider's configuration settings.
 		providerConfig := config.New(ctx, "gcp")
 		location := providerConfig.Require("region")
 		project := providerConfig.Require("project")
 
+		// Create a container image for the service.
 		image, err := docker.NewImage(ctx, "image", &docker.ImageArgs{
 			Registry:  docker.ImageRegistryArgs{},
 			ImageName: pulumi.Sprintf("gcr.io/%s/%s", project, imageName),
@@ -54,6 +56,7 @@ func main() {
 			return err
 		}
 
+		// Create a Cloud Run service definition.
 		service, err := cloudrun.NewService(ctx, "service", &cloudrun.ServiceArgs{
 			Location: pulumi.String(location),
 			Template: cloudrun.ServiceTemplateArgs{
@@ -70,7 +73,6 @@ func main() {
 							Ports: cloudrun.ServiceTemplateSpecContainerPortArray{
 								cloudrun.ServiceTemplateSpecContainerPortArgs{
 									ContainerPort: pulumi.Int(containerPort),
-									Protocol:      pulumi.String("TCP"),
 								},
 							},
 						},
@@ -83,7 +85,7 @@ func main() {
 			return err
 		}
 
-		// Create an IAM member to invoke the function.
+		// Create an IAM member to make the service publicly accessible.
 		_, err = cloudrun.NewIamMember(ctx, "invoker", &cloudrun.IamMemberArgs{
 			Service:  service.Name,
 			Location: pulumi.String(location),
@@ -94,7 +96,8 @@ func main() {
 			return err
 		}
 
-		ctx.Export("siteURL", service.Statuses.Index(pulumi.Int(0)).Url())
+		// Export the URL of the service.
+		ctx.Export("url", service.Statuses.Index(pulumi.Int(0)).Url())
 
 		return nil
 	})

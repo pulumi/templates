@@ -3,6 +3,7 @@ import pulumi
 import pulumi_docker as docker
 from pulumi_gcp import cloudrun, config as gcp_config
 
+# Import the program's configuration settings.
 config = pulumi.Config()
 app_path = config.get("appPath", "./app")
 image_name = config.get("imageName", "my-app")
@@ -11,14 +12,12 @@ cpu = config.get_int("cpu", 1)
 memory = config.get("memory", "1Gi")
 concurrency = config.get_float("concurrency", 50)
 
+# Import the provider's configuration settings.
 gcp_config = pulumi.Config("gcp")
 location = gcp_config.require("region")
 project = gcp_config.require("project")
 
-# https://cloud.google.com/run/docs/about-concurrency
-# gcloud services enable containerregistry.googleapis.com (may need this, I don't think I did)
-# gcloud auth configure-docker
-
+# Create a container image for the service.
 image = docker.Image(
     "image",
     image_name=f"gcr.io/{project}/{image_name}",
@@ -27,6 +26,7 @@ image = docker.Image(
     ),
 )
 
+# Create a Cloud Run service definition.
 service = cloudrun.Service("service", cloudrun.ServiceArgs(
     location=location,
     template=cloudrun.ServiceTemplateArgs(
@@ -59,6 +59,7 @@ service = cloudrun.Service("service", cloudrun.ServiceArgs(
     ),
 ))
 
+# Create an IAM member to make the service publicly accessible.
 invoker = cloudrun.IamMember("invoker", cloudrun.IamMemberArgs(
     location=location,
     service=service.name,
@@ -66,4 +67,5 @@ invoker = cloudrun.IamMember("invoker", cloudrun.IamMemberArgs(
     member="allUsers",
 ))
 
+# Export the URL of the service.
 pulumi.export("url", service.statuses.apply(lambda statuses: statuses[0].url))
