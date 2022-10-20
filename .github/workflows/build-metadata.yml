@@ -26,4 +26,4 @@ jobs:
         uses: stefanzweifel/git-auto-commit-action@v4
         with:
           file_pattern: metadata/dist/metadata.json
-          commit_message: update metadata.json
+          commit_message: Update metadata.json
