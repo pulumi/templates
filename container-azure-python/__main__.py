@@ -8,8 +8,8 @@ config = pulumi.Config()
 app_path = config.get("appPath", "./app")
 image_name = config.get("imageName", "my-app")
 container_port = config.get_int("containerPort", 80)
-cpu = config.get_float("cpu", 1.0)
-memory = config.get_float("memory", 1.5)
+cpu = config.get_int("cpu", 1)
+memory = config.get_int("memory", 2)
 
 # Create a resource group for the container registry.
 resource_group = resources.ResourceGroup("resource-group")

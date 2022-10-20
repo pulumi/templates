@@ -30,12 +30,12 @@ func main() {
 		if param := cfg.GetInt("containerPort"); param != 0 {
 			containerPort = param
 		}
-		cpu := 1.0
-		if param := cfg.GetFloat64("cpu"); param != 0 {
+		cpu := 1
+		if param := cfg.GetInt("cpu"); param != 0 {
 			cpu = param
 		}
-		memory := 1.5
-		if param := cfg.GetFloat64("memory"); param != 0 {
+		memory := 2
+		if param := cfg.GetInt("memory"); param != 0 {
 			memory = param
 		}
 

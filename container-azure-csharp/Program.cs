@@ -12,8 +12,8 @@ return await Pulumi.Deployment.RunAsync(() =>
     var appPath = config.Get("appPath") ?? "./app";
     var imageName = config.Get("imageName") ?? "my-app";
     var containerPort = config.GetInt32("containerPort") ?? 80;
-    var cpu = Math.Max(config.GetObject<double>("cpu"), 1.0);
-    var memory = Math.Max(config.GetObject<double>("memory"), 1.5);
+    var cpu = config.GetInt32("cpu") ?? 1;
+    var memory = config.GetInt32("memory") ?? 2;
 
     // Create a resource group for the container registry.
     var resourceGroup = new AzureNative.Resources.ResourceGroup("resource-group");

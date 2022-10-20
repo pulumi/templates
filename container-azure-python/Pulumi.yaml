@@ -17,8 +17,8 @@ template:
       description: The port to expose on the container
       default: 80
     cpu:
-      description: The CPU limit of the container instance
-      default: 1.0
+      description: The number of CPU cores to allocate on the container
+      default: 1
     memory:
-      description: The memory limit, in GB, of the container instance
-      default: 1.5
+      description: The amount of memory, in GB, to allocate on the container
+      default: 2

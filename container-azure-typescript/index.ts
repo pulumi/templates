@@ -10,8 +10,8 @@ const config = new pulumi.Config();
 const appPath = config.get("appPath") || "./app";
 const imageName = config.get("imageName") || "my-app";
 const containerPort = config.getNumber("containerPort") || 80;
-const cpu = config.getNumber("cpu") || 1.0;
-const memory = config.getNumber("memory") || 1.5;
+const cpu = config.getNumber("cpu") || 1;
+const memory = config.getNumber("memory") || 2;
 
 // Create a resource group for the container registry.
 const resourceGroup = new resources.ResourceGroup("resource-group");
