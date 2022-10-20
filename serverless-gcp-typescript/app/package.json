@@ -1,7 +1,6 @@
 {
-    "name": "serverless-gcp-nodejs",
-    "version": "0.0.1",
-    "private": true,
+    "name": "${PROJECT}-app",
+    "version": "0.1.0",
     "dependencies": {
         "@google-cloud/functions-framework": "^3.1.0"
     }

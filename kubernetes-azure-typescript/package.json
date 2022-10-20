@@ -1,5 +1,5 @@
 {
-    "name": "kubernetes-azure-typescript",
+    "name": "${PROJECT}",
     "main": "index.ts",
     "devDependencies": {
         "@types/node": "^14"
