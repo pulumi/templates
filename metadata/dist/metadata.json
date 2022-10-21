@@ -95,6 +95,21 @@
                         "container-aws-csharp",
                         "container-aws-yaml"
                     ]
+                },
+                {
+                    "name": "Container Service on Azure",
+                    "kind": "architecture",
+                    "parent": "container-service",
+                    "slug": "azure",
+                    "clouds": [
+                        "azure"
+                    ],
+                    "templates": [
+                        "container-azure-typescript",
+                        "container-azure-python",
+                        "container-azure-go",
+                        "container-azure-csharp"
+                    ]
                 }
             ]
         },
@@ -1029,6 +1044,129 @@
                     "memory": {
                         "description": "The amount of memory to allocate for the container",
                         "default": 128
+                    }
+                }
+            }
+        },
+        "container-azure-csharp": {
+            "name": "container-azure-csharp",
+            "runtime": "dotnet",
+            "template": {
+                "description": "A containerized service on Azure Container Instances",
+                "config": {
+                    "azure-native:location": {
+                        "description": "The Azure region to deploy into",
+                        "default": "WestUS"
+                    },
+                    "appPath": {
+                        "description": "The path to the container application to deploy",
+                        "default": "app"
+                    },
+                    "containerPort": {
+                        "description": "The port to expose on the container",
+                        "default": 80
+                    },
+                    "cpu": {
+                        "description": "The number of CPU cores to allocate on the container",
+                        "default": 1
+                    },
+                    "memory": {
+                        "description": "The amount of memory, in GB, to allocate on the container",
+                        "default": 2
+                    }
+                }
+            }
+        },
+        "container-azure-go": {
+            "name": "container-azure-go",
+            "runtime": "go",
+            "template": {
+                "description": "A containerized service on Azure Container Instances",
+                "config": {
+                    "azure-native:location": {
+                        "description": "The Azure region to deploy into",
+                        "default": "WestUS"
+                    },
+                    "appPath": {
+                        "description": "The path to the container application to deploy",
+                        "default": "app"
+                    },
+                    "containerPort": {
+                        "description": "The port to expose on the container",
+                        "default": 80
+                    },
+                    "cpu": {
+                        "description": "The number of CPU cores to allocate on the container",
+                        "default": 1
+                    },
+                    "memory": {
+                        "description": "The amount of memory, in GB, to allocate on the container",
+                        "default": 2
+                    }
+                }
+            }
+        },
+        "container-azure-python": {
+            "name": "container-azure-python",
+            "runtime": {
+                "name": "python",
+                "options": {
+                    "virtualenv": "venv"
+                }
+            },
+            "template": {
+                "description": "A containerized service on Azure Container Instances",
+                "config": {
+                    "azure-native:location": {
+                        "description": "The Azure region to deploy into",
+                        "default": "WestUS"
+                    },
+                    "appPath": {
+                        "description": "The path to the container application to deploy",
+                        "default": "app"
+                    },
+                    "containerPort": {
+                        "description": "The port to expose on the container",
+                        "default": 80
+                    },
+                    "cpu": {
+                        "description": "The number of CPU cores to allocate on the container",
+                        "default": 1
+                    },
+                    "memory": {
+                        "description": "The amount of memory, in GB, to allocate on the container",
+                        "default": 2
+                    }
+                }
+            }
+        },
+        "container-azure-typescript": {
+            "name": "container-azure-typescript",
+            "runtime": {
+                "name": "nodejs"
+            },
+            "template": {
+                "description": "A containerized service on Azure Container Instances",
+                "config": {
+                    "azure-native:location": {
+                        "description": "The Azure region to deploy into",
+                        "default": "WestUS"
+                    },
+                    "appPath": {
+                        "description": "The path to the container application to deploy",
+                        "default": "app"
+                    },
+                    "containerPort": {
+                        "description": "The port to expose on the container",
+                        "default": 80
+                    },
+                    "cpu": {
+                        "description": "The number of CPU cores to allocate on the container",
+                        "default": 1
+                    },
+                    "memory": {
+                        "description": "The amount of memory, in GB, to allocate on the container",
+                        "default": 2
                     }
                 }
             }
