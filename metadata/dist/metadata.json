@@ -1981,6 +1981,26 @@
                 "description": "A minimal Kubernetes F# Pulumi program"
             }
         },
+        "kubernetes-gcp-csharp": {
+            "name": "kubernetes-gcp-csharp",
+            "runtime": "dotnet",
+            "template": {
+                "description": "A program to create a Kubernetes cluster on Google Cloud",
+                "config": {
+                    "gcp:project": {
+                        "description": "The Google Cloud project to deploy into"
+                    },
+                    "gcp:region": {
+                        "default": "us-central1",
+                        "description": "The Google Cloud region to deploy into"
+                    },
+                    "nodesPerZone": {
+                        "default": 1,
+                        "description": "The desired number of nodes PER ZONE in the nodepool"
+                    }
+                }
+            }
+        },
         "kubernetes-gcp-go": {
             "name": "kubernetes-gcp-go",
             "runtime": "go",
