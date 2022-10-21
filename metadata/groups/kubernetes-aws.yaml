@@ -8,4 +8,5 @@ templates:
   - kubernetes-aws-typescript
   - kubernetes-aws-python
   - kubernetes-aws-go
+  - kubernetes-aws-csharp
   - kubernetes-aws-yaml
