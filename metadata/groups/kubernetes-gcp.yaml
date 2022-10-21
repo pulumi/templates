@@ -9,3 +9,4 @@ templates:
   - kubernetes-gcp-python
   - kubernetes-gcp-go
   - kubernetes-gcp-yaml
+  - kubernetes-gcp-csharp
