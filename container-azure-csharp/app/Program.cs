@@ -5,7 +5,7 @@ app.MapGet("/", async (context) =>
 {
     await context.Response.WriteAsJsonAsync(new
     {
-        message = "Hello, world! 👋"
+        message = "Hello, world!"
     });
 });
 
