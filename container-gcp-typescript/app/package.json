@@ -1,5 +1,5 @@
 {
-    "name": "my-app",
+    "name": "${PROJECT}-app",
     "version": "0.1.0",
     "main": "index.js",
     "scripts": {
