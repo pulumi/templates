@@ -1,5 +1,5 @@
 {
-    "name": "serverless-gcp-typescript",
+    "name": "${PROJECT}",
     "main": "index.ts",
     "devDependencies": {
         "@types/node": "^14"

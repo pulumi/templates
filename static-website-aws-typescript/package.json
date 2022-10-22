@@ -1,5 +1,5 @@
 {
-    "name": "templates-static-website-aws-typescript",
+    "name": "${PROJECT}",
     "devDependencies": {
         "@types/node": "^14"
     },

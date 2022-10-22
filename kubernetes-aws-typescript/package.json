@@ -1,5 +1,5 @@
 {
-    "name": "kubernetes-aws",
+    "name": "${PROJECT}",
     "devDependencies": {
         "@types/node": "^14"
     },

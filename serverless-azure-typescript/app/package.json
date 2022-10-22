@@ -1,4 +1,4 @@
 {
-  "name": "hello-world",
-  "version": "0.0.1"
+  "name": "${PROJECT}-app",
+  "version": "0.1.0"
 }
