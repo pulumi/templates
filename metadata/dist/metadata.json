@@ -1204,6 +1204,155 @@
                 }
             }
         },
+        "container-gcp-csharp": {
+            "name": "container-gcp-csharp",
+            "runtime": "dotnet",
+            "template": {
+                "description": "A containerized service on Google Cloud Platform",
+                "config": {
+                    "gcp:region": {
+                        "description": "The Google Cloud region to deploy into",
+                        "default": "us-central1"
+                    },
+                    "gcp:project": {
+                        "description": "The Google Cloud project to deploy into"
+                    },
+                    "appPath": {
+                        "description": "The path to the container application to deploy",
+                        "default": "app"
+                    },
+                    "containerPort": {
+                        "description": "The port to expose on the container",
+                        "default": 8080
+                    },
+                    "cpu": {
+                        "description": "The number of virtual CPUs to allocate per container instance",
+                        "default": 1
+                    },
+                    "memory": {
+                        "description": "The amount of memory to allocate per container instance",
+                        "default": "1Gi"
+                    },
+                    "concurrency": {
+                        "description": "The maximum number of concurrent requests to serve per container instance",
+                        "default": 50
+                    }
+                }
+            }
+        },
+        "container-gcp-go": {
+            "name": "container-gcp-go",
+            "runtime": "go",
+            "template": {
+                "description": "A containerized service on Google Cloud Platform",
+                "config": {
+                    "gcp:region": {
+                        "description": "The Google Cloud region to deploy into",
+                        "default": "us-central1"
+                    },
+                    "gcp:project": {
+                        "description": "The Google Cloud project to deploy into"
+                    },
+                    "appPath": {
+                        "description": "The path to the container application to deploy",
+                        "default": "app"
+                    },
+                    "containerPort": {
+                        "description": "The port to expose on the container",
+                        "default": 8080
+                    },
+                    "cpu": {
+                        "description": "The number of virtual CPUs to allocate per container instance",
+                        "default": 1
+                    },
+                    "memory": {
+                        "description": "The amount of memory to allocate per container instance",
+                        "default": "1Gi"
+                    },
+                    "concurrency": {
+                        "description": "The maximum number of concurrent requests to serve per container instance",
+                        "default": 50
+                    }
+                }
+            }
+        },
+        "container-gcp-python": {
+            "name": "container-gcp-python",
+            "runtime": {
+                "name": "python",
+                "options": {
+                    "virtualenv": "venv"
+                }
+            },
+            "template": {
+                "description": "A containerized service on Google Cloud Platform",
+                "config": {
+                    "gcp:region": {
+                        "description": "The Google Cloud region to deploy into",
+                        "default": "us-central1"
+                    },
+                    "gcp:project": {
+                        "description": "The Google Cloud project to deploy into"
+                    },
+                    "appPath": {
+                        "description": "The path to the container application to deploy",
+                        "default": "app"
+                    },
+                    "containerPort": {
+                        "description": "The port to expose on the container",
+                        "default": 8080
+                    },
+                    "cpu": {
+                        "description": "The number of virtual CPUs to allocate per container instance",
+                        "default": 1
+                    },
+                    "memory": {
+                        "description": "The amount of memory to allocate per container instance",
+                        "default": "1Gi"
+                    },
+                    "concurrency": {
+                        "description": "The maximum number of concurrent requests to serve per container instance",
+                        "default": 50
+                    }
+                }
+            }
+        },
+        "container-gcp-typescript": {
+            "name": "container-gcp-typescript",
+            "runtime": "nodejs",
+            "template": {
+                "description": "A containerized service on Google Cloud Platform",
+                "config": {
+                    "gcp:region": {
+                        "description": "The Google Cloud region to deploy into",
+                        "default": "us-central1"
+                    },
+                    "gcp:project": {
+                        "description": "The Google Cloud project to deploy into"
+                    },
+                    "appPath": {
+                        "description": "The path to the container application to deploy",
+                        "default": "app"
+                    },
+                    "containerPort": {
+                        "description": "The port to expose on the container",
+                        "default": 8080
+                    },
+                    "cpu": {
+                        "description": "The number of virtual CPUs to allocate per container instance",
+                        "default": 1
+                    },
+                    "memory": {
+                        "description": "The amount of memory to allocate per container instance",
+                        "default": "1Gi"
+                    },
+                    "concurrency": {
+                        "description": "The maximum number of concurrent requests to serve per container instance",
+                        "default": 50
+                    }
+                }
+            }
+        },
         "csharp": {
             "name": "csharp",
             "runtime": "dotnet",
