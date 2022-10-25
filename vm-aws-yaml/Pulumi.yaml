@@ -11,18 +11,26 @@ template:
         instanceType:
             description: Instance type of EC2
             default: t2.micro
+        vpcNetworkCidr:
+            description: Network CIDR to use for new VPC
+            default: 10.0.0.0/16
 
 configuration:
     instanceType:
         type: String
         default: t2.micro
+    vpcNetworkCidr:
+        type: String
+        default: 10.0.0.0/16
 
 resources:  
     # Create VPC
     vpc:
         type: aws:ec2:Vpc
         properties:
-            cidrBlock: 10.0.0.0/16 
+            cidrBlock: 10.0.0.0/16
+            enableDnsHostnames: true
+            enableDnsSupport: true 
     # Create an internet gateway
     gateway:
         type: aws:ec2:InternetGateway
