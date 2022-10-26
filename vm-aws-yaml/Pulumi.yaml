@@ -10,7 +10,7 @@ template:
             default: us-west-2
         instanceType:
             description: Instance type of EC2
-            default: t2.micro
+            default: t3.micro
         vpcNetworkCidr:
             description: Network CIDR to use for new VPC
             default: 10.0.0.0/16
@@ -18,7 +18,7 @@ template:
 configuration:
     instanceType:
         type: String
-        default: t2.micro
+        default: t3.micro
     vpcNetworkCidr:
         type: String
         default: 10.0.0.0/16
