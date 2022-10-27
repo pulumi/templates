@@ -104,9 +104,10 @@ variables:
                 mostRecent: true
             return: id    
     # User data to start a HTTP server in the EC2 instance
-    userData: "#!/bin/bash
-        echo \"Hello, World from Pulumi!\" > index.html
-        nohup python -m SimpleHTTPServer 80 &"
+    userData: |
+        #!/bin/bash
+        echo "Hello, World from Pulumi!" > index.html
+        nohup python -m SimpleHTTPServer 80 &
 
 # Export the instance's publicly accessible IP address and hostname.            
 outputs:
