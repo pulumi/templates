@@ -1,0 +1,26 @@
+name: ${PROJECT}
+description: ${DESCRIPTION}
+runtime: python
+template:
+  description: A virtual machine on Google Cloud Platform
+  config:
+    gcp:project:
+      description: The Google Cloud project to deploy into
+    gcp:region:
+      description: The Google Cloud region to deploy into
+      default: us-central1
+    gcp:zone:
+      description: The Google Cloud availability zone to deploy into
+      default: us-central1-a
+    machineType:
+      description: The GCP machine type to use for the virtual machine
+      default: f1-micro
+    osImage:
+      description: The OS image type to use the virtual machine image
+      default: debian-11
+    instanceTag:
+      description: A tag to apply to the virtual machine instance
+      default: webserver
+    servicePort:
+      description: The port to expose on the virtual machine instance
+      default: 80
