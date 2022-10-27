@@ -113,14 +113,11 @@ variables:
             return: id    
     # User data to start a HTTP server in the EC2 instance
     userData: "#!/bin/bash
-            
-            echo \"Hello, World from Pulumi!\" > index.html
-            
-            nohup python -m SimpleHTTPServer 80 &"
-            
+        echo \"Hello, World from Pulumi!\" > index.html
+        nohup python -m SimpleHTTPServer 80 &"
 
+# Export the instance's publicly accessible IP address and hostname.            
 outputs:
-    # Export the public IP and DNS
     ip: ${server.publicIp}
     hostname: ${server.publicDns}
     url: http://${${server.publicDns}}
