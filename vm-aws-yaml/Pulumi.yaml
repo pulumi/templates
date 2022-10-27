@@ -28,7 +28,7 @@ resources:
     vpc:
         type: aws:ec2:Vpc
         properties:
-            cidrBlock: 10.0.0.0/16
+            cidrBlock: ${vpcNetworkCidr}
             enableDnsHostnames: true
             enableDnsSupport: true 
     # Create an internet gateway.
