@@ -1,0 +1,113 @@
+name: ${PROJECT}
+description: ${DESCRIPTION}
+runtime: yaml
+
+template:
+  description: A virtual machine on Google Cloud Platform
+  config:
+    gcp:project:
+      description: The Google Cloud project to deploy into
+    gcp:region:
+      description: The Google Cloud region to deploy into
+      default: us-central1
+    gcp:zone:
+      description: The Google Cloud availability zone to deploy into
+      default: us-central1-a
+    machineType:
+      description: The GCP machine type to use for the virtual machine
+      default: f1-micro
+    osImage:
+      description: The OS image type to use the virtual machine image
+      default: debian-11
+    instanceTag:
+      description: A tag to apply to the virtual machine instance
+      default: webserver
+    servicePort:
+      description: The port to expose on the virtual machine instance
+      default: 80
+
+configuration:
+  machineType:
+    type: String
+    default: f1-micro
+  osImage:
+    type: String
+    default: debian-11
+  instanceTag:
+    type: String
+    default: webserver
+  servicePort:
+    type: Number
+    default: 80
+
+variables:
+  metadataStartupScript: |
+    #!/bin/bash
+    echo '<!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>Hello, world!</title>
+    </head>
+    <body>
+        <h1>Hello, world! 👋</h1>
+        <p>Deployed with 💜 by <a href="https://pulumi.com/">Pulumi</a>.</p>
+    </body>
+    </html>' > index.html
+    sudo python3 -m http.server ${servicePort} &
+
+resources:
+
+  network:
+    type: gcp:compute:Network
+    properties:
+      autoCreateSubnetworks: false
+
+  subnet:
+    type: gcp:compute:Subnetwork
+    properties:
+      ipCidrRange: 10.0.1.0/24
+      network: ${network.id}
+
+  firewall:
+    type: gcp:compute:Firewall
+    properties:
+      network: ${network.selfLink}
+      allows:
+        - protocol: tcp
+          ports:
+          - "22"
+          - ${servicePort}
+      direction: INGRESS
+      sourceRanges:
+        - 0.0.0.0/0
+      targetTags:
+        - ${instanceTag}
+
+  instance:
+    type: gcp:compute:Instance
+    properties:
+      machineType: ${machineType}
+      bootDisk:
+        initializeParams:
+          image: ${osImage}
+      networkInterfaces:
+        - network: ${network.id}
+          subnetwork: ${subnet.id}
+          accessConfigs:
+            - {}
+      serviceAccount:
+        scopes:
+          - https://www.googleapis.com/auth/cloud-platform
+      allowStoppingForUpdate: true
+      metadataStartupScript: ${metadataStartupScript}
+      tags:
+        - ${instanceTag}
+    options:
+      dependsOn:
+        - ${firewall}
+
+outputs:
+  name: ${instance.name}
+  ip: ${instance.networkInterfaces[0].accessConfigs[0].natIp}
+  url: http://${instance.networkInterfaces[0].accessConfigs[0].natIp}:${service
