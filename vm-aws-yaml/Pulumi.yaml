@@ -1,18 +1,18 @@
-name: vm-aws-yaml
-description: A YAML program to create a virtual machine on AWS
+name: ${PROJECT}
+description: ${DESCRIPTION}
 runtime: yaml
 
 template: 
-    description: A YAML program to create a virtual machine on AWS
+    description: A virtual machine on Amazon EC2
     config:
         aws:region:
             description: The AWS region to deploy into
             default: us-west-2
         instanceType:
-            description: Instance type of EC2
+            description: The Amazon EC2 instance type
             default: t3.micro
         vpcNetworkCidr:
-            description: Network CIDR to use for new VPC
+            description: The network CIDR to use for the VPC
             default: 10.0.0.0/16
 
 configuration:
@@ -24,14 +24,14 @@ configuration:
         default: 10.0.0.0/16
 
 resources:  
-    # Create VPC
+    # Create VPC.
     vpc:
         type: aws:ec2:Vpc
         properties:
             cidrBlock: 10.0.0.0/16
             enableDnsHostnames: true
             enableDnsSupport: true 
-    # Create an internet gateway
+    # Create an internet gateway.
     gateway:
         type: aws:ec2:InternetGateway
         properties:
@@ -47,7 +47,7 @@ resources:
             mapPublicIpOnLaunch: true
             tags:
                 Name: vm-aws-yaml-subnet
-    # Create a route table
+    # Create a route table.
     routeTable:
         type: aws:ec2:RouteTable
         properties:
@@ -63,7 +63,8 @@ resources:
         properties:
             subnetId: ${subnet.id}
             routeTableId: ${routeTable.id}
-    # Create EC2 Security Group
+    # Create a security group allowing inbound access over port 80 and outbound
+    # access to anywhere.
     secGroup:
         type: aws:ec2:SecurityGroup
         properties:
@@ -83,7 +84,7 @@ resources:
                     - 0.0.0.0/0
             tags:
                 Name: vm-aws-yaml-secgrp
-    # Create EC2 server
+    # Create and launch an EC2 instance into the public subnet.
     server:
         type: aws:ec2:Instance
         properties:
@@ -97,7 +98,7 @@ resources:
                 Name: vm-aws-yaml-webserver
 
 variables:
-    # Create EC2 AMI
+    # Look up the latest Amazon Linux 2 AMI.
     ami:
         fn::invoke:
             function: aws:ec2:getAmi
@@ -120,5 +121,6 @@ variables:
 
 outputs:
     # Export the public IP and DNS
-    publicIP: ${server.publicIp}
-    publicDNS: ${server.publicDns}
+    ip: ${server.publicIp}
+    hostname: ${server.publicDns}
+    url: http://${${server.publicDns}}
