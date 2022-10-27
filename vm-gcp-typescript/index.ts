@@ -3,7 +3,7 @@ import * as gcp from "@pulumi/gcp";
 
 const config = new pulumi.Config();
 const machineType = config.get("machineType") || "f1-micro";
-const osImage = config.get("osImage") || "ubuntu-2204-jammy-v20221018";
+const osImage = config.get("osImage") || "debian-11";
 const instanceTag = config.get("instanceTag") || "webserver";
 const servicePort = config.getNumber("servicePort") || 80;
 
@@ -39,19 +39,18 @@ const firewall = new gcp.compute.Firewall("firewall", {
 });
 
 const metadataStartupScript = `#!/bin/bash
-echo '<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="utf-8">
-    <title>Hello, world!</title>
-</head>
-<body>
-    <h1>Hello, world! 👋</h1>
-    <p>Deployed with 💜 by <a href="https://pulumi.com/">Pulumi</a>.</p>
-</body>
-</html>' > index.html
-sudo python3 -m http.server ${servicePort} &
-`;
+    echo '<!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>Hello, world!</title>
+    </head>
+    <body>
+        <h1>Hello, world! 👋</h1>
+        <p>Deployed with 💜 by <a href="https://pulumi.com/">Pulumi</a>.</p>
+    </body>
+    </html>' > index.html
+    sudo python3 -m http.server ${servicePort} &`;
 
 const instance = new gcp.compute.Instance("instance", {
 

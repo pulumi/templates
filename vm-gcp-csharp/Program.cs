@@ -6,7 +6,7 @@ return await Deployment.RunAsync(() =>
 {
     var config = new Pulumi.Config();
     var machineType = config.Get("machineType") ?? "f1-micro";
-    var osImage = config.Get("osImage") ?? "ubuntu-2204-jammy-v20221018";
+    var osImage = config.Get("osImage") ?? "debian-11";
     var instanceTag = config.Get("instanceTag") ?? "webserver";
     var servicePort = config.GetInt32("servicePort") ?? 80;
 
