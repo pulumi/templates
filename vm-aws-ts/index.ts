@@ -1,6 +1,7 @@
 import * as pulumi from "@pulumi/pulumi";
 import * as aws from "@pulumi/aws";
 
+// Get some configuration values or set default values.
 const config = new pulumi.Config();
 const instanceType = config.get("instanceType") || "t3.micro";
 const vpcNetworkCidr = config.get("vpcNetworkCidr") || "10.0.0.0/16";
@@ -84,7 +85,7 @@ const server = new aws.ec2.Instance("server", {
     },
 });
 
-// Export the instance's publicly accessible IP address and hostname.            
+// Export the instance's publicly accessible IP address and hostname.
 export const ip = server.publicIp;
 export const hostname = server.publicDns;
 export const url = pulumi.interpolate`http://${server.publicDns}`;
