@@ -5,12 +5,12 @@ import * as compute from "@pulumi/azure-native/compute";
 import * as random from "@pulumi/random";
 
 const config = new pulumi.Config();
-const adminUsername = config.get("adminUsername") || "pulumiUser";
 const vmName = config.get("vmName") || "my-server";
 const vmSize = config.get("vmSize") || "Standard_A0";
 const osImage = config.get("osImage") || "Debian:debian-11:11:latest";
-const servicePort = config.getNumber("servicePort") || 80;
-const sshPublicKey = config.require("sshPublicKey");
+const adminUsername = config.get("adminUsername") || "pulumiUser";
+const sshPublicKey = config.get("sshPublicKey");
+const servicePort = config.get("servicePort") || "80";
 
 const [ osImagePublisher, osImageOffer, osImageSku, osImageVersion ] = osImage.split(":");
 
@@ -30,16 +30,17 @@ const virtualNetwork = new network.VirtualNetwork("virtual-network", {
 });
 
 // Use a random string to give the server a unique DNS name.
-var dnsName = new random.RandomString("dns-name", {
+var domainNameLabel = new random.RandomString("domain-label", {
     length: 8,
+    upper: false,
     special: false,
-}).result.apply(result => `${vmName}-${result.toLowerCase()}`);
+}).result.apply(result => `${vmName}-${result}`);
 
 const publicIp = new network.PublicIPAddress("public-ip", {
     resourceGroupName: resourceGroup.name,
     publicIPAllocationMethod: network.IPAllocationMethod.Dynamic,
     dnsSettings: {
-        domainNameLabel: dnsName,
+        domainNameLabel: domainNameLabel,
     },
 });
 
@@ -47,35 +48,39 @@ const securityGroup = new network.NetworkSecurityGroup("security-group", {
     resourceGroupName: resourceGroup.name,
     securityRules: [
         {
-            name: "web",
+            name: `${vmName}-securityrule`,
             priority: 1000,
             direction: network.AccessRuleDirection.Inbound,
             access: "Allow",
             protocol: "Tcp",
             sourcePortRange: "*",
             sourceAddressPrefix: "*",
-            destinationPortRanges: [
-                "22",
-                servicePort.toString(),
-            ],
             destinationAddressPrefix: "*",
+            destinationPortRanges: [
+                servicePort,
+                "22",
+            ],
         }
     ]
 });
 
 const networkInterface = new network.NetworkInterface("network-interface", {
     resourceGroupName: resourceGroup.name,
+    networkSecurityGroup: {
+        id: securityGroup.id,
+    },
     ipConfigurations: [{
-        name: "othername",
-        subnet: virtualNetwork.subnets.apply(subnet => subnet![0]),
+        name: `${vmName}-ipconfiguration`,
         privateIPAllocationMethod: network.IPAllocationMethod.Dynamic,
+        subnet: {
+            id: virtualNetwork.subnets.apply(subnets => {
+                return subnets![0].id!;
+            }),
+        },
         publicIPAddress: {
             id: publicIp.id,
         },
     }],
-    networkSecurityGroup: {
-        id: securityGroup.id,
-    },
 });
 
 const initScript = `#!/bin/bash
@@ -106,7 +111,7 @@ const vm = new compute.VirtualMachine("vm", {
         vmSize: vmSize,
     },
     osProfile: {
-        computerName: "somename",
+        computerName: vmName,
         adminUsername: adminUsername,
         customData: Buffer.from(initScript).toString("base64"),
         linuxConfiguration: {
@@ -121,10 +126,9 @@ const vm = new compute.VirtualMachine("vm", {
             },
         },
     },
-
     storageProfile: {
         osDisk: {
-            name: "myosdisk1",
+            name: `${vmName}-osdisk`,
             createOption: compute.DiskCreateOption.FromImage,
         },
         imageReference: {
