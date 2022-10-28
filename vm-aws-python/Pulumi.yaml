@@ -1,6 +1,6 @@
-name: vm-aws
+name: ${PROJECT}
 runtime: python
-description: vm-aws
+description: ${DESCRIPTION}
 template:
   description: A virtual machine on Amazon EC2
   config:
