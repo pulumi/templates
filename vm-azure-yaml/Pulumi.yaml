@@ -81,7 +81,7 @@ resources:
   resource-group:
     type: azure-native:resources:ResourceGroup
 
-  virtual-network:
+  network:
     type: azure-native:network:VirtualNetwork
     properties:
       resourceGroupName: ${resource-group.name}
@@ -134,7 +134,7 @@ resources:
         - name: ${vmName}-ipconfiguration
           privateIPAllocationMethod: Dynamic
           subnet:
-            id: ${virtual-network.subnets[0].id}
+            id: ${network.subnets[0].id}
           publicIPAddress:
             id: ${public-ip.id}
 

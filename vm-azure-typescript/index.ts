@@ -9,21 +9,21 @@ const vmName = config.get("vmName") || "my-server";
 const vmSize = config.get("vmSize") || "Standard_A0";
 const osImage = config.get("osImage") || "Debian:debian-11:11:latest";
 const adminUsername = config.get("adminUsername") || "pulumiUser";
-const sshPublicKey = config.get("sshPublicKey");
+const sshPublicKey = config.require("sshPublicKey");
 const servicePort = config.get("servicePort") || "80";
 
 const [ osImagePublisher, osImageOffer, osImageSku, osImageVersion ] = osImage.split(":");
 
 const resourceGroup = new resources.ResourceGroup("resource-group");
 
-const virtualNetwork = new network.VirtualNetwork("virtual-network", {
+const virtualNetwork = new network.VirtualNetwork("network", {
     resourceGroupName: resourceGroup.name,
     addressSpace: {
         addressPrefixes: ["10.0.0.0/16"],
     },
     subnets: [
         {
-            name: "default",
+            name: `${vmName}-subnet`,
             addressPrefix: "10.0.1.0/24",
         },
     ],
