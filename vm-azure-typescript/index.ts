@@ -9,8 +9,8 @@ const vmName = config.get("vmName") || "my-server";
 const vmSize = config.get("vmSize") || "Standard_A0";
 const osImage = config.get("osImage") || "Debian:debian-11:11:latest";
 const adminUsername = config.get("adminUsername") || "pulumiUser";
-const sshPublicKey = config.require("sshPublicKey");
 const servicePort = config.get("servicePort") || "80";
+const sshPublicKey = config.require("sshPublicKey");
 
 const [ osImagePublisher, osImageOffer, osImageSku, osImageVersion ] = osImage.split(":");
 
@@ -73,9 +73,7 @@ const networkInterface = new network.NetworkInterface("network-interface", {
         name: `${vmName}-ipconfiguration`,
         privateIPAllocationMethod: network.IPAllocationMethod.Dynamic,
         subnet: {
-            id: virtualNetwork.subnets.apply(subnets => {
-                return subnets![0].id!;
-            }),
+            id: virtualNetwork.subnets.apply(subnets => subnets![0].id!),
         },
         publicIPAddress: {
             id: publicIp.id,
@@ -140,11 +138,11 @@ const vm = new compute.VirtualMachine("vm", {
     },
 });
 
-const address = vm.id.apply(_ => network.getPublicIPAddressOutput({
+const vmAddress = vm.id.apply(_ => network.getPublicIPAddressOutput({
     resourceGroupName: resourceGroup.name,
     publicIpAddressName: publicIp.name,
 }));
 
-export const ip = address.ipAddress;
-export const hostname = address.dnsSettings?.apply(settings => settings?.fqdn);
+export const ip = vmAddress.ipAddress;
+export const hostname = vmAddress.dnsSettings?.apply(settings => settings?.fqdn);
 export const url = hostname?.apply(name => `http://${name}`);

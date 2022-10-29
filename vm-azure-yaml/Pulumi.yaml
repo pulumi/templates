@@ -76,6 +76,7 @@ variables:
       arguments:
         resourceGroupName: ${resource-group.name}
         publicIpAddressName: ${public-ip.name}
+        expand: ${vm.id}
 
 resources:
   resource-group:

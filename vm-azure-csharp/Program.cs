@@ -12,16 +12,16 @@ return await Pulumi.Deployment.RunAsync(() =>
     var vmSize = config.Get("vmSize") ?? "Standard_A0";
     var osImage = config.Get("osImage") ?? "Debian:debian-11:11:latest";
     var adminUsername = config.Get("adminUsername") ?? "pulumiUser";
-    var sshPublicKey = config.Require("sshPublicKey");
     var servicePort = config.Get("servicePort") ?? "80";
-
-    var resourceGroup = new AzureNative.Resources.ResourceGroup("resource-group");
+    var sshPublicKey = config.Require("sshPublicKey");
 
     string[] osImageArgs = osImage.Split(":");
     var osImagePublisher = osImageArgs[0];
     var osImageOffer = osImageArgs[1];
     var osImageSku = osImageArgs[2];
     var osImageVersion = osImageArgs[3];
+
+    var resourceGroup = new AzureNative.Resources.ResourceGroup("resource-group");
 
     var virtualNetwork = new AzureNative.Network.VirtualNetwork("network", new()
     {
@@ -45,7 +45,6 @@ return await Pulumi.Deployment.RunAsync(() =>
         Length = 8,
         Upper= false,
         Special = false,
-
     }).Result.Apply(result => $"{vmName}-{result}");
 
     var publicIp = new AzureNative.Network.PublicIPAddress("public-ip", new()
@@ -160,10 +159,12 @@ return await Pulumi.Deployment.RunAsync(() =>
         },
     });
 
-    var vmAddress = AzureNative.Network.GetPublicIPAddress.Invoke(new()
-    {
-        ResourceGroupName = resourceGroup.Name,
-        PublicIpAddressName = publicIp.Name,
+    var vmAddress = vm.Id.Apply(_ => {
+        return AzureNative.Network.GetPublicIPAddress.Invoke(new()
+        {
+            ResourceGroupName = resourceGroup.Name,
+            PublicIpAddressName = publicIp.Name,
+        });
     });
 
     return new Dictionary<string, object?>
