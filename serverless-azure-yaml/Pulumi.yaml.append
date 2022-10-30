@@ -18,34 +18,32 @@ variables:
 
   # Create a shared access signature allowing access to function storage.
   signature:
-    Fn::Invoke:
-      Function: azure-native:storage:listStorageAccountServiceSAS
-      Arguments:
-        resourceGroupName: ${resource-group.name}
-        accountName: ${account.name}
-        protocols: https
-        sharedAccessStartTime: "2022-01-01"
-        sharedAccessExpiryTime: "2030-01-01"
-        resource: c
-        permissions: r
-        canonicalizedResource: /blob/${account.name}/${app-container.name}
-        contentType: application/json
-        cacheControl: max-age=5
-        contentDisposition: inline
-        contentEncoding: deflate
+    fn::azure-native:storage:listStorageAccountServiceSAS:
+      resourceGroupName: ${resource-group.name}
+      accountName: ${account.name}
+      protocols: https
+      sharedAccessStartTime: "2022-01-01"
+      sharedAccessExpiryTime: "2030-01-01"
+      resource: c
+      permissions: r
+      canonicalizedResource: /blob/${account.name}/${app-container.name}
+      contentType: application/json
+      cacheControl: max-age=5
+      contentDisposition: inline
+      contentEncoding: deflate
 
   # Create a FileArchive containing the contents of the app folder.
   appArchive:
-    Fn::FileArchive: ${appPath}
+    fn::fileArchive: ${appPath}
 
   # Create a JSON string containing the URL of the serverless app.
   configJSON:
-    Fn::ToJSON:
+    fn::toJSON:
       api: https://${app.defaultHostName}/api
 
   # Create a StringAsset resource to convert the JSON string into a file.
   configFile:
-    Fn::StringAsset: ${configJSON}
+    fn::stringAsset: ${configJSON}
 
 resources:
 

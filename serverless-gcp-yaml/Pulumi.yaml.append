@@ -18,16 +18,16 @@ variables:
 
   # Create a FileArchive containing the contents of the app folder.
   appArchive:
-    Fn::FileArchive: ${appPath}
+    fn::fileArchive: ${appPath}
 
   # Create a JSON string containing the URL of the serverless app.
   configJSON:
-    Fn::ToJSON:
+    fn::toJSON:
       api: ${data-function.httpsTriggerUrl}
 
   # Create a StringAsset resource to convert the JSON string into a file.
   configFile:
-    Fn::StringAsset: ${configJSON}
+    fn::stringAsset: ${configJSON}
 
 resources:
 

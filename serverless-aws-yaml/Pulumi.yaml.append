@@ -4,7 +4,7 @@ resources:
     type: aws:iam:Role
     properties:
       assumeRolePolicy: 
-        Fn::ToJSON:
+        fn::toJSON:
           Version: 2012-10-17
           Statement:
             - Action: sts:AssumeRole
@@ -22,7 +22,7 @@ resources:
       handler: handler.handler
       role: ${role.arn}
       code:
-        Fn::FileArchive: ./function
+        fn::fileArchive: ./function
   
   # A REST API to route requests to HTML content and the Lambda function
   api:

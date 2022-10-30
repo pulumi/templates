@@ -4,10 +4,8 @@ runtime: yaml
 
 variables:
   myNamespace:
-    Fn::Invoke:
-      Function: oci:ObjectStorage/getNamespace:getNamespace
-      Arguments:
-        compartmentId: ${myCompartment.id}
+    fn::oci:ObjectStorage/getNamespace:getNamespace:
+      compartmentId: ${myCompartment.id}
 
 resources:
   myCompartment:
