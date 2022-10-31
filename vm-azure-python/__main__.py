@@ -7,7 +7,7 @@ config = pulumi.Config();
 vm_name = config.get("vmName", "my-server");
 vm_size = config.get("vmSize", "Standard_A0");
 os_image = config.get("osImage", "Debian:debian-11:11:latest");
-admin_username = config.get("adminUsername", "pulumiUser");
+admin_username = config.get("adminUsername", "pulumiuser");
 service_port = config.get("servicePort", "80");
 ssh_public_key = config.require("sshPublicKey");
 

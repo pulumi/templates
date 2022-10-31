@@ -2,7 +2,7 @@
 configuration:
   adminUsername:
     type: String
-    default: pulumiUser
+    default: pulumiuser
   vmName:
     type: String
     default: my-server

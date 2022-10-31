@@ -29,7 +29,7 @@ func main() {
 		if param := cfg.Get("osImage"); param != "" {
 			osImage = param
 		}
-		adminUsername := "pulumiUser"
+		adminUsername := "pulumiuser"
 		if param := cfg.Get("instanceTag"); param != "" {
 			adminUsername = param
 		}
