@@ -148,4 +148,4 @@ vm_address = vm.id.apply(lambda id: network.get_public_ip_address_output(
 
 pulumi.export("ip", vm_address.ip_address)
 pulumi.export("hostname", vm_address.dns_settings.apply(lambda settings: settings.fqdn))
-pulumi.export("url", vm_address.dns_settings.apply(lambda settings: f"http://{settings.fqdn}"))
+pulumi.export("url", vm_address.dns_settings.apply(lambda settings: f"http://{settings.fqdn}:{service_port}"))

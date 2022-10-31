@@ -145,4 +145,4 @@ resources:
 outputs:
   ip: ${address.ipAddress}
   hostname: ${address.dnsSettings.fqdn}
-  url: http://${address.dnsSettings.fqdn}
+  url: http://${address.dnsSettings.fqdn}:${servicePort}

@@ -214,7 +214,7 @@ func main() {
 		}).(pulumi.StringOutput))
 
 		ctx.Export("url", address.ApplyT(func(addr network.LookupPublicIPAddressResult) (string, error) {
-			return fmt.Sprintf("http://%s", *addr.DnsSettings.Fqdn), nil
+			return fmt.Sprintf("http://%s:%s", *addr.DnsSettings.Fqdn, servicePort), nil
 		}).(pulumi.StringOutput))
 
 		return nil

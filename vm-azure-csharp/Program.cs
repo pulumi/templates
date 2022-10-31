@@ -171,6 +171,6 @@ return await Pulumi.Deployment.RunAsync(() =>
     {
         ["hostname"] = vmAddress.Apply(addr => addr.DnsSettings!.Fqdn),
         ["ip"] = vmAddress.Apply(addr => addr.IpAddress),
-        ["url"] = vmAddress.Apply(addr => $"http://{addr.DnsSettings!.Fqdn}"),
+        ["url"] = vmAddress.Apply(addr => $"http://{addr.DnsSettings!.Fqdn}:{servicePort}"),
     };
 });

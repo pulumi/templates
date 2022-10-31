@@ -145,4 +145,4 @@ const vmAddress = vm.id.apply(_ => network.getPublicIPAddressOutput({
 
 export const ip = vmAddress.ipAddress;
 export const hostname = vmAddress.dnsSettings?.apply(settings => settings?.fqdn);
-export const url = hostname?.apply(name => `http://${name}`);
+export const url = hostname?.apply(name => `http://${name}:${servicePort}`);
