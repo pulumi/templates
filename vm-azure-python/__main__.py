@@ -3,19 +3,20 @@ from pulumi_azure_native import resources, network, compute
 from pulumi_random import random_string
 import base64
 
-config = pulumi.Config();
-vm_name = config.get("vmName", "my-server");
-vm_size = config.get("vmSize", "Standard_A0");
-os_image = config.get("osImage", "Debian:debian-11:11:latest");
-admin_username = config.get("adminUsername", "pulumiuser");
-service_port = config.get("servicePort", "80");
-ssh_public_key = config.require("sshPublicKey");
+config = pulumi.Config()
+vm_name = config.get("vmName", "my-server")
+vm_size = config.get("vmSize", "Standard_A0")
+os_image = config.get("osImage", "Debian:debian-11:11:latest")
+admin_username = config.get("adminUsername", "pulumiuser")
+service_port = config.get("servicePort", "80")
+ssh_public_key = config.require("sshPublicKey")
 
 os_image_publisher, os_image_offer, os_image_sku, os_image_version = os_image.split(":")
 
 resource_group = resources.ResourceGroup("resource-group")
 
-virtual_network = network.VirtualNetwork("network",
+virtual_network = network.VirtualNetwork(
+    "network",
     resource_group_name=resource_group.name,
     address_space=network.AddressSpaceArgs(
         address_prefixes=[
@@ -30,13 +31,15 @@ virtual_network = network.VirtualNetwork("network",
     ],
 )
 
-domain_name_label = random_string.RandomString("domain-label",
+domain_name_label = random_string.RandomString(
+    "domain-label",
     length=8,
     upper=False,
     special=False,
 ).result.apply(lambda result: f"{vm_name}-{result}")
 
-public_ip = network.PublicIPAddress("public-ip",
+public_ip = network.PublicIPAddress(
+    "public-ip",
     resource_group_name=resource_group.name,
     public_ip_allocation_method=network.IpAllocationMethod.DYNAMIC,
     dns_settings=network.PublicIPAddressDnsSettingsArgs(
@@ -44,7 +47,8 @@ public_ip = network.PublicIPAddress("public-ip",
     ),
 )
 
-security_group = network.NetworkSecurityGroup("security-group",
+security_group = network.NetworkSecurityGroup(
+    "security-group",
     resource_group_name=resource_group.name,
     security_rules=[
         network.SecurityRuleArgs(
@@ -64,7 +68,8 @@ security_group = network.NetworkSecurityGroup("security-group",
     ],
 )
 
-network_interface = network.NetworkInterface("network-interface",
+network_interface = network.NetworkInterface(
+    "network-interface",
     resource_group_name=resource_group.name,
     network_security_group=network.NetworkSecurityGroupArgs(
         id=security_group.id,
@@ -81,7 +86,7 @@ network_interface = network.NetworkInterface("network-interface",
             ),
         ),
     ],
-);
+)
 
 init_script = f"""#!/bin/bash
     echo '<!DOCTYPE html>
@@ -98,7 +103,8 @@ init_script = f"""#!/bin/bash
     sudo python3 -m http.server {service_port} &
     """
 
-vm = compute.VirtualMachine("vm",
+vm = compute.VirtualMachine(
+    "vm",
     resource_group_name=resource_group.name,
     network_profile=compute.NetworkProfileArgs(
         network_interfaces=[
@@ -139,13 +145,20 @@ vm = compute.VirtualMachine("vm",
             version=os_image_version,
         ),
     ),
-);
+)
 
-vm_address = vm.id.apply(lambda id: network.get_public_ip_address_output(
-    resource_group_name=resource_group.name,
-    public_ip_address_name=public_ip.name,
-));
+vm_address = vm.id.apply(
+    lambda id: network.get_public_ip_address_output(
+        resource_group_name=resource_group.name,
+        public_ip_address_name=public_ip.name,
+    )
+)
 
 pulumi.export("ip", vm_address.ip_address)
 pulumi.export("hostname", vm_address.dns_settings.apply(lambda settings: settings.fqdn))
-pulumi.export("url", vm_address.dns_settings.apply(lambda settings: f"http://{settings.fqdn}:{service_port}"))
+pulumi.export(
+    "url",
+    vm_address.dns_settings.apply(
+        lambda settings: f"http://{settings.fqdn}:{service_port}"
+    ),
+)
