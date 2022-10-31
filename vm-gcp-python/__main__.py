@@ -1,12 +1,14 @@
 import pulumi
 import pulumi_gcp as gcp
 
+# Import the program's configuration settings.
 config = pulumi.Config()
 machine_type = config.get("machineType", "f1-micro")
 os_image = config.get("osImage", "debian-11")
 instance_tag = config.get("instanceTag", "webserver")
 service_port = config.get("servicePort", "80")
 
+# Create a new network for the virtual machine.
 network = gcp.compute.Network(
     "network",
     gcp.compute.NetworkArgs(
@@ -14,6 +16,7 @@ network = gcp.compute.Network(
     ),
 )
 
+# Create a subnet on the network.
 subnet = gcp.compute.Subnetwork(
     "subnet",
     gcp.compute.SubnetworkArgs(
@@ -22,6 +25,7 @@ subnet = gcp.compute.Subnetwork(
     ),
 )
 
+# Create a firewall allowing inbound access over ports 80 (for HTTP) and 22 (for SSH).
 firewall = gcp.compute.Firewall(
     "firewall",
     gcp.compute.FirewallArgs(
@@ -45,6 +49,7 @@ firewall = gcp.compute.Firewall(
     ),
 )
 
+# Define a script to be run when the VM starts up.
 metadata_startup_script = f"""#!/bin/bash
     echo '<!DOCTYPE html>
     <html lang="en">
@@ -60,6 +65,7 @@ metadata_startup_script = f"""#!/bin/bash
     sudo python3 -m http.server {service_port} &
     """
 
+# Create the virtual machine.
 instance = gcp.compute.Instance(
     "instance",
     gcp.compute.InstanceArgs(
@@ -96,6 +102,7 @@ instance_ip = instance.network_interfaces.apply(
     lambda interfaces: interfaces[0].access_configs[0].nat_ip
 )
 
+# Export the instance's name, public IP address, and HTTP URL.
 pulumi.export("name", instance.name)
 pulumi.export("ip", instance_ip)
 pulumi.export("url", instance_ip.apply(lambda ip: f"http://{ip}:{service_port}"))

@@ -1,23 +1,25 @@
 import * as pulumi from "@pulumi/pulumi";
 import * as gcp from "@pulumi/gcp";
 
+// Import the program's configuration settings.
 const config = new pulumi.Config();
 const machineType = config.get("machineType") || "f1-micro";
 const osImage = config.get("osImage") || "debian-11";
 const instanceTag = config.get("instanceTag") || "webserver";
 const servicePort = config.get("servicePort") || "80";
 
-// const address = new gcp.compute.Address("address");
-
+// Create a new network for the virtual machine.
 const network = new gcp.compute.Network("network", {
     autoCreateSubnetworks: false,
 });
 
+// Create a subnet on the network.
 const subnet = new gcp.compute.Subnetwork("subnet", {
     ipCidrRange: "10.0.1.0/24",
     network: network.id,
 });
 
+// Create a firewall allowing inbound access over ports 80 (for HTTP) and 22 (for SSH).
 const firewall = new gcp.compute.Firewall("firewall", {
     network: network.selfLink,
     allows: [
@@ -38,6 +40,7 @@ const firewall = new gcp.compute.Firewall("firewall", {
     ],
 });
 
+// Define a script to be run when the VM starts up.
 const metadataStartupScript = `#!/bin/bash
     echo '<!DOCTYPE html>
     <html lang="en">
@@ -52,13 +55,11 @@ const metadataStartupScript = `#!/bin/bash
     </html>' > index.html
     sudo python3 -m http.server ${servicePort} &`;
 
+// Create the virtual machine.
 const instance = new gcp.compute.Instance("instance", {
-
-    // https://cloud.google.com/compute/docs/machine-types
     machineType,
     bootDisk: {
         initializeParams: {
-            // https://gcloud-compute.com/images.html
             image: osImage,
         },
     },
@@ -67,9 +68,7 @@ const instance = new gcp.compute.Instance("instance", {
             network: network.id,
             subnetwork: subnet.id,
             accessConfigs: [
-                {
-                    // natIp: address.address,
-                },
+                {},
             ],
         },
     ],
@@ -85,11 +84,10 @@ const instance = new gcp.compute.Instance("instance", {
     ],
 }, { dependsOn: firewall });
 
+// Export the instance's name, public IP address, and HTTP URL.
 export const name = instance.name;
 export const ip = instance.networkInterfaces.apply(interfaces => {
     const configs = interfaces[0].accessConfigs;
     return configs && configs[0] && configs[0].natIp;
 });
 export const url = pulumi.interpolate`http://${ip}:${servicePort}`;
-
-// gcloud compute ssh $(pulumi stack output name) --zone $(pulumi config get gcp:zone) --project $(pulumi config get gcp:project)

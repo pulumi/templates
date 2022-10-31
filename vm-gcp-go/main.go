@@ -30,6 +30,7 @@ func main() {
 			servicePort = param
 		}
 
+		// Create a new network for the virtual machine.
 		network, err := compute.NewNetwork(ctx, "network", &compute.NetworkArgs{
 			AutoCreateSubnetworks: pulumi.Bool(false),
 		})
@@ -37,6 +38,7 @@ func main() {
 			return err
 		}
 
+		// Create a subnet on the network.
 		subnet, err := compute.NewSubnetwork(ctx, "subnet", &compute.SubnetworkArgs{
 			IpCidrRange: pulumi.String("10.0.1.0/24"),
 			Network:     network.ID(),
@@ -45,6 +47,7 @@ func main() {
 			return err
 		}
 
+		// Create a firewall allowing inbound access over ports 80 (for HTTP) and 22 (for SSH).
 		firewall, err := compute.NewFirewall(ctx, "firewall", &compute.FirewallArgs{
 			Network: network.SelfLink,
 			Allows: compute.FirewallAllowArray{
@@ -68,6 +71,7 @@ func main() {
 			return err
 		}
 
+		// Define a script to be run when the VM starts up.
 		metadataStartupScript := fmt.Sprintf(`#!/bin/bash
 			echo '<!DOCTYPE html>
 			<html lang="en">
@@ -82,6 +86,7 @@ func main() {
 			</html>' > index.html
 			sudo python3 -m http.server %s &`, servicePort)
 
+		// Create the virtual machine.
 		instance, err := compute.NewInstance(ctx, "instance", &compute.InstanceArgs{
 			MachineType: pulumi.String(machineType),
 			BootDisk: compute.InstanceBootDiskArgs{
@@ -118,6 +123,7 @@ func main() {
 
 		instanceIp := instance.NetworkInterfaces.Index(pulumi.Int(0)).AccessConfigs().Index(pulumi.Int(0)).NatIp()
 
+		// Export the instance's name, public IP address, and HTTP URL.
 		ctx.Export("name", instance.Name)
 		ctx.Export("ip", instanceIp)
 		ctx.Export("url", pulumi.Sprintf("http://%s:%s", instanceIp.Elem(), servicePort))

@@ -26,6 +26,7 @@ template:
       description: The HTTP service port to expose on the VM
       default: "80"
 
+# Import the program's configuration settings.
 configuration:
   machineType:
     type: String
@@ -41,6 +42,8 @@ configuration:
     default: "80"
 
 variables:
+
+  # Define a script to be run when the VM starts up.
   metadataStartupScript: |
     #!/bin/bash
     echo '<!DOCTYPE html>
@@ -58,17 +61,20 @@ variables:
 
 resources:
 
+  # Create a new network for the virtual machine.
   network:
     type: gcp:compute:Network
     properties:
       autoCreateSubnetworks: false
 
+  # Create a subnet on the network.
   subnet:
     type: gcp:compute:Subnetwork
     properties:
       ipCidrRange: 10.0.1.0/24
       network: ${network.id}
 
+  # Create a firewall allowing inbound access over ports 80 (for HTTP) and 22 (for SSH).
   firewall:
     type: gcp:compute:Firewall
     properties:
@@ -84,6 +90,7 @@ resources:
       targetTags:
         - ${instanceTag}
 
+  # Create the virtual machine.
   instance:
     type: gcp:compute:Instance
     properties:
@@ -107,6 +114,7 @@ resources:
       dependsOn:
         - ${firewall}
 
+# Export the instance's name, public IP address, and HTTP URL.
 outputs:
   name: ${instance.name}
   ip: ${instance.networkInterfaces[0].accessConfigs[0].natIp}
