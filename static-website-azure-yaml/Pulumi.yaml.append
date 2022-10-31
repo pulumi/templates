@@ -14,9 +14,9 @@ configuration:
 # Pull the hostname out of the storage-account endpoint.
 variables:
   originHostname:
-    Fn::Select:
+    fn::select:
       - 2
-      - Fn::Split:
+      - fn::split:
         - /
         - ${account.primaryEndpoints.web}
 
