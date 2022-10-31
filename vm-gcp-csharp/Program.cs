@@ -8,7 +8,7 @@ return await Deployment.RunAsync(() =>
     var machineType = config.Get("machineType") ?? "f1-micro";
     var osImage = config.Get("osImage") ?? "debian-11";
     var instanceTag = config.Get("instanceTag") ?? "webserver";
-    var servicePort = config.GetInt32("servicePort") ?? 80;
+    var servicePort = config.Get("servicePort") ?? "80";
 
     var network = new Gcp.Compute.Network("network", new()
     {
@@ -30,7 +30,7 @@ return await Deployment.RunAsync(() =>
                 Protocol = "tcp",
                 Ports = new[] {
                     "22",
-                    servicePort.ToString(),
+                    servicePort,
                 },
             },
         },
@@ -107,6 +107,6 @@ return await Deployment.RunAsync(() =>
     {
         ["name"] = instance.Name,
         ["ip"] = instanceIP,
-        ["url"] = Output.Format($"http://{instanceIP}"),
+        ["url"] = Output.Format($"http://{instanceIP}:{servicePort}"),
     };
 });

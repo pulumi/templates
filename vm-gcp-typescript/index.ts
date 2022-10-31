@@ -5,7 +5,7 @@ const config = new pulumi.Config();
 const machineType = config.get("machineType") || "f1-micro";
 const osImage = config.get("osImage") || "debian-11";
 const instanceTag = config.get("instanceTag") || "webserver";
-const servicePort = config.getNumber("servicePort") || 80;
+const servicePort = config.get("servicePort") || "80";
 
 // const address = new gcp.compute.Address("address");
 
@@ -25,7 +25,7 @@ const firewall = new gcp.compute.Firewall("firewall", {
             protocol: "tcp",
             ports: [
                 "22",
-                servicePort.toString(),
+                servicePort,
             ],
         },
     ],

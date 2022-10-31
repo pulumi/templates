@@ -10,8 +10,8 @@ configuration:
     type: String
     default: webserver
   servicePort:
-    type: Number
-    default: 80
+    type: String
+    default: "80"
 
 variables:
   metadataStartupScript: |
@@ -83,4 +83,4 @@ resources:
 outputs:
   name: ${instance.name}
   ip: ${instance.networkInterfaces[0].accessConfigs[0].natIp}
-  url: http://${instance.networkInterfaces[0].accessConfigs[0].natIp}:${service
+  url: http://${instance.networkInterfaces[0].accessConfigs[0].natIp}:${servicePort}

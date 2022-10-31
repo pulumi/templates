@@ -16,11 +16,11 @@ template:
       description: The GCP machine type to use for the VM
       default: f1-micro
     osImage:
-      description: The OS image type to use the VM
+      description: The OS image type to use for the VM
       default: debian-11
     instanceTag:
-      description: The tag to apply to the virtual machine instance
+      description: The tag to apply to the VM instance
       default: webserver
     servicePort:
       description: The HTTP service port to expose on the VM
-      default: 80
+      default: "80"

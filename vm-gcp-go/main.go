@@ -2,7 +2,6 @@ package main
 
 import (
 	"fmt"
-	"strconv"
 
 	"github.com/pulumi/pulumi-gcp/sdk/v6/go/gcp/compute"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
@@ -26,8 +25,8 @@ func main() {
 		if param := cfg.Get("instanceTag"); param != "" {
 			instanceTag = param
 		}
-		servicePort := 80
-		if param := cfg.GetInt("servicePort"); param != 0 {
+		servicePort := "80"
+		if param := cfg.Get("servicePort"); param != "" {
 			servicePort = param
 		}
 
@@ -53,7 +52,7 @@ func main() {
 					Protocol: pulumi.String("tcp"),
 					Ports: pulumi.ToStringArray([]string{
 						"22",
-						strconv.Itoa(servicePort),
+						servicePort,
 					}),
 				},
 			},
@@ -81,7 +80,7 @@ func main() {
 				<p>Deployed with 💜 by <a href="https://pulumi.com/">Pulumi</a>.</p>
 			</body>
 			</html>' > index.html
-			sudo python3 -m http.server %d &`, servicePort)
+			sudo python3 -m http.server %s &`, servicePort)
 
 		instance, err := compute.NewInstance(ctx, "instance", &compute.InstanceArgs{
 			MachineType: pulumi.String(machineType),
@@ -121,7 +120,7 @@ func main() {
 
 		ctx.Export("name", instance.Name)
 		ctx.Export("ip", instanceIp)
-		ctx.Export("url", pulumi.Sprintf("http://%s", instanceIp.Elem()))
+		ctx.Export("url", pulumi.Sprintf("http://%s:%s", instanceIp.Elem(), servicePort))
 		return nil
 	})
 }
