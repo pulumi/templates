@@ -3218,6 +3218,91 @@
                 "description": "A minimal VB.NET Pulumi program"
             }
         },
+        "webapp-kubernetes-csharp": {
+            "name": "webapp-kubernetes-csharp",
+            "runtime": "dotnet",
+            "template": {
+                "description": "A program to create a Deployment, Service, and ConfigMap",
+                "config": {
+                    "namespace": {
+                        "default": "default",
+                        "description": "The Kubernetes namespace to deploy into"
+                    },
+                    "replicas": {
+                        "default": 1,
+                        "description": "The number of replicas to deploy"
+                    }
+                }
+            }
+        },
+        "webapp-kubernetes-go": {
+            "name": "webapp-kubernetes-go",
+            "runtime": "go",
+            "template": {
+                "description": "A program to create a Deployment, Service, and ConfigMap",
+                "config": {
+                    "namespace": {
+                        "default": "default",
+                        "description": "The Kubernetes namespace to deploy into"
+                    },
+                    "replicas": {
+                        "default": 1,
+                        "description": "The number of replicas to deploy"
+                    }
+                }
+            }
+        },
+        "webapp-kubernetes-python": {
+            "name": "webapp-kubernetes-python",
+            "runtime": "python",
+            "template": {
+                "description": "A program to create a Deployment, Service, and ConfigMap",
+                "config": {
+                    "namespace": {
+                        "default": "default",
+                        "description": "The Kubernetes namespace to deploy into"
+                    },
+                    "replicas": {
+                        "default": 1,
+                        "description": "The number of replicas to deploy"
+                    }
+                }
+            }
+        },
+        "webapp-kubernetes-typescript": {
+            "name": "webapp-kubernetes-typescript",
+            "runtime": "nodejs",
+            "template": {
+                "description": "A program to create a Deployment, Service, and ConfigMap",
+                "config": {
+                    "namespace": {
+                        "default": "default",
+                        "description": "The Kubernetes namespace to deploy into"
+                    },
+                    "replicas": {
+                        "default": 1,
+                        "description": "The number of replicas to deploy"
+                    }
+                }
+            }
+        },
+        "webapp-kubernetes-yaml": {
+            "name": "webapp-kubernetes-yaml",
+            "runtime": "yaml",
+            "template": {
+                "description": "A program to create a Deployment, Service, and ConfigMap",
+                "config": {
+                    "k8sNamespace": {
+                        "default": "default",
+                        "description": "The Kubernetes namespace to deploy into"
+                    },
+                    "numReplicas": {
+                        "default": 1,
+                        "description": "The number of replicas to deploy"
+                    }
+                }
+            }
+        },
         "yaml": {
             "name": "yaml",
             "runtime": "yaml",
