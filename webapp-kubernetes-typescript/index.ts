@@ -17,7 +17,7 @@ const webServerNs = new kubernetes.core.v1.Namespace("webserver", {metadata: {
 // Create a new ConfigMap for the Nginx configuration
 const webServerConfig = new kubernetes.core.v1.ConfigMap("webserverconfig", {
     metadata: {
-        namespace: webServerNs.metadata.apply(m => m.name),
+        namespace: webServerNs.metadata.name,
     },
     data: {
         "nginx.conf": `events { }
@@ -39,7 +39,7 @@ http {
 // Create a new Deployment with a user-specified number of replicas
 const webServerDeployment = new kubernetes.apps.v1.Deployment("webserverdeployment", {
     metadata: {
-        namespace: webServerNs.metadata.apply(m => m.name),
+        namespace: webServerNs.metadata.name,
     },
     spec: {
         selector: {
@@ -67,7 +67,7 @@ const webServerDeployment = new kubernetes.apps.v1.Deployment("webserverdeployme
                             key: "nginx.conf",
                             path: "nginx.conf",
                         }],
-                        name: webServerConfig.metadata.apply(m => m.name),
+                        name: webServerConfig.metadata.name,
                     },
                     name: "nginx-conf-volume",
                 }],
@@ -79,7 +79,7 @@ const webServerDeployment = new kubernetes.apps.v1.Deployment("webserverdeployme
 // Expose the Deployment as a Kubernetes Service
 const webServerService = new kubernetes.core.v1.Service("webserverservice", {
     metadata: {
-        namespace: webServerNs.metadata.apply(m => m.name),
+        namespace: webServerNs.metadata.name,
     },
     spec: {
         ports: [{
@@ -92,5 +92,5 @@ const webServerService = new kubernetes.core.v1.Service("webserverservice", {
 });
 
 // Export some values for use elsewhere
-export const deploymentName = webServerDeployment.metadata.apply(m => m.name);
-export const serviceName = webServerService.metadata.apply(m => m.name);
+export const deploymentName = webServerDeployment.metadata.name;
+export const serviceName = webServerService.metadata.name;

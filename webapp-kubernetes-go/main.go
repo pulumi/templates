@@ -1,8 +1,6 @@
 package main
 
 import (
-	"fmt"
-
 	appsv1 "github.com/pulumi/pulumi-kubernetes/sdk/v3/go/kubernetes/apps/v1"
 	corev1 "github.com/pulumi/pulumi-kubernetes/sdk/v3/go/kubernetes/core/v1"
 	metav1 "github.com/pulumi/pulumi-kubernetes/sdk/v3/go/kubernetes/meta/v1"
@@ -42,7 +40,7 @@ func main() {
 				Namespace: webServerNs.Metadata.Name(),
 			},
 			Data: pulumi.StringMap{
-				"nginx.conf": pulumi.String(fmt.Sprintf(`events { }
+				"nginx.conf": pulumi.Sprintf(`events { }
 http {
   server {
     listen 80;
@@ -54,7 +52,7 @@ http {
     }
   }
 }
-`)),
+`),
 			},
 		})
 		if err != nil {
