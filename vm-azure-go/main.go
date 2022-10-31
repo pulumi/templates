@@ -16,6 +16,7 @@ import (
 func main() {
 	pulumi.Run(func(ctx *pulumi.Context) error {
 
+		// Import the program's configuration settings.
 		cfg := config.New(ctx, "")
 		vmName := "my-server"
 		if param := cfg.Get("vmName"); param != "" {
@@ -45,11 +46,13 @@ func main() {
 		osImageSku := osImageArgs[2]
 		osImageVersion := osImageArgs[3]
 
+		// Create a resource group.
 		resourceGroup, err := resources.NewResourceGroup(ctx, "resource-group", nil)
 		if err != nil {
 			return err
 		}
 
+		// Create a virtual network.
 		virtualNetwork, err := network.NewVirtualNetwork(ctx, "network", &network.VirtualNetworkArgs{
 			ResourceGroupName: resourceGroup.Name,
 			AddressSpace: network.AddressSpaceArgs{
@@ -68,6 +71,7 @@ func main() {
 			return err
 		}
 
+		// Use a random string to give the VM a unique DNS name.
 		domainLabelSuffix, err := random.NewRandomString(ctx, "domain-label", &random.RandomStringArgs{
 			Length:  pulumi.Int(8),
 			Upper:   pulumi.Bool(false),
@@ -80,6 +84,7 @@ func main() {
 			return fmt.Sprintf("%s-%s", vmName, result)
 		}).(pulumi.StringOutput)
 
+		// Create a public IP address for the VM.
 		publicIp, err := network.NewPublicIPAddress(ctx, "public-ip", &network.PublicIPAddressArgs{
 			ResourceGroupName:        resourceGroup.Name,
 			PublicIPAllocationMethod: pulumi.StringPtr("Dynamic"),
@@ -91,6 +96,7 @@ func main() {
 			return err
 		}
 
+		// Create a security group allowing inbound access over ports 80 (for HTTP) and 22 (for SSH).
 		securityGroup, err := network.NewNetworkSecurityGroup(ctx, "security-group", &network.NetworkSecurityGroupArgs{
 			ResourceGroupName: resourceGroup.Name,
 			SecurityRules: network.SecurityRuleTypeArray{
@@ -114,6 +120,7 @@ func main() {
 			return err
 		}
 
+		// Create a network interface with the virtual network, IP address, and security group.
 		networkInterface, err := network.NewNetworkInterface(ctx, "network-interface", &network.NetworkInterfaceArgs{
 			ResourceGroupName: resourceGroup.Name,
 			NetworkSecurityGroup: &network.NetworkSecurityGroupTypeArgs{
@@ -138,6 +145,7 @@ func main() {
 			return err
 		}
 
+		// Define a script to be run when the VM starts up.
 		initScript := fmt.Sprintf(`#!/bin/bash
 			echo '<!DOCTYPE html>
 			<html lang="en">
@@ -152,6 +160,7 @@ func main() {
 			</html>' > index.html
 			sudo python3 -m http.server %s &`, servicePort)
 
+		// Create the virtual machine.
 		vm, err := compute.NewVirtualMachine(ctx, "vm", &compute.VirtualMachineArgs{
 			ResourceGroupName: resourceGroup.Name,
 			NetworkProfile: &compute.NetworkProfileArgs{
@@ -198,6 +207,7 @@ func main() {
 			return err
 		}
 
+		// Once the machine is created, fetch its IP address and DNS hostname.
 		address := vm.ID().ApplyT(func(_ pulumi.ID) network.LookupPublicIPAddressResultOutput {
 			return network.LookupPublicIPAddressOutput(ctx, network.LookupPublicIPAddressOutputArgs{
 				ResourceGroupName:   resourceGroup.Name,
@@ -205,6 +215,7 @@ func main() {
 			})
 		})
 
+		// Export the VM's hostname, public IP address, and HTTP URL.
 		ctx.Export("ip", address.ApplyT(func(addr network.LookupPublicIPAddressResult) (string, error) {
 			return *addr.IpAddress, nil
 		}).(pulumi.StringOutput))

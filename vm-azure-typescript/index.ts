@@ -4,6 +4,7 @@ import * as network from "@pulumi/azure-native/network";
 import * as compute from "@pulumi/azure-native/compute";
 import * as random from "@pulumi/random";
 
+// Import the program's configuration settings.
 const config = new pulumi.Config();
 const vmName = config.get("vmName") || "my-server";
 const vmSize = config.get("vmSize") || "Standard_A0";
@@ -14,8 +15,10 @@ const sshPublicKey = config.require("sshPublicKey");
 
 const [ osImagePublisher, osImageOffer, osImageSku, osImageVersion ] = osImage.split(":");
 
+// Create a resource group.
 const resourceGroup = new resources.ResourceGroup("resource-group");
 
+// Create a virtual network.
 const virtualNetwork = new network.VirtualNetwork("network", {
     resourceGroupName: resourceGroup.name,
     addressSpace: {
@@ -29,13 +32,14 @@ const virtualNetwork = new network.VirtualNetwork("network", {
     ],
 });
 
-// Use a random string to give the server a unique DNS name.
+// Use a random string to give the VM a unique DNS name.
 var domainNameLabel = new random.RandomString("domain-label", {
     length: 8,
     upper: false,
     special: false,
 }).result.apply(result => `${vmName}-${result}`);
 
+// Create a public IP address for the VM.
 const publicIp = new network.PublicIPAddress("public-ip", {
     resourceGroupName: resourceGroup.name,
     publicIPAllocationMethod: network.IPAllocationMethod.Dynamic,
@@ -44,6 +48,7 @@ const publicIp = new network.PublicIPAddress("public-ip", {
     },
 });
 
+// Create a security group allowing inbound access over ports 80 (for HTTP) and 22 (for SSH).
 const securityGroup = new network.NetworkSecurityGroup("security-group", {
     resourceGroupName: resourceGroup.name,
     securityRules: [
@@ -64,6 +69,7 @@ const securityGroup = new network.NetworkSecurityGroup("security-group", {
     ]
 });
 
+// Create a network interface with the virtual network, IP address, and security group.
 const networkInterface = new network.NetworkInterface("network-interface", {
     resourceGroupName: resourceGroup.name,
     networkSecurityGroup: {
@@ -81,6 +87,7 @@ const networkInterface = new network.NetworkInterface("network-interface", {
     }],
 });
 
+// Define a script to be run when the VM starts up.
 const initScript = `#!/bin/bash
     echo '<!DOCTYPE html>
     <html lang="en">
@@ -95,6 +102,7 @@ const initScript = `#!/bin/bash
     </html>' > index.html
     sudo python3 -m http.server ${servicePort} &`;
 
+// Create the virtual machine.
 const vm = new compute.VirtualMachine("vm", {
     resourceGroupName: resourceGroup.name,
     networkProfile: {
@@ -138,11 +146,13 @@ const vm = new compute.VirtualMachine("vm", {
     },
 });
 
+// Once the machine is created, fetch its IP address and DNS hostname.
 const vmAddress = vm.id.apply(_ => network.getPublicIPAddressOutput({
     resourceGroupName: resourceGroup.name,
     publicIpAddressName: publicIp.name,
 }));
 
+// Export the VM's hostname, public IP address, and HTTP URL.
 export const ip = vmAddress.ipAddress;
 export const hostname = vmAddress.dnsSettings?.apply(settings => settings?.fqdn);
 export const url = hostname?.apply(name => `http://${name}:${servicePort}`);

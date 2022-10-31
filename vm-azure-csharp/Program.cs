@@ -7,6 +7,7 @@ using System.Text;
 
 return await Pulumi.Deployment.RunAsync(() =>
 {
+    // Import the program's configuration settings.
     var config = new Pulumi.Config();
     var vmName = config.Get("vmName") ?? "my-server";
     var vmSize = config.Get("vmSize") ?? "Standard_A0";
@@ -21,8 +22,10 @@ return await Pulumi.Deployment.RunAsync(() =>
     var osImageSku = osImageArgs[2];
     var osImageVersion = osImageArgs[3];
 
+    // Create a resource group.
     var resourceGroup = new AzureNative.Resources.ResourceGroup("resource-group");
 
+    // Create a virtual network.
     var virtualNetwork = new AzureNative.Network.VirtualNetwork("network", new()
     {
         ResourceGroupName = resourceGroup.Name,
@@ -40,6 +43,7 @@ return await Pulumi.Deployment.RunAsync(() =>
         },
     });
 
+    // Use a random string to give the VM a unique DNS name.
     var domainNameLabel = new Random.RandomString("domain-label", new()
     {
         Length = 8,
@@ -47,6 +51,7 @@ return await Pulumi.Deployment.RunAsync(() =>
         Special = false,
     }).Result.Apply(result => $"{vmName}-{result}");
 
+    // Create a public IP address for the VM.
     var publicIp = new AzureNative.Network.PublicIPAddress("public-ip", new()
     {
         ResourceGroupName = resourceGroup.Name,
@@ -56,6 +61,7 @@ return await Pulumi.Deployment.RunAsync(() =>
         },
     });
 
+    // Create a security group allowing inbound access over ports 80 (for HTTP) and 22 (for SSH).
     var securityGroup = new AzureNative.Network.NetworkSecurityGroup("security-group", new()
     {
         ResourceGroupName = resourceGroup.Name,
@@ -79,6 +85,7 @@ return await Pulumi.Deployment.RunAsync(() =>
         },
     });
 
+    // Create a network interface with the virtual network, IP address, and security group.
     var networkInterface = new AzureNative.Network.NetworkInterface("network-interface", new()
     {
         ResourceGroupName = resourceGroup.Name,
@@ -100,6 +107,7 @@ return await Pulumi.Deployment.RunAsync(() =>
         }
     });
 
+    // Define a script to be run when the VM starts up.
     var initScript = $@"#!/bin/bash
         echo '<!DOCTYPE html>
         <html lang=""en"">
@@ -114,6 +122,7 @@ return await Pulumi.Deployment.RunAsync(() =>
         </html>' > index.html
         sudo python3 -m http.server {servicePort} &";
 
+    // Create the virtual machine.
     var vm = new AzureNative.Compute.VirtualMachine("vm", new()
     {
         ResourceGroupName = resourceGroup.Name,
@@ -159,6 +168,7 @@ return await Pulumi.Deployment.RunAsync(() =>
         },
     });
 
+    // Once the machine is created, fetch its IP address and DNS hostname.
     var vmAddress = vm.Id.Apply(_ => {
         return AzureNative.Network.GetPublicIPAddress.Invoke(new()
         {
@@ -167,6 +177,7 @@ return await Pulumi.Deployment.RunAsync(() =>
         });
     });
 
+    // Export the VM's hostname, public IP address, and HTTP URL.
     return new Dictionary<string, object?>
     {
         ["hostname"] = vmAddress.Apply(addr => addr.DnsSettings!.Fqdn),
