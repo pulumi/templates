@@ -3,17 +3,17 @@ import pulumi_kubernetes as kubernetes
 
 # Get some values from the Pulumi stack configuration, or use defaults
 config = pulumi.Config()
-namespace = config.get("namespace", "default")
-replicas = config.get_float("replicas", 1)
+k8sNamespace = config.get("namespace", "default")
+numReplicas = config.get_float("replicas", 1)
 app_labels = {
     "app": "nginx",
 }
 
 # Create a namespace
-webserver = kubernetes.core.v1.Namespace(
+webserverns = kubernetes.core.v1.Namespace(
     "webserver",
     metadata=kubernetes.meta.v1.ObjectMetaArgs(
-        name=namespace,
+        name=k8sNamespace,
     )
 )
 
@@ -21,7 +21,7 @@ webserver = kubernetes.core.v1.Namespace(
 webserverconfig = kubernetes.core.v1.ConfigMap(
     "webserverconfig",
     metadata=kubernetes.meta.v1.ObjectMetaArgs(
-        namespace=namespace,
+        namespace=webserverns.metadata.name,
     ),
     data={
         "nginx.conf": """events { }
@@ -44,13 +44,13 @@ http {
 webserverdeployment = kubernetes.apps.v1.Deployment(
     "webserverdeployment",
     metadata=kubernetes.meta.v1.ObjectMetaArgs(
-        namespace=namespace,
+        namespace=webserverns.metadata.name,
     ),
     spec=kubernetes.apps.v1.DeploymentSpecArgs(
         selector=kubernetes.meta.v1.LabelSelectorArgs(
             match_labels=app_labels,
         ),
-        replicas=1,
+        replicas=numReplicas,
         template=kubernetes.core.v1.PodTemplateSpecArgs(
             metadata=kubernetes.meta.v1.ObjectMetaArgs(
                 labels=app_labels,
@@ -85,7 +85,7 @@ webserverdeployment = kubernetes.apps.v1.Deployment(
 webserverservice = kubernetes.core.v1.Service(
     "webserverservice",
     metadata=kubernetes.meta.v1.ObjectMetaArgs(
-        namespace=namespace,
+        namespace=webserverns.metadata.name,
     ),
     spec=kubernetes.core.v1.ServiceSpecArgs(
         ports=[kubernetes.core.v1.ServicePortArgs(

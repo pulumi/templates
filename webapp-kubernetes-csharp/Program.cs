@@ -5,18 +5,18 @@ using Kubernetes = Pulumi.Kubernetes;
 return await Deployment.RunAsync(() => 
 {
     var config = new Config();
-    var namespace = config.Get("namespace") ?? "default";
-    var replicas = config.GetNumber("replicas") ?? 1;
-    var appLabels = 
+    var k8sNamespace = config.Get("namespace") ?? "default";
+    var numReplicas = config.GetInt32("replicas") ?? 1;
+    var appLabels = new InputMap<string>
     {
         { "app", "nginx" },
     };
 
-    var webserver = new Kubernetes.Core.V1.Namespace("webserver", new()
+    var webserverNs = new Kubernetes.Core.V1.Namespace("webserverNs", new()
     {
         Metadata = new Kubernetes.Types.Inputs.Meta.V1.ObjectMetaArgs
         {
-            Name = @namespace,
+            Name = @k8sNamespace,
         },
     });
 
@@ -24,7 +24,7 @@ return await Deployment.RunAsync(() =>
     {
         Metadata = new Kubernetes.Types.Inputs.Meta.V1.ObjectMetaArgs
         {
-            Namespace = @namespace,
+            Namespace = webserverNs.Metadata.Apply(m => m.Name),
         },
         Data = 
         {
@@ -48,7 +48,7 @@ http {
     {
         Metadata = new Kubernetes.Types.Inputs.Meta.V1.ObjectMetaArgs
         {
-            Namespace = @namespace,
+            Namespace = webserverNs.Metadata.Apply(m => m.Name),
         },
         Spec = new Kubernetes.Types.Inputs.Apps.V1.DeploymentSpecArgs
         {
@@ -56,7 +56,7 @@ http {
             {
                 MatchLabels = appLabels,
             },
-            Replicas = 1,
+            Replicas = numReplicas,
             Template = new Kubernetes.Types.Inputs.Core.V1.PodTemplateSpecArgs
             {
                 Metadata = new Kubernetes.Types.Inputs.Meta.V1.ObjectMetaArgs
@@ -97,7 +97,7 @@ http {
                                         Path = "nginx.conf",
                                     },
                                 },
-                                Name = webserverconfig.Metadata.Apply(metadata => metadata?.Name),
+                                Name = webserverconfig.Metadata.Apply(m => m.Name),
                             },
                             Name = "nginx-conf-volume",
                         },
@@ -111,7 +111,7 @@ http {
     {
         Metadata = new Kubernetes.Types.Inputs.Meta.V1.ObjectMetaArgs
         {
-            Namespace = @namespace,
+            Namespace = webserverNs.Metadata.Apply(m => m.Name),
         },
         Spec = new Kubernetes.Types.Inputs.Core.V1.ServiceSpecArgs
         {
@@ -134,4 +134,3 @@ http {
         ["serviceName"] = webserverservice.Metadata.Apply(metadata => metadata?.Name),
     };
 });
-

@@ -1,5 +1,5 @@
 configuration:
-  namespace:
+  k8sNamespace:
     default: default
     type: String
   numReplicas:
@@ -12,17 +12,17 @@ variables:
 
 resources:
   # Create a new namespace for the resources
-  webserver:
+  webserverns:
     type: kubernetes:core/v1:Namespace
     properties:
       metadata:
-        name: ${namespace}
-  # Create a ConfigMap to store configuration information
+        name: ${k8sNamespace}
+  # Create a ConfigMap to store Nginx configuration
   webserverconfig:
     type: kubernetes:core/v1:ConfigMap
     properties:
       metadata:
-        namespace: ${namespace}
+        namespace: ${webserverns.metadata.name}
       data: 
         nginx.conf: |
           events { }
@@ -42,7 +42,7 @@ resources:
     type: kubernetes:apps/v1:Deployment
     properties:
       metadata:
-        namespace: ${namespace}
+        namespace: ${webserverns.metadata.name}
       spec:
         selector:
           matchLabels: ${appLabels}
@@ -66,17 +66,17 @@ resources:
                   path: nginx.conf
                 name: ${webserverconfig.metadata.name}
               name: nginx-conf-volume
-  # Create a Service to expose the Deployment's Pods
+  # Expose the Deployment as a Kubernetes Service
   webserverservice:
     type: kubernetes:core/v1:Service
     properties:
       metadata:
-        namespace: ${namespace}
+        namespace: ${webserverns.metadata.name}
       spec:
         ports: [{ port: 80, targetPort: 80, protocol: "TCP" }]
         selector: ${appLabels}
 
-# Expose some values for use elsewhere
+# Export some values for use elsewhere
 outputs:
   deploymentName: ${webserverdeployment.metadata.name}
   serviceName: ${webserverservice.metadata.name}

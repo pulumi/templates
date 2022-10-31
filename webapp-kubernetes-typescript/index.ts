@@ -1,18 +1,23 @@
 import * as pulumi from "@pulumi/pulumi";
 import * as kubernetes from "@pulumi/kubernetes";
 
+// Get some values from the stack configuration, or use defaults
 const config = new pulumi.Config();
-const namespace = config.get("namespace") || "default";
+const k8sNamespace = config.get("namespace") || "default";
 const numReplicas = config.getNumber("replicas") || 1;
 const appLabels = {
     app: "nginx",
 };
-const webserver = new kubernetes.core.v1.Namespace("webserver", {metadata: {
-    name: namespace,
+
+// Create a new namespace
+const webServerNs = new kubernetes.core.v1.Namespace("webserver", {metadata: {
+    name: k8sNamespace,
 }});
-const webserverconfig = new kubernetes.core.v1.ConfigMap("webserverconfig", {
+
+// Create a new ConfigMap for the Nginx configuration
+const webServerConfig = new kubernetes.core.v1.ConfigMap("webserverconfig", {
     metadata: {
-        namespace: namespace,
+        namespace: webServerNs.metadata.apply(m => m.name),
     },
     data: {
         "nginx.conf": `events { }
@@ -30,9 +35,11 @@ http {
 `,
     },
 });
-const webserverdeployment = new kubernetes.apps.v1.Deployment("webserverdeployment", {
+
+// Create a new Deployment with a user-specified number of replicas
+const webServerDeployment = new kubernetes.apps.v1.Deployment("webserverdeployment", {
     metadata: {
-        namespace: namespace,
+        namespace: webServerNs.metadata.apply(m => m.name),
     },
     spec: {
         selector: {
@@ -60,7 +67,7 @@ const webserverdeployment = new kubernetes.apps.v1.Deployment("webserverdeployme
                             key: "nginx.conf",
                             path: "nginx.conf",
                         }],
-                        name: webserverconfig.metadata.apply(metadata => metadata?.name),
+                        name: webServerConfig.metadata.apply(m => m.name),
                     },
                     name: "nginx-conf-volume",
                 }],
@@ -68,9 +75,11 @@ const webserverdeployment = new kubernetes.apps.v1.Deployment("webserverdeployme
         },
     },
 });
-const webserverservice = new kubernetes.core.v1.Service("webserverservice", {
+
+// Expose the Deployment as a Kubernetes Service
+const webServerService = new kubernetes.core.v1.Service("webserverservice", {
     metadata: {
-        namespace: namespace,
+        namespace: webServerNs.metadata.apply(m => m.name),
     },
     spec: {
         ports: [{
@@ -81,5 +90,7 @@ const webserverservice = new kubernetes.core.v1.Service("webserverservice", {
         selector: appLabels,
     },
 });
-export const deploymentName = webserverdeployment.metadata.apply(metadata => metadata?.name);
-export const serviceName = webserverservice.metadata.apply(metadata => metadata?.name);
+
+// Export some values for use elsewhere
+export const deploymentName = webServerDeployment.metadata.apply(m => m.name);
+export const serviceName = webServerService.metadata.apply(m => m.name);

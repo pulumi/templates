@@ -14,9 +14,9 @@ func main() {
 	pulumi.Run(func(ctx *pulumi.Context) error {
 		// Get some configuration values from the Pulumi stack, or use defaults
 		cfg := config.New(ctx, "")
-		namespace, err := cfg.Try("namespace")
+		k8sNamespace, err := cfg.Try("namespace")
 		if err != nil {
-			namespace = "default"
+			k8sNamespace = "default"
 		}
 		numReplicas, err := cfg.TryInt("replicas")
 		if err != nil {
@@ -29,7 +29,7 @@ func main() {
 		// Create a new namespace
 		webServerNs, err := corev1.NewNamespace(ctx, "webserverns", &corev1.NamespaceArgs{
 			Metadata: &metav1.ObjectMetaArgs{
-				Name: pulumi.String(namespace),
+				Name: pulumi.String(k8sNamespace),
 			},
 		})
 		if err != nil {
