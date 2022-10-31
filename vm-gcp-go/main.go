@@ -13,21 +13,24 @@ func main() {
 
 		// Import the program's configuration settings.
 		cfg := config.New(ctx, "")
-		machineType := "f1-micro"
-		if param := cfg.Get("machineType"); param != "" {
-			machineType = param
+		machineType, err := cfg.Try("machineType")
+		if err != nil {
+			machineType = "f1-micro"
 		}
-		osImage := "debian-11"
-		if param := cfg.Get("osImage"); param != "" {
-			osImage = param
+
+		osImage, err := cfg.Try("osImage")
+		if err != nil {
+			osImage = "debian-11"
 		}
-		instanceTag := "webserver"
-		if param := cfg.Get("instanceTag"); param != "" {
-			instanceTag = param
+
+		instanceTag, err := cfg.Try("instanceTag")
+		if err != nil {
+			instanceTag = "webserver"
 		}
-		servicePort := "80"
-		if param := cfg.Get("servicePort"); param != "" {
-			servicePort = param
+
+		servicePort, err := cfg.Try("servicePort")
+		if err != nil {
+			servicePort = "80"
 		}
 
 		// Create a new network for the virtual machine.
