@@ -98,9 +98,9 @@ variables:
                 filters:
                     - name: name
                       values: 
-                        - "amzn-ami-hvm-*"
+                        - "amzn2-ami-hvm-*"
                 owners: 
-                    - "137112412989"
+                    - "amazon"
                 mostRecent: true
             return: id    
     # User data to start a HTTP server in the EC2 instance

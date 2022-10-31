@@ -26,12 +26,12 @@ func main() {
 				ec2.GetAmiFilter{
 					Name: "name",
 					Values: []string{
-						"amzn-ami-hvm-*",
+						"amzn2-ami-hvm-*",
 					},
 				},
 			},
 			Owners: []string{
-				"137112412989",
+				"amazon",
 			},
 			MostRecent: pulumi.BoolRef(true),
 		}, nil)

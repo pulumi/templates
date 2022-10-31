@@ -19,13 +19,13 @@ return await Deployment.RunAsync(() =>
                 Name = "name",
                 Values = new[]
                 {
-                    "amzn-ami-hvm-*",
+                    "amzn2-ami-hvm-*",
                 },
             },
         },
         Owners = new[]
         {
-            "137112412989",
+            "amazon",
         },
         MostRecent = true,
     }).Apply(invoke => invoke.Id);

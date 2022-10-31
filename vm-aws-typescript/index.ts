@@ -10,9 +10,9 @@ const vpcNetworkCidr = config.get("vpcNetworkCidr") || "10.0.0.0/16";
 const ami = aws.ec2.getAmi({
     filters: [{
         name: "name",
-        values: ["amzn-ami-hvm-*"],
+        values: ["amzn2-ami-hvm-*"],
     }],
-    owners: ["137112412989"],
+    owners: ["amazon"],
     mostRecent: true,
 }).then(invoke => invoke.id);
 
