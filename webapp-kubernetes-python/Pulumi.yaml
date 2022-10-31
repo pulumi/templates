@@ -1,0 +1,12 @@
+name: ${PROJECT}
+description: ${DESCRIPTION}
+runtime: python
+template:
+  description: A program to create a Deployment, Service, and ConfigMap
+  config:
+    namespace:
+      default: default
+      description: The Kubernetes namespace to deploy into
+    replicas:
+      default: 1
+      description: The number of replicas to deploy
