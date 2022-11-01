@@ -84,10 +84,11 @@ const instance = new gcp.compute.Instance("instance", {
     ],
 }, { dependsOn: firewall });
 
+const instanceIP = instance.networkInterfaces.apply(interfaces => {
+    return interfaces[0].accessConfigs![0].natIp;
+});
+
 // Export the instance's name, public IP address, and HTTP URL.
 export const name = instance.name;
-export const ip = instance.networkInterfaces.apply(interfaces => {
-    const configs = interfaces[0].accessConfigs;
-    return configs && configs[0] && configs[0].natIp;
-});
-export const url = pulumi.interpolate`http://${ip}:${servicePort}`;
+export const ip = instanceIP;
+export const url = pulumi.interpolate`http://${instanceIP}:${servicePort}`;
