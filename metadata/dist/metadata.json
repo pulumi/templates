@@ -110,6 +110,21 @@
                         "container-azure-go",
                         "container-azure-csharp"
                     ]
+                },
+                {
+                    "name": "Container Service on Google Cloud",
+                    "kind": "architecture",
+                    "parent": "container-service",
+                    "slug": "gcp",
+                    "clouds": [
+                        "gcp"
+                    ],
+                    "templates": [
+                        "container-gcp-typescript",
+                        "container-gcp-python",
+                        "container-gcp-go",
+                        "container-gcp-csharp"
+                    ]
                 }
             ]
         },
