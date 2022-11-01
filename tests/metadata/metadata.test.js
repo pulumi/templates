@@ -83,5 +83,11 @@ describe("Template metadata", () => {
             expect(templates["gcp-yaml"]).toBeDefined();
             expect(templates["azure-java"]).toBeDefined();
         });
+
+        it("only contains templates that exist", () => {
+            Object.keys(templates).forEach(template => {
+                expect(() => fs.readdirSync(`${template}`)).not.toThrow();
+            });
+        });
     });
 });
