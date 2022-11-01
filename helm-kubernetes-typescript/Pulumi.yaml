@@ -1,0 +1,9 @@
+name: ${PROJECT}
+description: ${DESCRIPTION}
+runtime: nodejs
+template:
+  description: A Pulumi program to deploy a Helm chart onto a Kubernetes cluster
+  config:
+    k8sNamespace:
+      default: default
+      description: The Kubernetes namespace to deploy into
