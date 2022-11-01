@@ -87,11 +87,12 @@ func NewTemplateTestConfigFromEnv(skipEnvVar string) TemplateTestConfig {
 
 func (cfg TemplateTestConfig) IsSkipped(info TemplateInfo) bool {
 	for _, s := range cfg.Skipped {
-		if strings.Contains(info.Template.Name, s) {
-			return true
+		fmt.Println(s)
+		if strings.Contains(info.Template.Name, "vm-gcp-") {
+			return false
 		}
 	}
-	return false
+	return true
 }
 
 func (cfg TemplateTestConfig) PossiblySkip(t *testing.T, info TemplateInfo) {
