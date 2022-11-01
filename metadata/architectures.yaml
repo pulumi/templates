@@ -10,6 +10,10 @@ container-service:
   name: Container Service
   slug: container-service
 
+virtual-machine:
+  name: Virtual Machine
+  slug: virtual-machine
+
 kubernetes:
   name: Kubernetes
   slug: kubernetes
