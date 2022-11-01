@@ -114,6 +114,28 @@
             ]
         },
         {
+            "name": "Virtual Machine",
+            "slug": "virtual-machine",
+            "groups": [
+                {
+                    "name": "Virtual Machine on Google Cloud",
+                    "kind": "architecture",
+                    "parent": "virtual-machine",
+                    "slug": "gcp",
+                    "clouds": [
+                        "gcp"
+                    ],
+                    "templates": [
+                        "vm-gcp-typescript",
+                        "vm-gcp-python",
+                        "vm-gcp-go",
+                        "vm-gcp-csharp",
+                        "vm-gcp-yaml"
+                    ]
+                }
+            ]
+        },
+        {
             "name": "Kubernetes",
             "slug": "kubernetes",
             "groups": [
@@ -3216,6 +3238,186 @@
             "runtime": "dotnet",
             "template": {
                 "description": "A minimal VB.NET Pulumi program"
+            }
+        },
+        "vm-gcp-csharp": {
+            "name": "vm-gcp-csharp",
+            "runtime": "dotnet",
+            "template": {
+                "description": "A virtual machine on Google Cloud Platform",
+                "config": {
+                    "gcp:project": {
+                        "description": "The Google Cloud project to deploy into"
+                    },
+                    "gcp:region": {
+                        "description": "The Google Cloud region to deploy into",
+                        "default": "us-central1"
+                    },
+                    "gcp:zone": {
+                        "description": "The Google Cloud availability zone to deploy into",
+                        "default": "us-central1-a"
+                    },
+                    "machineType": {
+                        "description": "The GCP machine type to use for the VM",
+                        "default": "f1-micro"
+                    },
+                    "osImage": {
+                        "description": "The OS image type to use for the VM",
+                        "default": "debian-11"
+                    },
+                    "instanceTag": {
+                        "description": "The tag to apply to the VM instance",
+                        "default": "webserver"
+                    },
+                    "servicePort": {
+                        "description": "The HTTP service port to expose on the VM",
+                        "default": "80"
+                    }
+                }
+            }
+        },
+        "vm-gcp-go": {
+            "name": "vm-gcp-go",
+            "runtime": "go",
+            "template": {
+                "description": "A virtual machine on Google Cloud Platform",
+                "config": {
+                    "gcp:project": {
+                        "description": "The Google Cloud project to deploy into"
+                    },
+                    "gcp:region": {
+                        "description": "The Google Cloud region to deploy into",
+                        "default": "us-central1"
+                    },
+                    "gcp:zone": {
+                        "description": "The Google Cloud availability zone to deploy into",
+                        "default": "us-central1-a"
+                    },
+                    "machineType": {
+                        "description": "The GCP machine type to use for the VM",
+                        "default": "f1-micro"
+                    },
+                    "osImage": {
+                        "description": "The OS image type to use for the VM",
+                        "default": "debian-11"
+                    },
+                    "instanceTag": {
+                        "description": "The tag to apply to the VM instance",
+                        "default": "webserver"
+                    },
+                    "servicePort": {
+                        "description": "The HTTP service port to expose on the VM",
+                        "default": "80"
+                    }
+                }
+            }
+        },
+        "vm-gcp-python": {
+            "name": "vm-gcp-python",
+            "runtime": "python",
+            "template": {
+                "description": "A virtual machine on Google Cloud Platform",
+                "config": {
+                    "gcp:project": {
+                        "description": "The Google Cloud project to deploy into"
+                    },
+                    "gcp:region": {
+                        "description": "The Google Cloud region to deploy into",
+                        "default": "us-central1"
+                    },
+                    "gcp:zone": {
+                        "description": "The Google Cloud availability zone to deploy into",
+                        "default": "us-central1-a"
+                    },
+                    "machineType": {
+                        "description": "The GCP machine type to use for the VM",
+                        "default": "f1-micro"
+                    },
+                    "osImage": {
+                        "description": "The OS image type to use for the VM",
+                        "default": "debian-11"
+                    },
+                    "instanceTag": {
+                        "description": "The tag to apply to the VM instance",
+                        "default": "webserver"
+                    },
+                    "servicePort": {
+                        "description": "The HTTP service port to expose on the VM",
+                        "default": "80"
+                    }
+                }
+            }
+        },
+        "vm-gcp-typescript": {
+            "name": "vm-gcp-typescript",
+            "runtime": "nodejs",
+            "template": {
+                "description": "A virtual machine on Google Cloud Platform",
+                "config": {
+                    "gcp:project": {
+                        "description": "The Google Cloud project to deploy into"
+                    },
+                    "gcp:region": {
+                        "description": "The Google Cloud region to deploy into",
+                        "default": "us-central1"
+                    },
+                    "gcp:zone": {
+                        "description": "The Google Cloud availability zone to deploy into",
+                        "default": "us-central1-a"
+                    },
+                    "machineType": {
+                        "description": "The GCP machine type to use for the VM",
+                        "default": "f1-micro"
+                    },
+                    "osImage": {
+                        "description": "The OS image type to use for the VM",
+                        "default": "debian-11"
+                    },
+                    "instanceTag": {
+                        "description": "The tag to apply to the VM instance",
+                        "default": "webserver"
+                    },
+                    "servicePort": {
+                        "description": "The HTTP service port to expose on the VM",
+                        "default": "80"
+                    }
+                }
+            }
+        },
+        "vm-gcp-yaml": {
+            "name": "vm-gcp-yaml",
+            "runtime": "yaml",
+            "template": {
+                "description": "A virtual machine on Google Cloud Platform",
+                "config": {
+                    "gcp:project": {
+                        "description": "The Google Cloud project to deploy into"
+                    },
+                    "gcp:region": {
+                        "description": "The Google Cloud region to deploy into",
+                        "default": "us-central1"
+                    },
+                    "gcp:zone": {
+                        "description": "The Google Cloud availability zone to deploy into",
+                        "default": "us-central1-a"
+                    },
+                    "machineType": {
+                        "description": "The GCP machine type to use for the VM",
+                        "default": "f1-micro"
+                    },
+                    "osImage": {
+                        "description": "The OS image type to use for the VM",
+                        "default": "debian-11"
+                    },
+                    "instanceTag": {
+                        "description": "The tag to apply to the VM instance",
+                        "default": "webserver"
+                    },
+                    "servicePort": {
+                        "description": "The HTTP service port to expose on the VM",
+                        "default": "80"
+                    }
+                }
             }
         },
         "webapp-kubernetes-csharp": {
