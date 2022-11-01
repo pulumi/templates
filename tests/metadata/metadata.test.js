@@ -1,4 +1,5 @@
 const metadata = require("../../metadata/dist/metadata.json");
+const fs = require("fs");
 
 describe("Template metadata", () => {
 
@@ -29,6 +30,17 @@ describe("Template metadata", () => {
             expect(architectures.find(arch => arch.name === "Serverless")).toBeDefined();
             expect(architectures.find(arch => arch.name === "Container Service")).toBeDefined();
             expect(architectures.find(arch => arch.name === "Kubernetes")).toBeDefined();
+            expect(architectures.find(arch => arch.name === "Virtual Machine")).toBeDefined();
+        });
+
+        it("only lists templates that exist in the repository", () => {
+            architectures.forEach(arch => {
+                arch.groups.forEach(group => {
+                    group.templates.forEach(template => {
+                        expect(() => fs.readdirSync(`${template}`)).not.toThrow();
+                    });
+                });
+            });
         });
     });
 
