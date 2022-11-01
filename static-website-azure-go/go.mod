@@ -1,4 +1,4 @@
-module templates-static-website-azure-go
+module ${PROJECT}
 
 go 1.17
 

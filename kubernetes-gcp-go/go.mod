@@ -1,4 +1,4 @@
-module tmp
+module ${PROJECT}
 
 go 1.17
 
