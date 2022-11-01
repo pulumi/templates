@@ -3271,6 +3271,111 @@
                 "description": "A minimal VB.NET Pulumi program"
             }
         },
+        "vm-aws-csharp": {
+            "name": "vm-aws-csharp",
+            "runtime": "dotnet",
+            "template": {
+                "description": "A virtual machine on Amazon EC2",
+                "config": {
+                    "aws:region": {
+                        "description": "The AWS region to deploy into",
+                        "default": "us-west-2"
+                    },
+                    "instanceType": {
+                        "description": "The Amazon EC2 instance type",
+                        "default": "t3.micro"
+                    },
+                    "vpcNetworkCidr": {
+                        "description": "The network CIDR to use for the VPC",
+                        "default": "10.0.0.0/16"
+                    }
+                }
+            }
+        },
+        "vm-aws-go": {
+            "name": "vm-aws-go",
+            "runtime": "go",
+            "template": {
+                "description": "A virtual machine on Amazon EC2",
+                "config": {
+                    "aws:region": {
+                        "description": "The AWS region to deploy into",
+                        "default": "us-west-2"
+                    },
+                    "instanceType": {
+                        "description": "The Amazon EC2 instance type",
+                        "default": "t3.micro"
+                    },
+                    "vpcNetworkCidr": {
+                        "description": "The network CIDR to use for the VPC",
+                        "default": "10.0.0.0/16"
+                    }
+                }
+            }
+        },
+        "vm-aws-python": {
+            "name": "vm-aws-python",
+            "runtime": "python",
+            "template": {
+                "description": "A virtual machine on Amazon EC2",
+                "config": {
+                    "aws:region": {
+                        "description": "The AWS region to deploy into",
+                        "default": "us-west-2"
+                    },
+                    "instanceType": {
+                        "description": "The Amazon EC2 instance type",
+                        "default": "t3.micro"
+                    },
+                    "vpcNetworkCidr": {
+                        "description": "The network CIDR to use for the VPC",
+                        "default": "10.0.0.0/16"
+                    }
+                }
+            }
+        },
+        "vm-aws-typescript": {
+            "name": "vm-aws-typescript",
+            "runtime": "nodejs",
+            "template": {
+                "description": "A virtual machine on Amazon EC2",
+                "config": {
+                    "aws:region": {
+                        "description": "The AWS region to deploy into",
+                        "default": "us-west-2"
+                    },
+                    "instanceType": {
+                        "description": "The Amazon EC2 instance type",
+                        "default": "t3.micro"
+                    },
+                    "vpcNetworkCidr": {
+                        "description": "The network CIDR to use for the VPC",
+                        "default": "10.0.0.0/16"
+                    }
+                }
+            }
+        },
+        "vm-aws-yaml": {
+            "name": "vm-aws-yaml",
+            "runtime": "yaml",
+            "template": {
+                "description": "A virtual machine on Amazon EC2",
+                "config": {
+                    "aws:region": {
+                        "description": "The AWS region to deploy into",
+                        "default": "us-west-2"
+                    },
+                    "instanceType": {
+                        "description": "The Amazon EC2 instance type",
+                        "default": "t3.micro"
+                    },
+                    "vpcNetworkCidr": {
+                        "description": "The network CIDR to use for the VPC",
+                        "default": "10.0.0.0/16"
+                    }
+                }
+            }
+        },
         "vm-azure-csharp": {
             "name": "vm-azure-csharp",
             "runtime": "dotnet",
