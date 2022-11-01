@@ -33,7 +33,7 @@ describe("Template metadata", () => {
             expect(architectures.find(arch => arch.name === "Virtual Machine")).toBeDefined();
         });
 
-        it("only lists templates that exist in the repository", () => {
+        it("only contains templates that exist in the repository", () => {
             architectures.forEach(arch => {
                 arch.groups.forEach(group => {
                     group.templates.forEach(template => {
@@ -84,7 +84,7 @@ describe("Template metadata", () => {
             expect(templates["azure-java"]).toBeDefined();
         });
 
-        it("only contains templates that exist", () => {
+        it("only contains templates that exist in the repository", () => {
             Object.keys(templates).forEach(template => {
                 expect(() => fs.readdirSync(`${template}`)).not.toThrow();
             });
