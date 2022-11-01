@@ -71,7 +71,7 @@ const endpoint = new azure_native.cdn.Endpoint("endpoint", {
 });
 
 // Export the URLs and hostnames of the storage account and CDN.
-export const originURL = pulumi.interpolate`http://${originHostname}`;
+export const originURL = account.primaryEndpoints.apply(endpoints => endpoints.web);
 export { originHostname };
 export const cdnURL = pulumi.interpolate`https://${endpoint.hostName}`;
 export const cdnHostname = endpoint.hostName;
