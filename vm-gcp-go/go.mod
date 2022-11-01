@@ -1,4 +1,4 @@
-module vm-gcp-go
+module ${PROJECT}
 
 go 1.18
 
