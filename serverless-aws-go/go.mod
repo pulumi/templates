@@ -1,4 +1,4 @@
-module serveress-aws-go
+module ${PROJECT}
 
 go 1.17
 

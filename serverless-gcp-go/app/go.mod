@@ -1,4 +1,4 @@
-module github.com/pulumi/templates/serverless-gcp-go/api
+module example.com/${PROJECT}/api
 
 go 1.16
 

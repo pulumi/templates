@@ -1,4 +1,4 @@
-module azure-container-go
+module ${PROJECT}
 
 go 1.17
 
