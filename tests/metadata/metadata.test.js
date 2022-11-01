@@ -1,4 +1,5 @@
 const metadata = require("../../metadata/dist/metadata.json");
+const fs = require("fs");
 
 describe("Template metadata", () => {
 
@@ -29,6 +30,17 @@ describe("Template metadata", () => {
             expect(architectures.find(arch => arch.name === "Serverless")).toBeDefined();
             expect(architectures.find(arch => arch.name === "Container Service")).toBeDefined();
             expect(architectures.find(arch => arch.name === "Kubernetes")).toBeDefined();
+            expect(architectures.find(arch => arch.name === "Virtual Machine")).toBeDefined();
+        });
+
+        it("only contains templates that exist in the repository", () => {
+            architectures.forEach(arch => {
+                arch.groups.forEach(group => {
+                    group.templates.forEach(template => {
+                        expect(() => fs.readdirSync(`${template}`)).not.toThrow();
+                    });
+                });
+            });
         });
     });
 
@@ -70,6 +82,12 @@ describe("Template metadata", () => {
             expect(templates["gcp-csharp"]).toBeDefined();
             expect(templates["gcp-yaml"]).toBeDefined();
             expect(templates["azure-java"]).toBeDefined();
+        });
+
+        it("only contains templates that exist in the repository", () => {
+            Object.keys(templates).forEach(template => {
+                expect(() => fs.readdirSync(`${template}`)).not.toThrow();
+            });
         });
     });
 });
