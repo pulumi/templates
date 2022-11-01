@@ -5,13 +5,13 @@ template:
   description: A Pulumi program to deploy a Helm chart onto a Kubernetes cluster
   config:
     k8sNamespace:
-      default: default
+      default: nginx-ingress
       description: The Kubernetes namespace to deploy into
 
 configuration:
   # Use this user-supplied value to create a Kubernetes namespace later
   k8sNamespace:
-    default: default
+    default: nginx-ingress
     type: String
 
 variables:

@@ -1,6 +1,6 @@
 name: ${PROJECT}
 description: ${DESCRIPTION}
-runtime: go
+runtime: dotnet
 template:
   description: A Pulumi program to deploy a Helm chart onto a Kubernetes cluster
   config:

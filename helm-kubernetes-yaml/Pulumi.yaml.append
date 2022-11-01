@@ -1,7 +1,7 @@
 configuration:
   # Use this user-supplied value to create a Kubernetes namespace later
   k8sNamespace:
-    default: default
+    default: nginx-ingress
     type: String
 
 variables:

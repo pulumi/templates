@@ -5,5 +5,5 @@ template:
   description: A Pulumi program to deploy a Helm chart onto a Kubernetes cluster
   config:
     k8sNamespace:
-      default: default
+      default: nginx-ingress
       description: The Kubernetes namespace to deploy into
