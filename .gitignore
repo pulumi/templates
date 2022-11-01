@@ -8,3 +8,4 @@ go.sum
 !tests/go.sum
 Pulumi.*.yaml
 node_modules
+.vscode
