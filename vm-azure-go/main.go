@@ -18,25 +18,25 @@ func main() {
 
 		// Import the program's configuration settings.
 		cfg := config.New(ctx, "")
-		vmName := "my-server"
-		if param := cfg.Get("vmName"); param != "" {
-			vmName = param
+		vmName, err := cfg.Try("vmName")
+		if err != nil {
+			vmName = "my-server"
 		}
-		vmSize := "Standard_A0"
-		if param := cfg.Get("vmSize"); param != "" {
-			vmSize = param
+		vmSize, err := cfg.Try("vmSize")
+		if err != nil {
+			vmSize = "Standard_A0"
 		}
-		osImage := "Debian:debian-11:11:latest"
-		if param := cfg.Get("osImage"); param != "" {
-			osImage = param
+		osImage, err := cfg.Try("osImage")
+		if err != nil {
+			osImage = "Debian:debian-11:11:latest"
 		}
-		adminUsername := "pulumiuser"
-		if param := cfg.Get("instanceTag"); param != "" {
-			adminUsername = param
+		adminUsername, err := cfg.Try("adminUsername")
+		if err != nil {
+			adminUsername = "pulumiuser"
 		}
-		servicePort := "80"
-		if param := cfg.Get("servicePort"); param != "" {
-			servicePort = param
+		servicePort, err := cfg.Try("servicePort")
+		if err != nil {
+			servicePort = "80"
 		}
 		sshPublicKey := cfg.Require("sshPublicKey")
 
