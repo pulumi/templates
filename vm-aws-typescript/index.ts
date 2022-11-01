@@ -54,8 +54,8 @@ const routeTableAssociation = new aws.ec2.RouteTableAssociation("routeTableAssoc
     routeTableId: routeTable.id,
 });
 
-/* Create a security group allowing inbound access over port 80 and outbound
-access to anywhere. */
+// Create a security group allowing inbound access over port 80 and outbound
+// access to anywhere.
 const secGroup = new aws.ec2.SecurityGroup("secGroup", {
     description: "Enable HTTP access",
     vpcId: vpc.id,

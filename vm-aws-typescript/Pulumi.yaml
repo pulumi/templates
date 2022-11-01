@@ -1,6 +1,6 @@
 name: ${PROJECT}
-runtime: nodejs
 description: ${DESCRIPTION}
+runtime: nodejs
 template:
   description: A virtual machine on Amazon EC2
   config:

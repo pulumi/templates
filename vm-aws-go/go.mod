@@ -1,4 +1,4 @@
-module vm-aws-yaml
+module ${PROJECT}
 
 go 1.17
 

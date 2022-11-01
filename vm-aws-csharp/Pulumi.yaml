@@ -1,6 +1,6 @@
 name: ${PROJECT}
-runtime: dotnet
 description: ${DESCRIPTION}
+runtime: dotnet
 template:
   description: A virtual machine on Amazon EC2
   config:

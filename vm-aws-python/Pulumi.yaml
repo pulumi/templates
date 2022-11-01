@@ -1,6 +1,6 @@
 name: ${PROJECT}
-runtime: python
 description: ${DESCRIPTION}
+runtime: python
 template:
   description: A virtual machine on Amazon EC2
   config:

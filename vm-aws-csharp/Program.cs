@@ -79,8 +79,8 @@ return await Deployment.RunAsync(() =>
         RouteTableId = routeTable.Id,
     });
 
-    /* Create a security group allowing inbound access over port 80 and outbound
-    access to anywhere. */
+    // Create a security group allowing inbound access over port 80 and outbound
+    // access to anywhere.
     var secGroup = new Aws.Ec2.SecurityGroup("secGroup", new()
     {
         Description = "Enable HTTP access",

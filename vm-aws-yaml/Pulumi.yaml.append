@@ -87,4 +87,4 @@ variables:
 outputs:
     ip: ${server.publicIp}
     hostname: ${server.publicDns}
-    url: http://${${server.publicDns}}
+    url: http://${server.publicDns}

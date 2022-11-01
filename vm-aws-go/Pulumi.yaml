@@ -1,6 +1,6 @@
 name: ${PROJECT}
-runtime: go
 description: ${DESCRIPTION}
+runtime: go
 template:
   description: A virtual machine on Amazon EC2
   config:
