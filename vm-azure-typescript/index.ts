@@ -7,7 +7,7 @@ import * as random from "@pulumi/random";
 // Import the program's configuration settings.
 const config = new pulumi.Config();
 const vmName = config.get("vmName") || "my-server";
-const vmSize = config.get("vmSize") || "Standard_A0";
+const vmSize = config.get("vmSize") || "Standard_A1_v2";
 const osImage = config.get("osImage") || "Debian:debian-11:11:latest";
 const adminUsername = config.get("adminUsername") || "pulumiuser";
 const servicePort = config.get("servicePort") || "80";

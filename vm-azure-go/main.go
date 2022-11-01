@@ -24,7 +24,7 @@ func main() {
 		}
 		vmSize, err := cfg.Try("vmSize")
 		if err != nil {
-			vmSize = "Standard_A0"
+			vmSize = "Standard_A1_v2"
 		}
 		osImage, err := cfg.Try("osImage")
 		if err != nil {

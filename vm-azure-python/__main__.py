@@ -6,7 +6,7 @@ import base64
 # Import the program's configuration settings.
 config = pulumi.Config()
 vm_name = config.get("vmName", "my-server")
-vm_size = config.get("vmSize", "Standard_A0")
+vm_size = config.get("vmSize", "Standard_A1_v2")
 os_image = config.get("osImage", "Debian:debian-11:11:latest")
 admin_username = config.get("adminUsername", "pulumiuser")
 service_port = config.get("servicePort", "80")
