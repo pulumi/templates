@@ -1,4 +1,4 @@
-module vm-azure-go
+module ${PROJECT}
 
 go 1.18
 
