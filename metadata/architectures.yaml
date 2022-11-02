@@ -17,3 +17,7 @@ virtual-machine:
 kubernetes:
   name: Kubernetes
   slug: kubernetes
+
+kubernetes-application:
+  name: Kubernetes Application
+  slug: kubernetes-application
