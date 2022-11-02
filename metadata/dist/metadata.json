@@ -73,6 +73,38 @@
                         "serverless-aws-csharp",
                         "serverless-aws-yaml"
                     ]
+                },
+                {
+                    "name": "Azure Serverless Application",
+                    "kind": "architecture",
+                    "parent": "serverless-application",
+                    "slug": "azure",
+                    "clouds": [
+                        "azure"
+                    ],
+                    "templates": [
+                        "serverless-azure-typescript",
+                        "serverless-azure-python",
+                        "serverless-azure-go",
+                        "serverless-azure-csharp",
+                        "serverless-azure-yaml"
+                    ]
+                },
+                {
+                    "name": "Google Cloud Serverless Application",
+                    "kind": "architecture",
+                    "parent": "serverless-application",
+                    "slug": "gcp",
+                    "clouds": [
+                        "gcp"
+                    ],
+                    "templates": [
+                        "serverless-gcp-typescript",
+                        "serverless-gcp-python",
+                        "serverless-gcp-go",
+                        "serverless-gcp-csharp",
+                        "serverless-gcp-yaml"
+                    ]
                 }
             ]
         },
@@ -132,6 +164,22 @@
             "name": "Virtual Machine",
             "slug": "virtual-machine",
             "groups": [
+                {
+                    "name": "Virtual Machine on AWS",
+                    "kind": "architecture",
+                    "parent": "virtual-machine",
+                    "slug": "aws",
+                    "clouds": [
+                        "aws"
+                    ],
+                    "templates": [
+                        "vm-aws-typescript",
+                        "vm-aws-python",
+                        "vm-aws-go",
+                        "vm-aws-csharp",
+                        "vm-aws-yaml"
+                    ]
+                },
                 {
                     "name": "Virtual Machine on Azure",
                     "kind": "architecture",
@@ -216,6 +264,44 @@
                         "kubernetes-gcp-go",
                         "kubernetes-gcp-yaml",
                         "kubernetes-gcp-csharp"
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Kubernetes Application",
+            "slug": "kubernetes-application",
+            "groups": [
+                {
+                    "name": "Helm Chart on Kubernetes",
+                    "kind": "architecture",
+                    "parent": "kubernetes-application",
+                    "slug": "helm-chart",
+                    "clouds": [
+                        "kubernetes"
+                    ],
+                    "templates": [
+                        "helm-kubernetes-typescript",
+                        "helm-kubernetes-python",
+                        "helm-kubernetes-go",
+                        "helm-kubernetes-csharp",
+                        "helm-kubernetes-yaml"
+                    ]
+                },
+                {
+                    "name": "Web Application on Kubernetes",
+                    "kind": "architecture",
+                    "parent": "kubernetes-application",
+                    "slug": "web-application",
+                    "clouds": [
+                        "kubernetes"
+                    ],
+                    "templates": [
+                        "webapp-kubernetes-typescript",
+                        "webapp-kubernetes-python",
+                        "webapp-kubernetes-go",
+                        "webapp-kubernetes-csharp",
+                        "webapp-kubernetes-yaml"
                     ]
                 }
             ]
