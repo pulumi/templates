@@ -1811,6 +1811,71 @@
                 }
             }
         },
+        "helm-kubernetes-csharp": {
+            "name": "helm-kubernetes-csharp",
+            "runtime": "dotnet",
+            "template": {
+                "description": "A Pulumi program to deploy a Helm chart onto a Kubernetes cluster",
+                "config": {
+                    "k8sNamespace": {
+                        "default": "nginx-ingress",
+                        "description": "The Kubernetes namespace to deploy into"
+                    }
+                }
+            }
+        },
+        "helm-kubernetes-go": {
+            "name": "helm-kubernetes-go",
+            "runtime": "go",
+            "template": {
+                "description": "A Pulumi program to deploy a Helm chart onto a Kubernetes cluster",
+                "config": {
+                    "k8sNamespace": {
+                        "default": "nginx-ingress",
+                        "description": "The Kubernetes namespace to deploy into"
+                    }
+                }
+            }
+        },
+        "helm-kubernetes-python": {
+            "name": "helm-kubernetes-python",
+            "runtime": "python",
+            "template": {
+                "description": "A Pulumi program to deploy a Helm chart onto a Kubernetes cluster",
+                "config": {
+                    "k8sNamespace": {
+                        "default": "nginx-ingress",
+                        "description": "The Kubernetes namespace to deploy into"
+                    }
+                }
+            }
+        },
+        "helm-kubernetes-typescript": {
+            "name": "helm-kubernetes-typescript",
+            "runtime": "nodejs",
+            "template": {
+                "description": "A Pulumi program to deploy a Helm chart onto a Kubernetes cluster",
+                "config": {
+                    "k8sNamespace": {
+                        "default": "nginx-ingress",
+                        "description": "The Kubernetes namespace to deploy into"
+                    }
+                }
+            }
+        },
+        "helm-kubernetes-yaml": {
+            "name": "helm-kubernetes-yaml",
+            "runtime": "yaml",
+            "template": {
+                "description": "A Pulumi program to deploy a Helm chart onto a Kubernetes cluster",
+                "config": {
+                    "k8sNamespace": {
+                        "default": "nginx-ingress",
+                        "description": "The Kubernetes namespace to deploy into"
+                    }
+                }
+            }
+        },
         "java-gradle": {
             "name": "java-gradle",
             "runtime": "java",
