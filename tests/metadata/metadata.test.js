@@ -29,7 +29,8 @@ describe("Template metadata", () => {
             expect(architectures.find(arch => arch.name === "Static Website")).toBeDefined();
             expect(architectures.find(arch => arch.name === "Serverless")).toBeDefined();
             expect(architectures.find(arch => arch.name === "Container Service")).toBeDefined();
-            expect(architectures.find(arch => arch.name === "Kubernetes")).toBeDefined();
+            expect(architectures.find(arch => arch.name === "Kubernetes Cluster")).toBeDefined();
+            expect(architectures.find(arch => arch.name === "Kubernetes Application")).toBeDefined();
             expect(architectures.find(arch => arch.name === "Virtual Machine")).toBeDefined();
         });
 

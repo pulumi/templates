@@ -215,7 +215,7 @@
             ]
         },
         {
-            "name": "Kubernetes",
+            "name": "Kubernetes Cluster",
             "slug": "kubernetes",
             "groups": [
                 {
