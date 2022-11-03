@@ -1,4 +1,4 @@
-name: Google Cloud Static Website
+name: Static Website
 kind: architecture
 parent: static-website
 slug: gcp

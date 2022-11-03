@@ -1,4 +1,4 @@
-name: Kubernetes Cluster on Google Cloud
+name: Kubernetes Cluster
 kind: architecture
 parent: kubernetes
 slug: gcp

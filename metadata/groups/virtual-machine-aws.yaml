@@ -1,4 +1,4 @@
-name: Virtual Machine on AWS
+name: Virtual Machine
 kind: architecture
 parent: virtual-machine
 slug: aws

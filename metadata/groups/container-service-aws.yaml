@@ -1,4 +1,4 @@
-name: Container Service on AWS
+name: Container Service
 kind: architecture
 parent: container-service
 slug: aws

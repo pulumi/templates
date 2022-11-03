@@ -1,4 +1,4 @@
-name: Virtual Machine on Google Cloud
+name: Virtual Machine
 kind: architecture
 parent: virtual-machine
 slug: gcp

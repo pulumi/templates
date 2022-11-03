@@ -1,4 +1,4 @@
-name: Azure Serverless Application
+name: Serverless Application
 kind: architecture
 parent: serverless-application
 slug: azure

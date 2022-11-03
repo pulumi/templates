@@ -1,4 +1,4 @@
-name: Container Service on Google Cloud
+name: Container Service
 kind: architecture
 parent: container-service
 slug: gcp

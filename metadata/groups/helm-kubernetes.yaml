@@ -1,4 +1,4 @@
-name: Helm Chart on Kubernetes
+name: Helm Chart
 kind: architecture
 parent: kubernetes-application
 slug: helm-chart

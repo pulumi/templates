@@ -1,4 +1,4 @@
-name: AWS Static Website
+name: Static Website
 kind: architecture
 parent: static-website
 slug: aws
