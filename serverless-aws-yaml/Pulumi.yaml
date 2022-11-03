@@ -2,7 +2,7 @@ name: ${PROJECT}
 description: ${DESCRIPTION}
 runtime: yaml
 template:
-  description: A serverless app on AWS API Gateway and Lambda
+  description: A Pulumi YAML program to deploy a serverless application on AWS
   config:
     aws:region:
       description: The AWS region to deploy into

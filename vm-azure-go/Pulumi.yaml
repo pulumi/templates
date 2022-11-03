@@ -3,7 +3,7 @@ description: ${DESCRIPTION}
 runtime: go
 
 template:
-  description: A virtual machine on Microsoft Azure
+  description: A Go program to deploy a virtual machine on Azure
   config:
     azure-native:location:
       description: The Azure location to deploy into

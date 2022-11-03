@@ -3,7 +3,7 @@ description: ${DESCRIPTION}
 runtime: python
 
 template:
-  description: A serverless web application on Google Cloud Platform
+  description: A Python program to deploy a serverless application on Google Cloud
   config:
     gcp:project:
       description: The Google Cloud project to deploy into

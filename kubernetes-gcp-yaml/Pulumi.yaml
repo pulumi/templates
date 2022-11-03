@@ -2,7 +2,7 @@ name: ${PROJECT}
 description: ${DESCRIPTION}
 runtime: yaml
 template:
-  description: A YAML program to create a Kubernetes cluster on Google Cloud
+  description: A YAML program to deploy a Kubernetes cluster on Google Cloud
   config:
     gcp:project:
       description: The Google Cloud project to deploy into

@@ -2,7 +2,7 @@ name: ${PROJECT}
 description: ${DESCRIPTION}
 runtime: dotnet
 template:
-  description: A program to create a Deployment, Service, and ConfigMap
+  description: A C# program to deploy a web application onto a Kubernetes cluster
   config:
     namespace:
       default: default

@@ -3,7 +3,7 @@ description: ${DESCRIPTION}
 runtime: go
 
 template:
-  description: A serverless web application on Google Cloud Platform
+  description: A Go program to deploy a serverless application on Google Cloud
   config:
     gcp:project:
       description: The Google Cloud project to deploy into

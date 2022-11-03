@@ -3,7 +3,7 @@ description: ${DESCRIPTION}
 runtime: python
 
 template:
-  description: A static website on AWS
+  description: A Python program to deploy a static website on AWS
   config:
     aws:region:
       description: The AWS region to deploy into

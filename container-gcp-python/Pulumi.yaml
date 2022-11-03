@@ -5,7 +5,7 @@ runtime:
     options:
         virtualenv: venv
 template:
-  description: A containerized service on Google Cloud Platform
+  description: A Python program to deploy a containerized service on Google Cloud
   config:
     gcp:region:
       description: The Google Cloud region to deploy into
