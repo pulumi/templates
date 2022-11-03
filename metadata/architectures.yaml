@@ -15,7 +15,7 @@ virtual-machine:
   slug: virtual-machine
 
 kubernetes:
-  name: Kubernetes
+  name: Kubernetes Cluster
   slug: kubernetes
 
 kubernetes-application:
