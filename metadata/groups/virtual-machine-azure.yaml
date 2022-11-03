@@ -1,4 +1,4 @@
-name: Virtual Machine on Azure
+name: Virtual Machine
 kind: architecture
 parent: virtual-machine
 slug: azure

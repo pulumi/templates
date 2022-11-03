@@ -1,4 +1,4 @@
-name: Google Cloud Serverless Application
+name: Serverless Application
 kind: architecture
 parent: serverless-application
 slug: gcp

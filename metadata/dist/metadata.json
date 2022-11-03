@@ -5,7 +5,7 @@
             "slug": "static-website",
             "groups": [
                 {
-                    "name": "AWS Static Website",
+                    "name": "Static Website",
                     "kind": "architecture",
                     "parent": "static-website",
                     "slug": "aws",
@@ -21,7 +21,7 @@
                     ]
                 },
                 {
-                    "name": "Azure Static Website",
+                    "name": "Static Website",
                     "kind": "architecture",
                     "parent": "static-website",
                     "slug": "azure",
@@ -37,7 +37,7 @@
                     ]
                 },
                 {
-                    "name": "Google Cloud Static Website",
+                    "name": "Static Website",
                     "kind": "architecture",
                     "parent": "static-website",
                     "slug": "gcp",
@@ -59,7 +59,7 @@
             "slug": "serverless-application",
             "groups": [
                 {
-                    "name": "AWS Serverless Application",
+                    "name": "Serverless Application",
                     "kind": "architecture",
                     "parent": "serverless-application",
                     "slug": "aws",
@@ -75,7 +75,7 @@
                     ]
                 },
                 {
-                    "name": "Azure Serverless Application",
+                    "name": "Serverless Application",
                     "kind": "architecture",
                     "parent": "serverless-application",
                     "slug": "azure",
@@ -91,7 +91,7 @@
                     ]
                 },
                 {
-                    "name": "Google Cloud Serverless Application",
+                    "name": "Serverless Application",
                     "kind": "architecture",
                     "parent": "serverless-application",
                     "slug": "gcp",
@@ -113,7 +113,7 @@
             "slug": "container-service",
             "groups": [
                 {
-                    "name": "Container Service on AWS",
+                    "name": "Container Service",
                     "kind": "architecture",
                     "parent": "container-service",
                     "slug": "aws",
@@ -129,7 +129,7 @@
                     ]
                 },
                 {
-                    "name": "Container Service on Azure",
+                    "name": "Container Service",
                     "kind": "architecture",
                     "parent": "container-service",
                     "slug": "azure",
@@ -144,7 +144,7 @@
                     ]
                 },
                 {
-                    "name": "Container Service on Google Cloud",
+                    "name": "Container Service",
                     "kind": "architecture",
                     "parent": "container-service",
                     "slug": "gcp",
@@ -165,7 +165,7 @@
             "slug": "virtual-machine",
             "groups": [
                 {
-                    "name": "Virtual Machine on AWS",
+                    "name": "Virtual Machine",
                     "kind": "architecture",
                     "parent": "virtual-machine",
                     "slug": "aws",
@@ -181,7 +181,7 @@
                     ]
                 },
                 {
-                    "name": "Virtual Machine on Azure",
+                    "name": "Virtual Machine",
                     "kind": "architecture",
                     "parent": "virtual-machine",
                     "slug": "azure",
@@ -197,7 +197,7 @@
                     ]
                 },
                 {
-                    "name": "Virtual Machine on Google Cloud",
+                    "name": "Virtual Machine",
                     "kind": "architecture",
                     "parent": "virtual-machine",
                     "slug": "gcp",
@@ -219,7 +219,7 @@
             "slug": "kubernetes",
             "groups": [
                 {
-                    "name": "Kubernetes Cluster on AWS",
+                    "name": "Kubernetes Cluster",
                     "kind": "architecture",
                     "parent": "kubernetes",
                     "slug": "aws",
@@ -235,7 +235,7 @@
                     ]
                 },
                 {
-                    "name": "Kubernetes Cluster on Azure",
+                    "name": "Kubernetes Cluster",
                     "kind": "architecture",
                     "parent": "kubernetes",
                     "slug": "azure",
@@ -251,7 +251,7 @@
                     ]
                 },
                 {
-                    "name": "Kubernetes Cluster on Google Cloud",
+                    "name": "Kubernetes Cluster",
                     "kind": "architecture",
                     "parent": "kubernetes",
                     "slug": "gcp",
@@ -273,7 +273,7 @@
             "slug": "kubernetes-application",
             "groups": [
                 {
-                    "name": "Helm Chart on Kubernetes",
+                    "name": "Helm Chart",
                     "kind": "architecture",
                     "parent": "kubernetes-application",
                     "slug": "helm-chart",
@@ -289,7 +289,7 @@
                     ]
                 },
                 {
-                    "name": "Web Application on Kubernetes",
+                    "name": "Web Application",
                     "kind": "architecture",
                     "parent": "kubernetes-application",
                     "slug": "web-application",

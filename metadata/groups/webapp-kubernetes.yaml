@@ -1,4 +1,4 @@
-name: Web Application on Kubernetes
+name: Web Application
 kind: architecture
 parent: kubernetes-application
 slug: web-application

@@ -1,4 +1,4 @@
-name: Azure Static Website
+name: Static Website
 kind: architecture
 parent: static-website
 slug: azure
