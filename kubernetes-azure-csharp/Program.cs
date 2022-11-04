@@ -84,7 +84,7 @@ return await Pulumi.Deployment.RunAsync(() =>
             Type = "VirtualMachineScaleSets",
             VmSize = nodeVmSize,
             // Change next line for additional node pools to distribute across subnets
-            // VnetSubnetID = subnet1.Id,
+            VnetSubnetID = subnet1.Id,
         },
 
         // Change authorizedIPRanges to limit access to API server
