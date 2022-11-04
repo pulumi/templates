@@ -3,7 +3,7 @@ description: ${DESCRIPTION}
 runtime: dotnet
 
 template:
-  description: A virtual machine on Google Cloud Platform
+  description: A C# program to deploy a virtual machine on Google Cloud
   config:
     gcp:project:
       description: The Google Cloud project to deploy into

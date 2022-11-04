@@ -2,7 +2,7 @@ name: ${PROJECT}
 description: ${DESCRIPTION}
 runtime: python
 template:
-  description: A virtual machine on Google Cloud Platform
+  description: A Python program to deploy a virtual machine on Google Cloud
   config:
     gcp:project:
       description: The Google Cloud project to deploy into

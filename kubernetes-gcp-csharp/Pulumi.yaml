@@ -2,7 +2,7 @@ name: ${PROJECT}
 description: ${DESCRIPTION}
 runtime: dotnet
 template:
-  description: A program to create a Kubernetes cluster on Google Cloud
+  description: A C# program to deploy a Kubernetes cluster on Google Cloud
   config:
     gcp:project:
       description: The Google Cloud project to deploy into

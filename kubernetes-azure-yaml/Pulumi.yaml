@@ -2,7 +2,7 @@ name: ${PROJECT}
 description: ${DESCRIPTION}
 runtime: yaml
 template:
-  description: A YAML document to create a Kubernetes cluster on Azure
+  description: A Pulumi YAML program to deploy a Kubernetes cluster on Azure
   config:
     azure-native:location:
       default: westus2

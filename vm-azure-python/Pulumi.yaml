@@ -3,7 +3,7 @@ description: ${DESCRIPTION}
 runtime: python
 
 template:
-  description: A virtual machine on Microsoft Azure
+  description: A Python program to deploy a virtual machine on Azure
   config:
     azure-native:location:
       description: The Azure location to deploy into

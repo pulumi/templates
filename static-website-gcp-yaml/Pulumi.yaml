@@ -3,7 +3,7 @@ description: ${DESCRIPTION}
 runtime: yaml
 
 template:
-  description: A static website on Google Cloud
+  description: A Pulumi YAML program to deploy a static website on Google Cloud
   config:
     gcp:project:
       description: The Google Cloud project to deploy into

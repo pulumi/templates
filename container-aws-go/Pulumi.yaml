@@ -2,7 +2,7 @@ name: ${PROJECT}
 description: ${DESCRIPTION}
 runtime: go
 template:
-  description: A containerized service on AWS Fargate
+  description: A Go program to deploy a containerized service on AWS
   config:
     aws:region:
       description: The AWS region to deploy into
