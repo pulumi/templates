@@ -3,7 +3,7 @@ description: ${DESCRIPTION}
 runtime: yaml
 
 template: 
-    description: A Pulumi YAML program to deploy an instance on AWS EC2
+    description: A Pulumi YAML program to deploy a virtual machine on Amazon EC2
     config:
         aws:region:
             description: The AWS region to deploy into
