@@ -1,23 +1,23 @@
-configuration:
+config:
   azure-native:location:
-    type: String
+    type: string
   numWorkerNodes:
-    type: Number
+    type: integer
     default: 3
   prefixForDns:
-    type: String
+    type: string
     default: pulumi
   kubernetesVersion:
-    type: String
+    type: string
     default: 1.24.3
   nodeVmSize:
-    type: String
+    type: string
     default: Standard_DS2_v2
   # The next two configuration values are required (no default can be provided)
   mgmtGroupId:
-    type: String
+    type: string
   sshPubKey:
-    type: String
+    type: string
 
 resources:
   # Create a new resource group

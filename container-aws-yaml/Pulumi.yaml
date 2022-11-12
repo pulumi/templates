@@ -17,15 +17,15 @@ template:
       description: The amount of memory to allocate for the container
       default: 128
 
-configuration:
+config:
   containerPort:
-    type: Number
+    type: integer
     default: 80
   cpu:
-    type: Number
+    type: integer
     default: 512
   memory:
-    type: Number
+    type: integer
     default: 128
 
 resources:
