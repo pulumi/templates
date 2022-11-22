@@ -1,10 +1,10 @@
-configuration:
+config:
   k8sNamespace:
     default: default
-    type: String
+    type: string
   numReplicas:
     default: 1
-    type: Number
+    type: integer
 
 variables:
   appLabels:

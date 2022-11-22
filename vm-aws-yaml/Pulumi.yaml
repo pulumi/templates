@@ -15,12 +15,12 @@ template:
             description: The network CIDR to use for the VPC
             default: 10.0.0.0/16
 
-configuration:
+config:
     instanceType:
-        type: String
+        type: string
         default: t3.micro
     vpcNetworkCidr:
-        type: String
+        type: string
         default: 10.0.0.0/16
 
 resources:  

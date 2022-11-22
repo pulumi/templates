@@ -1,18 +1,18 @@
-configuration:
+config:
   minClusterSize:
-    type: Number
+    type: integer
     default: 3
   maxClusterSize:
-    type: Number
+    type: integer
     default: 6
   desiredClusterSize:
-    type: Number
+    type: integer
     default: 3
   eksNodeInstanceType:
-    type: String
+    type: string
     default: t2.medium
   vpcNetworkCidr:
-    type: String
+    type: string
     default: 10.0.0.0/16
 resources:
   # Create a VPC for the EKS cluster
