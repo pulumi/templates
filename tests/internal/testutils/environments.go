@@ -27,6 +27,11 @@ func deleteIfNotFailed(e *ptesting.Environment, cfg TemplateTestConfig) {
 	}
 }
 
+// Calls pulumi new with no arguments, loading all possible templates.
+func PulumiNewAll(e *ptesting.Environment, templatePath string) {
+	e.RunCommand("pulumi new")
+}
+
 // Calls pulumi new with a given template.
 //
 // Since pulumi new expects a stack name or assumes dev, we generate a

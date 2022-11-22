@@ -13,6 +13,7 @@ const testTimeout = 60 * time.Minute
 
 func TestTemplates(t *testing.T) {
 	cfg := testutils.NewTemplateTestConfigFromEnv(testutils.SKIPPED_TESTS)
+	testedPulumiNewAll := false
 
 	for _, templateInfo := range testutils.FindAllTemplates(t, cfg.TemplateUrl) {
 		templateInfo := templateInfo
@@ -27,6 +28,12 @@ func TestTemplates(t *testing.T) {
 			t.Logf("Starting test run for %q", templateName)
 
 			e := testutils.NewEnvironment(t, cfg)
+			// test `pulumi new` command one time
+			if !testedPulumiNewAll {
+				testutils.PulumiNewAll(e, templateInfo.TemplatePath)
+				testedPulumiNewAll = true
+			}
+
 			testutils.PulumiNew(e, templateInfo.TemplatePath)
 
 			integration.ProgramTest(t, &integration.ProgramTestOptions{
