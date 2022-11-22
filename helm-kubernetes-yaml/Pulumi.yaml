@@ -8,11 +8,11 @@ template:
       default: nginx-ingress
       description: The Kubernetes namespace to deploy into
 
-config:
+configuration:
   # Use this user-supplied value to create a Kubernetes namespace later
   k8sNamespace:
     default: nginx-ingress
-    type: string
+    type: String
 
 variables:
   # Define some labels that will be applied to resources

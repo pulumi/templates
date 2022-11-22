@@ -22,18 +22,18 @@ template:
       default: error.html
 
 # Import the program's configuration settings.
-config:
+configuration:
   sitePath:
-    type: string
+    type: String
     default: ./www
   appPath:
-    type: string
+    type: String
     default: ./app
   indexDocument:
-    type: string
+    type: String
     default: index.html
   errorDocument:
-    type: string
+    type: String
     default: error.html
 
 variables:
