@@ -13,14 +13,14 @@ template:
       default: 1
       description: The desired number of nodes PER ZONE in the nodepool
 
-config:
+configuration:
   gcp:project:
-    type: string
+    type: String
   gcp:region:
-    type: string
+    type: String
     default: us-central1
   nodesPerZone:
-    type: integer
+    type: Number
     default: 1
 
 resources:

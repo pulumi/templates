@@ -24,26 +24,26 @@ template:
     sshPubKey:
       description: Contents of the public key for SSH access to cluster nodes
 
-config:
+configuration:
   azure-native:location:
-    type: string
+    type: String
   numWorkerNodes:
-    type: integer
+    type: Number
     default: 3
   prefixForDns:
-    type: string
+    type: String
     default: pulumi
   kubernetesVersion:
-    type: string
+    type: String
     default: 1.24.3
   nodeVmSize:
-    type: string
+    type: String
     default: Standard_DS2_v2
   # The next two configuration values are required (no default can be provided)
   mgmtGroupId:
-    type: string
+    type: String
   sshPubKey:
-    type: string
+    type: String
 
 resources:
   # Create a new resource group

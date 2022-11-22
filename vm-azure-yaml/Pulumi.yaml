@@ -27,24 +27,24 @@ template:
       description: The public key data to use for SSH authentication
 
 # Import the program's configuration settings.
-config:
+configuration:
   adminUsername:
-    type: string
+    type: String
     default: pulumiuser
   vmName:
-    type: string
+    type: String
     default: my-server
   vmSize:
-    type: string
+    type: String
     default: Standard_A1_v2
   osImage:
-    type: string
+    type: String
     default: Debian:debian-11:11:latest
   servicePort:
-    type: string
+    type: String
     default: "80"
   sshPublicKey:
-    type: string
+    type: String
 
 variables:
   dnsName: ${vmName}-${random-string.result}

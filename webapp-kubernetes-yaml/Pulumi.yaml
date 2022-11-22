@@ -11,13 +11,13 @@ template:
       default: 1
       description: The number of replicas to deploy
 
-config:
+configuration:
   k8sNamespace:
     default: default
-    type: string
+    type: String
   numReplicas:
     default: 1
-    type: integer
+    type: Number
 
 variables:
   appLabels:

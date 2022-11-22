@@ -27,18 +27,18 @@ template:
       default: "80"
 
 # Import the program's configuration settings.
-config:
+configuration:
   machineType:
-    type: string
+    type: String
     default: f1-micro
   osImage:
-    type: string
+    type: String
     default: debian-11
   instanceTag:
-    type: string
+    type: String
     default: webserver
   servicePort:
-    type: string
+    type: String
     default: "80"
 
 variables:
