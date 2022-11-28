@@ -9,7 +9,7 @@
   <ItemGroup>
     <PackageReference Include="Pulumi" Version="3.*" />
     <PackageReference Include="Pulumi.Aws" Version="5.*" />
-    <PackageReference Include="Pulumi.Awsx" Version="1.0.0-beta.*" />
+    <PackageReference Include="Pulumi.Awsx" Version="1.*" />
   </ItemGroup>
 
 </Project>

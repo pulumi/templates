@@ -26,6 +26,7 @@ image = awsx.ecr.Image(
 service = awsx.ecs.FargateService(
     "service",
     cluster=cluster.arn,
+    assign_public_ip=True,
     task_definition_args=awsx.ecs.FargateServiceTaskDefinitionArgs(
         container=awsx.ecs.TaskDefinitionContainerDefinitionArgs(
             image=image.image_uri,

@@ -25,6 +25,7 @@ const image = new awsx.ecr.Image("image", {
 // Deploy an ECS Service on Fargate to host the application container
 const service = new awsx.ecs.FargateService("service", {
     cluster: cluster.arn,
+    assignPublicIp: true,
     taskDefinitionArgs: {
         container: {
             image: image.imageUri,
