@@ -1,11 +1,11 @@
-configuration:
+config:
   gcp:project:
-    type: String
+    type: string
   gcp:region:
-    type: String
+    type: string
     default: us-central1
   nodesPerZone:
-    type: Number
+    type: integer
     default: 1
 
 resources:

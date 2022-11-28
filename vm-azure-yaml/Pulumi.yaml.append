@@ -1,23 +1,23 @@
 
 # Import the program's configuration settings.
-configuration:
+config:
   adminUsername:
-    type: String
+    type: string
     default: pulumiuser
   vmName:
-    type: String
+    type: string
     default: my-server
   vmSize:
-    type: String
+    type: string
     default: Standard_A1_v2
   osImage:
-    type: String
+    type: string
     default: Debian:debian-11:11:latest
   servicePort:
-    type: String
+    type: string
     default: "80"
   sshPublicKey:
-    type: String
+    type: string
 
 variables:
   dnsName: ${vmName}-${random-string.result}

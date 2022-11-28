@@ -1,17 +1,17 @@
 
 # Import the program's configuration settings.
-configuration:
+config:
   sitePath:
-    type: String
+    type: string
     default: ./www
   appPath:
-    type: String
+    type: string
     default: ./app
   indexDocument:
-    type: String
+    type: string
     default: index.html
   errorDocument:
-    type: String
+    type: string
     default: error.html
 
 variables:
