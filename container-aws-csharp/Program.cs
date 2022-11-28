@@ -24,6 +24,7 @@ return await Deployment.RunAsync(() =>
     var service = new Awsx.Ecs.FargateService("service", new()
     {
         Cluster = cluster.Arn,
+        AssignPublicIp = true,
         TaskDefinitionArgs = new Awsx.Ecs.Inputs.FargateServiceTaskDefinitionArgs
         {
             Container = new Awsx.Ecs.Inputs.TaskDefinitionContainerDefinitionArgs

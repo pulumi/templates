@@ -1,13 +1,10 @@
 
-configuration:
+config:
   containerPort:
-    type: Number
     default: 80
   cpu:
-    type: Number
     default: 512
   memory:
-    type: Number
     default: 128
 
 resources:
@@ -17,26 +14,21 @@ resources:
   # An ALB to serve the container endpoint to the internet
   loadbalancer:
     type: awsx:lb:ApplicationLoadBalancer
-    options:
-      version: 1.0.0-beta.10
   # An ECR repository to store our application's container image
   repo:
     type: awsx:ecr:Repository
-    options:
-      version: 1.0.0-beta.10
   # Build and publish our application's container image from ./app to the ECR repository
   image:
     type: awsx:ecr:Image
     properties:
       repositoryUrl: ${repo.url}
       path: ./app
-    options:
-      version: 1.0.0-beta.10
   # Deploy an ECS Service on Fargate to host the application container
   service:
     type: awsx:ecs:FargateService
     properties:
       cluster: ${cluster.arn}
+      assignPublicIp: true
       taskDefinitionArgs:
         container:
           image: ${image.imageUri}
@@ -46,8 +38,6 @@ resources:
           portMappings:
           - containerPort: ${containerPort}
             targetGroup: ${loadbalancer.defaultTargetGroup}
-    options:
-      version: 1.0.0-beta.10
 
 outputs:
   # The URL at which the container's HTTP endpoint will be available

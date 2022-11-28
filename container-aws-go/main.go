@@ -55,7 +55,8 @@ func main() {
 
 		// Deploy an ECS Service on Fargate to host the application container
 		_, err = ecsx.NewFargateService(ctx, "service", &ecsx.FargateServiceArgs{
-			Cluster: cluster.Arn,
+			Cluster:        cluster.Arn,
+			AssignPublicIp: pulumi.Bool(true),
 			TaskDefinitionArgs: &ecsx.FargateServiceTaskDefinitionArgs{
 				Container: &ecsx.TaskDefinitionContainerDefinitionArgs{
 					Image:     image.ImageUri,
