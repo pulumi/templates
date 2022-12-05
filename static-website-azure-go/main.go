@@ -3,9 +3,9 @@ package main
 import (
 	"net/url"
 
-	cdn "github.com/pulumi/pulumi-azure-native/sdk/go/azure/cdn"
-	resources "github.com/pulumi/pulumi-azure-native/sdk/go/azure/resources"
-	storage "github.com/pulumi/pulumi-azure-native/sdk/go/azure/storage"
+	cdn "github.com/pulumi/pulumi-azure-native-sdk/cdn"
+	resources "github.com/pulumi/pulumi-azure-native-sdk/resources"
+	storage "github.com/pulumi/pulumi-azure-native-sdk/storage"
 	synced "github.com/pulumi/pulumi-synced-folder/sdk/go/synced-folder"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi/config"
@@ -108,7 +108,7 @@ func main() {
 			OriginHostHeader: originHostname,
 			Origins: cdn.DeepCreatedOriginArray{
 				&cdn.DeepCreatedOriginArgs{
-					Name: account.Name,
+					Name:     account.Name,
 					HostName: originHostname,
 				},
 			},

@@ -3,7 +3,9 @@ module ${PROJECT}
 go 1.17
 
 require (
-	github.com/pulumi/pulumi-azure-native/sdk v1.71.0
+	github.com/pulumi/pulumi-azure-native-sdk/cdn v1.88.1
+	github.com/pulumi/pulumi-azure-native-sdk/resources v1.88.1
+	github.com/pulumi/pulumi-azure-native-sdk/storage v1.88.1
 	github.com/pulumi/pulumi-synced-folder/sdk v0.0.8
 	github.com/pulumi/pulumi/sdk/v3 v3.38.0
 )
@@ -17,6 +19,7 @@ require (
 	github.com/cheggaaa/pb v1.0.18 // indirect
 	github.com/djherbis/times v1.2.0 // indirect
 	github.com/emirpasic/gods v1.12.0 // indirect
+	github.com/fatih/color v1.10.0 // indirect
 	github.com/go-git/gcfg v1.5.0 // indirect
 	github.com/go-git/go-billy/v5 v5.3.1 // indirect
 	github.com/go-git/go-git/v5 v5.4.2 // indirect
@@ -31,7 +34,7 @@ require (
 	github.com/inconshreveable/mousetrap v1.0.0 // indirect
 	github.com/jbenet/go-context v0.0.0-20150711004518-d14ea06fba99 // indirect
 	github.com/kevinburke/ssh_config v0.0.0-20201106050909-4977a11b4351 // indirect
-	github.com/mattn/go-isatty v0.0.16 // indirect
+	github.com/mattn/go-colorable v0.1.8 // indirect
 	github.com/mattn/go-runewidth v0.0.8 // indirect
 	github.com/mitchellh/go-homedir v1.1.0 // indirect
 	github.com/mitchellh/go-ps v1.0.0 // indirect
@@ -39,6 +42,7 @@ require (
 	github.com/opentracing/opentracing-go v1.1.0 // indirect
 	github.com/pkg/errors v0.9.1 // indirect
 	github.com/pkg/term v1.1.0 // indirect
+	github.com/pulumi/pulumi-azure-native-sdk v1.88.1 // indirect
 	github.com/rivo/uniseg v0.2.0 // indirect
 	github.com/rogpeppe/go-internal v1.8.1 // indirect
 	github.com/sabhiram/go-gitignore v0.0.0-20180611051255-d3107576ba94 // indirect

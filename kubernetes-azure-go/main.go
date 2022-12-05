@@ -3,9 +3,9 @@ package main
 import (
 	"encoding/base64"
 
-	"github.com/pulumi/pulumi-azure-native/sdk/go/azure/containerservice"
-	"github.com/pulumi/pulumi-azure-native/sdk/go/azure/network"
-	"github.com/pulumi/pulumi-azure-native/sdk/go/azure/resources"
+	"github.com/pulumi/pulumi-azure-native-sdk/containerservice"
+	"github.com/pulumi/pulumi-azure-native-sdk/network"
+	"github.com/pulumi/pulumi-azure-native-sdk/resources"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi/config"
 )
