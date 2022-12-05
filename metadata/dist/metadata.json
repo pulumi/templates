@@ -2307,8 +2307,7 @@
                 "description": "A Pulumi YAML program to deploy a Kubernetes cluster on Azure",
                 "config": {
                     "azure-native:location": {
-                        "default": "westus2",
-                        "description": "The Azure region in which to create the cluster"
+                        "value": "westus2"
                     },
                     "numWorkerNodes": {
                         "default": 3,
