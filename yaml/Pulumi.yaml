@@ -4,7 +4,7 @@ runtime: yaml
 template:
   description: A minimal Pulumi YAML program
 
-configuration: {}
+config: {}
 variables:     {}
 resources:     {}
 outputs:       {}

@@ -5,8 +5,7 @@ template:
   description: A Pulumi YAML program to deploy a Kubernetes cluster on Azure
   config:
     azure-native:location:
-      default: westus2
-      description: The Azure region in which to create the cluster
+      value: westus2
     numWorkerNodes:
       default: 3
       description: Number of worker nodes in the cluster
@@ -24,26 +23,26 @@ template:
     sshPubKey:
       description: Contents of the public key for SSH access to cluster nodes
 
-configuration:
+config:
   azure-native:location:
-    type: String
+    value: westus2
   numWorkerNodes:
-    type: Number
+    type: integer
     default: 3
   prefixForDns:
-    type: String
+    type: string
     default: pulumi
   kubernetesVersion:
-    type: String
+    type: string
     default: 1.24.3
   nodeVmSize:
-    type: String
+    type: string
     default: Standard_DS2_v2
   # The next two configuration values are required (no default can be provided)
   mgmtGroupId:
-    type: String
+    type: string
   sshPubKey:
-    type: String
+    type: string
 
 resources:
   # Create a new resource group
