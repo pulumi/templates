@@ -22,3 +22,4 @@ kafka1 = aiven.Kafka("kafka1",
             kafka_connect="true",
         ),
     ))
+    

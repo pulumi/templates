@@ -8,12 +8,12 @@ import (
 func main() {
 	pulumi.Run(func(ctx *pulumi.Context) error {
 		kafka, err := aiven.NewKafka(ctx, "aiven-kafka", &aiven.KafkaArgs{
-			Project:     pulumi.String("<project-name>"),
+			Project:     pulumi.String("<YOUR_AIVEN_PROJECT_NAME>"),
 			CloudName:   pulumi.String("azure-westeurope"),
 			Plan:        pulumi.String("startup-2"),
-			ServiceName: pulumi.String("myAivenKafkaService"),
+			ServiceName: pulumi.String("kafka-azure-eu"),
 			KafkaUserConfig: &aiven.KafkaKafkaUserConfigArgs{
-				KafkaVersion: pulumi.String("2.7"),
+				KafkaVersion: pulumi.String("3.2"),
 			},
 		})
 		if err != nil {
