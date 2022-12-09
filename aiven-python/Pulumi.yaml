@@ -1,0 +1,9 @@
+name: ${PROJECT}
+description: ${DESCRIPTION}
+runtime: python
+template:
+  description: A minimal Aiven Python Pulumi program
+  config:
+    aiven:apiToken:
+      description: The token that allows you access to your Aiven account
+      secret: true
