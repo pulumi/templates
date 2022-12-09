@@ -1,9 +1,8 @@
 config:
   gcp:project:
-    type: string
+    value: changeme
   gcp:region:
-    type: string
-    default: us-central1
+    value: us-central1
   nodesPerZone:
     type: integer
     default: 1
