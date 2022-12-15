@@ -35,6 +35,7 @@ func TestTemplates(t *testing.T) {
 				ExpectRefreshChanges:   true,
 				Quick:                  true,
 				SkipRefresh:            true,
+				SkipUpdate:             true,
 				NoParallel:             true, // marked Parallel by prepare
 				DestroyOnCleanup:       true,
 				UseAutomaticVirtualEnv: true,
