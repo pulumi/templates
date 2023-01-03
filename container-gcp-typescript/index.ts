@@ -21,6 +21,9 @@ const image = new docker.Image("image", {
     imageName: `gcr.io/${project}/${imageName}`,
     build: {
         context: appPath,
+        env: {
+            DOCKER_DEFAULT_PLATFORM: "linux/amd64", // https://github.com/pulumi/pulumi-docker/issues/296#issuecomment-1030094518
+        },
     },
 });
 
