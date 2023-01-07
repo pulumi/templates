@@ -22,7 +22,9 @@ const image = new docker.Image("image", {
     build: {
         context: appPath,
         env: {
-            DOCKER_DEFAULT_PLATFORM: "linux/amd64", // https://github.com/pulumi/pulumi-docker/issues/296#issuecomment-1030094518
+            // Cloud Run currently requires x86_64 images
+            // https://cloud.google.com/run/docs/container-contract#languages
+            DOCKER_DEFAULT_PLATFORM: "linux/amd64",
         },
     },
 });
