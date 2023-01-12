@@ -4,7 +4,13 @@ runtime: nodejs
 template:
   description: A minimal Aiven TypeScript Pulumi program
   config:
-    aiven:apiToken:
-      description: The token that allows you access to your Aiven account
-      secret: true
+    project:
+      description: Aiven project name
+    cloudName:
+      description: Choice of cloud provider and region
+    plan:
+      description: An Aiven plan to choose compute, storage, and other features
+    serviceName:
+      description: The name of this Aiven service
+
 
