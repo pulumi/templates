@@ -4,9 +4,17 @@ set -o nounset
 set -o errexit
 set -o pipefail
 
-PULUMI_VERSION="$(curl -s https://api.github.com/repos/pulumi/pulumi/releases/latest | jq -r .name)"
+# Fetch the latest release version of the given Pulumi repo.
+fetch_latest_version() {
+    local repo="pulumi/$1"
+    curl -s \
+         -H "Authorization: token ${GITHUB_TOKEN}" \
+         "https://api.github.com/repos/${repo}/releases/latest" | jq -r .name
+}
 
-PROVIDER_LIST="alicloud,aws,azure-classic,azure,digitalocean,equinix-metal,gcp,google-native,kubernetes,linode,openstack,civo,aiven,auth0,github,oci"
+PULUMI_VERSION="$(fetch_latest_version pulumi)"
+
+PROVIDER_LIST="alicloud,aws,azure-classic,azure,digitalocean,equinix-metal,gcp,google-native,kubernetes,linode,openstack,civo,aiven,auth0,oci"
 IFS=',' read -ra PROVIDERS <<< "$PROVIDER_LIST"
 
 for i in "${PROVIDERS[@]}"
@@ -19,7 +27,7 @@ do
   else
     PROVIDER_NAME="$i"
   fi
-  PROVIDER_VERSION="$(curl -s https://api.github.com/repos/pulumi/pulumi-$PROVIDER_NAME/releases/latest | jq -r .name)"
+  PROVIDER_VERSION="$(fetch_latest_version "pulumi-$PROVIDER_NAME")"
   sed -e "s/\${VERSION}/$PROVIDER_VERSION/g" -e "s/\${PULUMI_VERSION}/$PULUMI_VERSION/g" mod-templates/$i-template.txt | tee ../$i-go/go.mod
   echo "Updated $i go mod template to be Pulumi $PULUMI_VERSION and pulumi-$i to be" $PROVIDER_VERSION
 done
