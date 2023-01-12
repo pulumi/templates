@@ -1,7 +1,8 @@
 import * as pulumi from "@pulumi/pulumi";
 import * as aiven from "@pulumi/aiven";
 
-const kafka1 = new aiven.Kafka("kafka1", {
+// Create a Kafka service.
+const kafka = new aiven.Kafka("kafka", {
     project: "<YOUR_AIVEN_PROJECT_NAME>",
     cloudName: "google-europe-west1",
     plan: "business-4",
