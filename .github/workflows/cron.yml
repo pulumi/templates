@@ -36,7 +36,10 @@ jobs:
         node-version: [14.x]
         python-version: [3.7]
         dotnet: [6.0.x]
-        pulumi-version: [latest, dev]
+        pulumi-version:
+          - latest
+          # Temporarily commented per https://github.com/pulumi/templates/issues/388.
+          # - dev
     runs-on: ${{ matrix.platform }}
     permissions:
       contents: read
