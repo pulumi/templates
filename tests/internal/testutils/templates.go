@@ -1,7 +1,7 @@
 package testutils
 
 import (
-	"path"
+	"path/filepath"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -32,7 +32,7 @@ func FindAllTemplates(t *testing.T, templateUrl string) []TemplateInfo {
 		templateName := t.Name
 		templatePath := templateName
 		if templateUrl != "" {
-			templatePath = path.Join(templateUrl, templateName)
+			templatePath = filepath.Join(templateUrl, templateName)
 		}
 
 		infos = append(infos, TemplateInfo{
