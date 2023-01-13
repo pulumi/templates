@@ -1,6 +1,6 @@
 module ${PROJECT}
 
-go 1.17
+go 1.18
 
 require (
 	github.com/pulumi/pulumi-github/sdk/v4 v4.17.0
