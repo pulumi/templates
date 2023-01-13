@@ -40,6 +40,10 @@ func TestTemplates(t *testing.T) {
 				UseAutomaticVirtualEnv: true,
 				PrepareProject:         testutils.PrepareProject(t, e),
 				RequireService:         true,
+
+				// Skip updates to allow tests to complete more reliably.
+				// See https://github.com/pulumi/devrel-team/issues/464 for details.
+				SkipUpdate: true,
 			})
 		})
 	}

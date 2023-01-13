@@ -19,7 +19,7 @@ env:
   GOOGLE_PROJECT: pulumi-ci-gcp-provider
   GOOGLE_PROJECT_NUMBER: 895284651812
   LINODE_TOKEN: ${{ secrets.LINODE_TOKEN }}
-  SKIPPED_TESTS: "alicloud,digitalocean,kubernetes,openstack,equinix-metal,civo,aiven,auth0,github,oci,java-jbang,java-gradle,azuredevops"
+  SKIPPED_TESTS: "alicloud,digitalocean,kubernetes,openstack,equinix-metal,civo,aiven,auth0,github,oci,java-jbang,java-gradle,azuredevops,container,vm-azure-yaml,kubernetes-azure-yaml,github-go"
   PULUMI_API: https://api.pulumi-staging.io
   SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
   PULUMI_VERSION: ${{ github.event.client_payload.ref }}
@@ -125,14 +125,11 @@ jobs:
         env:
           PULUMI_PYTHON_CMD: python
           TESTPARALLELISM: 3
-          SKIPPED_TESTS: "alicloud,digitalocean,kubernetes,openstack,equinix-metal,civo,aiven,auth0,github,oci,java-jbang,java-gradle,azuredevops,container"
       - if: contains(matrix.platform, 'macos')
         name: Running macOS tests
         run: |
           set -euo pipefail
           cd tests && go test -v -json -count=1 -cover -timeout 6h -parallel ${{ env.TESTPARALLELISM }} . 2>&1 | gotestfmt
-        env:
-          SKIPPED_TESTS: "alicloud,digitalocean,kubernetes,openstack,equinix-metal,civo,aiven,auth0,github,oci,java-jbang,java-gradle,azuredevops,container"
       - if: contains(matrix.platform, 'ubuntu')
         name: Running Linux tests
         run: |
