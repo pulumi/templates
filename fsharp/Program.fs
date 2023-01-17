@@ -1,13 +1,13 @@
-﻿module Program
+module Program
 
 open Pulumi.FSharp
 
 let infra () =
   //
-  // Add you resources here
+  // Add your resources here.
   //
 
-  // Export outputs here
+  // Export outputs here.
   dict []
 
 [<EntryPoint>]
