@@ -17,7 +17,7 @@ env:
   GOOGLE_PROJECT: pulumi-ci-gcp-provider
   GOOGLE_PROJECT_NUMBER: 895284651812
   LINODE_TOKEN: ${{ secrets.LINODE_TOKEN }}
-  SKIPPED_TESTS: "alicloud,digitalocean,kubernetes,openstack,equinix-metal,civo,aiven,auth0,github,oci,java-jbang,java-gradle,azuredevops,container,vm-azure-yaml"
+  SKIPPED_TESTS: "alicloud,digitalocean,kubernetes,openstack,equinix-metal,civo,aiven,auth0,github,oci,java-jbang,java-gradle,azuredevops,container,vm-azure"
   PULUMI_API: https://api.pulumi-staging.io
   ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
   ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
@@ -126,7 +126,7 @@ jobs:
         env:
           PULUMI_PYTHON_CMD: python
           TESTPARALLELISM: 3
-          SKIPPED_TESTS: "alicloud,digitalocean,kubernetes,openstack,equinix-metal,civo,aiven,auth0,github,oci,java-jbang,java-gradle,azuredevops,container,vm-azure-yaml,fsharp,gcp-visualbasic,azure-classic-visualbasic"
+          SKIPPED_TESTS: "alicloud,digitalocean,kubernetes,openstack,equinix-metal,civo,aiven,auth0,github,oci,java-jbang,java-gradle,azuredevops,container,vm-azure,fsharp,gcp-visualbasic,azure-classic-visualbasic"
       - if: contains(matrix.platform, 'macOS')
         name: Running macOS tests
         run: |

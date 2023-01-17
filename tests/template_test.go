@@ -33,8 +33,9 @@ func TestTemplates(t *testing.T) {
 				Dir:                    e.RootPath,
 				Config:                 cfg.Config,
 				ExpectRefreshChanges:   true,
-				Quick:                  true,
 				SkipRefresh:            true,
+				SkipExportImport:       true,
+				SkipEmptyPreviewUpdate: true,
 				NoParallel:             true, // marked Parallel by prepare
 				DestroyOnCleanup:       true,
 				UseAutomaticVirtualEnv: true,
