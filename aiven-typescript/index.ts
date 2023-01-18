@@ -16,7 +16,6 @@ const kafka = new aiven.Kafka("kafka", {
     serviceName: serviceName,
 });
 
-// Export the service host, port, and URI.
+// Export the service host and port.
 export const serviceHost = kafka.serviceHost;
 export const servicePort = kafka.servicePort;
-export const serviceURI = kafka.serviceURI;
