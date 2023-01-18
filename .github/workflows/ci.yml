@@ -1,10 +1,6 @@
 name: Run Template Tests on Push or as Part of a Release
 on:
-
-  # Temporary to test this change.
-  pull_request:
-  # push:
-
+  push:
     branches:
       - master
   workflow_dispatch: {}
