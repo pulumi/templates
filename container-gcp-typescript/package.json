@@ -2,7 +2,7 @@
     "name": "${PROJECT}",
     "main": "index.ts",
     "devDependencies": {
-        "@types/node": "^14"
+        "@types/node": "^16"
     },
     "dependencies": {
         "@pulumi/docker": "^3.4.1",
