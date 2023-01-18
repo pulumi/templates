@@ -7,7 +7,7 @@ const config = new pulumi.Config();
 const minClusterSize = config.getNumber("minClusterSize") || 3;
 const maxClusterSize = config.getNumber("maxClusterSize") || 6;
 const desiredClusterSize = config.getNumber("desiredClusterSize") || 3;
-const eksNodeInstanceType = config.get("eksNodeInstanceType") || "t2.medium";
+const eksNodeInstanceType = config.get("eksNodeInstanceType") || "t3.medium";
 const vpcNetworkCidr = config.get("vpcNetworkCidr") || "10.0.0.0/16";
 
 // Create a new VPC

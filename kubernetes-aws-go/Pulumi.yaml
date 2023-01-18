@@ -18,7 +18,7 @@ template:
       default: 3
     eksNodeInstanceType:
       description: Instance type to use for worker nodes
-      default: t2.medium
+      default: t3.medium
     vpcNetworkCidr:
       description: Network CIDR to use for new VPC
       default: 10.0.0.0/16
