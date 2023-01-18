@@ -1,7 +1,7 @@
 {
     "name": "webapp-kubernetes-typescript",
     "devDependencies": {
-        "@types/node": "^18"
+        "@types/node": "^16"
     },
     "dependencies": {
         "typescript": "^4.0.0",

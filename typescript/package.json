@@ -2,7 +2,7 @@
     "name": "${PROJECT}",
     "main": "index.ts",
     "devDependencies": {
-        "@types/node": "^18"
+        "@types/node": "^16"
     },
     "dependencies": {
         "@pulumi/pulumi": "^3.0.0"

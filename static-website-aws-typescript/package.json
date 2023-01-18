@@ -1,7 +1,7 @@
 {
     "name": "${PROJECT}",
     "devDependencies": {
-        "@types/node": "^18"
+        "@types/node": "^16"
     },
     "dependencies": {
         "@pulumi/aws": "^5.23.0",
