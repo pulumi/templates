@@ -51,7 +51,7 @@ jobs:
           distribution: 'temurin'
           java-version: '11'
       - name: Install DotNet ${{ matrix.dotnet }}
-        uses: actions/setup-dotnet@v1
+        uses: actions/setup-dotnet@v3
         with:
           dotnet-version: ${{ matrix.dotnet }}
       - if: contains(matrix.platform, 'ubuntu') || contains(matrix.platform, 'windows')
@@ -59,7 +59,7 @@ jobs:
         run: |
           dotnet nuget locals all --clear
       - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
       - name: Set up Go ${{ matrix.go-version }}
@@ -68,7 +68,7 @@ jobs:
           go-version: ${{ matrix.go-version }}
       - if: matrix.pulumi-version == 'latest'
         name: Install Latest Pulumi CLI
-        uses: pulumi/action-install-pulumi-cli@v1
+        uses: pulumi/setup-pulumi@v2
       - if: matrix.pulumi-version == 'dev'
         name: Get Latest Dev Version of Pulumi
         shell: bash
@@ -76,12 +76,12 @@ jobs:
           echo "DEV_PULUMI_VERSION=$(curl -sSL "http://registry.npmjs.org/-/package/@pulumi/pulumi/dist-tags" | jq -r .dev)" >> $GITHUB_ENV
       - if: matrix.pulumi-version == 'dev'
         name: Install Latest Pulumi CLI
-        uses: pulumi/action-install-pulumi-cli@v1
+        uses: pulumi/setup-pulumi@v2
         with:
           pulumi-version: ${{ env.DEV_PULUMI_VERSION }}
       - run: echo "Currently Pulumi $(pulumi version) is installed"
       - name: Set up Python ${{ matrix.python-version }}
-        uses: actions/setup-python@v1
+        uses: actions/setup-python@v4
         with:
           python-version: ${{ matrix.python-version }}
       - name: Install Python Deps
@@ -114,7 +114,7 @@ jobs:
         with:
           install_components: gke-gcloud-auth-plugin
       - name: Install gotestfmt
-        uses: jaxxstorm/action-install-gh-release@v1.3.1
+        uses: jaxxstorm/action-install-gh-release@v1.9.0
         with:
           repo: gotesttools/gotestfmt
       - name: Get dependencies

@@ -52,7 +52,7 @@ jobs:
           distribution: 'temurin'
           java-version: '11'
       - name: Install DotNet ${{ matrix.dotnet }}
-        uses: actions/setup-dotnet@v1
+        uses: actions/setup-dotnet@v3
         with:
           dotnet-version: ${{ matrix.dotnet }}
       - if: contains(matrix.platform, 'ubuntu') || contains(matrix.platform, 'windows')
@@ -60,7 +60,7 @@ jobs:
         run: |
           dotnet nuget locals all --clear
       - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
       - name: Set up Go ${{ matrix.go-version }}
@@ -70,15 +70,15 @@ jobs:
       - run: go env
       - name: Install Latest Pulumi CLI
         if: env.PULUMI_VERSION == ''
-        uses: pulumi/action-install-pulumi-cli@v1.0.1
+        uses: pulumi/setup-pulumi@v2
       - name: Install Specific Version of Pulumi CLI
         if: env.PULUMI_VERSION != ''
-        uses: pulumi/action-install-pulumi-cli@v1.0.1
+        uses: pulumi/setup-pulumi@v2
         with:
           pulumi-version: ${{ env.PULUMI_VERSION }}
       - run: pulumi version
       - name: Set up Python ${{ matrix.python-version }}
-        uses: actions/setup-python@v1
+        uses: actions/setup-python@v4
         with:
           python-version: ${{ matrix.python-version }}
       - name: Install Python Deps
@@ -108,7 +108,7 @@ jobs:
         with:
           install_components: gke-gcloud-auth-plugin
       - name: Install gotestfmt
-        uses: jaxxstorm/action-install-gh-release@v1.3.1
+        uses: jaxxstorm/action-install-gh-release@v1.9.0
         with:
           repo: gotesttools/gotestfmt
       - name: Get dependencies
