@@ -1,4 +1,4 @@
-![Build Status](https://github.com/pulumi/templates/workflows/Run%20Template%20Tests/badge.svg)
+![Build Status](https://github.com/pulumi/templates/actions/workflows/ci.yml/badge.svg?branch=master)
 
 # Pulumi Templates
 
