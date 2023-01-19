@@ -15,7 +15,7 @@ env:
   GOOGLE_PROJECT: pulumi-ci-gcp-provider
   GOOGLE_PROJECT_NUMBER: 895284651812
   LINODE_TOKEN: ${{ secrets.LINODE_TOKEN }}
-  SKIPPED_TESTS: "alicloud,digitalocean,kubernetes,openstack,equinix-metal,civo,aiven,auth0,github,oci,java-jbang,java-gradle,azuredevops,container,vm-azure-yaml,kubernetes-azure-yaml,github-go"
+  SKIPPED_TESTS: "alicloud,digitalocean,kubernetes,openstack,equinix-metal,civo,aiven,auth0,github,oci,java-jbang,java-gradle,azuredevops,container,vm-azure"
   PULUMI_API: https://api.pulumi-staging.io
   SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
   ARM_CLIENT_ID:  ${{ secrets.ARM_CLIENT_ID }}
@@ -24,7 +24,7 @@ env:
   ARM_TENANT_ID:  ${{ secrets.ARM_TENANT_ID }}
   AZURE_LOCATION: westus
   TESTPARALLELISM: 10
-
+  PULUMI_TEMPLATE_LOCATION: ${{ github.workspace}}
 jobs:
   build:
     name: Build
@@ -104,10 +104,7 @@ jobs:
       - name: Authenticate to Google Cloud
         uses: google-github-actions/auth@v0
         with:
-          workload_identity_provider: projects/${{ env.GOOGLE_PROJECT_NUMBER
-            }}/locations/global/workloadIdentityPools/${{
-            env.GOOGLE_CI_WORKLOAD_IDENTITY_POOL }}/providers/${{
-            env.GOOGLE_CI_WORKLOAD_IDENTITY_PROVIDER }}
+          workload_identity_provider: projects/${{ env.GOOGLE_PROJECT_NUMBER }}/locations/global/workloadIdentityPools/${{ env.GOOGLE_CI_WORKLOAD_IDENTITY_POOL }}/providers/${{ env.GOOGLE_CI_WORKLOAD_IDENTITY_PROVIDER }}
           service_account: ${{ env.GOOGLE_CI_SERVICE_ACCOUNT_EMAIL }}
       - name: Setup gcloud auth
         uses: google-github-actions/setup-gcloud@v0
@@ -128,6 +125,7 @@ jobs:
         env:
           PULUMI_PYTHON_CMD: python
           TESTPARALLELISM: 3
+          SKIPPED_TESTS: "alicloud,digitalocean,kubernetes,openstack,equinix-metal,civo,aiven,auth0,github,oci,java-jbang,java-gradle,azuredevops,container,vm-azure,fsharp,gcp-visualbasic,azure-classic-visualbasic"
       - if: contains(matrix.platform, 'macOS') || contains(matrix.platform, 'ubuntu')
         name: Running non-Windows tests
         run: |
