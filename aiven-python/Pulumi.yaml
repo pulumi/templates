@@ -4,6 +4,14 @@ runtime: python
 template:
   description: A minimal Aiven Python Pulumi program
   config:
-    aiven:apiToken:
-      description: The token that allows you access to your Aiven account
-      secret: true
+    projectName:
+      description: Aiven project name
+    cloudName:
+      description: Choice of cloud provider and region
+      default: google-europe-west1
+    planName:
+      description: An Aiven plan to choose compute, storage, and other features
+      default: business-4
+    serviceName:
+      description: The name of this Aiven service
+      default: kafka-gcp-eu
