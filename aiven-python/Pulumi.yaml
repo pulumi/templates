@@ -1,0 +1,17 @@
+name: ${PROJECT}
+description: ${DESCRIPTION}
+runtime: python
+template:
+  description: A minimal Aiven Python Pulumi program
+  config:
+    projectName:
+      description: Aiven project name
+    cloudName:
+      description: Choice of cloud provider and region
+      default: google-europe-west1
+    planName:
+      description: An Aiven plan to choose compute, storage, and other features
+      default: business-4
+    serviceName:
+      description: The name of this Aiven service
+      default: kafka-gcp-eu
