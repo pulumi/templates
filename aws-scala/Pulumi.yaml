@@ -1,0 +1,3 @@
+name: pulumi-ops
+runtime: java
+description: A minimal AWS Scala Pulumi program
