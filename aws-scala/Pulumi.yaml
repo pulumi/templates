@@ -3,7 +3,6 @@ description: ${DESCRIPTION}
 runtime: java
 template:
   description: A minimal AWS Scala Pulumi program
-  important: true
   config:
     aws:region:
       description: The AWS region to deploy into
