@@ -3,7 +3,7 @@ using Pulumi;
 using Aws = Pulumi.Aws;
 using Awsx = Pulumi.Awsx;
 
-return await Deployment.RunAsync(() => 
+return await Deployment.RunAsync(() =>
 {
     var config = new Config();
     var containerPort = config.GetInt32("containerPort") ?? 80;
@@ -13,7 +13,10 @@ return await Deployment.RunAsync(() =>
 
     var loadbalancer = new Awsx.Lb.ApplicationLoadBalancer("loadbalancer");
 
-    var repo = new Awsx.Ecr.Repository("repo");
+    var repo = new Awsx.Ecr.Repository("repo", new()
+    {
+        ForceDelete = true,
+    });
 
     var image = new Awsx.Ecr.Image("image", new()
     {
@@ -50,4 +53,3 @@ return await Deployment.RunAsync(() =>
         ["url"] = loadbalancer.LoadBalancer.Apply(loadBalancer => Output.Format($"http://{loadBalancer.DnsName}")),
     };
 });
-
