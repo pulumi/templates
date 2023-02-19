@@ -39,7 +39,9 @@ func main() {
 		}
 
 		// An ECR repository to store our application's container image
-		repo, err := ecrx.NewRepository(ctx, "repo", nil)
+		repo, err := ecrx.NewRepository(ctx, "repo", &ecrx.RepositoryArgs{
+			ForceDelete: pulumi.Bool(true),
+		})
 		if err != nil {
 			return err
 		}
