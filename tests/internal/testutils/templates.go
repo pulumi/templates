@@ -44,8 +44,8 @@ func FindAllTemplates(t *testing.T, templateUrl string) []TemplateInfo {
 }
 
 func ListContains(list []string, item string) bool {
-	for _, a := range list {
-		if a == item {
+	for _, s := range list {
+		if s == item {
 			return true
 		}
 	}

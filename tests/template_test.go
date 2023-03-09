@@ -63,21 +63,25 @@ func TestTemplates(t *testing.T) {
 			e := testutils.NewEnvironment(t, cfg)
 			testutils.PulumiNew(e, templateInfo.TemplatePath)
 
+			isStarterTemplate := !testutils.ListContains(templatesToTest, templateName)
+
 			integration.ProgramTest(t, &integration.ProgramTestOptions{
-				Dir:                    e.RootPath,
-				Config:                 cfg.Config,
-				ExpectRefreshChanges:   true,
-				Quick:                  true,
-				SkipRefresh:            true,
+				Dir:    e.RootPath,
+				Config: cfg.Config,
+
 				NoParallel:             true, // marked Parallel by prepare
 				DestroyOnCleanup:       true,
 				UseAutomaticVirtualEnv: true,
 				PrepareProject:         testutils.PrepareProject(t, e),
 				RequireService:         true,
 
-				// Only run full updates for select templates.
-				// See https://github.com/pulumi/devrel-team/issues/464 for details.
+				// Always run full updates for core starter templates.
 				SkipUpdate: !testutils.ListContains(templatesToTest, templateName),
+
+				// Ensure there's no diff on subsequent updates.
+				SkipRefresh:      !isStarterTemplate,
+				SkipPreview:      !isStarterTemplate,
+				SkipExportImport: !isStarterTemplate,
 			})
 		})
 	}
