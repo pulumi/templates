@@ -23,6 +23,40 @@ func TestTemplates(t *testing.T) {
 			t.Parallel()
 		}
 
+		templatesToTest := []string{
+			"aws-typescript",
+			"aws-javascript",
+			"aws-python",
+			"aws-go",
+			"aws-csharp",
+			"aws-java",
+			"aws-yaml",
+
+			"azure-typescript",
+			"azure-javascript",
+			"azure-python",
+			"azure-go",
+			"azure-csharp",
+			"azure-java",
+			"azure-yaml",
+
+			"gcp-typescript",
+			"gcp-javascript",
+			"gcp-python",
+			"gcp-go",
+			"gcp-csharp",
+			"gcp-java",
+			"gcp-yaml",
+
+			"kubernetes-typescript",
+			"kubernetes-javascript",
+			"kubernetes-python",
+			"kubernetes-go",
+			"kubernetes-csharp",
+			"kubernetes-java",
+			"kubernetes-yaml",
+		}
+
 		testutils.RunWithTimeout(t, testTimeout, templateName, prepare, func(t *testing.T) {
 			t.Logf("Starting test run for %q", templateName)
 
@@ -41,9 +75,9 @@ func TestTemplates(t *testing.T) {
 				PrepareProject:         testutils.PrepareProject(t, e),
 				RequireService:         true,
 
-				// Skip updates to allow tests to complete more reliably.
+				// Only run full updates for select templates.
 				// See https://github.com/pulumi/devrel-team/issues/464 for details.
-				SkipUpdate: true,
+				SkipUpdate: !testutils.ListContains(templatesToTest, templateName),
 			})
 		})
 	}
