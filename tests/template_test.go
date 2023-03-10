@@ -29,22 +29,17 @@ func TestTemplates(t *testing.T) {
 			e := testutils.NewEnvironment(t, cfg)
 			testutils.PulumiNew(e, templateInfo.TemplatePath)
 
-			integration.ProgramTest(t, &integration.ProgramTestOptions{
+			opts := integration.ProgramTestOptions{
 				Dir:                    e.RootPath,
 				Config:                 cfg.Config,
-				ExpectRefreshChanges:   true,
-				Quick:                  true,
-				SkipRefresh:            true,
 				NoParallel:             true, // marked Parallel by prepare
 				DestroyOnCleanup:       true,
 				UseAutomaticVirtualEnv: true,
 				PrepareProject:         testutils.PrepareProject(t, e),
 				RequireService:         true,
+			}.With(testutils.UpdateOptions(templateInfo))
 
-				// Skip updates to allow tests to complete more reliably.
-				// See https://github.com/pulumi/devrel-team/issues/464 for details.
-				SkipUpdate: true,
-			})
+			integration.ProgramTest(t, &opts)
 		})
 	}
 }
