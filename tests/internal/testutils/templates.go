@@ -46,11 +46,11 @@ func FindAllTemplates(t *testing.T, templateUrl string) []TemplateInfo {
 
 // UpdateOptions returns the set of integration.ProgramTestOptions that should be applied for the
 // given template.
-func UpdateOptions(templateName string) integration.ProgramTestOptions {
+func UpdateOptions(templateInfo TemplateInfo) integration.ProgramTestOptions {
 
-	// For our core Getting Started templates, we test the full end to end experience,
-	// ensuring updates succeed and subsequent operations produce no changes.
-	skipFullTest := !isGettingStartedTemplate(templateName)
+	// For templates marked important, we test the full end to end experience to ensure
+	// updates succeed and subsequent operations produce no changes.
+	skipFullTest := !templateInfo.Template.Important
 
 	return integration.ProgramTestOptions{
 		// Skip running a full update.
@@ -62,49 +62,4 @@ func UpdateOptions(templateName string) integration.ProgramTestOptions {
 		// Skip running a stack export and import after the update.
 		SkipExportImport: skipFullTest,
 	}
-}
-
-// isGettingStartedTemplate returns whether the specified template is one that is used in
-// our Getting Started flows.
-func isGettingStartedTemplate(templateName string) bool {
-	coreStarterTemplateNames := []string{
-		"aws-typescript",
-		"aws-javascript",
-		"aws-python",
-		"aws-go",
-		"aws-csharp",
-		"aws-java",
-		"aws-yaml",
-
-		"azure-typescript",
-		"azure-javascript",
-		"azure-python",
-		"azure-go",
-		"azure-csharp",
-		"azure-java",
-		"azure-yaml",
-
-		"gcp-typescript",
-		"gcp-javascript",
-		"gcp-python",
-		"gcp-go",
-		"gcp-csharp",
-		"gcp-java",
-		"gcp-yaml",
-
-		"kubernetes-typescript",
-		"kubernetes-javascript",
-		"kubernetes-python",
-		"kubernetes-go",
-		"kubernetes-csharp",
-		"kubernetes-java",
-		"kubernetes-yaml",
-	}
-
-	for _, s := range coreStarterTemplateNames {
-		if s == templateName {
-			return true
-		}
-	}
-	return false
 }
