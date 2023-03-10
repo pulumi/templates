@@ -2519,7 +2519,8 @@
             "name": "kubernetes-java",
             "runtime": "java",
             "template": {
-                "description": "A minimal Kubernetes Java Pulumi program"
+                "description": "A minimal Kubernetes Java Pulumi program",
+                "important": true
             }
         },
         "kubernetes-javascript": {
