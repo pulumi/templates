@@ -1,0 +1,12 @@
+name: Helm Chart
+kind: architecture
+parent: kubernetes-application
+slug: helm-chart
+clouds:
+  - kubernetes
+templates:
+  - helm-kubernetes-typescript
+  - helm-kubernetes-python
+  - helm-kubernetes-go
+  - helm-kubernetes-csharp
+  - helm-kubernetes-yaml

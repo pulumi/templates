@@ -1,0 +1,12 @@
+name: Virtual Machine
+kind: architecture
+parent: virtual-machine
+slug: gcp
+clouds:
+  - gcp
+templates:
+  - vm-gcp-typescript
+  - vm-gcp-python
+  - vm-gcp-go
+  - vm-gcp-csharp
+  - vm-gcp-yaml

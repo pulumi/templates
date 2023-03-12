@@ -3,7 +3,7 @@ description: ${DESCRIPTION}
 runtime: yaml
 
 template:
-  description: A static website on AWS
+  description: A Pulumi YAML program to deploy a static website on AWS
   config:
     aws:region:
       description: The AWS region to deploy into
@@ -19,15 +19,15 @@ template:
       default: error.html
 
 # Import the program's configuration settings.
-configuration:
+config:
   path:
-    type: String
+    type: string
     default: ./www
   indexDocument:
-    type: String
+    type: string
     default: index.html
   errorDocument:
-    type: String
+    type: string
     default: error.html
 
 resources:

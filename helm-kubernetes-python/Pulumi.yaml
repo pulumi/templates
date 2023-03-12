@@ -1,0 +1,9 @@
+name: ${PROJECT}
+description: ${DESCRIPTION}
+runtime: python
+template:
+  description: A Python program to deploy a Helm chart onto a Kubernetes cluster
+  config:
+    k8sNamespace:
+      default: nginx-ingress
+      description: The Kubernetes namespace to deploy into

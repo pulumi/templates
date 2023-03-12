@@ -1,14 +1,14 @@
 
 # Import the program's configuration settings.
-configuration:
+config:
   path:
-    type: String
+    type: string
     default: ./www
   indexDocument:
-    type: String
+    type: string
     default: index.html
   errorDocument:
-    type: String
+    type: string
     default: error.html
 
 resources:

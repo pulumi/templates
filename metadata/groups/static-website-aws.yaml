@@ -1,0 +1,12 @@
+name: Static Website
+kind: architecture
+parent: static-website
+slug: aws
+clouds:
+  - aws
+templates:
+  - static-website-aws-typescript
+  - static-website-aws-python
+  - static-website-aws-go
+  - static-website-aws-csharp
+  - static-website-aws-yaml

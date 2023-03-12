@@ -1,0 +1,11 @@
+{
+    "name": "webapp-kubernetes-typescript",
+    "devDependencies": {
+        "@types/node": "^16"
+    },
+    "dependencies": {
+        "typescript": "^4.0.0",
+        "@pulumi/pulumi": "^3.0.0",
+        "@pulumi/kubernetes": "3.21.4"
+    }
+}

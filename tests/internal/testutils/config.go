@@ -14,7 +14,6 @@ type TemplateTestConfig struct {
 	Config      map[string]string
 	TemplateUrl string
 	Skipped     []string
-	CI          bool
 	SkipEnvVar  string
 }
 
@@ -66,14 +65,7 @@ func NewTemplateTestConfigFromEnv(skipEnvVar string) TemplateTestConfig {
 		fmt.Printf("Using templates from PULUMI_TEMPLATE_LOCATION=%s\n", loc)
 	}
 
-	ci := false
-	if ciValue, found := os.LookupEnv("CI"); found {
-		ci = true
-		fmt.Printf("Assume running on a CI system based on env var CI=%s\n", ciValue)
-	}
-
 	return TemplateTestConfig{
-		CI:          ci,
 		SkipEnvVar:  skipEnvVar,
 		Skipped:     skipped,
 		TemplateUrl: templateUrl,

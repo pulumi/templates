@@ -1,0 +1,165 @@
+name: ${PROJECT}
+description: ${DESCRIPTION}
+runtime: yaml
+
+template:
+  description: A Pulumi YAML program to deploy a serverless application on Azure
+  config:
+    azure-native:location:
+      description: The Azure region to deploy into
+      default: WestUS
+    sitePath:
+      description: The path to the folder containing the website
+      default: ./www
+    appPath:
+      description: The path to the folder containing the functions to be deployed
+      default: ./app
+    indexDocument:
+      description: The file to use for top-level pages
+      default: index.html
+    errorDocument:
+      description: The file to use for error pages
+      default: error.html
+
+# Import the program's configuration settings.
+config:
+  sitePath:
+    type: string
+    default: ./www
+  appPath:
+    type: string
+    default: ./app
+  indexDocument:
+    type: string
+    default: index.html
+  errorDocument:
+    type: string
+    default: error.html
+
+variables:
+
+  # Create a shared access signature allowing access to function storage.
+  signature:
+    fn::azure-native:storage:listStorageAccountServiceSAS:
+      resourceGroupName: ${resource-group.name}
+      accountName: ${account.name}
+      protocols: https
+      sharedAccessStartTime: "2022-01-01"
+      sharedAccessExpiryTime: "2030-01-01"
+      resource: c
+      permissions: r
+      canonicalizedResource: /blob/${account.name}/${app-container.name}
+      contentType: application/json
+      cacheControl: max-age=5
+      contentDisposition: inline
+      contentEncoding: deflate
+
+  # Create a FileArchive containing the contents of the app folder.
+  appArchive:
+    fn::fileArchive: ${appPath}
+
+  # Create a JSON string containing the URL of the serverless app.
+  configJSON:
+    fn::toJSON:
+      api: https://${app.defaultHostName}/api
+
+  # Create a StringAsset resource to convert the JSON string into a file.
+  configFile:
+    fn::stringAsset: ${configJSON}
+
+resources:
+
+  # Create a resource group for the website.
+  resource-group:
+    type: azure-native:resources:ResourceGroup
+
+  # Create a blob storage account.
+  account:
+    type: azure-native:storage:StorageAccount
+    properties:
+      resourceGroupName: ${resource-group.name}
+      kind: StorageV2
+      sku:
+        name: Standard_LRS
+
+  # Create a storage container for the pages of the website.
+  website:
+    type: azure-native:storage:StorageAccountStaticWebsite
+    properties:
+      accountName: ${account.name}
+      resourceGroupName: ${resource-group.name}
+      indexDocument: ${indexDocument}
+      error404Document: ${errorDocument}
+
+  # Use a synced folder to manage the files of the website.
+  synced-folder:
+    type: synced-folder:index:AzureBlobFolder
+    properties:
+      path: ${sitePath}
+      resourceGroupName: ${resource-group.name}
+      storageAccountName: ${account.name}
+      containerName: ${website.containerName}
+
+  # Create a storage container for the serverless app.
+  app-container:
+    type: azure-native:storage:BlobContainer
+    properties:
+      accountName: ${account.name}
+      resourceGroupName: ${resource-group.name}
+      publicAccess: None
+
+  # Upload the serverless app to the storage container.
+  app-blob:
+    type: azure-native:storage:Blob
+    properties:
+      accountName: ${account.name}
+      resourceGroupName: ${resource-group.name}
+      containerName: ${app-container.name}
+      source: ${appArchive}
+      type: Block
+
+  # Create an App Service plan for the Function App.
+  plan:
+    type: azure-native:web:AppServicePlan
+    properties:
+      resourceGroupName: ${resource-group.name}
+      kind: Linux
+      reserved: true
+      sku:
+        name: Y1
+        tier: Dynamic
+
+  # Create the Function App.
+  app:
+    type: azure-native:web:WebApp
+    properties:
+      resourceGroupName: ${resource-group.name}
+      serverFarmId: ${plan.id}
+      kind: FunctionApp
+      siteConfig:
+        appSettings:
+          - name: FUNCTIONS_WORKER_RUNTIME
+            value: python
+          - name: FUNCTIONS_EXTENSION_VERSION
+            value: "~3"
+          - name: WEBSITE_RUN_FROM_PACKAGE
+            value: https://${account.name}.blob.core.windows.net/${app-container.name}/${app-blob.name}?${signature.serviceSasToken}
+        cors:
+          allowedOrigins:
+            - "*"
+
+  # Create a JSON configuration file for the website.
+  config.json:
+    type: azure-native:storage:Blob
+    properties:
+      accountName: ${account.name}
+      resourceGroupName: ${resource-group.name}
+      containerName: ${website.containerName}
+      contentType: application/json
+      source: ${configFile}
+      type: Block
+
+# Export the URLs of the website and serverless endpoint.
+outputs:
+  originURL: ${account.primaryEndpoints.web}
+  apiURL: https://${app.defaultHostName}/api

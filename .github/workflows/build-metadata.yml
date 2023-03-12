@@ -1,0 +1,29 @@
+name: Build Template Metadata
+on:
+  push:
+    branches:
+      - master
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    name: Build
+    steps:
+      - name: Install Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16.x
+
+      - name: Check out branch
+        uses: actions/checkout@v3
+        with:
+          token: ${{ secrets.PULUMI_BOT_TOKEN }}
+
+      - name: Build metadata
+        run: |
+          make metadata
+
+      - name: Publish metadata.json file
+        uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          file_pattern: metadata/dist/metadata.json
+          commit_message: Update metadata.json

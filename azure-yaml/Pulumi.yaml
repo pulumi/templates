@@ -7,7 +7,7 @@ template:
   config:
     azure-native:location:
       description: The Azure location to use
-      default: WestUS
+      default: WestUS2
 
 resources:
   # Create an Azure Resource Group
@@ -24,11 +24,9 @@ resources:
 
 variables:
   storageAccountKeys:
-    Fn::Invoke:
-      Function: azure-native:storage:listStorageAccountKeys
-      Arguments:
-        resourceGroupName: ${resourceGroup.name}
-        accountName: ${sa.name}
+    fn::azure-native:storage:listStorageAccountKeys:
+      resourceGroupName: ${resourceGroup.name}
+      accountName: ${sa.name}
 
 outputs:
   # Export the primary key of the Storage Account

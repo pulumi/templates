@@ -1,8 +1,8 @@
 module ${PROJECT}
 
-go 1.17
+go 1.18
 
 require (
-	github.com/pulumi/pulumi-aws-native/sdk v0.8.0
-	github.com/pulumi/pulumi/sdk/v3 v3.19.0
+	github.com/pulumi/pulumi-aws-native/sdk v0.52.0
+	github.com/pulumi/pulumi/sdk/v3 v3.57.1
 )

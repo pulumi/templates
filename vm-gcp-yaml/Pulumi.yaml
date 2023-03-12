@@ -1,0 +1,121 @@
+name: ${PROJECT}
+description: ${DESCRIPTION}
+runtime: yaml
+
+template:
+  description: A Pulumi YAML program to deploy a virtual machine on Google Cloud
+  config:
+    gcp:project:
+      description: The Google Cloud project to deploy into
+    gcp:region:
+      description: The Google Cloud region to deploy into
+      default: us-central1
+    gcp:zone:
+      description: The Google Cloud availability zone to deploy into
+      default: us-central1-a
+    machineType:
+      description: The GCP machine type to use for the VM
+      default: f1-micro
+    osImage:
+      description: The OS image type to use for the VM
+      default: debian-11
+    instanceTag:
+      description: The tag to apply to the VM instance
+      default: webserver
+    servicePort:
+      description: The HTTP service port to expose on the VM
+      default: "80"
+
+# Import the program's configuration settings.
+config:
+  machineType:
+    type: string
+    default: f1-micro
+  osImage:
+    type: string
+    default: debian-11
+  instanceTag:
+    type: string
+    default: webserver
+  servicePort:
+    type: string
+    default: "80"
+
+variables:
+
+  # Define a script to be run when the VM starts up.
+  metadataStartupScript: |
+    #!/bin/bash
+    echo '<!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>Hello, world!</title>
+    </head>
+    <body>
+        <h1>Hello, world! 👋</h1>
+        <p>Deployed with 💜 by <a href="https://pulumi.com/">Pulumi</a>.</p>
+    </body>
+    </html>' > index.html
+    sudo python3 -m http.server ${servicePort} &
+
+resources:
+
+  # Create a new network for the virtual machine.
+  network:
+    type: gcp:compute:Network
+    properties:
+      autoCreateSubnetworks: false
+
+  # Create a subnet on the network.
+  subnet:
+    type: gcp:compute:Subnetwork
+    properties:
+      ipCidrRange: 10.0.1.0/24
+      network: ${network.id}
+
+  # Create a firewall allowing inbound access over ports 80 (for HTTP) and 22 (for SSH).
+  firewall:
+    type: gcp:compute:Firewall
+    properties:
+      network: ${network.selfLink}
+      allows:
+        - protocol: tcp
+          ports:
+          - "22"
+          - ${servicePort}
+      direction: INGRESS
+      sourceRanges:
+        - 0.0.0.0/0
+      targetTags:
+        - ${instanceTag}
+
+  # Create the virtual machine.
+  instance:
+    type: gcp:compute:Instance
+    properties:
+      machineType: ${machineType}
+      bootDisk:
+        initializeParams:
+          image: ${osImage}
+      networkInterfaces:
+        - network: ${network.id}
+          subnetwork: ${subnet.id}
+          accessConfigs:
+            - {}
+      serviceAccount:
+        scopes:
+          - https://www.googleapis.com/auth/cloud-platform
+      allowStoppingForUpdate: true
+      metadataStartupScript: ${metadataStartupScript}
+      tags:
+        - ${instanceTag}
+    options:
+      dependsOn:
+        - ${firewall}
+
+# Export the instance's name, public IP address, and HTTP URL.
+outputs:
+  name: ${instance.name}
+  ip: ${instance.networkInterfaces[0].accessConfigs[0].natIp}
+  url: http://${instance.networkInterfaces[0].accessConfigs[0].natIp}:${servicePort}

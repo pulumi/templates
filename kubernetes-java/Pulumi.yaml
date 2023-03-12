@@ -3,3 +3,4 @@ description: ${DESCRIPTION}
 runtime: java
 template:
   description: A minimal Kubernetes Java Pulumi program
+  important: true

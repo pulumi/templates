@@ -1,0 +1,11 @@
+name: Container Service
+kind: architecture
+parent: container-service
+slug: azure
+clouds:
+  - azure
+templates:
+  - container-azure-typescript
+  - container-azure-python
+  - container-azure-go
+  - container-azure-csharp

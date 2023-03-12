@@ -1,0 +1,12 @@
+name: Kubernetes Cluster
+kind: architecture
+parent: kubernetes
+slug: gcp
+clouds:
+  - gcp
+templates:
+  - kubernetes-gcp-typescript
+  - kubernetes-gcp-python
+  - kubernetes-gcp-go
+  - kubernetes-gcp-yaml
+  - kubernetes-gcp-csharp

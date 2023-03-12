@@ -1,0 +1,9 @@
+name: ${PROJECT}
+description: ${DESCRIPTION}
+runtime: go
+template:
+  description: A Go program to deploy a serverless application on AWS
+  config:
+    aws:region:
+      description: The AWS region to deploy into
+      default: us-west-2

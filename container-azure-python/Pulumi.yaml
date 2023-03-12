@@ -1,0 +1,24 @@
+name: ${PROJECT}
+description: ${DESCRIPTION}
+runtime:
+  name: python
+  options:
+    virtualenv: venv
+template:
+  description: A Python program to deploy a containerized service on Azure
+  config:
+    azure-native:location:
+      description: The Azure region to deploy into
+      default: WestUS
+    appPath:
+      description: The path to the container application to deploy
+      default: app
+    containerPort:
+      description: The port to expose on the container
+      default: 80
+    cpu:
+      description: The number of CPU cores to allocate on the container
+      default: 1
+    memory:
+      description: The amount of memory, in GB, to allocate on the container
+      default: 2

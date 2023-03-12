@@ -1,0 +1,50 @@
+name: ${PROJECT}
+description: ${DESCRIPTION}
+runtime: yaml
+template:
+  description: A Pulumi YAML program to deploy a serverless application on AWS
+  config:
+    aws:region:
+      description: The AWS region to deploy into
+      default: us-west-2
+
+resources:
+  # An execution role to use for the Lambda function
+  role:
+    type: aws:iam:Role
+    properties:
+      assumeRolePolicy:
+        fn::toJSON:
+          Version: 2012-10-17
+          Statement:
+            - Action: sts:AssumeRole
+              Effect: Allow
+              Principal:
+                Service: lambda.amazonaws.com
+      managedPolicyArns:
+      - arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
+
+  # A Lambda function to invoke
+  fn:
+    type: aws:lambda:Function
+    properties:
+      runtime: python3.9
+      handler: handler.handler
+      role: ${role.arn}
+      code:
+        fn::fileArchive: ./function
+
+  # A REST API to route requests to HTML content and the Lambda function
+  api:
+    type: aws-apigateway:RestAPI
+    properties:
+      routes:
+      - path: /
+        localPath: www
+      - path: /date
+        method: GET
+        eventHandler: ${fn}
+
+outputs:
+  # The URL at which the REST API will be served.
+  url: ${api.url}

@@ -14,7 +14,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Check out code into the Go module directory
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
       - name: Update Template Versions
         run: |
           cd generator
@@ -25,13 +25,13 @@ jobs:
           git config --local user.name "pulumi-bot"
           git checkout -b templates/${{ github.run_id }}-${{ github.run_number }}
           git add .
-          git commit -m "Regenerating templates for updated go.mod files"
+          git commit -m "Update Go template dependencies to their latest versions"
           git push origin templates/${{ github.run_id }}-${{ github.run_number }}
       - name: pull-request
         uses: repo-sync/pull-request@v2
         with:
           source_branch: "templates/${{ github.run_id }}-${{ github.run_number }}"
           destination_branch: "master"
-          pr_title: "Regenerating Templates based on go.mod changes"
-          pr_body: "Automated PR"
+          pr_title: "Update Go template dependencies to their latest versions"
+          pr_body: "This PR was generated automatically, most likely in response to a [pulumi/pulumi release](https://github.com/pulumi/pulumi/releases)."
           github_token: ${{ secrets.PULUMI_BOT_TOKEN }}

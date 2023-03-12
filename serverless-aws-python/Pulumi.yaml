@@ -1,0 +1,13 @@
+name: ${PROJECT}
+description: ${DESCRIPTION}
+runtime:
+  name: python
+  options:
+    virtualenv: venv
+template:
+  description: A Python program to deploy a serverless application on AWS
+  config:
+    aws:region:
+      description: The AWS region to deploy into
+      default: us-west-2
+

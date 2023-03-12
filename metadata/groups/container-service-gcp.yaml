@@ -1,0 +1,11 @@
+name: Container Service
+kind: architecture
+parent: container-service
+slug: gcp
+clouds:
+  - gcp
+templates:
+  - container-gcp-typescript
+  - container-gcp-python
+  - container-gcp-go
+  - container-gcp-csharp

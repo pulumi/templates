@@ -1,11 +1,12 @@
 package testutils
 
 import (
-	"path"
+	"path/filepath"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
 
+	"github.com/pulumi/pulumi/pkg/v3/testing/integration"
 	"github.com/pulumi/pulumi/sdk/v3/go/common/workspace"
 )
 
@@ -32,7 +33,7 @@ func FindAllTemplates(t *testing.T, templateUrl string) []TemplateInfo {
 		templateName := t.Name
 		templatePath := templateName
 		if templateUrl != "" {
-			templatePath = path.Join(templateUrl, templateName)
+			templatePath = filepath.Join(templateUrl, templateName)
 		}
 
 		infos = append(infos, TemplateInfo{
@@ -41,4 +42,24 @@ func FindAllTemplates(t *testing.T, templateUrl string) []TemplateInfo {
 		})
 	}
 	return infos
+}
+
+// UpdateOptions returns the set of integration.ProgramTestOptions that should be applied for the
+// given template.
+func UpdateOptions(templateInfo TemplateInfo) integration.ProgramTestOptions {
+
+	// For templates marked important, we test the full end to end experience to ensure
+	// updates succeed and subsequent operations produce no changes.
+	skipFullTest := !templateInfo.Template.Important
+
+	return integration.ProgramTestOptions{
+		// Skip running a full update.
+		SkipUpdate: skipFullTest,
+		// Skip running a refresh after the update, expecting no changes.
+		SkipRefresh: skipFullTest,
+		// Skip running a preview after the update, expecting no changes.
+		SkipPreview: skipFullTest,
+		// Skip running a stack export and import after the update.
+		SkipExportImport: skipFullTest,
+	}
 }

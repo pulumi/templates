@@ -1,8 +1,8 @@
 module ${PROJECT}
 
-go 1.17
+go 1.18
 
 require (
-	github.com/pulumi/pulumi-kubernetes/sdk/v3 v3.21.2
-	github.com/pulumi/pulumi/sdk/v3 v3.39.1
+	github.com/pulumi/pulumi-kubernetes/sdk/v3 v3.24.1
+	github.com/pulumi/pulumi/sdk/v3 v3.57.1
 )

@@ -1,9 +1,9 @@
-module yaml
+module ${PROJECT}
 
-go 1.17
+go 1.18
 
 require (
-	github.com/pulumi/pulumi-awsx/sdk v1.0.0-beta.10
+	github.com/pulumi/pulumi-awsx/sdk v1.0.0
 	github.com/pulumi/pulumi-eks/sdk v0.41.0
 	github.com/pulumi/pulumi/sdk/v3 v3.31.1
 )

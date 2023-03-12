@@ -1,0 +1,12 @@
+name: Virtual Machine
+kind: architecture
+parent: virtual-machine
+slug: aws
+clouds:
+  - aws
+templates:
+  - vm-aws-typescript
+  - vm-aws-python
+  - vm-aws-go
+  - vm-aws-csharp
+  - vm-aws-yaml

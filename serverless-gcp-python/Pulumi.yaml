@@ -1,0 +1,24 @@
+name: ${PROJECT}
+description: ${DESCRIPTION}
+runtime: python
+
+template:
+  description: A Python program to deploy a serverless application on Google Cloud
+  config:
+    gcp:project:
+      description: The Google Cloud project to deploy into
+    gcp:region:
+      description: The Google Cloud region to deploy into
+      default: us-central1
+    sitePath:
+      description: The path to the folder containing the website
+      default: ./www
+    appPath:
+      description: The path to the folder containing the functions to be deployed
+      default: ./app
+    indexDocument:
+      description: The file to use for top-level pages
+      default: index.html
+    errorDocument:
+      description: The file to use for error pages
+      default: error.html

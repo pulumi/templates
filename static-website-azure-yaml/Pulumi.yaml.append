@@ -1,22 +1,22 @@
 
 # Import the program's configuration settings.
-configuration:
+config:
   path:
-    type: String
+    type: string
     default: ./www
   indexDocument:
-    type: String
+    type: string
     default: index.html
   errorDocument:
-    type: String
+    type: string
     default: error.html
 
 # Pull the hostname out of the storage-account endpoint.
 variables:
   originHostname:
-    Fn::Select:
+    fn::select:
       - 2
-      - Fn::Split:
+      - fn::split:
         - /
         - ${account.primaryEndpoints.web}
 

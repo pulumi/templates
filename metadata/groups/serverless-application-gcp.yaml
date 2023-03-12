@@ -1,0 +1,12 @@
+name: Serverless Application
+kind: architecture
+parent: serverless-application
+slug: gcp
+clouds:
+  - gcp
+templates:
+  - serverless-gcp-typescript
+  - serverless-gcp-python
+  - serverless-gcp-go
+  - serverless-gcp-csharp
+  - serverless-gcp-yaml

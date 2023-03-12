@@ -1,0 +1,12 @@
+name: Serverless Application
+kind: architecture
+parent: serverless-application
+slug: azure
+clouds:
+  - azure
+templates:
+  - serverless-azure-typescript
+  - serverless-azure-python
+  - serverless-azure-go
+  - serverless-azure-csharp
+  - serverless-azure-yaml

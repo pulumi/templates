@@ -1,0 +1,133 @@
+name: ${PROJECT}
+description: ${DESCRIPTION}
+runtime: yaml
+template:
+  description: A Pulumi YAML program to deploy a Kubernetes cluster on Azure
+  config:
+    azure-native:location:
+      value: westus2
+    numWorkerNodes:
+      default: 3
+      description: Number of worker nodes in the cluster
+    prefixForDns:
+      default: pulumi
+      description: DNS prefix for the cluster
+    kubernetesVersion:
+      default: 1.24.3
+      description: Kubernetes version to deploy in the cluster
+    nodeVmSize:
+      default: Standard_DS2_v2
+      description: VM size to use for worker nodes in the cluster
+    mgmtGroupId:
+      description: The object ID (from az ad group list) of a group to make cluster admins
+    sshPubKey:
+      description: Contents of the public key for SSH access to cluster nodes
+
+config:
+  azure-native:location:
+    value: westus2
+  numWorkerNodes:
+    type: integer
+    default: 3
+  prefixForDns:
+    type: string
+    default: pulumi
+  kubernetesVersion:
+    type: string
+    default: 1.24.3
+  nodeVmSize:
+    type: string
+    default: Standard_DS2_v2
+  # The next two configuration values are required (no default can be provided)
+  mgmtGroupId:
+    type: string
+  sshPubKey:
+    type: string
+
+resources:
+  # Create a new resource group
+  resourceGroup:
+    type: azure-native:resources:ResourceGroup
+  # Create a new virtual network
+  virtualNetwork:
+    type: azure-native:network:VirtualNetwork
+    properties:
+      addressSpace:
+        # Define the CIDR used in the new virtual network
+        addressPrefixes:
+          - 10.0.0.0/16
+      resourceGroupName: ${resourceGroup.name}
+  # Create subnets in the virtual network
+  subnet1:
+    type: azure-native:network:Subnet
+    properties:
+      addressPrefix: 10.0.0.0/22
+      resourceGroupName: ${resourceGroup.name}
+      virtualNetworkName: ${virtualNetwork.name}
+  subnet2:
+    type: azure-native:network:Subnet
+    properties:
+      addressPrefix: 10.0.4.0/22
+      resourceGroupName: ${resourceGroup.name}
+      virtualNetworkName: ${virtualNetwork.name}
+  subnet3:
+    type: azure-native:network:Subnet
+    properties:
+      addressPrefix: 10.0.8.0/22
+      resourceGroupName: ${resourceGroup.name}
+      virtualNetworkName: ${virtualNetwork.name}
+  # Create a managed cluster
+  managedCluster:
+    type: azure-native:containerservice:ManagedCluster
+    properties:
+      aadProfile:
+        enableAzureRBAC: true
+        managed: true
+        # Supply the object ID of an existing Azure AD group to serve as cluster admins
+        adminGroupObjectIDs:
+          - ${mgmtGroupId}
+      addonProfiles: {}
+      agentPoolProfiles:
+        - availabilityZones: ["1","2","3"]
+          count: ${numWorkerNodes}
+          enableNodePublicIP: false
+          mode: System
+          name: systempool
+          osType: Linux
+          type: VirtualMachineScaleSets
+          vmSize: ${nodeVmSize}
+          vnetSubnetID: ${subnet1.id}
+      apiServerAccessProfile:
+        authorizedIPRanges:
+          - 0.0.0.0/0
+        enablePrivateCluster: false
+      dnsPrefix: ${prefixForDns}
+      enableRBAC: true
+      identity:
+        type: SystemAssigned
+      kubernetesVersion: ${kubernetesVersion}
+      linuxProfile:
+        adminUsername: azureuser
+        ssh:
+          publicKeys:
+            - keyData: ${sshPubKey}
+      networkProfile:
+        networkPlugin: azure
+        networkPolicy: azure
+        serviceCidr: 10.96.0.0/16
+        dnsServiceIP: 10.96.0.10
+      resourceGroupName: ${resourceGroup.name}
+
+variables:
+  # Get the credentials for the AKS cluster created above
+  aksCredentials:
+    fn::azure-native:containerservice:listManagedClusterUserCredentials:
+      resourceGroupName: ${resourceGroup.name}
+      resourceName: ${managedCluster.name}
+  actualKubeConfig:
+    fn::fromBase64: ${aksCredentials.kubeconfigs[0].value}
+
+outputs:
+    # Export the Kubeconfig of the cluster
+    clusterName: ${managedCluster.name}
+    kubeconfig: ${actualKubeConfig}

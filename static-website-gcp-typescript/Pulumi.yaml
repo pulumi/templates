@@ -3,7 +3,7 @@ description: ${DESCRIPTION}
 runtime: nodejs
 
 template:
-  description: A static website on Google Cloud
+  description: A TypeScript program to deploy a static website on Google Cloud
   config:
     gcp:project:
       description: The Google Cloud project to deploy into
