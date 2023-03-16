@@ -99,7 +99,7 @@ jobs:
       # TODO find a way to preferably use latest dev builds here instead:
       # https://github.com/pulumi/pulumi/issues/10728
       - name: Install Latest Pulumi CLI
-        uses: pulumi/setup-pulumi@v2
+        uses: pulumi/actions@v4
         with:
           pulumi-version: latest
       - run: echo "Currently Pulumi $(pulumi version) is installed"

@@ -70,10 +70,10 @@ jobs:
       - run: go env
       - name: Install Latest Pulumi CLI
         if: env.PULUMI_VERSION == ''
-        uses: pulumi/setup-pulumi@v2
+        uses: pulumi/actions@v4
       - name: Install Specific Version of Pulumi CLI
         if: env.PULUMI_VERSION != ''
-        uses: pulumi/setup-pulumi@v2
+        uses: pulumi/actions@v4
         with:
           pulumi-version: ${{ env.PULUMI_VERSION }}
       - run: pulumi version
