@@ -1,9 +1,0 @@
-
-resources:
-  # Create a Google Cloud resource (Storage Bucket)
-  bucket:
-    type: google-native:storage/v1:Bucket
-
-outputs:
-  # Export the bucket self-link
-  bucketSelfLink: ${bucket.selfLink}
