@@ -26,7 +26,6 @@ env:
   AZURE_LOCATION: westus
   TESTPARALLELISM: 10
   PULUMI_TEMPLATE_LOCATION: ${{ github.workspace}}
-  PULUMI_VERSION: 3.60.0
 jobs:
   sentinel:
     if: github.event_name == 'repository_dispatch' ||
@@ -77,8 +76,6 @@ jobs:
       - run: go env
       - name: Install Pulumi CLI
         uses: pulumi/actions@v4
-        with:
-          pulumi-version: ${{ env.PULUMI_VERSION != '' && format('v{0}', env.PULUMI_VERSION) }}
       - run: pulumi version
       - name: Set up Python ${{ matrix.python-version }}
         uses: actions/setup-python@v4
