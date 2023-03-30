@@ -75,7 +75,7 @@ jobs:
         if: env.PULUMI_VERSION != ''
         uses: pulumi/actions@v4
         with:
-          pulumi-version: ${{ env.PULUMI_VERSION }}
+          pulumi-version: v${{ env.PULUMI_VERSION }}
       - run: pulumi version
       - name: Set up Python ${{ matrix.python-version }}
         uses: actions/setup-python@v4
