@@ -71,7 +71,7 @@ jobs:
       - name: Install Pulumi CLI
         uses: pulumi/actions@v4
         with:
-          pulumi-version: ${{ env.PULUMI_VERSION != '' && format('v{0}', env.PULUMI_VERSION) }}
+          pulumi-version: ${{ env.PULUMI_VERSION != '' && format('v{0}', env.PULUMI_VERSION) || null }}
       - run: pulumi version
       - name: Set up Python ${{ matrix.python-version }}
         uses: actions/setup-python@v4
