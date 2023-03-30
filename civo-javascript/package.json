@@ -2,7 +2,7 @@
   "name": "${PROJECT}",
   "main": "index.js",
   "dependencies": {
-    "@pulumi/pulumi": "3.30.0",
-    "@pulumi/civo": "2.2.1"
+    "@pulumi/pulumi": "3.60.0",
+    "@pulumi/civo": "2.3.4"
   }
 }
