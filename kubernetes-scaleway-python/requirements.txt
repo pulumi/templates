@@ -1,0 +1,2 @@
+pulumi==3.38.0
+lbrlabs-scaleway==1.7.0
