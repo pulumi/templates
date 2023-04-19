@@ -10,11 +10,24 @@ const errorDocument = config.get("errorDocument") || "error.html";
 
 // Create an S3 bucket and configure it as a website.
 const bucket = new aws.s3.Bucket("bucket", {
-    acl: "public-read",
     website: {
         indexDocument: indexDocument,
         errorDocument: errorDocument,
     },
+});
+
+// Configure ownership controls for the new S3 bucket
+const ownershipControls = new aws.s3.BucketOwnershipControls("ownership-controls", {
+    bucket: bucket.bucket,
+    rule: {
+        objectOwnership: "ObjectWriter",
+    },
+});
+
+// Configure public ACL block on the new S3 bucket
+const publicAccessBlock = new aws.s3.BucketPublicAccessBlock("public-access-block", {
+    bucket: bucket.bucket,
+    blockPublicAcls: false,
 });
 
 // Use a synced folder to manage the files of the website.
@@ -22,7 +35,7 @@ const bucketFolder = new synced_folder.S3BucketFolder("bucket-folder", {
     path: path,
     bucketName: bucket.bucket,
     acl: "public-read",
-});
+}, { dependsOn: [ownershipControls, publicAccessBlock]});
 
 // Create a CloudFront CDN to distribute and cache the website.
 const cdn = new aws.cloudfront.Distribution("cdn", {

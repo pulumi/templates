@@ -34,20 +34,38 @@ resources:
 
   # Create an S3 bucket and configure it as a website.
   bucket:
-    type: aws:s3:Bucket
     properties:
-      acl: public-read
       website:
-        indexDocument: ${indexDocument}
         errorDocument: ${errorDocument}
+        indexDocument: ${indexDocument}
+    type: aws:s3:Bucket
+
+  # Assign ownership controls to the new S3 bucket
+  ownership-controls:
+    properties:
+      bucket: ${bucket.id}
+      rule:
+        objectOwnership: ObjectWriter
+    type: aws:s3:BucketOwnershipControls
+
+  # Configure the public access block for the new S3 bucket
+  public-access-block:
+    properties:
+      bucket: ${bucket.id}
+      blockPublicAcls: false
+    type: aws:s3:BucketPublicAccessBlock
 
   # Use a synced folder to manage the files of the website.
   bucket-folder:
-    type: synced-folder:index:S3BucketFolder
+    options:
+      dependsOn:
+        - ${ownership-controls}
+        - ${public-access-block}
     properties:
-      path: ${path}
-      bucketName: ${bucket.bucket}
       acl: public-read
+      bucketName: ${bucket.bucket}
+      path: ${path}
+    type: synced-folder:index:S3BucketFolder
 
   # Create a CloudFront CDN to distribute and cache the website.
   cdn:
