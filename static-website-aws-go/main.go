@@ -30,11 +30,30 @@ func main() {
 
 		// Create an S3 bucket and configure it as a website.
 		bucket, err := s3.NewBucket(ctx, "bucket", &s3.BucketArgs{
-			Acl: pulumi.String("public-read"),
 			Website: &s3.BucketWebsiteArgs{
 				IndexDocument: pulumi.String(indexDocument),
 				ErrorDocument: pulumi.String(errorDocument),
 			},
+		})
+		if err != nil {
+			return err
+		}
+
+		// Set ownership controls for the new S3 bucket
+		ownershipControls, err := s3.NewBucketOwnershipControls(ctx, "ownership-controls", &s3.BucketOwnershipControlsArgs{
+			Bucket: bucket.Bucket,
+			Rule: &s3.BucketOwnershipControlsRuleArgs{
+				ObjectOwnership: pulumi.String("ObjectWriter"),
+			},
+		})
+		if err != nil {
+			return err
+		}
+
+		// Configure public access block for the new S3 bucket
+		publicAccessBlock, err := s3.NewBucketPublicAccessBlock(ctx, "public-access-block", &s3.BucketPublicAccessBlockArgs{
+			Bucket:          bucket.Bucket,
+			BlockPublicAcls: pulumi.Bool(false),
 		})
 		if err != nil {
 			return err
@@ -45,7 +64,7 @@ func main() {
 			Path:       pulumi.String(path),
 			BucketName: bucket.Bucket,
 			Acl:        pulumi.String("public-read"),
-		})
+		}, pulumi.DependsOn([]pulumi.Resource{ownershipControls, publicAccessBlock}))
 		if err != nil {
 			return err
 		}

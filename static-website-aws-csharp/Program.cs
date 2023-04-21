@@ -14,12 +14,28 @@ return await Deployment.RunAsync(() =>
     // Create an S3 bucket and configure it as a website.
     var bucket = new Aws.S3.Bucket("bucket", new()
     {
-        Acl = "public-read",
         Website = new Aws.S3.Inputs.BucketWebsiteArgs
         {
             IndexDocument = indexDocument,
             ErrorDocument = errorDocument,
         },
+    });
+
+    // Configure ownership controls for the new S3 bucket
+    var ownershipControls = new Aws.S3.BucketOwnershipControls("ownership-controls", new()
+    {
+        Bucket = bucket.Id,
+        Rule = new Aws.S3.Inputs.BucketOwnershipControlsRuleArgs
+        {
+            ObjectOwnership = "ObjectWriter",
+        },
+    });
+
+    // Configure public access block for the new S3 bucket
+    var publicAccessBlock = new Aws.S3.BucketPublicAccessBlock("public-access-block", new()
+    {
+        Bucket = bucket.Id,
+        BlockPublicAcls = false,
     });
 
     // Use a synced folder to manage the files of the website.
@@ -28,6 +44,11 @@ return await Deployment.RunAsync(() =>
         Path = path,
         BucketName = bucket.BucketName,
         Acl = "public-read",
+    }, new ComponentResourceOptions { 
+        DependsOn = { 
+            ownershipControls,
+            publicAccessBlock
+        }
     });
 
     // Create a CloudFront CDN to distribute and cache the website.

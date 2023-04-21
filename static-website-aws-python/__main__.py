@@ -11,16 +11,38 @@ error_document = config.get("errorDocument") or "error.html"
 # Create an S3 bucket and configure it as a website.
 bucket = aws.s3.Bucket(
     "bucket",
-    acl="public-read",
     website=aws.s3.BucketWebsiteArgs(
         index_document=index_document,
         error_document=error_document,
     ),
 )
 
+# Set ownership controls for the new bucket
+ownership_controls = aws.s3.BucketOwnershipControls(
+    "ownership-controls",
+    bucket=bucket.bucket,
+    rule=aws.s3.BucketOwnershipControlsRuleArgs(
+        object_ownership="ObjectWriter",
+    )
+)
+
+# Configure public ACL block on the new bucket
+public_access_block = aws.s3.BucketPublicAccessBlock(
+    "public-access-block",
+    bucket=bucket.bucket,
+    block_public_acls=False,
+)
+
 # Use a synced folder to manage the files of the website.
 bucket_folder = synced_folder.S3BucketFolder(
-    "bucket-folder", path=path, bucket_name=bucket.bucket, acl="public-read"
+    "bucket-folder",
+    acl="public-read",
+    bucket_name=bucket.bucket,
+    path=path,
+    opts=pulumi.ResourceOptions(depends_on=[
+        ownership_controls,
+        public_access_block
+    ])
 )
 
 # Create a CloudFront CDN to distribute and cache the website.
