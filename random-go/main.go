@@ -12,7 +12,7 @@ func main() {
 			return err
 		}
 
-		ctx.Export("name", username.Id)
+		ctx.Export("name", username.ID())
 		return nil
 	})
 }
