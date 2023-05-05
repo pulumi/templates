@@ -1,5 +1,5 @@
 import * as random from "@pulumi/random";
 
-const username = new random.RandomPet("demo-repo", {});
+const username = new random.RandomPet("username", {});
 
-export const name = repo.id
+export const name = username.id
