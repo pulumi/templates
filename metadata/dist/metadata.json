@@ -2735,6 +2735,14 @@
                 "description": "A minimal Random Go Pulumi program."
             }
         },
+        "random-java": {
+            "name": "random-java",
+            "runtime": "java",
+            "template": {
+                "description": "A minimal Random Java Pulumi program",
+                "important": true
+            }
+        },
         "random-python": {
             "name": "random-python",
             "runtime": "python",
