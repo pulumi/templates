@@ -1,0 +1,12 @@
+name: ${PROJECT}
+description: ${DESCRIPTION}
+runtime: python
+template:
+  description: A minimal RedisCloud Python Pulumi program
+  config:
+    rediscloud:apiKey:
+      description: RedisCloud access key
+      secret: true
+    rediscloud:secretKey:
+      description: RedisCloud secret key
+      secret: true
