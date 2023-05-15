@@ -5,12 +5,12 @@ runtime:
   options:
     typescript: false
 template:
-  description: A minimal RedisCloud Python Pulumi program
+  description: A minimal RedisCloud JavaScript Pulumi program
   config:
     cardType:
-      description: Credit card type (Visa, MasterCard, American Express)
+      description: Credit card type (Visa, Mastercard) of the card on file with Rediscloud 
     lastFourNumbers:
-      description: Last Four Numbers of Redis Cloud credit card
+      description: Last four numbers of the card on file with RedisCloud
     rediscloud:apiKey:
       description: RedisCloud access key
       secret: true
