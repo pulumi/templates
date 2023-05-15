@@ -21,7 +21,7 @@ const subscription = new rediscloud.Subscription(
 			regions: [
 				{
 					region: "us-east-1",
-					multipleAvailabilityZones: false,
+					multipleAvailabilityZones: true,
 					networkingDeploymentCidr: "10.0.0.0/24",
 					preferredAvailabilityZones: ["use1-az1", "use1-az2", "use1-az5"],
 				},
@@ -49,4 +49,9 @@ const database = new rediscloud.SubscriptionDatabase("my-db", {
 	throughputMeasurementBy: "operations-per-second",
 	throughputMeasurementValue: 20000,
 	replication: true,
+	modules: [
+		{
+			name: "RedisJSON",
+		}
+	]
 });

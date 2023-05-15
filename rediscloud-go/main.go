@@ -31,8 +31,8 @@ func main() {
 				Regions: rediscloud.SubscriptionCloudProviderRegionArray{
 					&rediscloud.SubscriptionCloudProviderRegionArgs{
 						Region:                    pulumi.String("us-east-1"),
-						MultipleAvailabilityZones: pulumi.Bool(false),
 						NetworkingDeploymentCidr:  pulumi.String("10.0.0.0/24"),
+						MultipleAvailabilityZones: pulumi.Bool(true),
 						PreferredAvailabilityZones: pulumi.StringArray{
 							pulumi.String("use1-az1"),
 							pulumi.String("use1-az2"),
