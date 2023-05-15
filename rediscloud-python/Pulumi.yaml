@@ -4,6 +4,10 @@ runtime: python
 template:
   description: A minimal RedisCloud Python Pulumi program
   config:
+    cardType:
+      description: Credit card type (Visa, MasterCard, American Express)
+    lastFourNumbers:
+      description: Last Four Numbers of Redis Cloud credit card
     rediscloud:apiKey:
       description: RedisCloud access key
       secret: true

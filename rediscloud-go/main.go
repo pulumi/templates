@@ -1,17 +1,21 @@
 package main
 
 import (
-	"strconv"
-
 	"github.com/RedisLabs/pulumi-rediscloud/sdk/go/rediscloud"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
+	"github.com/pulumi/pulumi/sdk/v3/go/pulumi/config"
 )
 
 func main() {
 	pulumi.Run(func(ctx *pulumi.Context) error {
+		config := config.New(ctx, "")
+
+		cardType := config.Require("cardType")
+		lastFourNumbers := config.Require("lastFourNumbers")
+
 		card, err := rediscloud.GetPaymentMethod(ctx, &rediscloud.GetPaymentMethodArgs{
-			CardType:        pulumi.StringRef("Visa"),
-			LastFourNumbers: pulumi.StringRef("1234"),
+			CardType:        &cardType,
+			LastFourNumbers: &lastFourNumbers,
 		}, nil)
 
 		if err != nil {
@@ -51,7 +55,7 @@ func main() {
 			return err
 		}
 		_, err = rediscloud.NewSubscriptionDatabase(ctx, "database", &rediscloud.SubscriptionDatabaseArgs{
-			SubscriptionId:             subscription.ID().ApplyT(strconv.Atoi).(pulumi.IntOutput),
+			SubscriptionId:             subscription.ID(),
 			Protocol:                   pulumi.String("redis"),
 			MemoryLimitInGb:            pulumi.Float64(10),
 			DataPersistence:            pulumi.String("aof-every-1-second"),

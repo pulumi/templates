@@ -2,13 +2,14 @@ module rediscloudgo
 
 go 1.17
 
-require github.com/pulumi/pulumi/sdk/v3 v3.38.0
+require (
+	github.com/RedisLabs/pulumi-rediscloud/sdk v1.2.5
+	github.com/pulumi/pulumi/sdk/v3 v3.38.0
+)
 
 require (
 	github.com/Microsoft/go-winio v0.4.16 // indirect
 	github.com/ProtonMail/go-crypto v0.0.0-20210428141323-04723f9f07d7 // indirect
-	github.com/RedisLabs/pulumi-rediscloud v1.1.2-0.20230514161242-16a6b64d506f // indirect
-	github.com/RedisLabs/pulumi-rediscloud/sdk v1.1.2 // indirect
 	github.com/acomagu/bufpipe v1.0.3 // indirect
 	github.com/aead/chacha20 v0.0.0-20180709150244-8b13a72661da // indirect
 	github.com/blang/semver v3.5.1+incompatible // indirect

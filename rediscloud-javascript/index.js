@@ -1,10 +1,13 @@
 "use strict";
+import pulumi from "@pulumi/pulumi";
 import rediscloud from "@rediscloud/pulumi-rediscloud";
+
+const config = new pulumi.Config();
 
 const card = await rediscloud.getPaymentMethod(
 	{
-		cardType: "Visa",
-		lastFourNumbers: "1234",
+		cardType: config.require("cardType"),
+		lastFourNumbers: config.require("lastFourNumbers"),
 	},
 );
 

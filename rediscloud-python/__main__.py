@@ -1,8 +1,11 @@
+import pulumi
 import pulumi_rediscloud
 
+config = pulumi.Config()
+
 card = pulumi_rediscloud.get_payment_method(
-    card_type="Visa",
-    last_four_numbers="1234",
+    card_type=config.require("cardType"),
+    last_four_numbers=config.require("lastFourNumbers"),
 )
 
 subscription = pulumi_rediscloud.Subscription(
@@ -41,4 +44,9 @@ database = pulumi_rediscloud.SubscriptionDatabase(
     throughput_measurement_by="operations-per-second",
     throughput_measurement_value=20000,
     replication=True,
+    modules=[
+        pulumi_rediscloud.SubscriptionDatabaseModuleArgs(
+            name="RedisJSON",
+        )
+    ],
 )
