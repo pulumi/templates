@@ -2764,6 +2764,80 @@
                 "description": "A minimal Random Pulumi YAML program."
             }
         },
+        "rediscloud-go": {
+            "name": "rediscloud-go",
+            "runtime": "go",
+            "template": {
+                "description": "A minimal RedisCloud Pulumi YAML program",
+                "config": {
+                    "cardType": {
+                        "description": "Credit card type (Visa, Mastercard) of the card on file with Rediscloud"
+                    },
+                    "lastFourNumbers": {
+                        "description": "Last four numbers of the card on file with RedisCloud"
+                    },
+                    "rediscloud:apiKey": {
+                        "description": "RedisCloud access key",
+                        "secret": true
+                    },
+                    "rediscloud:secretKey": {
+                        "description": "RedisCloud secret key",
+                        "secret": true
+                    }
+                }
+            }
+        },
+        "rediscloud-javascript": {
+            "name": "rediscloud-javascript",
+            "runtime": {
+                "name": "nodejs",
+                "options": {
+                    "typescript": false
+                }
+            },
+            "template": {
+                "description": "A minimal RedisCloud JavaScript Pulumi program",
+                "config": {
+                    "cardType": {
+                        "description": "Credit card type (Visa, Mastercard) of the card on file with Rediscloud"
+                    },
+                    "lastFourNumbers": {
+                        "description": "Last four numbers of the card on file with RedisCloud"
+                    },
+                    "rediscloud:apiKey": {
+                        "description": "RedisCloud access key",
+                        "secret": true
+                    },
+                    "rediscloud:secretKey": {
+                        "description": "RedisCloud secret key",
+                        "secret": true
+                    }
+                }
+            }
+        },
+        "rediscloud-python": {
+            "name": "rediscloud-python",
+            "runtime": "python",
+            "template": {
+                "description": "A minimal RedisCloud Python Pulumi program",
+                "config": {
+                    "cardType": {
+                        "description": "Credit card type (Visa, Mastercard) of the card on file with Rediscloud"
+                    },
+                    "lastFourNumbers": {
+                        "description": "Last four numbers of the card on file with RedisCloud"
+                    },
+                    "rediscloud:apiKey": {
+                        "description": "RedisCloud access key",
+                        "secret": true
+                    },
+                    "rediscloud:secretKey": {
+                        "description": "RedisCloud secret key",
+                        "secret": true
+                    }
+                }
+            }
+        },
         "serverless-aws-csharp": {
             "name": "serverless-aws-csharp",
             "runtime": "dotnet",
