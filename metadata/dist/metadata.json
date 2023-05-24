@@ -2237,7 +2237,7 @@
                         "description": "DNS prefix for the cluster"
                     },
                     "kubernetesVersion": {
-                        "default": "1.24.3",
+                        "default": "1.26.3",
                         "description": "Kubernetes version to deploy in the cluster"
                     },
                     "nodeVmSize": {
@@ -2272,7 +2272,7 @@
                         "description": "DNS prefix for the cluster"
                     },
                     "kubernetesVersion": {
-                        "default": "1.24.3",
+                        "default": "1.26.3",
                         "description": "Kubernetes version to deploy in the cluster"
                     },
                     "nodeVmSize": {
@@ -2307,7 +2307,7 @@
                         "description": "DNS prefix for the cluster"
                     },
                     "kubernetesVersion": {
-                        "default": "1.24.3",
+                        "default": "1.26.3",
                         "description": "Kubernetes version to deploy in the cluster"
                     },
                     "nodeVmSize": {
@@ -2342,7 +2342,7 @@
                         "description": "DNS prefix for the cluster"
                     },
                     "kubernetesVersion": {
-                        "default": "1.24.3",
+                        "default": "1.26.3",
                         "description": "Kubernetes version to deploy in the cluster"
                     },
                     "nodeVmSize": {
