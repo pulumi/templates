@@ -6,7 +6,7 @@ import * as containerservice from "@pulumi/azure-native/containerservice";
 // Grab some values from the Pulumi stack configuration (or use defaults)
 const projCfg = new pulumi.Config();
 const numWorkerNodes = projCfg.getNumber("numWorkerNodes") || 3;
-const k8sVersion = projCfg.get("kubernetesVersion") || "1.24.3";
+const k8sVersion = projCfg.get("kubernetesVersion") || "1.26.3";
 const prefixForDns = projCfg.get("prefixForDns") || "pulumi";
 const nodeVmSize = projCfg.get("nodeVmSize") || "Standard_DS2_v2";
 // The next two configuration values are required (no default can be provided)

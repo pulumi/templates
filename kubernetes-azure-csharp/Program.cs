@@ -9,7 +9,7 @@ return await Pulumi.Deployment.RunAsync(() =>
     // Grab some values from the Pulumi stack configuration (or use defaults)
     var projCfg = new Config();
     var numWorkerNodes = projCfg.GetInt32("numWorkerNodes") ?? 3;
-    var k8sVersion = projCfg.Get("kubernetesVersion") ?? "1.24.3";
+    var k8sVersion = projCfg.Get("kubernetesVersion") ?? "1.26.3";
     var prefixForDns = projCfg.Get("prefixForDns") ?? "pulumi";
     var nodeVmSize = projCfg.Get("nodeVmSize") ?? "Standard_DS2_v2";
 

@@ -9,7 +9,7 @@ from pulumi_azure_native import containerservice
 # Get some project-namespaced configuration values or use default values
 proj_cfg = pulumi.Config()
 num_worker_nodes = proj_cfg.get_float("numWorkerNodes", 3)
-k8s_version = proj_cfg.get("kubernetesVersion", "1.24.3")
+k8s_version = proj_cfg.get("kubernetesVersion", "1.26.3")
 prefix_for_dns = proj_cfg.get("prefixForDns", "pulumi")
 node_vm_size = proj_cfg.get("nodeVmSize", "Standard_DS2_v2")
 # The next two configuration values are required (no default can be provided)
