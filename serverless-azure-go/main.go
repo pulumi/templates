@@ -3,9 +3,9 @@ package main
 import (
 	"fmt"
 
-	resources "github.com/pulumi/pulumi-azure-native-sdk/resources"
-	storage "github.com/pulumi/pulumi-azure-native-sdk/storage"
-	web "github.com/pulumi/pulumi-azure-native-sdk/web"
+	resources "github.com/pulumi/pulumi-azure-native-sdk/v2/resources"
+	storage "github.com/pulumi/pulumi-azure-native-sdk/v2/storage"
+	web "github.com/pulumi/pulumi-azure-native-sdk/v2/web"
 	"github.com/pulumi/pulumi-command/sdk/go/command/local"
 	synced "github.com/pulumi/pulumi-synced-folder/sdk/go/synced-folder"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"

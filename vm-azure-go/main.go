@@ -5,9 +5,9 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/pulumi/pulumi-azure-native-sdk/compute"
-	"github.com/pulumi/pulumi-azure-native-sdk/network"
-	"github.com/pulumi/pulumi-azure-native-sdk/resources"
+	"github.com/pulumi/pulumi-azure-native-sdk/v2/compute"
+	"github.com/pulumi/pulumi-azure-native-sdk/v2/network"
+	"github.com/pulumi/pulumi-azure-native-sdk/v2/resources"
 	"github.com/pulumi/pulumi-random/sdk/v4/go/random"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi/config"
