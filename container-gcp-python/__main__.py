@@ -20,8 +20,9 @@ project = gcp_config.require("project")
 image = docker.Image(
     "image",
     image_name=f"gcr.io/{project}/{image_name}",
-    build=docker.DockerBuild(
+    build=docker.DockerBuildArgs(
         context=app_path,
+        platform="linux/amd64"
     ),
 )
 
