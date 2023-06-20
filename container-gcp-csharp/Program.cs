@@ -25,7 +25,7 @@ return await Deployment.RunAsync(() =>
         ImageName = $"gcr.io/{project}/{imageName}",
         Build = new Docker.Inputs.DockerBuildArgs {
             Context = appPath,
-            Platform = "linux/arm64",
+            Platform = "linux/amd64",
         },
     });
 

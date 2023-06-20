@@ -74,7 +74,7 @@ func main() {
 			ImageName: pulumi.Sprintf("%s/%s:%s", registry.LoginServer, imageName, imageTag),
 			Build: docker.DockerBuildArgs{
 				Context: pulumi.String(appPath),
-				Platform: pulumi.String("linux/arm64"),
+				Platform: pulumi.String("linux/amd64"),
 			},
 			Registry: docker.ImageRegistryArgs{
 				Server:   registry.LoginServer,

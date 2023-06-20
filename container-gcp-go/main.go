@@ -50,7 +50,7 @@ func main() {
 			ImageName: pulumi.Sprintf("gcr.io/%s/%s", project, imageName),
 			Build: docker.DockerBuildArgs{
 				Context: pulumi.String(appPath),
-				Platform: pulumi.String("linux/arm64"),
+				Platform: pulumi.String("linux/amd64"),
 			},
 		})
 		if err != nil {
