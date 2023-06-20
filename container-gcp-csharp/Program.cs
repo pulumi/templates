@@ -23,7 +23,7 @@ return await Deployment.RunAsync(() =>
     var image = new Docker.Image("image", new()
     {
         ImageName = $"gcr.io/{project}/{imageName}",
-        Build = new Docker.DockerBuild {
+        Build = new Docker.Inputs.DockerBuildArgs {
             Context = appPath,
         },
     });
