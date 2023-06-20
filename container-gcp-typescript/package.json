@@ -5,7 +5,7 @@
         "@types/node": "^16"
     },
     "dependencies": {
-        "@pulumi/docker": "^3.4.1",
+        "@pulumi/docker": "^4.2.3",
         "@pulumi/gcp": "^6.0.0",
         "@pulumi/pulumi": "^3.0.0"
     }

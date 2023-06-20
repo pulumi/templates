@@ -21,6 +21,7 @@ const image = new docker.Image("image", {
     imageName: `gcr.io/${project}/${imageName}`,
     build: {
         context: appPath,
+        platform: "linux/arm64",
         env: {
             // Cloud Run currently requires x86_64 images
             // https://cloud.google.com/run/docs/container-contract#languages
