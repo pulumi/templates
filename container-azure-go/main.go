@@ -7,7 +7,7 @@ import (
 	"github.com/pulumi/pulumi-azure-native-sdk/containerinstance"
 	"github.com/pulumi/pulumi-azure-native-sdk/containerregistry"
 	"github.com/pulumi/pulumi-azure-native-sdk/resources"
-	"github.com/pulumi/pulumi-docker/sdk/v3/go/docker"
+	"github.com/pulumi/pulumi-docker/sdk/v4/go/docker"
 	"github.com/pulumi/pulumi-random/sdk/v4/go/random"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi/config"
@@ -74,6 +74,7 @@ func main() {
 			ImageName: pulumi.Sprintf("%s/%s:%s", registry.LoginServer, imageName, imageTag),
 			Build: docker.DockerBuildArgs{
 				Context: pulumi.String(appPath),
+				Platform: pulumi.String("linux/arm64"),
 			},
 			Registry: docker.ImageRegistryArgs{
 				Server:   registry.LoginServer,
