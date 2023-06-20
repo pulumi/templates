@@ -76,7 +76,7 @@ func main() {
 				Context: pulumi.String(appPath),
 				Platform: pulumi.String("linux/amd64"),
 			},
-			Registry: docker.ImageRegistryArgs{
+			Registry: docker.RegistryArgs{
 				Server:   registry.LoginServer,
 				Username: registryUsername,
 				Password: registryPassword,

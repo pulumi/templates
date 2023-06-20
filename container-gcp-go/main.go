@@ -46,7 +46,7 @@ func main() {
 
 		// Create a container image for the service.
 		image, err := docker.NewImage(ctx, "image", &docker.ImageArgs{
-			Registry:  docker.ImageRegistryArgs{},
+			Registry:  docker.RegistryArgs{},
 			ImageName: pulumi.Sprintf("gcr.io/%s/%s", project, imageName),
 			Build: docker.DockerBuildArgs{
 				Context: pulumi.String(appPath),
