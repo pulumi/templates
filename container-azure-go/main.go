@@ -145,6 +145,9 @@ func main() {
 				},
 			},
 		})
+		if err != nil {
+			return err
+		}
 
 		// Export the service's IP address, hostname, and fully-qualified URL.
 		ctx.Export("ip", containerGroup.IpAddress.Elem().Ip())
