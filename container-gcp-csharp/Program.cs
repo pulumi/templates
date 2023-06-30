@@ -1,4 +1,7 @@
-﻿using Pulumi;
+﻿// Before running `pulumi up`, configure Docker for Artifact Registry authentication
+// as described here: https://cloud.google.com/artifact-registry/docs/docker/authentication
+
+using Pulumi;
 using Gcp = Pulumi.Gcp;
 using Docker = Pulumi.Docker;
 using System.Collections.Generic;
@@ -19,12 +22,26 @@ return await Deployment.RunAsync(() =>
     var location = gcpConfig.Require("region");
     var project = gcpConfig.Require("project");
 
+    // Create an Artifact Registry repository
+    var repository = new Gcp.ArtifactRegistry.Repository("my-repo", new()
+    {
+        Description = "Repository for container image",
+        Format = "DOCKER",
+        Location = location,
+        RepositoryId = "my-repo",
+    });
+
+    // Form the repository URL
+    var repoUrl = $"{location}-docker.pkg.dev/{project}/my-repo"
+
     // Create a container image for the service.
     var image = new Docker.Image("image", new()
     {
-        ImageName = $"gcr.io/{project}/{imageName}",
+        ImageName = $"{repoUrl}/{imageName}",
         Build = new Docker.Inputs.DockerBuildArgs {
             Context = appPath,
+            // Cloud Run currently requires x86_64 images
+            // https://cloud.google.com/run/docs/container-contract#languages
             Platform = "linux/amd64",
         },
     });

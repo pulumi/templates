@@ -1,3 +1,6 @@
+// Before running `pulumi up`, configure Docker for authentication to Artifact Registry
+// as described here: https://cloud.google.com/artifact-registry/docs/docker/authentication
+
 import * as pulumi from "@pulumi/pulumi";
 import * as gcp from "@pulumi/gcp";
 import * as docker from "@pulumi/docker";
@@ -16,13 +19,24 @@ const gcpConfig = new pulumi.Config("gcp");
 const location = gcpConfig.require("region");
 const project = gcpConfig.require("project");
 
+// Create an Artifact Registry repository
+const repository = new gcp.artifactregistry.Repository("my-repo", {
+    description: "Repository for container image",
+    format: "DOCKER",
+    location: location,
+    repositoryId: "my-repo",
+});
+
+// Form the repository URL
+const repoUrl = `${location}-docker.pkg.dev/${project}/my-repo`
+
 // Create a container image for the service.
 const image = new docker.Image("image", {
-    imageName: `gcr.io/${project}/${imageName}`,
+    imageName: `${repoUrl}/${imageName}`,
     build: {
         context: appPath,
         platform: "linux/amd64",
-        env: {
+        args: {
             // Cloud Run currently requires x86_64 images
             // https://cloud.google.com/run/docs/container-contract#languages
             DOCKER_DEFAULT_PLATFORM: "linux/amd64",
