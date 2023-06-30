@@ -32,7 +32,7 @@ return await Deployment.RunAsync(() =>
     });
 
     // Form the repository URL
-    var repoUrl = $"{location}-docker.pkg.dev/{project}/my-repo"
+    var repoUrl = $"{location}-docker.pkg.dev/{project}/my-repo";
 
     // Create a container image for the service.
     var image = new Docker.Image("image", new()
