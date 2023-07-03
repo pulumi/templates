@@ -42,6 +42,7 @@ const image = new docker.Image("image", {
     imageName: pulumi.interpolate`${registry.loginServer}/${imageName}:${imageTag}`,
     build: {
         context: appPath,
+        platform: "linux/amd64",
     },
     registry: {
         server: registry.loginServer,

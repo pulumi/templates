@@ -42,10 +42,11 @@ return await Pulumi.Deployment.RunAsync(() =>
     var image = new Docker.Image("image", new()
     {
         ImageName = Pulumi.Output.Format($"{registry.LoginServer}/{imageName}:{imageTag}"),
-        Build = new Docker.DockerBuild {
+        Build = new Docker.Inputs.DockerBuildArgs {
             Context = appPath,
+            Platform = "linux/amd64",
         },
-        Registry = new Docker.ImageRegistry {
+        Registry = new Docker.Inputs.RegistryArgs {
             Server = registry.LoginServer,
             Username = registryUsername,
             Password = registryPassword,

@@ -40,10 +40,11 @@ registry_password = credentials.apply(lambda creds: creds.passwords[0].value)
 image = docker.Image(
     "image",
     image_name=pulumi.Output.concat(registry.login_server, f"/{image_name}:{image_tag}"),
-    build=docker.DockerBuild(
+    build=docker.DockerBuildArgs(
         context=app_path,
+        platform="linux/amd64",
     ),
-    registry=docker.ImageRegistry(
+    registry=docker.RegistryArgs(
         server=registry.login_server,
         username=registry_username,
         password=registry_password,
