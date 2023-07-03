@@ -6,12 +6,11 @@ import (
 	"github.com/pulumi/pulumi-docker/sdk/v4/go/docker"
 	"github.com/pulumi/pulumi-gcp/sdk/v6/go/gcp/artifactregistry"
 	"github.com/pulumi/pulumi-gcp/sdk/v6/go/gcp/cloudrun"
+	"github.com/pulumi/pulumi-random/sdk/v4/go/random"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi/config"
 )
 
-// Before running `pulumi up`, configure Docker for authentication to Artifact Registry as
-// described here: https://cloud.google.com/artifact-registry/docs/docker/authentication
 func main() {
 	pulumi.Run(func(ctx *pulumi.Context) error {
 
@@ -47,12 +46,25 @@ func main() {
 		location := providerConfig.Require("region")
 		project := providerConfig.Require("project")
 
+		// Generate a unique Artifact Registry repository ID
+		uniqueString, err := random.NewRandomString(ctx, "unique-string", &random.RandomStringArgs{
+			Length:  pulumi.Int(4),
+			Lower:   pulumi.Bool(true),
+			Upper:   pulumi.Bool(false),
+			Numeric: pulumi.Bool(true),
+			Special: pulumi.Bool(false),
+		})
+		if err != nil {
+			return err
+		}
+		repoId := pulumi.Sprintf("repo-%s", uniqueString.Result)
+
 		// Create an Artifact Registry repository
-		repository, err := artifactregistry.NewRepository(ctx, "my-repo", &artifactregistry.RepositoryArgs{
+		repository, err := artifactregistry.NewRepository(ctx, "repository", &artifactregistry.RepositoryArgs{
 			Description:  pulumi.String("Repository for container image"),
 			Format:       pulumi.String("DOCKER"),
 			Location:     pulumi.String(location),
-			RepositoryId: pulumi.String("my-repo"),
+			RepositoryId: repoId,
 		})
 		if err != nil {
 			return err
@@ -62,6 +74,8 @@ func main() {
 		repoUrl := pulumi.Sprintf("%s-docker.pkg.dev/%s/%s", repository.Location, project, repository.RepositoryId)
 
 		// Create a container image for the service.
+		// Before running `pulumi up`, configure Docker for authentication to Artifact Registry as
+		// described here: https://cloud.google.com/artifact-registry/docs/docker/authentication
 		image, err := docker.NewImage(ctx, "image", &docker.ImageArgs{
 			Registry:  docker.RegistryArgs{},
 			ImageName: pulumi.Sprintf("%s/%s", repoUrl, imageName),
