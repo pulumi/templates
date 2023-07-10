@@ -3,7 +3,7 @@ module ${PROJECT}
 go 1.18
 
 require (
-	github.com/pulumi/pulumi-azure-native-sdk/v2/resources ${VERSION}
-    github.com/pulumi/pulumi-azure-native-sdk/v2/storage ${VERSION}
+	github.com/pulumi/pulumi-azure-native-sdk/resources/v2 ${VERSION}
+    github.com/pulumi/pulumi-azure-native-sdk/storage/v2 ${VERSION}
 	github.com/pulumi/pulumi/sdk/v3 ${PULUMI_VERSION}
 )

@@ -3,12 +3,12 @@ module ${PROJECT}
 go 1.18
 
 require (
-	github.com/pulumi/pulumi-azure-native-sdk/v2/resources v2.0.0-alpha.1
-	github.com/pulumi/pulumi-azure-native-sdk/v2/storage v2.0.0-alpha.1
-	github.com/pulumi/pulumi-azure-native-sdk/v2/web v2.0.0-alpha.1
+	github.com/pulumi/pulumi-azure-native-sdk/resources/v2 v2.0.0-alpha.4
+	github.com/pulumi/pulumi-azure-native-sdk/storage/v2 v2.0.0-alpha.4
+	github.com/pulumi/pulumi-azure-native-sdk/web/v2 v2.0.0-alpha.4
 	github.com/pulumi/pulumi-command/sdk v0.7.0
 	github.com/pulumi/pulumi-synced-folder/sdk v0.0.9
-	github.com/pulumi/pulumi/sdk/v3 v3.49.0
+	github.com/pulumi/pulumi/sdk/v3 v3.72.0
 )
 
 require (
@@ -43,7 +43,7 @@ require (
 	github.com/pjbgf/sha1cd v0.2.3 // indirect
 	github.com/pkg/errors v0.9.1 // indirect
 	github.com/pkg/term v1.1.0 // indirect
-	github.com/pulumi/pulumi-azure-native-sdk/v2 v2.0.0-alpha.1 // indirect
+	github.com/pulumi/pulumi-azure-native-sdk/v2 v2.0.0-alpha.4 // indirect
 	github.com/rivo/uniseg v0.4.3 // indirect
 	github.com/rogpeppe/go-internal v1.9.0 // indirect
 	github.com/sabhiram/go-gitignore v0.0.0-20210923224102-525f6e181f06 // indirect
