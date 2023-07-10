@@ -1,8 +1,8 @@
 package main
 
 import (
-	"github.com/pulumi/pulumi-azure-native-sdk/resources"
-	"github.com/pulumi/pulumi-azure-native-sdk/storage"
+	"github.com/pulumi/pulumi-azure-native-sdk/resources/v2"
+	"github.com/pulumi/pulumi-azure-native-sdk/storage/v2"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 )
 
