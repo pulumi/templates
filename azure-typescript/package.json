@@ -6,6 +6,6 @@
     },
     "dependencies": {
         "@pulumi/pulumi": "^3.0.0",
-        "@pulumi/azure-native": "v2.0.0-beta.4"
+        "@pulumi/azure-native": "v2.0.0"
     }
 }

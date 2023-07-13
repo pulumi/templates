@@ -13,7 +13,7 @@
   <ItemGroup>
     <PackageReference Include="Pulumi" Version="3.*" />
     <PackageReference Include="Pulumi.FSharp" Version="3.*" />
-    <PackageReference Include="Pulumi.AzureNative" Version="2.0.0-beta.4" />
+    <PackageReference Include="Pulumi.AzureNative" Version="2.0.0" />
   </ItemGroup>
 
 </Project>
