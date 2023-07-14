@@ -8,7 +8,7 @@ require (
 	github.com/pulumi/pulumi-azure-native-sdk/web/v2 v2.0.0
 	github.com/pulumi/pulumi-command/sdk v0.7.0
 	github.com/pulumi/pulumi-synced-folder/sdk v0.0.9
-	github.com/pulumi/pulumi/sdk/v3 v3.72.0
+	github.com/pulumi/pulumi/sdk/v3 v3.74.0
 )
 
 require (
