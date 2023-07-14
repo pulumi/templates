@@ -3,10 +3,10 @@ module ${PROJECT}
 go 1.18
 
 require (
-	github.com/pulumi/pulumi-azure-native-sdk/containerservice v1.88.1
-	github.com/pulumi/pulumi-azure-native-sdk/network v1.88.1
-	github.com/pulumi/pulumi-azure-native-sdk/resources v1.88.1
-	github.com/pulumi/pulumi/sdk/v3 v3.39.1
+	github.com/pulumi/pulumi-azure-native-sdk/containerservice/v2 v2.0.0
+	github.com/pulumi/pulumi-azure-native-sdk/network/v2 v2.0.0
+	github.com/pulumi/pulumi-azure-native-sdk/resources/v2 v2.0.0
+	github.com/pulumi/pulumi/sdk/v3 v3.72.0
 )
 
 require (
