@@ -4,6 +4,9 @@
     "devDependencies": {
         "@types/node": "^16"
     },
+    "engines": {
+        "node": ">=16"
+    },
     "dependencies": {
         "@pulumi/pulumi": "^3.0.0",
         "@pulumi/azure": "^5.0.0"

@@ -1,6 +1,9 @@
 {
   "name": "${PROJECT}",
   "main": "index.ts",
+  "engines": {
+    "node": ">=16"
+  },
   "devDependencies": {
     "@types/node": "^18"
   },

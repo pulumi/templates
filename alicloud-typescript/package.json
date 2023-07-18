@@ -4,6 +4,9 @@
     "devDependencies": {
         "@types/node": "^16"
     },
+    "engines": {
+        "node": ">=16"
+    },
     "dependencies": {
         "@pulumi/pulumi": "^3.0.0",
         "@pulumi/alicloud": "^3.0.0"

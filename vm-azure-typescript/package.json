@@ -1,6 +1,9 @@
 {
     "name": "vm-azure-typescript",
     "main": "index.ts",
+    "engines": {
+        "node": ">=16"
+    },
     "devDependencies": {
         "@types/node": "^16"
     },

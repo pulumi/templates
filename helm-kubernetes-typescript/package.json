@@ -1,5 +1,8 @@
 {
     "name": "test",
+    "engines": {
+        "node": ">=16"
+    },
     "devDependencies": {
         "@types/node": "^16"
     },
