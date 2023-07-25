@@ -5,7 +5,7 @@ go 1.18
 require (
 	github.com/pulumi/pulumi-awsx/sdk v1.0.0
 	github.com/pulumi/pulumi-eks/sdk v0.41.0
-	github.com/pulumi/pulumi/sdk/v3 v3.31.1
+	github.com/pulumi/pulumi/sdk/v3 v3.76.0
 )
 
 require (
@@ -32,7 +32,7 @@ require (
 	github.com/opentracing/opentracing-go v1.1.0 // indirect
 	github.com/pkg/errors v0.9.1 // indirect
 	github.com/pkg/term v1.1.0 // indirect
-	github.com/pulumi/pulumi-aws/sdk/v5 v5.4.0 // indirect
+	github.com/pulumi/pulumi-aws/sdk/v6 v6.0.0 // indirect
 	github.com/pulumi/pulumi-docker/sdk/v3 v3.2.0 // indirect
 	github.com/pulumi/pulumi-kubernetes/sdk/v3 v3.17.0 // indirect
 	github.com/rivo/uniseg v0.2.0 // indirect
