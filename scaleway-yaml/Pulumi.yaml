@@ -1,0 +1,20 @@
+name: ${PROJECT}
+description: ${DESCRIPTION}
+runtime: yaml
+template:
+  description: A minimal Scaleway Pulumi YAML program
+  config:
+    scaleway:project_id:
+      description: The Scaleway project ID
+    scaleway:region:
+      description: The Scaleway region to deploy into
+      default: fr-par
+
+resources:
+  # Create a Scaleway resource (Object Bucket).
+  my-bucket:
+    type: scaleway:ObjectBucket
+
+outputs:
+  # Export the name of the bucket.
+  bucketName: ${my-bucket.id}

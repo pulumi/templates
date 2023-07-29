@@ -1,0 +1,14 @@
+name: ${PROJECT}
+description: ${DESCRIPTION}
+runtime:
+  name: nodejs
+  options:
+    typescript: false
+template:
+  description: A minimal Scaleway JavaScript program
+  config:
+    scaleway:project_id:
+      description: The Scaleway project ID
+    scaleway:region:
+      description: The Scaleway region to deploy into
+      default: fr-par
