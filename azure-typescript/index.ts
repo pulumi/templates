@@ -15,6 +15,9 @@ const storageAccount = new storage.StorageAccount("sa", {
 });
 
 // Export the primary key of the Storage Account
-const storageAccountKeys = pulumi.all([resourceGroup.name, storageAccount.name]).apply(([resourceGroupName, accountName]) =>
-    storage.listStorageAccountKeys({ resourceGroupName, accountName }));
+const storageAccountKeys = storage.listStorageAccountKeysOutput({
+    resourceGroupName: resourceGroup.name,
+    accountName: storageAccount.name
+});
+
 export const primaryStorageKey = storageAccountKeys.keys[0].value;

@@ -1,0 +1,119 @@
+name: ${PROJECT}
+description: ${DESCRIPTION}
+runtime: yaml
+
+template:
+  description: A Pulumi YAML program to deploy a static website on AWS
+  config:
+    aws:region:
+      description: The AWS region to deploy into
+      default: us-west-2
+    path:
+      description: The path to the folder containing the website
+      default: ./www
+    indexDocument:
+      description: The file to use for top-level pages
+      default: index.html
+    errorDocument:
+      description: The file to use for error pages
+      default: error.html
+
+# Import the program's configuration settings.
+config:
+  path:
+    type: string
+    default: ./www
+  indexDocument:
+    type: string
+    default: index.html
+  errorDocument:
+    type: string
+    default: error.html
+
+resources:
+
+  # Create an S3 bucket and configure it as a website.
+  bucket:
+    properties:
+      website:
+        errorDocument: ${errorDocument}
+        indexDocument: ${indexDocument}
+    type: aws:s3:Bucket
+
+  # Assign ownership controls to the new S3 bucket
+  ownership-controls:
+    properties:
+      bucket: ${bucket.id}
+      rule:
+        objectOwnership: ObjectWriter
+    type: aws:s3:BucketOwnershipControls
+
+  # Configure the public access block for the new S3 bucket
+  public-access-block:
+    properties:
+      bucket: ${bucket.id}
+      blockPublicAcls: false
+    type: aws:s3:BucketPublicAccessBlock
+
+  # Use a synced folder to manage the files of the website.
+  bucket-folder:
+    options:
+      dependsOn:
+        - ${ownership-controls}
+        - ${public-access-block}
+    properties:
+      acl: public-read
+      bucketName: ${bucket.bucket}
+      path: ${path}
+    type: synced-folder:index:S3BucketFolder
+
+  # Create a CloudFront CDN to distribute and cache the website.
+  cdn:
+    type: aws:cloudfront:Distribution
+    properties:
+      enabled: true
+      origins:
+        - originId: ${bucket.arn}
+          domainName: ${bucket.websiteEndpoint}
+          customOriginConfig:
+            originProtocolPolicy: http-only
+            httpPort: 80
+            httpsPort: 443
+            originSslProtocols:
+              - TLSv1.2
+      defaultCacheBehavior:
+        targetOriginId: ${bucket.arn}
+        viewerProtocolPolicy: redirect-to-https
+        allowedMethods:
+          - GET
+          - HEAD
+          - OPTIONS
+        cachedMethods:
+          - GET
+          - HEAD
+          - OPTIONS
+        compress: true
+        defaultTtl: 600
+        maxTtl: 600
+        minTtl: 600
+        forwardedValues:
+          queryString: true
+          cookies:
+            forward: all
+      priceClass: PriceClass_100
+      customErrorResponses:
+        - errorCode: 404
+          responseCode: 404
+          responsePagePath: /${errorDocument}
+      restrictions:
+        geoRestriction:
+          restrictionType: none
+      viewerCertificate:
+        cloudfrontDefaultCertificate: true
+
+# Export the URLs and hostnames of the bucket and distribution.
+outputs:
+  originURL: http://${bucket.websiteEndpoint}
+  originHostname: ${bucket.websiteEndpoint}
+  cdnURL: https://${cdn.domainName}
+  cdnHostname: ${cdn.domainName}

@@ -1,0 +1,128 @@
+name: ${PROJECT}
+description: ${DESCRIPTION}
+runtime: yaml
+
+template:
+  description: A Pulumi YAML program to deploy a serverless application on Google Cloud
+  config:
+    gcp:project:
+      description: The Google Cloud project to deploy into
+    gcp:region:
+      description: The Google Cloud region to deploy into
+      default: us-central1
+    sitePath:
+      description: The path to the folder containing the website
+      default: ./www
+    appPath:
+      description: The path to the folder containing the functions to be deployed
+      default: ./app
+    indexDocument:
+      description: The file to use for top-level pages
+      default: index.html
+    errorDocument:
+      description: The file to use for error pages
+      default: error.html
+
+# Import the program's configuration settings.
+config:
+  sitePath:
+    type: string
+    default: ./www
+  appPath:
+    type: string
+    default: ./app
+  indexDocument:
+    type: string
+    default: index.html
+  errorDocument:
+    type: string
+    default: error.html
+
+variables:
+
+  # Create a FileArchive containing the contents of the app folder.
+  appArchive:
+    fn::fileArchive: ${appPath}
+
+  # Create a JSON string containing the URL of the serverless app.
+  configJSON:
+    fn::toJSON:
+      api: ${data-function.httpsTriggerUrl}
+
+  # Create a StringAsset resource to convert the JSON string into a file.
+  configFile:
+    fn::stringAsset: ${configJSON}
+
+resources:
+
+  # Create a storage bucket and configure it as a website.
+  site-bucket:
+    type: gcp:storage:Bucket
+    properties:
+      location: US
+      website:
+        mainPageSuffix: ${indexDocument}
+        notFoundPage: ${errorDocument}
+
+  # Create an IAM binding to allow public read access to the bucket.
+  site-bucket-iam-binding:
+    type: gcp:storage:BucketIAMBinding
+    properties:
+      bucket: ${site-bucket.name}
+      role: roles/storage.objectViewer
+      members:
+        - allUsers
+
+  # Use a synced folder to manage the files of the website.
+  synced-folder:
+    type: synced-folder:index:GoogleCloudFolder
+    properties:
+      path: ${sitePath}
+      bucketName: ${site-bucket.name}
+
+  # Create another storage bucket for the serverless app.
+  app-bucket:
+    type: gcp:storage:Bucket
+    properties:
+      location: US
+
+  # Upload the serverless app to the storage bucket.
+  app-archive:
+    type: gcp:storage:BucketObject
+    properties:
+      bucket: ${app-bucket.name}
+      source: ${appArchive}
+
+  # Create a Cloud Function that returns some data.
+  data-function:
+    type: gcp:cloudfunctions:Function
+    properties:
+      sourceArchiveBucket: ${app-bucket.name}
+      sourceArchiveObject: ${app-archive.name}
+      runtime: python310
+      entryPoint: data
+      triggerHttp: True
+
+  # Create an IAM member to invoke the function.
+  invoker:
+    type: gcp:cloudfunctions:FunctionIamMember
+    properties:
+      project: ${data-function.project}
+      region: ${data-function.region}
+      cloudFunction: ${data-function.name}
+      role: roles/cloudfunctions.invoker
+      member: allUsers
+
+  # Create a JSON configuration file for the website.
+  site-config:
+    type: gcp:storage:BucketObject
+    properties:
+      name: config.json
+      bucket: ${site-bucket.name}
+      contentType: application/json
+      source: ${configFile}
+
+# Export the URLs of the website and serverless endpoint.
+outputs:
+  siteURL: https://storage.googleapis.com/${site-bucket.name}/index.html
+  apiURL: ${data-function.httpsTriggerUrl}

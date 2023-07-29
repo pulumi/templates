@@ -1,0 +1,12 @@
+name: ${PROJECT}
+description: ${DESCRIPTION}
+runtime: go
+template:
+  description: A Go program to deploy a web application onto a Kubernetes cluster
+  config:
+    namespace:
+      default: default
+      description: The Kubernetes namespace to deploy into
+    replicas:
+      default: 1
+      description: The number of replicas to deploy

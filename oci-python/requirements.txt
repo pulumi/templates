@@ -1,2 +1,2 @@
-pulumi==3.33.2
-pulumi-oci==0.1.1
+pulumi==3.60.0
+pulumi-oci==0.13.0

@@ -2,10 +2,10 @@
     "name": "${PROJECT}",
     "main": "index.ts",
     "devDependencies": {
-        "@types/node": "17"
+        "@types/node": "^18"
     },
     "dependencies": {
-        "@pulumi/pulumi": "3.33.2",
-        "@pulumi/oci": "0.1.1"
+        "@pulumi/pulumi": "3.60.0",
+        "@pulumi/oci": "0.13.0"
     }
 }

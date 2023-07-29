@@ -1,0 +1,12 @@
+name: Static Website
+kind: architecture
+parent: static-website
+slug: gcp
+clouds:
+  - gcp
+templates:
+  - static-website-gcp-typescript
+  - static-website-gcp-python
+  - static-website-gcp-go
+  - static-website-gcp-csharp
+  - static-website-gcp-yaml

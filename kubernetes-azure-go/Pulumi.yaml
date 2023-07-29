@@ -1,0 +1,25 @@
+name: ${PROJECT}
+description: ${DESCRIPTION}
+runtime: go
+template:
+  description: A Go program to deploy a Kubernetes cluster on Azure
+  config:
+    azure-native:location:
+      default: westus2
+      description: The Azure location (region) in which to create the cluster
+    numWorkerNodes:
+      default: 3
+      description: Number of worker nodes in the cluster
+    prefixForDns:
+      default: pulumi
+      description: DNS prefix for the cluster
+    kubernetesVersion:
+      default: 1.26.3
+      description: Kubernetes version to deploy in the cluster
+    nodeVmSize:
+      default: Standard_DS2_v2
+      description: VM size to use for worker nodes in the cluster
+    mgmtGroupId:
+      description: The object ID (from az ad group list) of a group to make cluster admins
+    sshPubKey:
+      description: Contents of the public key for SSH access to cluster nodes

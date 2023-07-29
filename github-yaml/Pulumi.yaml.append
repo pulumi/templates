@@ -1,8 +1,0 @@
-
-resources:
-  type: github:Repository
-  properties:
-    description: Demo Repository for GitHub
-
-outputs:
-  clusterName: ${repo.name}

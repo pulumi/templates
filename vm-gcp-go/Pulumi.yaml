@@ -1,0 +1,26 @@
+name: ${PROJECT}
+description: ${DESCRIPTION}
+runtime: go
+template:
+  description: A Go program to deploy a virtual machine on Google Cloud
+  config:
+    gcp:project:
+      description: The Google Cloud project to deploy into
+    gcp:region:
+      description: The Google Cloud region to deploy into
+      default: us-central1
+    gcp:zone:
+      description: The Google Cloud availability zone to deploy into
+      default: us-central1-a
+    machineType:
+      description: The GCP machine type to use for the VM
+      default: f1-micro
+    osImage:
+      description: The OS image type to use for the VM
+      default: debian-11
+    instanceTag:
+      description: The tag to apply to the VM instance
+      default: webserver
+    servicePort:
+      description: The HTTP service port to expose on the VM
+      default: "80"

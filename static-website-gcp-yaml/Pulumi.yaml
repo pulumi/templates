@@ -1,0 +1,96 @@
+name: ${PROJECT}
+description: ${DESCRIPTION}
+runtime: yaml
+
+template:
+  description: A Pulumi YAML program to deploy a static website on Google Cloud
+  config:
+    gcp:project:
+      description: The Google Cloud project to deploy into
+    path:
+      description: The path to the folder containing the website
+      default: ./www
+    indexDocument:
+      description: The file to use for top-level pages
+      default: index.html
+    errorDocument:
+      description: The file to use for error pages
+      default: error.html
+
+# Import the program's configuration settings.
+config:
+  path:
+    type: string
+    default: ./www
+  indexDocument:
+    type: string
+    default: index.html
+  errorDocument:
+    type: string
+    default: error.html
+
+resources:
+
+  # Create a storage bucket and configure it as a website.
+  bucket:
+    type: gcp:storage:Bucket
+    properties:
+      location: US
+      website:
+        mainPageSuffix: ${indexDocument}
+        notFoundPage: ${errorDocument}
+
+  # Create an IAM binding to allow public read access to the bucket.
+  bucket-iam-binding:
+    type: gcp:storage:BucketIAMBinding
+    properties:
+      bucket: ${bucket.name}
+      role: roles/storage.objectViewer
+      members:
+        - allUsers
+
+  # Use a synced folder to manage the files of the website.
+  synced-folder:
+    type: synced-folder:index:GoogleCloudFolder
+    properties:
+      path: ${path}
+      bucketName: ${bucket.name}
+
+  # Enable the storage bucket as a CDN.
+  backend-bucket:
+    type: gcp:compute:BackendBucket
+    properties:
+      bucketName: ${bucket.name}
+      enableCdn: true
+
+  # Provision a global IP address for the CDN.
+  ip:
+    type: gcp:compute:GlobalAddress
+
+  # Create a URLMap to route requests to the storage bucket.
+  url-map:
+    type: gcp:compute:URLMap
+    properties:
+      defaultService: ${backend-bucket.selfLink}
+
+  # Create an HTTP proxy to route requests to the URLMap.
+  http-proxy:
+    type: gcp:compute:TargetHttpProxy
+    properties:
+      urlMap: ${url-map.selfLink}
+
+  # Create a GlobalForwardingRule rule to route requests to the HTTP proxy.
+  http-forwarding-rule:
+    type: gcp:compute:GlobalForwardingRule
+    properties:
+      ipAddress: ${ip.address}
+      ipProtocol: TCP
+      portRange: "80"
+      target: ${http-proxy.selfLink}
+
+# Export the URLs and hostnames of the bucket and CDN.
+outputs:
+  originURL: https://storage.googleapis.com/${bucket.name}/index.html
+  originHostname: storage.googleapis.com/${bucket.name}
+  cdnURL: http://${ip.address}
+  cdnHostname: ${ip.address}

@@ -1,0 +1,19 @@
+name: ${PROJECT}
+description: ${DESCRIPTION}
+runtime: dotnet
+
+template:
+  description: A C# program to deploy a static website on AWS
+  config:
+    aws:region:
+      description: The AWS region to deploy into
+      default: us-west-2
+    path:
+      description: The path to the folder containing the website
+      default: ./www
+    indexDocument:
+      description: The file to use for top-level pages
+      default: index.html
+    errorDocument:
+      description: The file to use for error pages
+      default: error.html

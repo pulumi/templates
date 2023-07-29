@@ -1,0 +1,110 @@
+name: ${PROJECT}
+description: ${DESCRIPTION}
+runtime: yaml
+
+template:
+  description: A Pulumi YAML program to deploy a static website on Azure
+  config:
+    azure-native:location:
+      description: The Azure region to deploy into
+      default: WestUS
+    path:
+      description: The path to the folder containing the website
+      default: ./www
+    indexDocument:
+      description: The file to use for top-level pages
+      default: index.html
+    errorDocument:
+      description: The file to use for error pages
+      default: error.html
+
+# Import the program's configuration settings.
+config:
+  path:
+    type: string
+    default: ./www
+  indexDocument:
+    type: string
+    default: index.html
+  errorDocument:
+    type: string
+    default: error.html
+
+# Pull the hostname out of the storage-account endpoint.
+variables:
+  originHostname:
+    fn::select:
+      - 2
+      - fn::split:
+        - /
+        - ${account.primaryEndpoints.web}
+
+resources:
+
+  # Create a resource group for the website.
+  resource-group:
+    type: azure-native:resources:ResourceGroup
+
+  # Create a blob storage account.
+  account:
+    type: azure-native:storage:StorageAccount
+    properties:
+      resourceGroupName: ${resource-group.name}
+      kind: StorageV2
+      sku:
+        name: Standard_LRS
+
+  # Configure the storage account as a website.
+  website:
+    type: azure-native:storage:StorageAccountStaticWebsite
+    properties:
+      resourceGroupName: ${resource-group.name}
+      accountName: ${account.name}
+      indexDocument: ${indexDocument}
+      error404Document: ${errorDocument}
+
+  # Use a synced folder to manage the files of the website.
+  synced-folder:
+    type: synced-folder:index:AzureBlobFolder
+    properties:
+      path: ${path}
+      resourceGroupName: ${resource-group.name}
+      storageAccountName: ${account.name}
+      containerName: ${website.containerName}
+
+  # Create a CDN profile.
+  profile:
+    type: azure-native:cdn:Profile
+    properties:
+      resourceGroupName: ${resource-group.name}
+      sku:
+        name: Standard_Microsoft
+
+  # Create a CDN endpoint to distribute and cache the website.
+  endpoint:
+    type: azure-native:cdn:Endpoint
+    properties:
+      resourceGroupName: ${resource-group.name}
+      profileName: ${profile.name}
+      isHttpAllowed: false
+      isHttpsAllowed: true
+      isCompressionEnabled: true
+      contentTypesToCompress:
+        - text/html
+        - text/css
+        - application/javascript
+        - application/json
+        - image/svg+xml
+        - font/woff
+        - font/woff2
+      originHostHeader: ${originHostname}
+      origins:
+        - name: ${account.name}
+          hostName: ${originHostname}
+
+# Export the URLs and hostnames of the storage account and distribution.
+outputs:
+  originURL: ${account.primaryEndpoints.web}
+  originHostname: ${originHostname}
+  cdnURL: https://${endpoint.hostName}
+  cdnHostname: ${endpoint.hostName}

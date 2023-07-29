@@ -1,0 +1,12 @@
+name: Serverless Application
+kind: architecture
+parent: serverless-application
+slug: aws
+clouds:
+  - aws
+templates:
+  - serverless-aws-typescript
+  - serverless-aws-python
+  - serverless-aws-go
+  - serverless-aws-csharp
+  - serverless-aws-yaml

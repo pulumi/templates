@@ -1,0 +1,23 @@
+static-website:
+  name: Static Website
+  slug: static-website
+
+serverless-application:
+  name: Serverless
+  slug: serverless-application
+
+container-service:
+  name: Container Service
+  slug: container-service
+
+virtual-machine:
+  name: Virtual Machine
+  slug: virtual-machine
+
+kubernetes:
+  name: Kubernetes Cluster
+  slug: kubernetes
+
+kubernetes-application:
+  name: Kubernetes Application
+  slug: kubernetes-application

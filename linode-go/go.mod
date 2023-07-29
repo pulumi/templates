@@ -1,8 +1,8 @@
 module ${PROJECT}
 
-go 1.17
+go 1.18
 
 require (
-	github.com/pulumi/pulumi-linode/sdk/v3 v3.9.0
-	github.com/pulumi/pulumi/sdk/v3 v3.35.3
+	github.com/pulumi/pulumi-linode/sdk/v3 v3.12.0
+	github.com/pulumi/pulumi/sdk/v3 v3.60.1
 )

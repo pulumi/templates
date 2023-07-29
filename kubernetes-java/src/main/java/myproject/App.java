@@ -43,7 +43,7 @@ public class App {
                     .build());
 
             var name = deployment.metadata()
-                .applyValue(m -> m.orElseThrow().name().orElse(""));
+                .applyValue(m -> m.name().orElse(""));
 
             ctx.export("name", name);
         });

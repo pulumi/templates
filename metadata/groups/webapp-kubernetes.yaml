@@ -1,0 +1,12 @@
+name: Web Application
+kind: architecture
+parent: kubernetes-application
+slug: web-application
+clouds:
+  - kubernetes
+templates:
+  - webapp-kubernetes-typescript
+  - webapp-kubernetes-python
+  - webapp-kubernetes-go
+  - webapp-kubernetes-csharp
+  - webapp-kubernetes-yaml

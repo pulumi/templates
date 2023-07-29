@@ -1,0 +1,95 @@
+name: ${PROJECT}
+description: ${DESCRIPTION}
+runtime: yaml
+template:
+  description: A Pulumi YAML program to deploy a web application onto a Kubernetes cluster
+  config:
+    k8sNamespace:
+      default: default
+      description: The Kubernetes namespace to deploy into
+    numReplicas:
+      default: 1
+      description: The number of replicas to deploy
+
+config:
+  k8sNamespace:
+    default: default
+    type: string
+  numReplicas:
+    default: 1
+    type: integer
+
+variables:
+  appLabels:
+    app: nginx
+
+resources:
+  # Create a new namespace for the resources
+  webserverns:
+    type: kubernetes:core/v1:Namespace
+    properties:
+      metadata:
+        name: ${k8sNamespace}
+  # Create a ConfigMap to store Nginx configuration
+  webserverconfig:
+    type: kubernetes:core/v1:ConfigMap
+    properties:
+      metadata:
+        namespace: ${webserverns.metadata.name}
+      data: 
+        nginx.conf: |
+          events { }
+          http {
+            server {
+              listen 80;
+              root /usr/share/nginx/html;
+              index index.html index.htm index.nginx-debian.html
+              server_name _;
+              location / {
+                try_files $uri $uri/ =404;
+              }
+            }
+          }
+  # Create a new Deployment
+  webserverdeployment:
+    type: kubernetes:apps/v1:Deployment
+    properties:
+      metadata:
+        namespace: ${webserverns.metadata.name}
+      spec:
+        selector:
+          matchLabels: ${appLabels}
+        replicas: ${numReplicas}
+        template:
+          metadata:
+            labels: ${appLabels}
+          spec:
+            containers:
+            - image: nginx
+              name: nginx
+              volumeMounts:
+              - mountPath: /etc/nginx/nginx.conf
+                name: nginx-conf-volume
+                readOnly: true
+                subPath: nginx.conf
+            volumes:
+            - configMap:
+                items:
+                - key: nginx.conf
+                  path: nginx.conf
+                name: ${webserverconfig.metadata.name}
+              name: nginx-conf-volume
+  # Expose the Deployment as a Kubernetes Service
+  webserverservice:
+    type: kubernetes:core/v1:Service
+    properties:
+      metadata:
+        namespace: ${webserverns.metadata.name}
+      spec:
+        ports: [{ port: 80, targetPort: 80, protocol: "TCP" }]
+        selector: ${appLabels}
+
+# Export some values for use elsewhere
+outputs:
+  deploymentName: ${webserverdeployment.metadata.name}
+  serviceName: ${webserverservice.metadata.name}

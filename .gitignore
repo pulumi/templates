@@ -1,3 +1,15 @@
 .idea/
 .DS_Store
 tests/vendor/
+state
+traces
+package-lock.json
+yarn.lock
+!/yarn.lock
+go.sum
+!tests/go.sum
+Pulumi.*.yaml
+node_modules
+.vscode
+[Bb]in/
+[Oo]bj/

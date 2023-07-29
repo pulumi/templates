@@ -1,0 +1,189 @@
+name: ${PROJECT}
+description: ${DESCRIPTION}
+runtime: yaml
+
+template:
+  description: A Pulumi YAML program to deploy a virtual machine on Azure
+  config:
+    azure-native:location:
+      description: The Azure location to deploy into
+      default: WestUS2
+    adminUsername:
+      description: The user account to create on the VM
+      default: pulumiuser
+    vmName:
+      description: The DNS hostname prefix to use for the VM
+      default: my-server
+    vmSize:
+      description: The machine size to use for the VM
+      default: Standard_A1_v2
+    osImage:
+      description: The Azure URN of the base image to use for the VM
+      default: Debian:debian-11:11:latest
+    servicePort:
+      description: The HTTP service port to expose on the VM
+      default: "80"
+    sshPublicKey:
+      description: The public key data to use for SSH authentication
+
+# Import the program's configuration settings.
+config:
+  adminUsername:
+    type: string
+    default: pulumiuser
+  vmName:
+    type: string
+    default: my-server
+  vmSize:
+    type: string
+    default: Standard_A1_v2
+  osImage:
+    type: string
+    default: Debian:debian-11:11:latest
+  servicePort:
+    type: string
+    default: "80"
+  sshPublicKey:
+    type: string
+
+variables:
+  dnsName: ${vmName}-${random-string.result}
+
+  # Define a script to be run when the VM starts up.
+  initScript:
+    fn::toBase64: |
+      #!/bin/bash
+      echo '<!DOCTYPE html>
+      <html lang="en">
+      <head>
+          <meta charset="utf-8">
+          <title>Hello, world!</title>
+      </head>
+      <body>
+          <h1>Hello, world! 👋</h1>
+          <p>Deployed with 💜 by <a href="https://pulumi.com/">Pulumi</a>.</p>
+      </body>
+      </html>' > index.html
+      sudo python3 -m http.server ${servicePort} &
+  osImageArgs:
+    fn::split:
+      - ":"
+      - ${osImage}
+  osImagePublisher: ${osImageArgs[0]}
+  osImageOffer: ${osImageArgs[1]}
+  osImageSku: ${osImageArgs[2]}
+  osImageVersion: ${osImageArgs[3]}
+
+  # Once the machine is created, fetch its IP address and DNS hostname.
+  address:
+    fn::invoke:
+      function: azure-native:network:getPublicIPAddress
+      arguments:
+        resourceGroupName: ${resource-group.name}
+        publicIpAddressName: ${public-ip.name}
+        expand: ${vm.id}
+
+resources:
+
+  # Create a resource group.
+  resource-group:
+    type: azure-native:resources:ResourceGroup
+
+  # Create a virtual network.
+  network:
+    type: azure-native:network:VirtualNetwork
+    properties:
+      resourceGroupName: ${resource-group.name}
+      addressSpace:
+        addressPrefixes:
+          - 10.0.0.0/16
+      subnets:
+        - name: default
+          addressPrefix: 10.0.1.0/24
+
+  # Use a random string to give the VM a unique DNS name.
+  random-string:
+    type: random:RandomString
+    properties:
+      length: 8
+      upper: false
+      special: false
+
+  # Create a public IP address for the VM.
+  public-ip:
+    type: azure-native:network:PublicIPAddress
+    properties:
+      resourceGroupName: ${resource-group.name}
+      publicIPAllocationMethod: Dynamic
+      dnsSettings:
+        domainNameLabel: ${dnsName}
+
+  # Create a security group allowing inbound access over ports 80 (for HTTP) and 22 (for SSH).
+  security-group:
+    type: azure-native:network:NetworkSecurityGroup
+    properties:
+      resourceGroupName: ${resource-group.name}
+      securityRules:
+        - name: ${vmName}-securityrule
+          priority: 1000
+          direction: Inbound
+          access: Allow
+          protocol: Tcp
+          sourcePortRange: "*"
+          sourceAddressPrefix: "*"
+          destinationAddressPrefix: "*"
+          destinationPortRanges:
+            - ${servicePort}
+            - "22"
+
+  # Create a network interface with the virtual network, IP address, and security group.
+  network-interface:
+    type: azure-native:network:NetworkInterface
+    properties:
+      resourceGroupName: ${resource-group.name}
+      networkSecurityGroup:
+        id: ${security-group.id}
+      ipConfigurations:
+        - name: ${vmName}-ipconfiguration
+          privateIPAllocationMethod: Dynamic
+          subnet:
+            id: ${network.subnets[0].id}
+          publicIPAddress:
+            id: ${public-ip.id}
+
+  # Create the virtual machine.
+  vm:
+    type: azure-native:compute:VirtualMachine
+    properties:
+      resourceGroupName: ${resource-group.name}
+      networkProfile:
+        networkInterfaces:
+          - id: ${network-interface.id}
+            primary: true
+      hardwareProfile:
+        vmSize: ${vmSize}
+      osProfile:
+        computerName: ${vmName}
+        adminUsername: ${adminUsername}
+        customData: ${initScript}
+        linuxConfiguration:
+          disablePasswordAuthentication: true
+          ssh:
+            publicKeys:
+              - keyData: ${sshPublicKey}
+                path: /home/${adminUsername}/.ssh/authorized_keys
+      storageProfile:
+        osDisk:
+          name: ${vmName}-osdisk
+          createOption: FromImage
+        imageReference:
+          publisher: ${osImagePublisher}
+          offer: ${osImageOffer}
+          sku: ${osImageSku}
+          version: ${osImageVersion}
+
+# Export the VM's hostname, public IP address, and HTTP URL.
+outputs:
+  ip: ${address.ipAddress}
+  hostname: ${address.dnsSettings.fqdn}
+  url: http://${address.dnsSettings.fqdn}:${servicePort}

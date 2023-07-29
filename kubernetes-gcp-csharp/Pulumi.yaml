@@ -1,0 +1,14 @@
+name: ${PROJECT}
+description: ${DESCRIPTION}
+runtime: dotnet
+template:
+  description: A C# program to deploy a Kubernetes cluster on Google Cloud
+  config:
+    gcp:project:
+      description: The Google Cloud project to deploy into
+    gcp:region:
+      default: us-central1
+      description: The Google Cloud region to deploy into
+    nodesPerZone:
+      default: 1
+      description: The desired number of nodes PER ZONE in the nodepool

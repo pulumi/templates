@@ -1,0 +1,12 @@
+name: Kubernetes Cluster
+kind: architecture
+parent: kubernetes
+slug: aws
+clouds:
+  - aws
+templates:
+  - kubernetes-aws-typescript
+  - kubernetes-aws-python
+  - kubernetes-aws-go
+  - kubernetes-aws-csharp
+  - kubernetes-aws-yaml

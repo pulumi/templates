@@ -1,0 +1,16 @@
+name: ${PROJECT}
+description: ${DESCRIPTION}
+runtime: go
+template:
+  description: A minimal RedisCloud Pulumi YAML program
+  config:
+    cardType:
+      description: Credit card type (Visa, Mastercard) of the card on file with Rediscloud 
+    lastFourNumbers:
+      description: Last four numbers of the card on file with RedisCloud
+    rediscloud:apiKey:
+      description: RedisCloud access key
+      secret: true
+    rediscloud:secretKey:
+      description: RedisCloud secret key
+      secret: true

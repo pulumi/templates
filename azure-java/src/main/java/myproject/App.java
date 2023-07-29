@@ -35,16 +35,11 @@ public class App {
 
     private static Output<String> getStorageAccountPrimaryKey(Output<String> resourceGroupName,
                                                               Output<String> accountName) {
-        return Output.tuple(resourceGroupName, accountName).apply(tuple -> {
-            var actualResourceGroupName = tuple.t1;
-            var actualAccountName = tuple.t2;
-            var invokeResult = StorageFunctions.listStorageAccountKeys(ListStorageAccountKeysArgs.builder()
-                    .resourceGroupName(actualResourceGroupName)
-                    .accountName(actualAccountName)
-                    .build(), InvokeOptions.Empty);
-            return Output.of(invokeResult)
-                    .applyValue(r -> r.keys().get(0).value())
-                    .asSecret();
-        });
+        return StorageFunctions.listStorageAccountKeys(ListStorageAccountKeysArgs.builder()
+                                                       .resourceGroupName(resourceGroupName)
+                                                       .accountName(accountName)
+                                                       .build())
+            .applyValue(r -> r.keys().get(0).value())
+            .asSecret();
     }
 }

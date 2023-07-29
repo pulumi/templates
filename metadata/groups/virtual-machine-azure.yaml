@@ -1,0 +1,12 @@
+name: Virtual Machine
+kind: architecture
+parent: virtual-machine
+slug: azure
+clouds:
+  - azure
+templates:
+  - vm-azure-typescript
+  - vm-azure-python
+  - vm-azure-go
+  - vm-azure-csharp
+  - vm-azure-yaml

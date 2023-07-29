@@ -1,9 +1,0 @@
-
-resources:
-  # Create an AWS resource (S3 Bucket)
-  bucket:
-    type: aws-native:s3:Bucket
-
-outputs:
-  # Export the name of the bucket
-  bucketName: ${bucket.id}

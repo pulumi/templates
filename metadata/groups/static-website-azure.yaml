@@ -1,0 +1,12 @@
+name: Static Website
+kind: architecture
+parent: static-website
+slug: azure
+clouds:
+  - azure
+templates:
+  - static-website-azure-typescript
+  - static-website-azure-python
+  - static-website-azure-go
+  - static-website-azure-csharp
+  - static-website-azure-yaml

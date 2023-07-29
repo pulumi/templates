@@ -1,0 +1,19 @@
+name: ${PROJECT}
+description: ${DESCRIPTION}
+runtime: dotnet
+
+template:
+  description: A C# program to deploy a static website on Azure
+  config:
+    azure-native:location:
+      description: The Azure region to deploy into
+      default: WestUS
+    path:
+      description: The path to the folder containing the website
+      default: ./www
+    indexDocument:
+      description: The file to use for top-level pages
+      default: index.html
+    errorDocument:
+      description: The file to use for error pages
+      default: error.html

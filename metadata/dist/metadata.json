@@ -1,0 +1,4158 @@
+{
+    "architectures": [
+        {
+            "name": "Static Website",
+            "slug": "static-website",
+            "groups": [
+                {
+                    "name": "Static Website",
+                    "kind": "architecture",
+                    "parent": "static-website",
+                    "slug": "aws",
+                    "clouds": [
+                        "aws"
+                    ],
+                    "templates": [
+                        "static-website-aws-typescript",
+                        "static-website-aws-python",
+                        "static-website-aws-go",
+                        "static-website-aws-csharp",
+                        "static-website-aws-yaml"
+                    ]
+                },
+                {
+                    "name": "Static Website",
+                    "kind": "architecture",
+                    "parent": "static-website",
+                    "slug": "azure",
+                    "clouds": [
+                        "azure"
+                    ],
+                    "templates": [
+                        "static-website-azure-typescript",
+                        "static-website-azure-python",
+                        "static-website-azure-go",
+                        "static-website-azure-csharp",
+                        "static-website-azure-yaml"
+                    ]
+                },
+                {
+                    "name": "Static Website",
+                    "kind": "architecture",
+                    "parent": "static-website",
+                    "slug": "gcp",
+                    "clouds": [
+                        "gcp"
+                    ],
+                    "templates": [
+                        "static-website-gcp-typescript",
+                        "static-website-gcp-python",
+                        "static-website-gcp-go",
+                        "static-website-gcp-csharp",
+                        "static-website-gcp-yaml"
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Serverless",
+            "slug": "serverless-application",
+            "groups": [
+                {
+                    "name": "Serverless Application",
+                    "kind": "architecture",
+                    "parent": "serverless-application",
+                    "slug": "aws",
+                    "clouds": [
+                        "aws"
+                    ],
+                    "templates": [
+                        "serverless-aws-typescript",
+                        "serverless-aws-python",
+                        "serverless-aws-go",
+                        "serverless-aws-csharp",
+                        "serverless-aws-yaml"
+                    ]
+                },
+                {
+                    "name": "Serverless Application",
+                    "kind": "architecture",
+                    "parent": "serverless-application",
+                    "slug": "azure",
+                    "clouds": [
+                        "azure"
+                    ],
+                    "templates": [
+                        "serverless-azure-typescript",
+                        "serverless-azure-python",
+                        "serverless-azure-go",
+                        "serverless-azure-csharp",
+                        "serverless-azure-yaml"
+                    ]
+                },
+                {
+                    "name": "Serverless Application",
+                    "kind": "architecture",
+                    "parent": "serverless-application",
+                    "slug": "gcp",
+                    "clouds": [
+                        "gcp"
+                    ],
+                    "templates": [
+                        "serverless-gcp-typescript",
+                        "serverless-gcp-python",
+                        "serverless-gcp-go",
+                        "serverless-gcp-csharp",
+                        "serverless-gcp-yaml"
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Container Service",
+            "slug": "container-service",
+            "groups": [
+                {
+                    "name": "Container Service",
+                    "kind": "architecture",
+                    "parent": "container-service",
+                    "slug": "aws",
+                    "clouds": [
+                        "aws"
+                    ],
+                    "templates": [
+                        "container-aws-typescript",
+                        "container-aws-python",
+                        "container-aws-go",
+                        "container-aws-csharp",
+                        "container-aws-yaml"
+                    ]
+                },
+                {
+                    "name": "Container Service",
+                    "kind": "architecture",
+                    "parent": "container-service",
+                    "slug": "azure",
+                    "clouds": [
+                        "azure"
+                    ],
+                    "templates": [
+                        "container-azure-typescript",
+                        "container-azure-python",
+                        "container-azure-go",
+                        "container-azure-csharp"
+                    ]
+                },
+                {
+                    "name": "Container Service",
+                    "kind": "architecture",
+                    "parent": "container-service",
+                    "slug": "gcp",
+                    "clouds": [
+                        "gcp"
+                    ],
+                    "templates": [
+                        "container-gcp-typescript",
+                        "container-gcp-python",
+                        "container-gcp-go",
+                        "container-gcp-csharp"
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Virtual Machine",
+            "slug": "virtual-machine",
+            "groups": [
+                {
+                    "name": "Virtual Machine",
+                    "kind": "architecture",
+                    "parent": "virtual-machine",
+                    "slug": "aws",
+                    "clouds": [
+                        "aws"
+                    ],
+                    "templates": [
+                        "vm-aws-typescript",
+                        "vm-aws-python",
+                        "vm-aws-go",
+                        "vm-aws-csharp",
+                        "vm-aws-yaml"
+                    ]
+                },
+                {
+                    "name": "Virtual Machine",
+                    "kind": "architecture",
+                    "parent": "virtual-machine",
+                    "slug": "azure",
+                    "clouds": [
+                        "azure"
+                    ],
+                    "templates": [
+                        "vm-azure-typescript",
+                        "vm-azure-python",
+                        "vm-azure-go",
+                        "vm-azure-csharp",
+                        "vm-azure-yaml"
+                    ]
+                },
+                {
+                    "name": "Virtual Machine",
+                    "kind": "architecture",
+                    "parent": "virtual-machine",
+                    "slug": "gcp",
+                    "clouds": [
+                        "gcp"
+                    ],
+                    "templates": [
+                        "vm-gcp-typescript",
+                        "vm-gcp-python",
+                        "vm-gcp-go",
+                        "vm-gcp-csharp",
+                        "vm-gcp-yaml"
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Kubernetes Cluster",
+            "slug": "kubernetes",
+            "groups": [
+                {
+                    "name": "Kubernetes Cluster",
+                    "kind": "architecture",
+                    "parent": "kubernetes",
+                    "slug": "aws",
+                    "clouds": [
+                        "aws"
+                    ],
+                    "templates": [
+                        "kubernetes-aws-typescript",
+                        "kubernetes-aws-python",
+                        "kubernetes-aws-go",
+                        "kubernetes-aws-csharp",
+                        "kubernetes-aws-yaml"
+                    ]
+                },
+                {
+                    "name": "Kubernetes Cluster",
+                    "kind": "architecture",
+                    "parent": "kubernetes",
+                    "slug": "azure",
+                    "clouds": [
+                        "azure"
+                    ],
+                    "templates": [
+                        "kubernetes-azure-typescript",
+                        "kubernetes-azure-python",
+                        "kubernetes-azure-go",
+                        "kubernetes-azure-csharp",
+                        "kubernetes-azure-yaml"
+                    ]
+                },
+                {
+                    "name": "Kubernetes Cluster",
+                    "kind": "architecture",
+                    "parent": "kubernetes",
+                    "slug": "gcp",
+                    "clouds": [
+                        "gcp"
+                    ],
+                    "templates": [
+                        "kubernetes-gcp-typescript",
+                        "kubernetes-gcp-python",
+                        "kubernetes-gcp-go",
+                        "kubernetes-gcp-yaml",
+                        "kubernetes-gcp-csharp"
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Kubernetes Application",
+            "slug": "kubernetes-application",
+            "groups": [
+                {
+                    "name": "Helm Chart",
+                    "kind": "architecture",
+                    "parent": "kubernetes-application",
+                    "slug": "helm-chart",
+                    "clouds": [
+                        "kubernetes"
+                    ],
+                    "templates": [
+                        "helm-kubernetes-typescript",
+                        "helm-kubernetes-python",
+                        "helm-kubernetes-go",
+                        "helm-kubernetes-csharp",
+                        "helm-kubernetes-yaml"
+                    ]
+                },
+                {
+                    "name": "Web Application",
+                    "kind": "architecture",
+                    "parent": "kubernetes-application",
+                    "slug": "web-application",
+                    "clouds": [
+                        "kubernetes"
+                    ],
+                    "templates": [
+                        "webapp-kubernetes-typescript",
+                        "webapp-kubernetes-python",
+                        "webapp-kubernetes-go",
+                        "webapp-kubernetes-csharp",
+                        "webapp-kubernetes-yaml"
+                    ]
+                }
+            ]
+        }
+    ],
+    "templates": {
+        "aiven-go": {
+            "name": "aiven-go",
+            "runtime": "go",
+            "template": {
+                "description": "A minimal Aiven Go Pulumi program",
+                "config": {
+                    "aiven:apiToken": {
+                        "description": "The token that allows you access to your Aiven account",
+                        "secret": true
+                    }
+                }
+            }
+        },
+        "aiven-python": {
+            "name": "aiven-python",
+            "runtime": "python",
+            "template": {
+                "description": "A minimal Aiven Python Pulumi program",
+                "config": {
+                    "projectName": {
+                        "description": "Aiven project name"
+                    },
+                    "cloudName": {
+                        "description": "Choice of cloud provider and region",
+                        "default": "google-europe-west1"
+                    },
+                    "planName": {
+                        "description": "An Aiven plan to choose compute, storage, and other features",
+                        "default": "business-4"
+                    },
+                    "serviceName": {
+                        "description": "The name of this Aiven service",
+                        "default": "kafka-gcp-eu"
+                    }
+                }
+            }
+        },
+        "aiven-typescript": {
+            "name": "aiven-typescript",
+            "runtime": "nodejs",
+            "template": {
+                "description": "A minimal Aiven TypeScript Pulumi program",
+                "config": {
+                    "project": {
+                        "description": "Aiven project name"
+                    },
+                    "cloudName": {
+                        "description": "Choice of cloud provider and region"
+                    },
+                    "plan": {
+                        "description": "An Aiven plan to choose compute, storage, and other features"
+                    },
+                    "serviceName": {
+                        "description": "The name of this Aiven service"
+                    }
+                }
+            }
+        },
+        "alicloud-csharp": {
+            "name": "alicloud-csharp",
+            "runtime": "dotnet",
+            "template": {
+                "description": "A minimal AliCloud C# Pulumi program",
+                "config": {
+                    "alicloud:region": {
+                        "description": "The AliCloud region to deploy into",
+                        "default": "cn-beijing"
+                    }
+                }
+            }
+        },
+        "alicloud-fsharp": {
+            "name": "alicloud-fsharp",
+            "runtime": "dotnet",
+            "template": {
+                "description": "A minimal AliCloud F# Pulumi program",
+                "config": {
+                    "alicloud:region": {
+                        "description": "The AliCloud region to deploy into",
+                        "default": "cn-beijing"
+                    }
+                }
+            }
+        },
+        "alicloud-go": {
+            "name": "alicloud-go",
+            "runtime": "go",
+            "template": {
+                "description": "A minimal AliCloud Go Pulumi program",
+                "config": {
+                    "alicloud:region": {
+                        "description": "The AliCloud region to deploy into",
+                        "default": "cn-beijing"
+                    }
+                }
+            }
+        },
+        "alicloud-javascript": {
+            "name": "alicloud-javascript",
+            "runtime": {
+                "name": "nodejs",
+                "options": {
+                    "typescript": false
+                }
+            },
+            "template": {
+                "description": "A minimal AliCloud JavaScript Pulumi program",
+                "config": {
+                    "alicloud:region": {
+                        "description": "The AliCloud region to deploy into",
+                        "default": "cn-beijing"
+                    }
+                }
+            }
+        },
+        "alicloud-python": {
+            "name": "alicloud-python",
+            "runtime": "python",
+            "template": {
+                "description": "A minimal AliCloud Python Pulumi program",
+                "config": {
+                    "alicloud:region": {
+                        "description": "The AliCloud region to deploy into",
+                        "default": "cn-beijing"
+                    }
+                }
+            }
+        },
+        "alicloud-typescript": {
+            "name": "alicloud-typescript",
+            "runtime": "nodejs",
+            "template": {
+                "description": "A minimal AliCloud TypeScript Pulumi program",
+                "config": {
+                    "alicloud:region": {
+                        "description": "The AliCloud region to deploy into",
+                        "default": "cn-beijing"
+                    }
+                }
+            }
+        },
+        "alicloud-visualbasic": {
+            "name": "alicloud-visualbasic",
+            "runtime": "dotnet",
+            "template": {
+                "description": "A minimal AliCloud VB.NET Pulumi program",
+                "config": {
+                    "alicloud:region": {
+                        "description": "The AliCloud region to deploy into",
+                        "default": "cn-beijing"
+                    }
+                }
+            }
+        },
+        "alicloud-yaml": {
+            "name": "alicloud-yaml",
+            "runtime": "yaml",
+            "template": {
+                "description": "A minimal AliCloud Pulumi YAML program",
+                "config": {
+                    "alicloud:region": {
+                        "description": "The AliCloud region to deploy into",
+                        "default": "cn-beijing"
+                    }
+                }
+            }
+        },
+        "auth0-csharp": {
+            "name": "auth0-csharp",
+            "runtime": "dotnet",
+            "template": {
+                "description": "A minimal Auth0 C# Pulumi program",
+                "config": {
+                    "auth0:clientId": {
+                        "description": "The Auth0 client ID",
+                        "secret": true
+                    },
+                    "auth0:clientSecret": {
+                        "description": "The Auth0 client secret",
+                        "secret": true
+                    },
+                    "auth0:domain": {
+                        "description": "The Auth0 domain"
+                    }
+                }
+            }
+        },
+        "auth0-go": {
+            "name": "auth0-go",
+            "runtime": "go",
+            "template": {
+                "description": "A minimal Auth0 Go Pulumi program",
+                "config": {
+                    "auth0:clientId": {
+                        "description": "The Auth0 client ID",
+                        "secret": true
+                    },
+                    "auth0:clientSecret": {
+                        "description": "The Auth0 client secret",
+                        "secret": true
+                    },
+                    "auth0:domain": {
+                        "description": "The Auth0 domain"
+                    }
+                }
+            }
+        },
+        "auth0-javascript": {
+            "name": "auth0-javascript",
+            "runtime": {
+                "name": "nodejs",
+                "options": {
+                    "typescript": false
+                }
+            },
+            "template": {
+                "description": "A minimal Auth0 TypeScript Pulumi program",
+                "config": {
+                    "auth0:clientId": {
+                        "description": "The Auth0 client ID",
+                        "secret": true
+                    },
+                    "auth0:clientSecret": {
+                        "description": "The Auth0 client secret",
+                        "secret": true
+                    },
+                    "auth0:domain": {
+                        "description": "The Auth0 domain"
+                    }
+                }
+            }
+        },
+        "auth0-python": {
+            "name": "auth0-python",
+            "runtime": "python",
+            "template": {
+                "description": "A minimal Auth0 Python Pulumi program",
+                "config": {
+                    "auth0:clientId": {
+                        "description": "The Auth0 client ID",
+                        "secret": true
+                    },
+                    "auth0:clientSecret": {
+                        "description": "The Auth0 client secret",
+                        "secret": true
+                    },
+                    "auth0:domain": {
+                        "description": "The Auth0 domain"
+                    }
+                }
+            }
+        },
+        "auth0-typescript": {
+            "name": "auth0-typescript",
+            "runtime": "nodejs",
+            "template": {
+                "description": "A minimal Auth0 TypeScript Pulumi program",
+                "config": {
+                    "auth0:clientId": {
+                        "description": "The Auth0 client ID",
+                        "secret": true
+                    },
+                    "auth0:clientSecret": {
+                        "description": "The Auth0 client secret",
+                        "secret": true
+                    },
+                    "auth0:domain": {
+                        "description": "The Auth0 domain"
+                    }
+                }
+            }
+        },
+        "auth0-yaml": {
+            "name": "auth0-yaml",
+            "runtime": "yaml",
+            "template": {
+                "description": "A minimal Auth0 Pulumi YAML program",
+                "config": {
+                    "auth0:clientId": {
+                        "description": "The Auth0 client ID",
+                        "secret": true
+                    },
+                    "auth0:clientSecret": {
+                        "description": "The Auth0 client secret",
+                        "secret": true
+                    },
+                    "auth0:domain": {
+                        "description": "The Auth0 domain"
+                    }
+                }
+            }
+        },
+        "aws-csharp": {
+            "name": "aws-csharp",
+            "runtime": "dotnet",
+            "template": {
+                "description": "A minimal AWS C# Pulumi program",
+                "important": true,
+                "config": {
+                    "aws:region": {
+                        "description": "The AWS region to deploy into",
+                        "default": "us-east-1"
+                    }
+                }
+            }
+        },
+        "aws-fsharp": {
+            "name": "aws-fsharp",
+            "runtime": "dotnet",
+            "template": {
+                "description": "A minimal AWS F# Pulumi program",
+                "config": {
+                    "aws:region": {
+                        "description": "The AWS region to deploy into",
+                        "default": "us-east-1"
+                    }
+                }
+            }
+        },
+        "aws-go": {
+            "name": "aws-go",
+            "runtime": "go",
+            "template": {
+                "description": "A minimal AWS Go Pulumi program",
+                "important": true,
+                "config": {
+                    "aws:region": {
+                        "description": "The AWS region to deploy into",
+                        "default": "us-east-1"
+                    }
+                }
+            }
+        },
+        "aws-java": {
+            "name": "aws-java",
+            "runtime": "java",
+            "template": {
+                "description": "A minimal AWS Java Pulumi program",
+                "important": true,
+                "config": {
+                    "aws:region": {
+                        "description": "The AWS region to deploy into",
+                        "default": "us-east-1"
+                    }
+                }
+            }
+        },
+        "aws-javascript": {
+            "name": "aws-javascript",
+            "runtime": {
+                "name": "nodejs",
+                "options": {
+                    "typescript": false
+                }
+            },
+            "template": {
+                "description": "A minimal AWS JavaScript Pulumi program",
+                "important": true,
+                "config": {
+                    "aws:region": {
+                        "description": "The AWS region to deploy into",
+                        "default": "us-east-1"
+                    }
+                }
+            }
+        },
+        "aws-native-csharp": {
+            "name": "aws-native-csharp",
+            "runtime": "dotnet",
+            "template": {
+                "description": "A minimal AWS C# Pulumi program",
+                "config": {
+                    "aws-native:region": {
+                        "description": "The AWS region to deploy into",
+                        "default": "us-east-1"
+                    }
+                }
+            }
+        },
+        "aws-native-fsharp": {
+            "name": "aws-native-fsharp",
+            "runtime": "dotnet",
+            "template": {
+                "description": "A minimal AWS F# Pulumi program",
+                "config": {
+                    "aws-native:region": {
+                        "description": "The AWS region to deploy into",
+                        "default": "us-east-1"
+                    }
+                }
+            }
+        },
+        "aws-native-go": {
+            "name": "aws-native-go",
+            "runtime": "go",
+            "template": {
+                "description": "A minimal AWS Go Pulumi program",
+                "config": {
+                    "aws-native:region": {
+                        "description": "The AWS region to deploy into",
+                        "default": "us-east-1"
+                    }
+                }
+            }
+        },
+        "aws-native-javascript": {
+            "name": "aws-native-javascript",
+            "runtime": {
+                "name": "nodejs",
+                "options": {
+                    "typescript": false
+                }
+            },
+            "template": {
+                "description": "A minimal AWS JavaScript Pulumi program",
+                "config": {
+                    "aws-native:region": {
+                        "description": "The AWS region to deploy into",
+                        "default": "us-east-1"
+                    }
+                }
+            }
+        },
+        "aws-native-python": {
+            "name": "aws-native-python",
+            "runtime": "python",
+            "template": {
+                "description": "A minimal AWS Python Pulumi program",
+                "config": {
+                    "aws-native:region": {
+                        "description": "The AWS region to deploy into",
+                        "default": "us-east-1"
+                    }
+                }
+            }
+        },
+        "aws-native-typescript": {
+            "name": "aws-native-typescript",
+            "runtime": "nodejs",
+            "template": {
+                "description": "A minimal AWS TypeScript Pulumi program",
+                "config": {
+                    "aws-native:region": {
+                        "description": "The AWS region to deploy into",
+                        "default": "us-east-1"
+                    }
+                }
+            }
+        },
+        "aws-native-visualbasic": {
+            "name": "aws-native-visualbasic",
+            "runtime": "dotnet",
+            "template": {
+                "description": "A minimal AWS VB.NET Pulumi program",
+                "config": {
+                    "aws-native:region": {
+                        "description": "The AWS region to deploy into",
+                        "default": "us-east-1"
+                    }
+                }
+            }
+        },
+        "aws-native-yaml": {
+            "name": "aws-native-yaml",
+            "runtime": "yaml",
+            "template": {
+                "description": "A minimal AWS Pulumi YAML program",
+                "config": {
+                    "aws-native:region": {
+                        "description": "The AWS region to deploy into",
+                        "default": "us-east-1"
+                    }
+                }
+            }
+        },
+        "aws-python": {
+            "name": "aws-python",
+            "runtime": "python",
+            "template": {
+                "description": "A minimal AWS Python Pulumi program",
+                "important": true,
+                "config": {
+                    "aws:region": {
+                        "description": "The AWS region to deploy into",
+                        "default": "us-east-1"
+                    }
+                }
+            }
+        },
+        "aws-scala": {
+            "name": "aws-scala",
+            "runtime": "java",
+            "template": {
+                "description": "A minimal AWS Scala Pulumi program",
+                "config": {
+                    "aws:region": {
+                        "description": "The AWS region to deploy into",
+                        "default": "us-east-1"
+                    }
+                }
+            }
+        },
+        "aws-typescript": {
+            "name": "aws-typescript",
+            "runtime": "nodejs",
+            "template": {
+                "description": "A minimal AWS TypeScript Pulumi program",
+                "important": true,
+                "config": {
+                    "aws:region": {
+                        "description": "The AWS region to deploy into",
+                        "default": "us-east-1"
+                    }
+                }
+            }
+        },
+        "aws-visualbasic": {
+            "name": "aws-visualbasic",
+            "runtime": "dotnet",
+            "template": {
+                "description": "A minimal AWS VB.NET Pulumi program",
+                "config": {
+                    "aws:region": {
+                        "description": "The AWS region to deploy into",
+                        "default": "us-east-1"
+                    }
+                }
+            }
+        },
+        "aws-yaml": {
+            "name": "aws-yaml",
+            "runtime": "yaml",
+            "template": {
+                "description": "A minimal AWS Pulumi YAML program",
+                "important": true,
+                "config": {
+                    "aws:region": {
+                        "description": "The AWS region to deploy into",
+                        "default": "us-east-1"
+                    }
+                }
+            }
+        },
+        "azure-classic-csharp": {
+            "name": "azure-classic-csharp",
+            "runtime": "dotnet",
+            "template": {
+                "description": "A minimal C# Pulumi program with the classic Azure provider",
+                "config": {
+                    "azure:location": {
+                        "description": "The Azure location to use",
+                        "default": "WestUS2"
+                    }
+                }
+            }
+        },
+        "azure-classic-fsharp": {
+            "name": "azure-classic-fsharp",
+            "runtime": "dotnet",
+            "template": {
+                "description": "A minimal F# Pulumi program with the classic Azure provider",
+                "config": {
+                    "azure:location": {
+                        "description": "The Azure location to use",
+                        "default": "WestUS2"
+                    }
+                }
+            }
+        },
+        "azure-classic-go": {
+            "name": "azure-classic-go",
+            "runtime": "go",
+            "template": {
+                "description": "A minimal Go Pulumi program with the classic Azure provider",
+                "config": {
+                    "azure:location": {
+                        "description": "The Azure location to use",
+                        "default": "WestUS2"
+                    }
+                }
+            }
+        },
+        "azure-classic-javascript": {
+            "name": "azure-classic-javascript",
+            "runtime": {
+                "name": "nodejs",
+                "options": {
+                    "typescript": false
+                }
+            },
+            "template": {
+                "description": "A minimal JavaScript Pulumi program with the classic Azure provider",
+                "config": {
+                    "azure:location": {
+                        "description": "The Azure location to use",
+                        "default": "WestUS2"
+                    }
+                }
+            }
+        },
+        "azure-classic-python": {
+            "name": "azure-classic-python",
+            "runtime": "python",
+            "template": {
+                "description": "A minimal Python Pulumi program with the classic Azure provider",
+                "config": {
+                    "azure:location": {
+                        "description": "The Azure location to use",
+                        "default": "WestUS2"
+                    }
+                }
+            }
+        },
+        "azure-classic-typescript": {
+            "name": "azure-classic-typescript",
+            "runtime": "nodejs",
+            "template": {
+                "description": "A minimal TypeScript Pulumi program with the classic Azure provider",
+                "config": {
+                    "azure:location": {
+                        "description": "The Azure location to use",
+                        "default": "WestUS2"
+                    }
+                }
+            }
+        },
+        "azure-classic-visualbasic": {
+            "name": "azure-classic-visualbasic",
+            "runtime": "dotnet",
+            "template": {
+                "description": "A minimal VB.NET Pulumi program with the classic Azure provider",
+                "config": {
+                    "azure:location": {
+                        "description": "The Azure location to use",
+                        "default": "WestUS2"
+                    }
+                }
+            }
+        },
+        "azure-classic-yaml": {
+            "name": "azure-classic-yaml",
+            "runtime": "yaml",
+            "template": {
+                "description": "A minimal Pulumi YAML program with the classic Azure provider",
+                "config": {
+                    "azure:location": {
+                        "description": "The Azure location to use",
+                        "default": "WestUS2"
+                    }
+                }
+            }
+        },
+        "azure-csharp": {
+            "name": "azure-csharp",
+            "runtime": "dotnet",
+            "template": {
+                "description": "A minimal Azure Native C# Pulumi program",
+                "important": true,
+                "config": {
+                    "azure-native:location": {
+                        "description": "The Azure location to use",
+                        "default": "WestUS2"
+                    }
+                }
+            }
+        },
+        "azure-fsharp": {
+            "name": "azure-fsharp",
+            "runtime": "dotnet",
+            "template": {
+                "description": "A minimal Azure Native F# Pulumi program",
+                "config": {
+                    "azure-native:location": {
+                        "description": "The Azure location to use",
+                        "default": "WestUS2"
+                    }
+                }
+            }
+        },
+        "azure-go": {
+            "name": "azure-go",
+            "runtime": "go",
+            "template": {
+                "description": "A minimal Azure Native Go Pulumi program",
+                "important": true,
+                "config": {
+                    "azure-native:location": {
+                        "description": "The Azure location to use",
+                        "default": "WestUS2"
+                    }
+                }
+            }
+        },
+        "azure-java": {
+            "name": "azure-java",
+            "runtime": "java",
+            "template": {
+                "description": "A minimal Azure Native Java Pulumi program",
+                "important": true,
+                "config": {
+                    "azure-native:location": {
+                        "description": "The Azure location to use",
+                        "default": "WestUS2"
+                    }
+                }
+            }
+        },
+        "azure-javascript": {
+            "name": "azure-javascript",
+            "runtime": {
+                "name": "nodejs",
+                "options": {
+                    "typescript": false
+                }
+            },
+            "template": {
+                "description": "A minimal JavaScript Pulumi program with the native Azure provider",
+                "important": true,
+                "config": {
+                    "azure-native:location": {
+                        "description": "The Azure location to use",
+                        "default": "WestUS2"
+                    }
+                }
+            }
+        },
+        "azure-python": {
+            "name": "azure-python",
+            "runtime": "python",
+            "template": {
+                "description": "A minimal Azure Native Python Pulumi program",
+                "important": true,
+                "config": {
+                    "azure-native:location": {
+                        "description": "The Azure location to use",
+                        "default": "WestUS2"
+                    }
+                }
+            }
+        },
+        "azure-typescript": {
+            "name": "azure-typescript",
+            "runtime": "nodejs",
+            "template": {
+                "description": "A minimal Azure Native TypeScript Pulumi program",
+                "important": true,
+                "config": {
+                    "azure-native:location": {
+                        "description": "The Azure location to use",
+                        "default": "WestUS2"
+                    }
+                }
+            }
+        },
+        "azure-yaml": {
+            "name": "azure-yaml",
+            "runtime": "yaml",
+            "template": {
+                "description": "A minimal Azure Native Pulumi YAML program",
+                "important": true,
+                "config": {
+                    "azure-native:location": {
+                        "description": "The Azure location to use",
+                        "default": "WestUS2"
+                    }
+                }
+            }
+        },
+        "azuredevops-python": {
+            "name": "azuredevops-python",
+            "runtime": "python",
+            "template": {
+                "description": "A minimal Azure DevOps Python Pulumi program to create an AzureDevOps Project"
+            }
+        },
+        "civo-go": {
+            "name": "civo-go",
+            "runtime": "go",
+            "template": {
+                "description": "A minimal Civo Go Pulumi program",
+                "config": {
+                    "civo:token": {
+                        "description": "The token that allows you access your CIVO account",
+                        "secret": true
+                    }
+                }
+            }
+        },
+        "civo-javascript": {
+            "name": "civo-javascript",
+            "runtime": {
+                "name": "nodejs",
+                "options": {
+                    "typescript": false
+                }
+            },
+            "template": {
+                "description": "A minimal Civo TypeScript Pulumi program",
+                "config": {
+                    "civo:token": {
+                        "description": "The token that allows you access your CIVO account",
+                        "secret": true
+                    }
+                }
+            }
+        },
+        "civo-python": {
+            "name": "civo-python",
+            "runtime": "python",
+            "template": {
+                "description": "A minimal Civo Python Pulumi program",
+                "config": {
+                    "civo:token": {
+                        "description": "The token that allows you access your CIVO account",
+                        "secret": true
+                    }
+                }
+            }
+        },
+        "civo-typescript": {
+            "name": "civo-typescript",
+            "runtime": "nodejs",
+            "template": {
+                "description": "A minimal Civo TypeScript Pulumi program",
+                "config": {
+                    "civo:token": {
+                        "description": "The token that allows you access your CIVO account",
+                        "secret": true
+                    }
+                }
+            }
+        },
+        "civo-yaml": {
+            "name": "civo-yaml",
+            "runtime": "yaml",
+            "template": {
+                "description": "A minimal Civo Pulumi YAML program",
+                "config": {
+                    "civo:token": {
+                        "description": "The token that allows you access your CIVO account",
+                        "secret": true
+                    }
+                }
+            }
+        },
+        "container-aws-csharp": {
+            "name": "container-aws-csharp",
+            "runtime": "dotnet",
+            "template": {
+                "description": "A C# program to deploy a containerized service on AWS",
+                "config": {
+                    "aws:region": {
+                        "description": "The AWS region to deploy into",
+                        "default": "us-west-2"
+                    },
+                    "containerPort": {
+                        "description": "The port to expose on the container",
+                        "default": 80
+                    },
+                    "cpu": {
+                        "description": "The amount of CPU to allocate for the container",
+                        "default": 512
+                    },
+                    "memory": {
+                        "description": "The amount of memory to allocate for the container",
+                        "default": 128
+                    }
+                }
+            }
+        },
+        "container-aws-go": {
+            "name": "container-aws-go",
+            "runtime": "go",
+            "template": {
+                "description": "A Go program to deploy a containerized service on AWS",
+                "config": {
+                    "aws:region": {
+                        "description": "The AWS region to deploy into",
+                        "default": "us-west-2"
+                    },
+                    "containerPort": {
+                        "description": "The port to expose on the container",
+                        "default": 80
+                    },
+                    "cpu": {
+                        "description": "The amount of CPU to allocate for the container",
+                        "default": 512
+                    },
+                    "memory": {
+                        "description": "The amount of memory to allocate for the container",
+                        "default": 128
+                    }
+                }
+            }
+        },
+        "container-aws-python": {
+            "name": "container-aws-python",
+            "runtime": "python",
+            "template": {
+                "description": "A Python program to deploy a containerized service on AWS",
+                "config": {
+                    "aws:region": {
+                        "description": "The AWS region to deploy into",
+                        "default": "us-west-2"
+                    },
+                    "containerPort": {
+                        "description": "The port to expose on the container",
+                        "default": 80
+                    },
+                    "cpu": {
+                        "description": "The amount of CPU to allocate for the container",
+                        "default": 512
+                    },
+                    "memory": {
+                        "description": "The amount of memory to allocate for the container",
+                        "default": 128
+                    }
+                }
+            }
+        },
+        "container-aws-typescript": {
+            "name": "container-aws-typescript",
+            "runtime": "nodejs",
+            "template": {
+                "description": "A TypeScript program to deploy a containerized service on AWS",
+                "config": {
+                    "aws:region": {
+                        "description": "The AWS region to deploy into",
+                        "default": "us-west-2"
+                    },
+                    "containerPort": {
+                        "description": "The port to expose on the container",
+                        "default": 80
+                    },
+                    "cpu": {
+                        "description": "The amount of CPU to allocate for the container",
+                        "default": 512
+                    },
+                    "memory": {
+                        "description": "The amount of memory to allocate for the container",
+                        "default": 128
+                    }
+                }
+            }
+        },
+        "container-aws-yaml": {
+            "name": "container-aws-yaml",
+            "runtime": "yaml",
+            "template": {
+                "description": "A Pulumi YAML program to deploy a containerized service on AWS",
+                "config": {
+                    "aws:region": {
+                        "description": "The AWS region to deploy into",
+                        "default": "us-west-2"
+                    },
+                    "containerPort": {
+                        "description": "The port to expose on the container",
+                        "default": 80
+                    },
+                    "cpu": {
+                        "description": "The amount of CPU to allocate for the container",
+                        "default": 512
+                    },
+                    "memory": {
+                        "description": "The amount of memory to allocate for the container",
+                        "default": 128
+                    }
+                }
+            }
+        },
+        "container-azure-csharp": {
+            "name": "container-azure-csharp",
+            "runtime": "dotnet",
+            "template": {
+                "description": "A C# program to deploy a containerized service on Azure",
+                "config": {
+                    "azure-native:location": {
+                        "description": "The Azure region to deploy into",
+                        "default": "WestUS"
+                    },
+                    "appPath": {
+                        "description": "The path to the container application to deploy",
+                        "default": "app"
+                    },
+                    "containerPort": {
+                        "description": "The port to expose on the container",
+                        "default": 80
+                    },
+                    "cpu": {
+                        "description": "The number of CPU cores to allocate on the container",
+                        "default": 1
+                    },
+                    "memory": {
+                        "description": "The amount of memory, in GB, to allocate on the container",
+                        "default": 2
+                    }
+                }
+            }
+        },
+        "container-azure-go": {
+            "name": "container-azure-go",
+            "runtime": "go",
+            "template": {
+                "description": "A Go program to deploy a containerized service on Azure",
+                "config": {
+                    "azure-native:location": {
+                        "description": "The Azure region to deploy into",
+                        "default": "WestUS"
+                    },
+                    "appPath": {
+                        "description": "The path to the container application to deploy",
+                        "default": "app"
+                    },
+                    "containerPort": {
+                        "description": "The port to expose on the container",
+                        "default": 80
+                    },
+                    "cpu": {
+                        "description": "The number of CPU cores to allocate on the container",
+                        "default": 1
+                    },
+                    "memory": {
+                        "description": "The amount of memory, in GB, to allocate on the container",
+                        "default": 2
+                    }
+                }
+            }
+        },
+        "container-azure-python": {
+            "name": "container-azure-python",
+            "runtime": {
+                "name": "python",
+                "options": {
+                    "virtualenv": "venv"
+                }
+            },
+            "template": {
+                "description": "A Python program to deploy a containerized service on Azure",
+                "config": {
+                    "azure-native:location": {
+                        "description": "The Azure region to deploy into",
+                        "default": "WestUS"
+                    },
+                    "appPath": {
+                        "description": "The path to the container application to deploy",
+                        "default": "app"
+                    },
+                    "containerPort": {
+                        "description": "The port to expose on the container",
+                        "default": 80
+                    },
+                    "cpu": {
+                        "description": "The number of CPU cores to allocate on the container",
+                        "default": 1
+                    },
+                    "memory": {
+                        "description": "The amount of memory, in GB, to allocate on the container",
+                        "default": 2
+                    }
+                }
+            }
+        },
+        "container-azure-typescript": {
+            "name": "container-azure-typescript",
+            "runtime": {
+                "name": "nodejs"
+            },
+            "template": {
+                "description": "A TypeScript program to deploy a containerized service on Azure",
+                "config": {
+                    "azure-native:location": {
+                        "description": "The Azure region to deploy into",
+                        "default": "WestUS"
+                    },
+                    "appPath": {
+                        "description": "The path to the container application to deploy",
+                        "default": "app"
+                    },
+                    "containerPort": {
+                        "description": "The port to expose on the container",
+                        "default": 80
+                    },
+                    "cpu": {
+                        "description": "The number of CPU cores to allocate on the container",
+                        "default": 1
+                    },
+                    "memory": {
+                        "description": "The amount of memory, in GB, to allocate on the container",
+                        "default": 2
+                    }
+                }
+            }
+        },
+        "container-gcp-csharp": {
+            "name": "container-gcp-csharp",
+            "runtime": "dotnet",
+            "template": {
+                "description": "A C# program to deploy a containerized service on Google Cloud",
+                "config": {
+                    "gcp:region": {
+                        "description": "The Google Cloud region to deploy into",
+                        "default": "us-central1"
+                    },
+                    "gcp:project": {
+                        "description": "The Google Cloud project to deploy into"
+                    },
+                    "appPath": {
+                        "description": "The path to the container application to deploy",
+                        "default": "app"
+                    },
+                    "containerPort": {
+                        "description": "The port to expose on the container",
+                        "default": 8080
+                    },
+                    "cpu": {
+                        "description": "The number of virtual CPUs to allocate per container instance",
+                        "default": 1
+                    },
+                    "memory": {
+                        "description": "The amount of memory to allocate per container instance",
+                        "default": "1Gi"
+                    },
+                    "concurrency": {
+                        "description": "The maximum number of concurrent requests to serve per container instance",
+                        "default": 50
+                    }
+                }
+            }
+        },
+        "container-gcp-go": {
+            "name": "container-gcp-go",
+            "runtime": "go",
+            "template": {
+                "description": "A Go program to deploy a containerized service on Google Cloud",
+                "config": {
+                    "gcp:region": {
+                        "description": "The Google Cloud region to deploy into",
+                        "default": "us-central1"
+                    },
+                    "gcp:project": {
+                        "description": "The Google Cloud project to deploy into"
+                    },
+                    "appPath": {
+                        "description": "The path to the container application to deploy",
+                        "default": "app"
+                    },
+                    "containerPort": {
+                        "description": "The port to expose on the container",
+                        "default": 8080
+                    },
+                    "cpu": {
+                        "description": "The number of virtual CPUs to allocate per container instance",
+                        "default": 1
+                    },
+                    "memory": {
+                        "description": "The amount of memory to allocate per container instance",
+                        "default": "1Gi"
+                    },
+                    "concurrency": {
+                        "description": "The maximum number of concurrent requests to serve per container instance",
+                        "default": 50
+                    }
+                }
+            }
+        },
+        "container-gcp-python": {
+            "name": "container-gcp-python",
+            "runtime": {
+                "name": "python",
+                "options": {
+                    "virtualenv": "venv"
+                }
+            },
+            "template": {
+                "description": "A Python program to deploy a containerized service on Google Cloud",
+                "config": {
+                    "gcp:region": {
+                        "description": "The Google Cloud region to deploy into",
+                        "default": "us-central1"
+                    },
+                    "gcp:project": {
+                        "description": "The Google Cloud project to deploy into"
+                    },
+                    "appPath": {
+                        "description": "The path to the container application to deploy",
+                        "default": "app"
+                    },
+                    "containerPort": {
+                        "description": "The port to expose on the container",
+                        "default": 8080
+                    },
+                    "cpu": {
+                        "description": "The number of virtual CPUs to allocate per container instance",
+                        "default": 1
+                    },
+                    "memory": {
+                        "description": "The amount of memory to allocate per container instance",
+                        "default": "1Gi"
+                    },
+                    "concurrency": {
+                        "description": "The maximum number of concurrent requests to serve per container instance",
+                        "default": 50
+                    }
+                }
+            }
+        },
+        "container-gcp-typescript": {
+            "name": "container-gcp-typescript",
+            "runtime": "nodejs",
+            "template": {
+                "description": "A TypeScript program to deploy a containerized service on Google Cloud",
+                "config": {
+                    "gcp:region": {
+                        "description": "The Google Cloud region to deploy into",
+                        "default": "us-central1"
+                    },
+                    "gcp:project": {
+                        "description": "The Google Cloud project to deploy into"
+                    },
+                    "appPath": {
+                        "description": "The path to the container application to deploy",
+                        "default": "app"
+                    },
+                    "containerPort": {
+                        "description": "The port to expose on the container",
+                        "default": 8080
+                    },
+                    "cpu": {
+                        "description": "The number of virtual CPUs to allocate per container instance",
+                        "default": 1
+                    },
+                    "memory": {
+                        "description": "The amount of memory to allocate per container instance",
+                        "default": "1Gi"
+                    },
+                    "concurrency": {
+                        "description": "The maximum number of concurrent requests to serve per container instance",
+                        "default": 50
+                    }
+                }
+            }
+        },
+        "csharp": {
+            "name": "csharp",
+            "runtime": "dotnet",
+            "template": {
+                "description": "A minimal C# Pulumi program"
+            }
+        },
+        "digitalocean-go": {
+            "name": "digitalocean-go",
+            "runtime": "go",
+            "template": {
+                "description": "A minimal DigitalOcean Go Pulumi program"
+            }
+        },
+        "digitalocean-javascript": {
+            "name": "digitalocean-javascript",
+            "runtime": {
+                "name": "nodejs",
+                "options": {
+                    "typescript": false
+                }
+            },
+            "template": {
+                "description": "A minimal DigitalOcean JavaScript Pulumi program"
+            }
+        },
+        "digitalocean-python": {
+            "name": "digitalocean-python",
+            "runtime": "python",
+            "template": {
+                "description": "A minimal DigitalOcean Python Pulumi program"
+            }
+        },
+        "digitalocean-typescript": {
+            "name": "digitalocean-typescript",
+            "runtime": "nodejs",
+            "template": {
+                "description": "A minimal DigitalOcean TypeScript Pulumi program"
+            }
+        },
+        "digitalocean-yaml": {
+            "name": "digitalocean-yaml",
+            "runtime": "yaml",
+            "template": {
+                "description": "A minimal DigitalOcean Pulumi YAML program"
+            }
+        },
+        "equinix-metal-go": {
+            "name": "equinix-metal-go",
+            "runtime": "go",
+            "template": {
+                "description": "A minimal Equinix Metal Go Pulumi program"
+            }
+        },
+        "equinix-metal-javascript": {
+            "name": "equinix-metal-javascript",
+            "runtime": {
+                "name": "nodejs",
+                "options": {
+                    "typescript": false
+                }
+            },
+            "template": {
+                "description": "A minimal Equinix Metal JavaScript Pulumi program"
+            }
+        },
+        "equinix-metal-python": {
+            "name": "equinix-metal-python",
+            "runtime": "python",
+            "template": {
+                "description": "A minimal Equinix Metal Python Pulumi program"
+            }
+        },
+        "equinix-metal-typescript": {
+            "name": "equinix-metal-typescript",
+            "runtime": "nodejs",
+            "template": {
+                "description": "A minimal Equinix Metal TypeScript Pulumi program"
+            }
+        },
+        "equinix-metal-yaml": {
+            "name": "equinix-metal-yaml",
+            "runtime": "yaml",
+            "template": {
+                "description": "A minimal Equinix Metal Pulumi YAML program"
+            }
+        },
+        "fsharp": {
+            "name": "fsharp",
+            "runtime": "dotnet",
+            "template": {
+                "description": "A minimal F# Pulumi program"
+            }
+        },
+        "gcp-csharp": {
+            "name": "gcp-csharp",
+            "runtime": "dotnet",
+            "template": {
+                "description": "A minimal Google Cloud C# Pulumi program",
+                "important": true,
+                "config": {
+                    "gcp:project": {
+                        "description": "The Google Cloud project to deploy into"
+                    }
+                }
+            }
+        },
+        "gcp-fsharp": {
+            "name": "gcp-fsharp",
+            "runtime": "dotnet",
+            "template": {
+                "description": "A minimal GCP F# Pulumi program",
+                "config": {
+                    "gcp:project": {
+                        "description": "The Google Cloud project to deploy into"
+                    }
+                }
+            }
+        },
+        "gcp-go": {
+            "name": "gcp-go",
+            "runtime": "go",
+            "template": {
+                "description": "A minimal Google Cloud Go Pulumi program",
+                "important": true,
+                "config": {
+                    "gcp:project": {
+                        "description": "The Google Cloud project to deploy into"
+                    }
+                }
+            }
+        },
+        "gcp-java": {
+            "name": "gcp-java",
+            "runtime": "java",
+            "template": {
+                "description": "A minimal Google Cloud Java Pulumi program",
+                "important": true,
+                "config": {
+                    "gcp:project": {
+                        "description": "The Google Cloud project to deploy into"
+                    }
+                }
+            }
+        },
+        "gcp-javascript": {
+            "name": "gcp-javascript",
+            "runtime": {
+                "name": "nodejs",
+                "options": {
+                    "typescript": false
+                }
+            },
+            "template": {
+                "description": "A minimal Google Cloud JavaScript Pulumi program",
+                "important": true,
+                "config": {
+                    "gcp:project": {
+                        "description": "The Google Cloud project to deploy into"
+                    }
+                }
+            }
+        },
+        "gcp-python": {
+            "name": "gcp-python",
+            "runtime": "python",
+            "template": {
+                "description": "A minimal Google Cloud Python Pulumi program",
+                "important": true,
+                "config": {
+                    "gcp:project": {
+                        "description": "The Google Cloud project to deploy into"
+                    }
+                }
+            }
+        },
+        "gcp-typescript": {
+            "name": "gcp-typescript",
+            "runtime": "nodejs",
+            "template": {
+                "description": "A minimal Google Cloud TypeScript Pulumi program",
+                "important": true,
+                "config": {
+                    "gcp:project": {
+                        "description": "The Google Cloud project to deploy into"
+                    }
+                }
+            }
+        },
+        "gcp-visualbasic": {
+            "name": "gcp-visualbasic",
+            "runtime": "dotnet",
+            "template": {
+                "description": "A minimal GCP VB.NET Pulumi program",
+                "config": {
+                    "gcp:project": {
+                        "description": "The Google Cloud project to deploy into"
+                    }
+                }
+            }
+        },
+        "gcp-yaml": {
+            "name": "gcp-yaml",
+            "runtime": "yaml",
+            "template": {
+                "description": "A minimal Google Cloud Pulumi YAML program",
+                "important": true,
+                "config": {
+                    "gcp:project": {
+                        "description": "The Google Cloud project to deploy into"
+                    }
+                }
+            }
+        },
+        "github-csharp": {
+            "name": "github-csharp",
+            "runtime": "dotnet",
+            "template": {
+                "description": "A minimal GitHub C# Pulumi program",
+                "config": {
+                    "github:token": {
+                        "description": "The GitHub token to use for authentication",
+                        "secret": true
+                    },
+                    "github:owner": {
+                        "description": "To target a specific GitHub organization or an individual user account, set the GitHub owner configuration value."
+                    }
+                }
+            }
+        },
+        "github-go": {
+            "name": "github-go",
+            "runtime": "go",
+            "template": {
+                "description": "A minimal GitHub Go Pulumi program",
+                "config": {
+                    "github:token": {
+                        "description": "The GitHub token to use for authentication",
+                        "secret": true
+                    },
+                    "github:owner": {
+                        "description": "To target a specific GitHub organization or an individual user account, set the GitHub owner configuration value."
+                    }
+                }
+            }
+        },
+        "github-javascript": {
+            "name": "github-javascript",
+            "runtime": {
+                "name": "nodejs",
+                "options": {
+                    "typescript": false
+                }
+            },
+            "template": {
+                "description": "A minimal GitHub JavaScript Pulumi program.",
+                "config": {
+                    "github:token": {
+                        "description": "The GitHub token to use for authentication",
+                        "secret": true
+                    },
+                    "github:owner": {
+                        "description": "To target a specific GitHub organization or an individual user account, set the GitHub owner configuration value."
+                    }
+                }
+            }
+        },
+        "github-python": {
+            "name": "github-python",
+            "runtime": "python",
+            "template": {
+                "description": "A minimal GitHub Python Pulumi program",
+                "config": {
+                    "github:token": {
+                        "description": "The GitHub token to use for authentication",
+                        "secret": true
+                    },
+                    "github:owner": {
+                        "description": "To target a specific GitHub organization or an individual user account, set the GitHub owner configuration value."
+                    }
+                }
+            }
+        },
+        "github-typescript": {
+            "name": "github-typescript",
+            "runtime": "nodejs",
+            "template": {
+                "description": "A minimal GitHub TypeScript Pulumi program.",
+                "config": {
+                    "github:token": {
+                        "description": "The GitHub token to use for authentication",
+                        "secret": true
+                    },
+                    "github:owner": {
+                        "description": "To target a specific GitHub organization or an individual user account, set the GitHub owner configuration value."
+                    }
+                }
+            }
+        },
+        "github-yaml": {
+            "name": "github-yaml",
+            "runtime": "yaml",
+            "template": {
+                "description": "A minimal GitHub Pulumi YAML program.",
+                "config": {
+                    "github:token": {
+                        "description": "The GitHub token to use for authentication",
+                        "secret": true
+                    },
+                    "github:owner": {
+                        "description": "To target a specific GitHub organization or an individual user account, set the GitHub owner configuration value."
+                    }
+                }
+            }
+        },
+        "go": {
+            "name": "go",
+            "runtime": "go",
+            "template": {
+                "description": "A minimal Go Pulumi program"
+            }
+        },
+        "google-native-csharp": {
+            "name": "google-native-csharp",
+            "runtime": "dotnet",
+            "template": {
+                "description": "A minimal Google Cloud C# Pulumi program",
+                "config": {
+                    "google-native:project": {
+                        "description": "The Google Cloud project to deploy into"
+                    }
+                }
+            }
+        },
+        "google-native-go": {
+            "name": "google-native-go",
+            "runtime": "go",
+            "template": {
+                "description": "A minimal Google Cloud Go Pulumi program",
+                "config": {
+                    "google-native:project": {
+                        "description": "The Google Cloud project to deploy into"
+                    }
+                }
+            }
+        },
+        "google-native-python": {
+            "name": "google-native-python",
+            "runtime": {
+                "name": "python",
+                "options": {
+                    "virtualenv": "venv"
+                }
+            },
+            "template": {
+                "description": "A minimal Google Cloud Python Pulumi program",
+                "config": {
+                    "google-native:project": {
+                        "description": "The Google Cloud project to deploy into"
+                    }
+                }
+            }
+        },
+        "google-native-typescript": {
+            "name": "google-native-typescript",
+            "runtime": "nodejs",
+            "template": {
+                "description": "A minimal Google Cloud TypeScript Pulumi program",
+                "config": {
+                    "google-native:project": {
+                        "description": "The Google Cloud project to deploy into"
+                    }
+                }
+            }
+        },
+        "google-native-yaml": {
+            "name": "google-native-yaml",
+            "runtime": "yaml",
+            "template": {
+                "description": "A minimal Google Cloud Pulumi YAML program",
+                "config": {
+                    "google-native:project": {
+                        "description": "The Google Cloud project to deploy into"
+                    }
+                }
+            }
+        },
+        "hello-aws-javascript": {
+            "name": "hello-aws-javascript",
+            "runtime": {
+                "name": "nodejs",
+                "options": {
+                    "typescript": false
+                }
+            },
+            "template": {
+                "description": "A simple AWS serverless JavaScript Pulumi program",
+                "config": {
+                    "aws:region": {
+                        "description": "The AWS region to deploy into",
+                        "default": "us-east-1"
+                    }
+                }
+            }
+        },
+        "helm-kubernetes-csharp": {
+            "name": "helm-kubernetes-csharp",
+            "runtime": "dotnet",
+            "template": {
+                "description": "A C# program to deploy a Helm chart onto a Kubernetes cluster",
+                "config": {
+                    "k8sNamespace": {
+                        "default": "nginx-ingress",
+                        "description": "The Kubernetes namespace to deploy into"
+                    }
+                }
+            }
+        },
+        "helm-kubernetes-go": {
+            "name": "helm-kubernetes-go",
+            "runtime": "go",
+            "template": {
+                "description": "A Go program to deploy a Helm chart onto a Kubernetes cluster",
+                "config": {
+                    "k8sNamespace": {
+                        "default": "nginx-ingress",
+                        "description": "The Kubernetes namespace to deploy into"
+                    }
+                }
+            }
+        },
+        "helm-kubernetes-python": {
+            "name": "helm-kubernetes-python",
+            "runtime": "python",
+            "template": {
+                "description": "A Python program to deploy a Helm chart onto a Kubernetes cluster",
+                "config": {
+                    "k8sNamespace": {
+                        "default": "nginx-ingress",
+                        "description": "The Kubernetes namespace to deploy into"
+                    }
+                }
+            }
+        },
+        "helm-kubernetes-typescript": {
+            "name": "helm-kubernetes-typescript",
+            "runtime": "nodejs",
+            "template": {
+                "description": "A TypeScript program to deploy a Helm chart onto a Kubernetes cluster",
+                "config": {
+                    "k8sNamespace": {
+                        "default": "nginx-ingress",
+                        "description": "The Kubernetes namespace to deploy into"
+                    }
+                }
+            }
+        },
+        "helm-kubernetes-yaml": {
+            "name": "helm-kubernetes-yaml",
+            "runtime": "yaml",
+            "template": {
+                "description": "A Pulumi YAML program to deploy a Helm chart onto a Kubernetes cluster",
+                "config": {
+                    "k8sNamespace": {
+                        "default": "nginx-ingress",
+                        "description": "The Kubernetes namespace to deploy into"
+                    }
+                }
+            }
+        },
+        "java-gradle": {
+            "name": "java-gradle",
+            "runtime": "java",
+            "template": {
+                "description": "A minimal Java Pulumi program with Gradle builds"
+            }
+        },
+        "java-jbang": {
+            "name": "java-jbang",
+            "runtime": "java",
+            "template": {
+                "description": "A minimal Java Pulumi program with JBang"
+            }
+        },
+        "java": {
+            "name": "java",
+            "runtime": "java",
+            "template": {
+                "description": "A minimal Java Pulumi program with Maven builds"
+            }
+        },
+        "javascript": {
+            "name": "javascript",
+            "runtime": {
+                "name": "nodejs",
+                "options": {
+                    "typescript": false
+                }
+            },
+            "template": {
+                "description": "A minimal JavaScript Pulumi program"
+            }
+        },
+        "kubernetes-aws-csharp": {
+            "name": "kubernetes-aws-csharp",
+            "runtime": "dotnet",
+            "template": {
+                "description": "A C# program to deploy a Kubernetes cluster on AWS",
+                "config": {
+                    "aws:region": {
+                        "description": "The AWS region to deploy into",
+                        "default": "us-west-2"
+                    },
+                    "minClusterSize": {
+                        "description": "Minimum size (number of nodes) of cluster",
+                        "default": 3
+                    },
+                    "maxClusterSize": {
+                        "description": "Maximum size (number of nodes) of cluster",
+                        "default": 6
+                    },
+                    "desiredClusterSize": {
+                        "description": "Desired number of nodes in the cluster",
+                        "default": 3
+                    },
+                    "eksNodeInstanceType": {
+                        "description": "Instance type to use for worker nodes",
+                        "default": "t3.medium"
+                    },
+                    "vpcNetworkCidr": {
+                        "description": "Network CIDR to use for new VPC",
+                        "default": "10.0.0.0/16"
+                    }
+                }
+            }
+        },
+        "kubernetes-aws-go": {
+            "name": "kubernetes-aws-go",
+            "runtime": "go",
+            "template": {
+                "description": "A Go program to deploy a Kubernetes cluster on AWS",
+                "config": {
+                    "aws:region": {
+                        "description": "The AWS region to deploy into",
+                        "default": "us-west-2"
+                    },
+                    "minClusterSize": {
+                        "description": "Minimum size (number of nodes) of cluster",
+                        "default": 3
+                    },
+                    "maxClusterSize": {
+                        "description": "Maximum size (number of nodes) of cluster",
+                        "default": 6
+                    },
+                    "desiredClusterSize": {
+                        "description": "Desired number of nodes in the cluster",
+                        "default": 3
+                    },
+                    "eksNodeInstanceType": {
+                        "description": "Instance type to use for worker nodes",
+                        "default": "t3.medium"
+                    },
+                    "vpcNetworkCidr": {
+                        "description": "Network CIDR to use for new VPC",
+                        "default": "10.0.0.0/16"
+                    }
+                }
+            }
+        },
+        "kubernetes-aws-python": {
+            "name": "kubernetes-aws-python",
+            "runtime": "python",
+            "template": {
+                "description": "A Python program to deploy a Kubernetes cluster on AWS",
+                "config": {
+                    "aws:region": {
+                        "description": "The AWS region to deploy into",
+                        "default": "us-west-2"
+                    },
+                    "minClusterSize": {
+                        "description": "Minimum size (number of nodes) of cluster",
+                        "default": 3
+                    },
+                    "maxClusterSize": {
+                        "description": "Maximum size (number of nodes) of cluster",
+                        "default": 6
+                    },
+                    "desiredClusterSize": {
+                        "description": "Desired number of nodes in the cluster",
+                        "default": 3
+                    },
+                    "eksNodeInstanceType": {
+                        "description": "Instance type to use for worker nodes",
+                        "default": "t3.medium"
+                    },
+                    "vpcNetworkCidr": {
+                        "description": "Network CIDR to use for new VPC",
+                        "default": "10.0.0.0/16"
+                    }
+                }
+            }
+        },
+        "kubernetes-aws-typescript": {
+            "name": "kubernetes-aws-typescript",
+            "runtime": "nodejs",
+            "template": {
+                "description": "A TypeScript program to deploy a Kubernetes cluster on AWS",
+                "config": {
+                    "aws:region": {
+                        "description": "The AWS region to deploy into",
+                        "default": "us-west-2"
+                    },
+                    "minClusterSize": {
+                        "description": "Minimum size (number of nodes) of cluster",
+                        "default": 3
+                    },
+                    "maxClusterSize": {
+                        "description": "Maximum size (number of nodes) of cluster",
+                        "default": 6
+                    },
+                    "desiredClusterSize": {
+                        "description": "Desired number of nodes in the cluster",
+                        "default": 3
+                    },
+                    "eksNodeInstanceType": {
+                        "description": "Instance type to use for worker nodes",
+                        "default": "t3.medium"
+                    },
+                    "vpcNetworkCidr": {
+                        "description": "Network CIDR to use for new VPC",
+                        "default": "10.0.0.0/16"
+                    }
+                }
+            }
+        },
+        "kubernetes-aws-yaml": {
+            "name": "kubernetes-aws-yaml",
+            "runtime": "yaml",
+            "template": {
+                "description": "A Pulumi YAML program to deploy a Kubernetes cluster on AWS",
+                "config": {
+                    "aws:region": {
+                        "description": "The AWS region to deploy into",
+                        "default": "us-west-2"
+                    },
+                    "minClusterSize": {
+                        "description": "Minimum size (number of nodes) of cluster",
+                        "default": 3
+                    },
+                    "maxClusterSize": {
+                        "description": "Maximum size (number of nodes) of cluster",
+                        "default": 6
+                    },
+                    "desiredClusterSize": {
+                        "description": "Desired number of nodes in the cluster",
+                        "default": 3
+                    },
+                    "eksNodeInstanceType": {
+                        "description": "Instance type to use for worker nodes",
+                        "default": "t3.medium"
+                    },
+                    "vpcNetworkCidr": {
+                        "description": "Network CIDR to use for new VPC",
+                        "default": "10.0.0.0/16"
+                    }
+                }
+            }
+        },
+        "kubernetes-azure-csharp": {
+            "name": "kubernetes-azure-csharp",
+            "runtime": "dotnet",
+            "template": {
+                "description": "A C# program to deploy a Kubernetes cluster on Azure",
+                "config": {
+                    "azure-native:location": {
+                        "default": "westus2",
+                        "description": "The Azure location (region) in which to create the cluster"
+                    },
+                    "numWorkerNodes": {
+                        "default": 3,
+                        "description": "Number of worker nodes in the cluster"
+                    },
+                    "prefixForDns": {
+                        "default": "pulumi",
+                        "description": "DNS prefix for the cluster"
+                    },
+                    "kubernetesVersion": {
+                        "default": "1.26.3",
+                        "description": "Kubernetes version to deploy in the cluster"
+                    },
+                    "nodeVmSize": {
+                        "default": "Standard_DS2_v2",
+                        "description": "VM size to use for worker nodes in the cluster"
+                    },
+                    "mgmtGroupId": {
+                        "description": "The object ID (from az ad group list) of a group to make cluster admins"
+                    },
+                    "sshPubKey": {
+                        "description": "Contents of the public key for SSH access to cluster nodes"
+                    }
+                }
+            }
+        },
+        "kubernetes-azure-go": {
+            "name": "kubernetes-azure-go",
+            "runtime": "go",
+            "template": {
+                "description": "A Go program to deploy a Kubernetes cluster on Azure",
+                "config": {
+                    "azure-native:location": {
+                        "default": "westus2",
+                        "description": "The Azure location (region) in which to create the cluster"
+                    },
+                    "numWorkerNodes": {
+                        "default": 3,
+                        "description": "Number of worker nodes in the cluster"
+                    },
+                    "prefixForDns": {
+                        "default": "pulumi",
+                        "description": "DNS prefix for the cluster"
+                    },
+                    "kubernetesVersion": {
+                        "default": "1.26.3",
+                        "description": "Kubernetes version to deploy in the cluster"
+                    },
+                    "nodeVmSize": {
+                        "default": "Standard_DS2_v2",
+                        "description": "VM size to use for worker nodes in the cluster"
+                    },
+                    "mgmtGroupId": {
+                        "description": "The object ID (from az ad group list) of a group to make cluster admins"
+                    },
+                    "sshPubKey": {
+                        "description": "Contents of the public key for SSH access to cluster nodes"
+                    }
+                }
+            }
+        },
+        "kubernetes-azure-python": {
+            "name": "kubernetes-azure-python",
+            "runtime": "python",
+            "template": {
+                "description": "A Python program to deploy a Kubernetes cluster on Azure",
+                "config": {
+                    "azure-native:location": {
+                        "default": "westus2",
+                        "description": "The Azure location (region) in which to create the cluster"
+                    },
+                    "numWorkerNodes": {
+                        "default": 3,
+                        "description": "Number of worker nodes in the cluster"
+                    },
+                    "prefixForDns": {
+                        "default": "pulumi",
+                        "description": "DNS prefix for the cluster"
+                    },
+                    "kubernetesVersion": {
+                        "default": "1.26.3",
+                        "description": "Kubernetes version to deploy in the cluster"
+                    },
+                    "nodeVmSize": {
+                        "default": "Standard_DS2_v2",
+                        "description": "VM size to use for worker nodes in the cluster"
+                    },
+                    "mgmtGroupId": {
+                        "description": "The object ID (from az ad group list) of a group to make cluster admins"
+                    },
+                    "sshPubKey": {
+                        "description": "Contents of the public key for SSH access to cluster nodes"
+                    }
+                }
+            }
+        },
+        "kubernetes-azure-typescript": {
+            "name": "kubernetes-azure-typescript",
+            "runtime": "nodejs",
+            "template": {
+                "description": "A TypeScript program to deploy a Kubernetes cluster on Azure",
+                "config": {
+                    "azure-native:location": {
+                        "default": "westus2",
+                        "description": "The Azure location (region) in which to create the cluster"
+                    },
+                    "numWorkerNodes": {
+                        "default": 3,
+                        "description": "Number of worker nodes in the cluster"
+                    },
+                    "prefixForDns": {
+                        "default": "pulumi",
+                        "description": "DNS prefix for the cluster"
+                    },
+                    "kubernetesVersion": {
+                        "default": "1.26.3",
+                        "description": "Kubernetes version to deploy in the cluster"
+                    },
+                    "nodeVmSize": {
+                        "default": "Standard_DS2_v2",
+                        "description": "VM size to use for worker nodes in the cluster"
+                    },
+                    "mgmtGroupId": {
+                        "description": "The object ID (from az ad group list) of a group to make cluster admins"
+                    },
+                    "sshPubKey": {
+                        "description": "Contents of the public key for SSH access to cluster nodes"
+                    }
+                }
+            }
+        },
+        "kubernetes-azure-yaml": {
+            "name": "kubernetes-azure-yaml",
+            "runtime": "yaml",
+            "template": {
+                "description": "A Pulumi YAML program to deploy a Kubernetes cluster on Azure",
+                "config": {
+                    "azure-native:location": {
+                        "value": "westus2"
+                    },
+                    "numWorkerNodes": {
+                        "default": 3,
+                        "description": "Number of worker nodes in the cluster"
+                    },
+                    "prefixForDns": {
+                        "default": "pulumi",
+                        "description": "DNS prefix for the cluster"
+                    },
+                    "kubernetesVersion": {
+                        "default": "1.24.3",
+                        "description": "Kubernetes version to deploy in the cluster"
+                    },
+                    "nodeVmSize": {
+                        "default": "Standard_DS2_v2",
+                        "description": "VM size to use for worker nodes in the cluster"
+                    },
+                    "mgmtGroupId": {
+                        "description": "The object ID (from az ad group list) of a group to make cluster admins"
+                    },
+                    "sshPubKey": {
+                        "description": "Contents of the public key for SSH access to cluster nodes"
+                    }
+                }
+            }
+        },
+        "kubernetes-csharp": {
+            "name": "kubernetes-csharp",
+            "runtime": "dotnet",
+            "template": {
+                "description": "A minimal Kubernetes C# Pulumi program",
+                "important": true
+            }
+        },
+        "kubernetes-fsharp": {
+            "name": "kubernetes-fsharp",
+            "runtime": "dotnet",
+            "template": {
+                "description": "A minimal Kubernetes F# Pulumi program"
+            }
+        },
+        "kubernetes-gcp-csharp": {
+            "name": "kubernetes-gcp-csharp",
+            "runtime": "dotnet",
+            "template": {
+                "description": "A C# program to deploy a Kubernetes cluster on Google Cloud",
+                "config": {
+                    "gcp:project": {
+                        "description": "The Google Cloud project to deploy into"
+                    },
+                    "gcp:region": {
+                        "default": "us-central1",
+                        "description": "The Google Cloud region to deploy into"
+                    },
+                    "nodesPerZone": {
+                        "default": 1,
+                        "description": "The desired number of nodes PER ZONE in the nodepool"
+                    }
+                }
+            }
+        },
+        "kubernetes-gcp-go": {
+            "name": "kubernetes-gcp-go",
+            "runtime": "go",
+            "template": {
+                "description": "A Go program to deploy a Kubernetes cluster on Google Cloud",
+                "config": {
+                    "gcp:project": {
+                        "description": "The Google Cloud project to deploy into"
+                    },
+                    "gcp:region": {
+                        "default": "us-central1",
+                        "description": "The Google Cloud region to deploy into"
+                    },
+                    "nodesPerZone": {
+                        "default": 1,
+                        "description": "The desired number of nodes PER ZONE in the nodepool"
+                    }
+                }
+            }
+        },
+        "kubernetes-gcp-python": {
+            "name": "kubernetes-gcp-python",
+            "runtime": "python",
+            "template": {
+                "description": "A Python program to deploy a Kubernetes cluster on Google Cloud",
+                "config": {
+                    "gcp:project": {
+                        "description": "The Google Cloud project to deploy into"
+                    },
+                    "gcp:region": {
+                        "default": "us-central1",
+                        "description": "The Google Cloud region to deploy into"
+                    },
+                    "nodesPerZone": {
+                        "default": 1,
+                        "description": "The desired number of nodes PER ZONE in the nodepool"
+                    }
+                }
+            }
+        },
+        "kubernetes-gcp-typescript": {
+            "name": "kubernetes-gcp-typescript",
+            "runtime": "nodejs",
+            "template": {
+                "description": "A TypeScript program to deploy a Kubernetes cluster on Google Cloud",
+                "config": {
+                    "gcp:project": {
+                        "description": "The Google Cloud project to deploy into"
+                    },
+                    "gcp:region": {
+                        "default": "us-central1",
+                        "description": "The Google Cloud region to deploy into"
+                    },
+                    "nodesPerZone": {
+                        "default": 1,
+                        "description": "The desired number of nodes PER ZONE in the nodepool"
+                    }
+                }
+            }
+        },
+        "kubernetes-gcp-yaml": {
+            "name": "kubernetes-gcp-yaml",
+            "runtime": "yaml",
+            "template": {
+                "description": "A Pulumi YAML program to deploy a Kubernetes cluster on Google Cloud",
+                "config": {
+                    "gcp:project": {
+                        "description": "The Google Cloud project to deploy into"
+                    },
+                    "gcp:region": {
+                        "default": "us-central1",
+                        "description": "The Google Cloud region to deploy into"
+                    },
+                    "nodesPerZone": {
+                        "default": 1,
+                        "description": "The desired number of nodes PER ZONE in the nodepool"
+                    }
+                }
+            }
+        },
+        "kubernetes-go": {
+            "name": "kubernetes-go",
+            "runtime": "go",
+            "template": {
+                "description": "A minimal Kubernetes Go Pulumi program",
+                "important": true
+            }
+        },
+        "kubernetes-java": {
+            "name": "kubernetes-java",
+            "runtime": "java",
+            "template": {
+                "description": "A minimal Kubernetes Java Pulumi program",
+                "important": true
+            }
+        },
+        "kubernetes-javascript": {
+            "name": "kubernetes-javascript",
+            "runtime": {
+                "name": "nodejs",
+                "options": {
+                    "typescript": false
+                }
+            },
+            "template": {
+                "description": "A minimal Kubernetes JavaScript Pulumi program",
+                "important": true
+            }
+        },
+        "kubernetes-python": {
+            "name": "kubernetes-python",
+            "runtime": "python",
+            "template": {
+                "description": "A minimal Kubernetes Python Pulumi program",
+                "important": true
+            }
+        },
+        "kubernetes-typescript": {
+            "name": "kubernetes-typescript",
+            "runtime": "nodejs",
+            "template": {
+                "description": "A minimal Kubernetes TypeScript Pulumi program",
+                "important": true
+            }
+        },
+        "kubernetes-yaml": {
+            "name": "kubernetes-yaml",
+            "runtime": "yaml",
+            "template": {
+                "description": "A minimal Kubernetes Pulumi YAML program",
+                "important": true
+            }
+        },
+        "linode-go": {
+            "name": "linode-go",
+            "runtime": "go",
+            "template": {
+                "description": "A minimal Linode Go Pulumi program",
+                "config": {
+                    "linode:token": {
+                        "description": "The token that allows you access to your Linode account",
+                        "secret": true
+                    }
+                }
+            }
+        },
+        "linode-javascript": {
+            "name": "linode-javascript",
+            "runtime": {
+                "name": "nodejs",
+                "options": {
+                    "typescript": false
+                }
+            },
+            "template": {
+                "description": "A minimal Linode JavaScript Pulumi program",
+                "config": {
+                    "linode:token": {
+                        "description": "The token that allows you access to your Linode account",
+                        "secret": true
+                    }
+                }
+            }
+        },
+        "linode-python": {
+            "name": "linode-python",
+            "runtime": "python",
+            "template": {
+                "description": "A minimal Linode Python Pulumi program",
+                "config": {
+                    "linode:token": {
+                        "description": "The token that allows you access to your Linode account",
+                        "secret": true
+                    }
+                }
+            }
+        },
+        "linode-typescript": {
+            "name": "linode-typescript",
+            "runtime": "nodejs",
+            "template": {
+                "description": "A minimal Linode TypeScript Pulumi program",
+                "config": {
+                    "linode:token": {
+                        "description": "The token that allows you access to your Linode account",
+                        "secret": true
+                    }
+                }
+            }
+        },
+        "linode-yaml": {
+            "name": "linode-yaml",
+            "runtime": "yaml",
+            "template": {
+                "description": "A minimal Linode Pulumi YAML program",
+                "config": {
+                    "linode:token": {
+                        "description": "The token that allows you access to your Linode account",
+                        "secret": true
+                    }
+                }
+            }
+        },
+        "oci-go": {
+            "name": "oci-go",
+            "runtime": "go",
+            "template": {
+                "description": "A minimal OCI Go Pulumi program"
+            }
+        },
+        "oci-java": {
+            "name": "oci-java",
+            "runtime": "java",
+            "template": {
+                "description": "A minimal Java Pulumi program with Maven builds"
+            }
+        },
+        "oci-javascript": {
+            "name": "oci-javascript",
+            "runtime": {
+                "name": "nodejs",
+                "options": {
+                    "typescript": false
+                }
+            },
+            "template": {
+                "description": "A minimal OCI JavaScript Pulumi program"
+            }
+        },
+        "oci-python": {
+            "name": "oci-python",
+            "runtime": "python",
+            "template": {
+                "description": "A minimal OCI Python Pulumi program"
+            }
+        },
+        "oci-typescript": {
+            "name": "oci-typescript",
+            "runtime": "nodejs",
+            "template": {
+                "description": "A minimal OCI TypeScript Pulumi program"
+            }
+        },
+        "oci-yaml": {
+            "name": "oci-yaml",
+            "runtime": "yaml"
+        },
+        "openstack-go": {
+            "name": "openstack-go",
+            "runtime": "go",
+            "template": {
+                "description": "A minimal OpenStack Go Pulumi program"
+            }
+        },
+        "openstack-javascript": {
+            "name": "openstack-javascript",
+            "runtime": {
+                "name": "nodejs",
+                "options": {
+                    "typescript": false
+                }
+            },
+            "template": {
+                "description": "A minimal OpenStack JavaScript Pulumi program"
+            }
+        },
+        "openstack-python": {
+            "name": "openstack-python",
+            "runtime": "python",
+            "template": {
+                "description": "A minimal OpenStack Python Pulumi program"
+            }
+        },
+        "openstack-typescript": {
+            "name": "openstack-typescript",
+            "runtime": "nodejs",
+            "template": {
+                "description": "A minimal OpenStack TypeScript Pulumi program"
+            }
+        },
+        "openstack-yaml": {
+            "name": "openstack-yaml",
+            "runtime": "yaml",
+            "template": {
+                "description": "A minimal OpenStack Pulumi YAML program"
+            }
+        },
+        "python": {
+            "name": "python",
+            "runtime": "python",
+            "template": {
+                "description": "A minimal Python Pulumi program"
+            }
+        },
+        "random-csharp": {
+            "name": "random-csharp",
+            "runtime": "dotnet",
+            "template": {
+                "description": "A minimal Random C# Pulumi program."
+            }
+        },
+        "random-go": {
+            "name": "random-go",
+            "runtime": "go",
+            "template": {
+                "description": "A minimal Random Go Pulumi program."
+            }
+        },
+        "random-java": {
+            "name": "random-java",
+            "runtime": "java",
+            "template": {
+                "description": "A minimal Random Java Pulumi program",
+                "important": true
+            }
+        },
+        "random-python": {
+            "name": "random-python",
+            "runtime": "python",
+            "template": {
+                "description": "A minimal Random Python Pulumi program."
+            }
+        },
+        "random-typescript": {
+            "name": "random-typescript",
+            "runtime": "nodejs",
+            "template": {
+                "description": "A minimal Random TypeScript Pulumi program."
+            }
+        },
+        "random-yaml": {
+            "name": "random-yaml",
+            "runtime": "yaml",
+            "template": {
+                "description": "A minimal Random Pulumi YAML program."
+            }
+        },
+        "rediscloud-go": {
+            "name": "rediscloud-go",
+            "runtime": "go",
+            "template": {
+                "description": "A minimal RedisCloud Pulumi YAML program",
+                "config": {
+                    "cardType": {
+                        "description": "Credit card type (Visa, Mastercard) of the card on file with Rediscloud"
+                    },
+                    "lastFourNumbers": {
+                        "description": "Last four numbers of the card on file with RedisCloud"
+                    },
+                    "rediscloud:apiKey": {
+                        "description": "RedisCloud access key",
+                        "secret": true
+                    },
+                    "rediscloud:secretKey": {
+                        "description": "RedisCloud secret key",
+                        "secret": true
+                    }
+                }
+            }
+        },
+        "rediscloud-javascript": {
+            "name": "rediscloud-javascript",
+            "runtime": {
+                "name": "nodejs",
+                "options": {
+                    "typescript": false
+                }
+            },
+            "template": {
+                "description": "A minimal RedisCloud JavaScript Pulumi program",
+                "config": {
+                    "cardType": {
+                        "description": "Credit card type (Visa, Mastercard) of the card on file with Rediscloud"
+                    },
+                    "lastFourNumbers": {
+                        "description": "Last four numbers of the card on file with RedisCloud"
+                    },
+                    "rediscloud:apiKey": {
+                        "description": "RedisCloud access key",
+                        "secret": true
+                    },
+                    "rediscloud:secretKey": {
+                        "description": "RedisCloud secret key",
+                        "secret": true
+                    }
+                }
+            }
+        },
+        "rediscloud-python": {
+            "name": "rediscloud-python",
+            "runtime": "python",
+            "template": {
+                "description": "A minimal RedisCloud Python Pulumi program",
+                "config": {
+                    "cardType": {
+                        "description": "Credit card type (Visa, Mastercard) of the card on file with Rediscloud"
+                    },
+                    "lastFourNumbers": {
+                        "description": "Last four numbers of the card on file with RedisCloud"
+                    },
+                    "rediscloud:apiKey": {
+                        "description": "RedisCloud access key",
+                        "secret": true
+                    },
+                    "rediscloud:secretKey": {
+                        "description": "RedisCloud secret key",
+                        "secret": true
+                    }
+                }
+            }
+        },
+        "serverless-aws-csharp": {
+            "name": "serverless-aws-csharp",
+            "runtime": "dotnet",
+            "template": {
+                "description": "A C# program to deploy a serverless application on AWS",
+                "config": {
+                    "aws:region": {
+                        "description": "The AWS region to deploy into",
+                        "default": "us-west-2"
+                    }
+                }
+            }
+        },
+        "serverless-aws-go": {
+            "name": "serverless-aws-go",
+            "runtime": "go",
+            "template": {
+                "description": "A Go program to deploy a serverless application on AWS",
+                "config": {
+                    "aws:region": {
+                        "description": "The AWS region to deploy into",
+                        "default": "us-west-2"
+                    }
+                }
+            }
+        },
+        "serverless-aws-python": {
+            "name": "serverless-aws-python",
+            "runtime": {
+                "name": "python",
+                "options": {
+                    "virtualenv": "venv"
+                }
+            },
+            "template": {
+                "description": "A Python program to deploy a serverless application on AWS",
+                "config": {
+                    "aws:region": {
+                        "description": "The AWS region to deploy into",
+                        "default": "us-west-2"
+                    }
+                }
+            }
+        },
+        "serverless-aws-typescript": {
+            "name": "serverless-aws-typescript",
+            "runtime": "nodejs",
+            "template": {
+                "description": "A TypeScript program to deploy a serverless application on AWS",
+                "config": {
+                    "aws:region": {
+                        "description": "The AWS region to deploy into",
+                        "default": "us-west-2"
+                    }
+                }
+            }
+        },
+        "serverless-aws-yaml": {
+            "name": "serverless-aws-yaml",
+            "runtime": "yaml",
+            "template": {
+                "description": "A Pulumi YAML program to deploy a serverless application on AWS",
+                "config": {
+                    "aws:region": {
+                        "description": "The AWS region to deploy into",
+                        "default": "us-west-2"
+                    }
+                }
+            }
+        },
+        "serverless-azure-csharp": {
+            "name": "serverless-azure-csharp",
+            "runtime": "dotnet",
+            "template": {
+                "description": "A C# program to deploy a serverless application on Azure",
+                "config": {
+                    "azure-native:location": {
+                        "description": "The Azure region to deploy into",
+                        "default": "WestUS"
+                    },
+                    "sitePath": {
+                        "description": "The path to the folder containing the website",
+                        "default": "./www"
+                    },
+                    "appPath": {
+                        "description": "The path to the folder containing the functions to be deployed",
+                        "default": "./app"
+                    },
+                    "indexDocument": {
+                        "description": "The file to use for top-level pages",
+                        "default": "index.html"
+                    },
+                    "errorDocument": {
+                        "description": "The file to use for error pages",
+                        "default": "error.html"
+                    }
+                }
+            }
+        },
+        "serverless-azure-go": {
+            "name": "serverless-azure-go",
+            "runtime": "go",
+            "template": {
+                "description": "A Go program to deploy a serverless application on Azure",
+                "config": {
+                    "azure-native:location": {
+                        "description": "The Azure region to deploy into",
+                        "default": "WestUS"
+                    },
+                    "sitePath": {
+                        "description": "The path to the folder containing the website",
+                        "default": "./www"
+                    },
+                    "appPath": {
+                        "description": "The path to the folder containing the functions to be deployed",
+                        "default": "./app"
+                    },
+                    "indexDocument": {
+                        "description": "The file to use for top-level pages",
+                        "default": "index.html"
+                    },
+                    "errorDocument": {
+                        "description": "The file to use for error pages",
+                        "default": "error.html"
+                    }
+                }
+            }
+        },
+        "serverless-azure-python": {
+            "name": "serverless-azure-python",
+            "runtime": "python",
+            "template": {
+                "description": "A Python program to deploy a serverless application on Azure",
+                "config": {
+                    "azure-native:location": {
+                        "description": "The Azure region to deploy into",
+                        "default": "WestUS"
+                    },
+                    "sitePath": {
+                        "description": "The path to the folder containing the website",
+                        "default": "./www"
+                    },
+                    "appPath": {
+                        "description": "The path to the folder containing the functions to be deployed",
+                        "default": "./app"
+                    },
+                    "indexDocument": {
+                        "description": "The file to use for top-level pages",
+                        "default": "index.html"
+                    },
+                    "errorDocument": {
+                        "description": "The file to use for error pages",
+                        "default": "error.html"
+                    }
+                }
+            }
+        },
+        "serverless-azure-typescript": {
+            "name": "serverless-azure-typescript",
+            "runtime": "nodejs",
+            "template": {
+                "description": "A TypeScript program to deploy a serverless application on Azure",
+                "config": {
+                    "azure-native:location": {
+                        "description": "The Azure region to deploy into",
+                        "default": "WestUS"
+                    },
+                    "sitePath": {
+                        "description": "The path to the folder containing the website",
+                        "default": "./www"
+                    },
+                    "appPath": {
+                        "description": "The path to the folder containing the functions to be deployed",
+                        "default": "./app"
+                    },
+                    "indexDocument": {
+                        "description": "The file to use for top-level pages",
+                        "default": "index.html"
+                    },
+                    "errorDocument": {
+                        "description": "The file to use for error pages",
+                        "default": "error.html"
+                    }
+                }
+            }
+        },
+        "serverless-azure-yaml": {
+            "name": "serverless-azure-yaml",
+            "runtime": "yaml",
+            "template": {
+                "description": "A Pulumi YAML program to deploy a serverless application on Azure",
+                "config": {
+                    "azure-native:location": {
+                        "description": "The Azure region to deploy into",
+                        "default": "WestUS"
+                    },
+                    "sitePath": {
+                        "description": "The path to the folder containing the website",
+                        "default": "./www"
+                    },
+                    "appPath": {
+                        "description": "The path to the folder containing the functions to be deployed",
+                        "default": "./app"
+                    },
+                    "indexDocument": {
+                        "description": "The file to use for top-level pages",
+                        "default": "index.html"
+                    },
+                    "errorDocument": {
+                        "description": "The file to use for error pages",
+                        "default": "error.html"
+                    }
+                }
+            }
+        },
+        "serverless-gcp-csharp": {
+            "name": "serverless-gcp-csharp",
+            "runtime": "dotnet",
+            "template": {
+                "description": "A C# program to deploy a serverless application on Google Cloud",
+                "config": {
+                    "gcp:project": {
+                        "description": "The Google Cloud project to deploy into"
+                    },
+                    "gcp:region": {
+                        "description": "The Google Cloud region to deploy into",
+                        "default": "us-central1"
+                    },
+                    "sitePath": {
+                        "description": "The path to the folder containing the website",
+                        "default": "./www"
+                    },
+                    "appPath": {
+                        "description": "The path to the folder containing the functions to be deployed",
+                        "default": "./app"
+                    },
+                    "indexDocument": {
+                        "description": "The file to use for top-level pages",
+                        "default": "index.html"
+                    },
+                    "errorDocument": {
+                        "description": "The file to use for error pages",
+                        "default": "error.html"
+                    }
+                }
+            }
+        },
+        "serverless-gcp-go": {
+            "name": "serverless-gcp-go",
+            "runtime": "go",
+            "template": {
+                "description": "A Go program to deploy a serverless application on Google Cloud",
+                "config": {
+                    "gcp:project": {
+                        "description": "The Google Cloud project to deploy into"
+                    },
+                    "gcp:region": {
+                        "description": "The Google Cloud region to deploy into",
+                        "default": "us-central1"
+                    },
+                    "sitePath": {
+                        "description": "The path to the folder containing the website",
+                        "default": "./www"
+                    },
+                    "appPath": {
+                        "description": "The path to the folder containing the functions to be deployed",
+                        "default": "./app"
+                    },
+                    "indexDocument": {
+                        "description": "The file to use for top-level pages",
+                        "default": "index.html"
+                    },
+                    "errorDocument": {
+                        "description": "The file to use for error pages",
+                        "default": "error.html"
+                    }
+                }
+            }
+        },
+        "serverless-gcp-python": {
+            "name": "serverless-gcp-python",
+            "runtime": "python",
+            "template": {
+                "description": "A Python program to deploy a serverless application on Google Cloud",
+                "config": {
+                    "gcp:project": {
+                        "description": "The Google Cloud project to deploy into"
+                    },
+                    "gcp:region": {
+                        "description": "The Google Cloud region to deploy into",
+                        "default": "us-central1"
+                    },
+                    "sitePath": {
+                        "description": "The path to the folder containing the website",
+                        "default": "./www"
+                    },
+                    "appPath": {
+                        "description": "The path to the folder containing the functions to be deployed",
+                        "default": "./app"
+                    },
+                    "indexDocument": {
+                        "description": "The file to use for top-level pages",
+                        "default": "index.html"
+                    },
+                    "errorDocument": {
+                        "description": "The file to use for error pages",
+                        "default": "error.html"
+                    }
+                }
+            }
+        },
+        "serverless-gcp-typescript": {
+            "name": "serverless-gcp-typescript",
+            "runtime": "nodejs",
+            "template": {
+                "description": "A TypeScript program to deploy a serverless application on Google Cloud",
+                "config": {
+                    "gcp:project": {
+                        "description": "The Google Cloud project to deploy into"
+                    },
+                    "gcp:region": {
+                        "description": "The Google Cloud region to deploy into",
+                        "default": "us-central1"
+                    },
+                    "sitePath": {
+                        "description": "The path to the folder containing the website",
+                        "default": "./www"
+                    },
+                    "appPath": {
+                        "description": "The path to the folder containing the functions to be deployed",
+                        "default": "./app"
+                    },
+                    "indexDocument": {
+                        "description": "The file to use for top-level pages",
+                        "default": "index.html"
+                    },
+                    "errorDocument": {
+                        "description": "The file to use for error pages",
+                        "default": "error.html"
+                    }
+                }
+            }
+        },
+        "serverless-gcp-yaml": {
+            "name": "serverless-gcp-yaml",
+            "runtime": "yaml",
+            "template": {
+                "description": "A Pulumi YAML program to deploy a serverless application on Google Cloud",
+                "config": {
+                    "gcp:project": {
+                        "description": "The Google Cloud project to deploy into"
+                    },
+                    "gcp:region": {
+                        "description": "The Google Cloud region to deploy into",
+                        "default": "us-central1"
+                    },
+                    "sitePath": {
+                        "description": "The path to the folder containing the website",
+                        "default": "./www"
+                    },
+                    "appPath": {
+                        "description": "The path to the folder containing the functions to be deployed",
+                        "default": "./app"
+                    },
+                    "indexDocument": {
+                        "description": "The file to use for top-level pages",
+                        "default": "index.html"
+                    },
+                    "errorDocument": {
+                        "description": "The file to use for error pages",
+                        "default": "error.html"
+                    }
+                }
+            }
+        },
+        "static-website-aws-csharp": {
+            "name": "static-website-aws-csharp",
+            "runtime": "dotnet",
+            "template": {
+                "description": "A C# program to deploy a static website on AWS",
+                "config": {
+                    "aws:region": {
+                        "description": "The AWS region to deploy into",
+                        "default": "us-west-2"
+                    },
+                    "path": {
+                        "description": "The path to the folder containing the website",
+                        "default": "./www"
+                    },
+                    "indexDocument": {
+                        "description": "The file to use for top-level pages",
+                        "default": "index.html"
+                    },
+                    "errorDocument": {
+                        "description": "The file to use for error pages",
+                        "default": "error.html"
+                    }
+                }
+            }
+        },
+        "static-website-aws-go": {
+            "name": "static-website-aws-go",
+            "runtime": "go",
+            "template": {
+                "description": "A Go program to deploy a static website on AWS",
+                "config": {
+                    "aws:region": {
+                        "description": "The AWS region to deploy into",
+                        "default": "us-west-2"
+                    },
+                    "path": {
+                        "description": "The path to the folder containing the website",
+                        "default": "./www"
+                    },
+                    "indexDocument": {
+                        "description": "The file to use for top-level pages",
+                        "default": "index.html"
+                    },
+                    "errorDocument": {
+                        "description": "The file to use for error pages",
+                        "default": "error.html"
+                    }
+                }
+            }
+        },
+        "static-website-aws-python": {
+            "name": "static-website-aws-python",
+            "runtime": "python",
+            "template": {
+                "description": "A Python program to deploy a static website on AWS",
+                "config": {
+                    "aws:region": {
+                        "description": "The AWS region to deploy into",
+                        "default": "us-west-2"
+                    },
+                    "path": {
+                        "description": "The path to the folder containing the website",
+                        "default": "./www"
+                    },
+                    "indexDocument": {
+                        "description": "The file to use for top-level pages",
+                        "default": "index.html"
+                    },
+                    "errorDocument": {
+                        "description": "The file to use for error pages",
+                        "default": "error.html"
+                    }
+                }
+            }
+        },
+        "static-website-aws-typescript": {
+            "name": "static-website-aws-typescript",
+            "runtime": "nodejs",
+            "template": {
+                "description": "A TypeScript program to deploy a static website on AWS",
+                "config": {
+                    "aws:region": {
+                        "description": "The AWS region to deploy into",
+                        "default": "us-west-2"
+                    },
+                    "path": {
+                        "description": "The path to the folder containing the website",
+                        "default": "./www"
+                    },
+                    "indexDocument": {
+                        "description": "The file to use for top-level pages",
+                        "default": "index.html"
+                    },
+                    "errorDocument": {
+                        "description": "The file to use for error pages",
+                        "default": "error.html"
+                    }
+                }
+            }
+        },
+        "static-website-aws-yaml": {
+            "name": "static-website-aws-yaml",
+            "runtime": "yaml",
+            "template": {
+                "description": "A Pulumi YAML program to deploy a static website on AWS",
+                "config": {
+                    "aws:region": {
+                        "description": "The AWS region to deploy into",
+                        "default": "us-west-2"
+                    },
+                    "path": {
+                        "description": "The path to the folder containing the website",
+                        "default": "./www"
+                    },
+                    "indexDocument": {
+                        "description": "The file to use for top-level pages",
+                        "default": "index.html"
+                    },
+                    "errorDocument": {
+                        "description": "The file to use for error pages",
+                        "default": "error.html"
+                    }
+                }
+            }
+        },
+        "static-website-azure-csharp": {
+            "name": "static-website-azure-csharp",
+            "runtime": "dotnet",
+            "template": {
+                "description": "A C# program to deploy a static website on Azure",
+                "config": {
+                    "azure-native:location": {
+                        "description": "The Azure region to deploy into",
+                        "default": "WestUS"
+                    },
+                    "path": {
+                        "description": "The path to the folder containing the website",
+                        "default": "./www"
+                    },
+                    "indexDocument": {
+                        "description": "The file to use for top-level pages",
+                        "default": "index.html"
+                    },
+                    "errorDocument": {
+                        "description": "The file to use for error pages",
+                        "default": "error.html"
+                    }
+                }
+            }
+        },
+        "static-website-azure-go": {
+            "name": "static-website-azure-go",
+            "runtime": "go",
+            "template": {
+                "description": "A Go program to deploy a static website on Azure",
+                "config": {
+                    "azure-native:location": {
+                        "description": "The Azure region to deploy into",
+                        "default": "WestUS"
+                    },
+                    "path": {
+                        "description": "The path to the folder containing the website",
+                        "default": "./www"
+                    },
+                    "indexDocument": {
+                        "description": "The file to use for top-level pages",
+                        "default": "index.html"
+                    },
+                    "errorDocument": {
+                        "description": "The file to use for error pages",
+                        "default": "error.html"
+                    }
+                }
+            }
+        },
+        "static-website-azure-python": {
+            "name": "static-website-azure-python",
+            "runtime": "python",
+            "template": {
+                "description": "A Python program to deploy a static website on Azure",
+                "config": {
+                    "azure-native:location": {
+                        "description": "The Azure region to deploy into",
+                        "default": "WestUS"
+                    },
+                    "path": {
+                        "description": "The path to the folder containing the website",
+                        "default": "./www"
+                    },
+                    "indexDocument": {
+                        "description": "The file to use for top-level pages",
+                        "default": "index.html"
+                    },
+                    "errorDocument": {
+                        "description": "The file to use for error pages",
+                        "default": "error.html"
+                    }
+                }
+            }
+        },
+        "static-website-azure-typescript": {
+            "name": "static-website-azure-typescript",
+            "runtime": "nodejs",
+            "template": {
+                "description": "A TypeScript program to deploy a static website on Azure",
+                "config": {
+                    "azure-native:location": {
+                        "description": "The Azure region to deploy into",
+                        "default": "WestUS"
+                    },
+                    "path": {
+                        "description": "The path to the folder containing the website",
+                        "default": "./www"
+                    },
+                    "indexDocument": {
+                        "description": "The file to use for top-level pages",
+                        "default": "index.html"
+                    },
+                    "errorDocument": {
+                        "description": "The file to use for error pages",
+                        "default": "error.html"
+                    }
+                }
+            }
+        },
+        "static-website-azure-yaml": {
+            "name": "static-website-azure-yaml",
+            "runtime": "yaml",
+            "template": {
+                "description": "A Pulumi YAML program to deploy a static website on Azure",
+                "config": {
+                    "azure-native:location": {
+                        "description": "The Azure region to deploy into",
+                        "default": "WestUS"
+                    },
+                    "path": {
+                        "description": "The path to the folder containing the website",
+                        "default": "./www"
+                    },
+                    "indexDocument": {
+                        "description": "The file to use for top-level pages",
+                        "default": "index.html"
+                    },
+                    "errorDocument": {
+                        "description": "The file to use for error pages",
+                        "default": "error.html"
+                    }
+                }
+            }
+        },
+        "static-website-gcp-csharp": {
+            "name": "static-website-gcp-csharp",
+            "runtime": "dotnet",
+            "template": {
+                "description": "A C# program to deploy a static website on Google Cloud",
+                "config": {
+                    "gcp:project": {
+                        "description": "The Google Cloud project to deploy into"
+                    },
+                    "path": {
+                        "description": "The path to the folder containing the website",
+                        "default": "./www"
+                    },
+                    "indexDocument": {
+                        "description": "The file to use for top-level pages",
+                        "default": "index.html"
+                    },
+                    "errorDocument": {
+                        "description": "The file to use for error pages",
+                        "default": "error.html"
+                    }
+                }
+            }
+        },
+        "static-website-gcp-go": {
+            "name": "static-website-gcp-go",
+            "runtime": "go",
+            "template": {
+                "description": "A Go program to deploy a static website on Google Cloud",
+                "config": {
+                    "gcp:project": {
+                        "description": "The Google Cloud project to deploy into"
+                    },
+                    "path": {
+                        "description": "The path to the folder containing the website",
+                        "default": "./www"
+                    },
+                    "indexDocument": {
+                        "description": "The file to use for top-level pages",
+                        "default": "index.html"
+                    },
+                    "errorDocument": {
+                        "description": "The file to use for error pages",
+                        "default": "error.html"
+                    }
+                }
+            }
+        },
+        "static-website-gcp-python": {
+            "name": "static-website-gcp-python",
+            "runtime": "python",
+            "template": {
+                "description": "A Python program to deploy a static website on Google Cloud",
+                "config": {
+                    "gcp:project": {
+                        "description": "The Google Cloud project to deploy into"
+                    },
+                    "path": {
+                        "description": "The path to the folder containing the website",
+                        "default": "./www"
+                    },
+                    "indexDocument": {
+                        "description": "The file to use for top-level pages",
+                        "default": "index.html"
+                    },
+                    "errorDocument": {
+                        "description": "The file to use for error pages",
+                        "default": "error.html"
+                    }
+                }
+            }
+        },
+        "static-website-gcp-typescript": {
+            "name": "static-website-gcp-typescript",
+            "runtime": "nodejs",
+            "template": {
+                "description": "A TypeScript program to deploy a static website on Google Cloud",
+                "config": {
+                    "gcp:project": {
+                        "description": "The Google Cloud project to deploy into"
+                    },
+                    "path": {
+                        "description": "The path to the folder containing the website",
+                        "default": "./www"
+                    },
+                    "indexDocument": {
+                        "description": "The file to use for top-level pages",
+                        "default": "index.html"
+                    },
+                    "errorDocument": {
+                        "description": "The file to use for error pages",
+                        "default": "error.html"
+                    }
+                }
+            }
+        },
+        "static-website-gcp-yaml": {
+            "name": "static-website-gcp-yaml",
+            "runtime": "yaml",
+            "template": {
+                "description": "A Pulumi YAML program to deploy a static website on Google Cloud",
+                "config": {
+                    "gcp:project": {
+                        "description": "The Google Cloud project to deploy into"
+                    },
+                    "path": {
+                        "description": "The path to the folder containing the website",
+                        "default": "./www"
+                    },
+                    "indexDocument": {
+                        "description": "The file to use for top-level pages",
+                        "default": "index.html"
+                    },
+                    "errorDocument": {
+                        "description": "The file to use for error pages",
+                        "default": "error.html"
+                    }
+                }
+            }
+        },
+        "typescript": {
+            "name": "typescript",
+            "runtime": "nodejs",
+            "template": {
+                "description": "A minimal TypeScript Pulumi program"
+            }
+        },
+        "visualbasic": {
+            "name": "visualbasic",
+            "runtime": "dotnet",
+            "template": {
+                "description": "A minimal VB.NET Pulumi program"
+            }
+        },
+        "vm-aws-csharp": {
+            "name": "vm-aws-csharp",
+            "runtime": "dotnet",
+            "template": {
+                "description": "A C# program to deploy a virtual machine on Amazon EC2",
+                "config": {
+                    "aws:region": {
+                        "description": "The AWS region to deploy into",
+                        "default": "us-west-2"
+                    },
+                    "instanceType": {
+                        "description": "The Amazon EC2 instance type",
+                        "default": "t3.micro"
+                    },
+                    "vpcNetworkCidr": {
+                        "description": "The network CIDR to use for the VPC",
+                        "default": "10.0.0.0/16"
+                    }
+                }
+            }
+        },
+        "vm-aws-go": {
+            "name": "vm-aws-go",
+            "runtime": "go",
+            "template": {
+                "description": "A Go program to deploy a virtual machine on Amazon EC2",
+                "config": {
+                    "aws:region": {
+                        "description": "The AWS region to deploy into",
+                        "default": "us-west-2"
+                    },
+                    "instanceType": {
+                        "description": "The Amazon EC2 instance type",
+                        "default": "t3.micro"
+                    },
+                    "vpcNetworkCidr": {
+                        "description": "The network CIDR to use for the VPC",
+                        "default": "10.0.0.0/16"
+                    }
+                }
+            }
+        },
+        "vm-aws-python": {
+            "name": "vm-aws-python",
+            "runtime": "python",
+            "template": {
+                "description": "A Python program to deploy a virtual machine on Amazon EC2",
+                "config": {
+                    "aws:region": {
+                        "description": "The AWS region to deploy into",
+                        "default": "us-west-2"
+                    },
+                    "instanceType": {
+                        "description": "The Amazon EC2 instance type",
+                        "default": "t3.micro"
+                    },
+                    "vpcNetworkCidr": {
+                        "description": "The network CIDR to use for the VPC",
+                        "default": "10.0.0.0/16"
+                    }
+                }
+            }
+        },
+        "vm-aws-typescript": {
+            "name": "vm-aws-typescript",
+            "runtime": "nodejs",
+            "template": {
+                "description": "A TypeScript program to deploy a virtual machine on Amazon EC2",
+                "config": {
+                    "aws:region": {
+                        "description": "The AWS region to deploy into",
+                        "default": "us-west-2"
+                    },
+                    "instanceType": {
+                        "description": "The Amazon EC2 instance type",
+                        "default": "t3.micro"
+                    },
+                    "vpcNetworkCidr": {
+                        "description": "The network CIDR to use for the VPC",
+                        "default": "10.0.0.0/16"
+                    }
+                }
+            }
+        },
+        "vm-aws-yaml": {
+            "name": "vm-aws-yaml",
+            "runtime": "yaml",
+            "template": {
+                "description": "A Pulumi YAML program to deploy a virtual machine on Amazon EC2",
+                "config": {
+                    "aws:region": {
+                        "description": "The AWS region to deploy into",
+                        "default": "us-west-2"
+                    },
+                    "instanceType": {
+                        "description": "The Amazon EC2 instance type",
+                        "default": "t3.micro"
+                    },
+                    "vpcNetworkCidr": {
+                        "description": "The network CIDR to use for the VPC",
+                        "default": "10.0.0.0/16"
+                    }
+                }
+            }
+        },
+        "vm-azure-csharp": {
+            "name": "vm-azure-csharp",
+            "runtime": "dotnet",
+            "template": {
+                "description": "A C# program to deploy a virtual machine on Azure",
+                "config": {
+                    "azure-native:location": {
+                        "description": "The Azure location to deploy into",
+                        "default": "WestUS2"
+                    },
+                    "adminUsername": {
+                        "description": "The user account to create on the VM",
+                        "default": "pulumiuser"
+                    },
+                    "vmName": {
+                        "description": "The DNS hostname prefix to use for the VM",
+                        "default": "my-server"
+                    },
+                    "vmSize": {
+                        "description": "The machine size to use for the VM",
+                        "default": "Standard_A1_v2"
+                    },
+                    "osImage": {
+                        "description": "The Azure URN of the base image to use for the VM",
+                        "default": "Debian:debian-11:11:latest"
+                    },
+                    "servicePort": {
+                        "description": "The HTTP service port to expose on the VM",
+                        "default": "80"
+                    },
+                    "sshPublicKey": {
+                        "description": "The public key data to use for SSH authentication"
+                    }
+                }
+            }
+        },
+        "vm-azure-go": {
+            "name": "vm-azure-go",
+            "runtime": "go",
+            "template": {
+                "description": "A Go program to deploy a virtual machine on Azure",
+                "config": {
+                    "azure-native:location": {
+                        "description": "The Azure location to deploy into",
+                        "default": "WestUS2"
+                    },
+                    "adminUsername": {
+                        "description": "The user account to create on the VM",
+                        "default": "pulumiuser"
+                    },
+                    "vmName": {
+                        "description": "The DNS hostname prefix to use for the VM",
+                        "default": "my-server"
+                    },
+                    "vmSize": {
+                        "description": "The machine size to use for the VM",
+                        "default": "Standard_A1_v2"
+                    },
+                    "osImage": {
+                        "description": "The Azure URN of the base image to use for the VM",
+                        "default": "Debian:debian-11:11:latest"
+                    },
+                    "servicePort": {
+                        "description": "The HTTP service port to expose on the VM",
+                        "default": "80"
+                    },
+                    "sshPublicKey": {
+                        "description": "The public key data to use for SSH authentication"
+                    }
+                }
+            }
+        },
+        "vm-azure-python": {
+            "name": "vm-azure-python",
+            "runtime": "python",
+            "template": {
+                "description": "A Python program to deploy a virtual machine on Azure",
+                "config": {
+                    "azure-native:location": {
+                        "description": "The Azure location to deploy into",
+                        "default": "WestUS2"
+                    },
+                    "adminUsername": {
+                        "description": "The user account to create on the VM",
+                        "default": "pulumiuser"
+                    },
+                    "vmName": {
+                        "description": "The DNS hostname prefix to use for the VM",
+                        "default": "my-server"
+                    },
+                    "vmSize": {
+                        "description": "The machine size to use for the VM",
+                        "default": "Standard_A1_v2"
+                    },
+                    "osImage": {
+                        "description": "The Azure URN of the base image to use for the VM",
+                        "default": "Debian:debian-11:11:latest"
+                    },
+                    "servicePort": {
+                        "description": "The HTTP service port to expose on the VM",
+                        "default": "80"
+                    },
+                    "sshPublicKey": {
+                        "description": "The public key data to use for SSH authentication"
+                    }
+                }
+            }
+        },
+        "vm-azure-typescript": {
+            "name": "vm-azure-typescript",
+            "runtime": "nodejs",
+            "template": {
+                "description": "A TypeScript program to deploy a virtual machine on Azure",
+                "config": {
+                    "azure-native:location": {
+                        "description": "The Azure location to deploy into",
+                        "default": "WestUS2"
+                    },
+                    "adminUsername": {
+                        "description": "The user account to create on the VM",
+                        "default": "pulumiuser"
+                    },
+                    "vmName": {
+                        "description": "The DNS hostname prefix to use for the VM",
+                        "default": "my-server"
+                    },
+                    "vmSize": {
+                        "description": "The machine size to use for the VM",
+                        "default": "Standard_A1_v2"
+                    },
+                    "osImage": {
+                        "description": "The Azure URN of the base image to use for the VM",
+                        "default": "Debian:debian-11:11:latest"
+                    },
+                    "servicePort": {
+                        "description": "The HTTP service port to expose on the VM",
+                        "default": "80"
+                    },
+                    "sshPublicKey": {
+                        "description": "The public key data to use for SSH authentication"
+                    }
+                }
+            }
+        },
+        "vm-azure-yaml": {
+            "name": "vm-azure-yaml",
+            "runtime": "yaml",
+            "template": {
+                "description": "A Pulumi YAML program to deploy a virtual machine on Azure",
+                "config": {
+                    "azure-native:location": {
+                        "description": "The Azure location to deploy into",
+                        "default": "WestUS2"
+                    },
+                    "adminUsername": {
+                        "description": "The user account to create on the VM",
+                        "default": "pulumiuser"
+                    },
+                    "vmName": {
+                        "description": "The DNS hostname prefix to use for the VM",
+                        "default": "my-server"
+                    },
+                    "vmSize": {
+                        "description": "The machine size to use for the VM",
+                        "default": "Standard_A1_v2"
+                    },
+                    "osImage": {
+                        "description": "The Azure URN of the base image to use for the VM",
+                        "default": "Debian:debian-11:11:latest"
+                    },
+                    "servicePort": {
+                        "description": "The HTTP service port to expose on the VM",
+                        "default": "80"
+                    },
+                    "sshPublicKey": {
+                        "description": "The public key data to use for SSH authentication"
+                    }
+                }
+            }
+        },
+        "vm-gcp-csharp": {
+            "name": "vm-gcp-csharp",
+            "runtime": "dotnet",
+            "template": {
+                "description": "A C# program to deploy a virtual machine on Google Cloud",
+                "config": {
+                    "gcp:project": {
+                        "description": "The Google Cloud project to deploy into"
+                    },
+                    "gcp:region": {
+                        "description": "The Google Cloud region to deploy into",
+                        "default": "us-central1"
+                    },
+                    "gcp:zone": {
+                        "description": "The Google Cloud availability zone to deploy into",
+                        "default": "us-central1-a"
+                    },
+                    "machineType": {
+                        "description": "The GCP machine type to use for the VM",
+                        "default": "f1-micro"
+                    },
+                    "osImage": {
+                        "description": "The OS image type to use for the VM",
+                        "default": "debian-11"
+                    },
+                    "instanceTag": {
+                        "description": "The tag to apply to the VM instance",
+                        "default": "webserver"
+                    },
+                    "servicePort": {
+                        "description": "The HTTP service port to expose on the VM",
+                        "default": "80"
+                    }
+                }
+            }
+        },
+        "vm-gcp-go": {
+            "name": "vm-gcp-go",
+            "runtime": "go",
+            "template": {
+                "description": "A Go program to deploy a virtual machine on Google Cloud",
+                "config": {
+                    "gcp:project": {
+                        "description": "The Google Cloud project to deploy into"
+                    },
+                    "gcp:region": {
+                        "description": "The Google Cloud region to deploy into",
+                        "default": "us-central1"
+                    },
+                    "gcp:zone": {
+                        "description": "The Google Cloud availability zone to deploy into",
+                        "default": "us-central1-a"
+                    },
+                    "machineType": {
+                        "description": "The GCP machine type to use for the VM",
+                        "default": "f1-micro"
+                    },
+                    "osImage": {
+                        "description": "The OS image type to use for the VM",
+                        "default": "debian-11"
+                    },
+                    "instanceTag": {
+                        "description": "The tag to apply to the VM instance",
+                        "default": "webserver"
+                    },
+                    "servicePort": {
+                        "description": "The HTTP service port to expose on the VM",
+                        "default": "80"
+                    }
+                }
+            }
+        },
+        "vm-gcp-python": {
+            "name": "vm-gcp-python",
+            "runtime": "python",
+            "template": {
+                "description": "A Python program to deploy a virtual machine on Google Cloud",
+                "config": {
+                    "gcp:project": {
+                        "description": "The Google Cloud project to deploy into"
+                    },
+                    "gcp:region": {
+                        "description": "The Google Cloud region to deploy into",
+                        "default": "us-central1"
+                    },
+                    "gcp:zone": {
+                        "description": "The Google Cloud availability zone to deploy into",
+                        "default": "us-central1-a"
+                    },
+                    "machineType": {
+                        "description": "The GCP machine type to use for the VM",
+                        "default": "f1-micro"
+                    },
+                    "osImage": {
+                        "description": "The OS image type to use for the VM",
+                        "default": "debian-11"
+                    },
+                    "instanceTag": {
+                        "description": "The tag to apply to the VM instance",
+                        "default": "webserver"
+                    },
+                    "servicePort": {
+                        "description": "The HTTP service port to expose on the VM",
+                        "default": "80"
+                    }
+                }
+            }
+        },
+        "vm-gcp-typescript": {
+            "name": "vm-gcp-typescript",
+            "runtime": "nodejs",
+            "template": {
+                "description": "A TypeScript program to deploy a virtual machine on Google Cloud",
+                "config": {
+                    "gcp:project": {
+                        "description": "The Google Cloud project to deploy into"
+                    },
+                    "gcp:region": {
+                        "description": "The Google Cloud region to deploy into",
+                        "default": "us-central1"
+                    },
+                    "gcp:zone": {
+                        "description": "The Google Cloud availability zone to deploy into",
+                        "default": "us-central1-a"
+                    },
+                    "machineType": {
+                        "description": "The GCP machine type to use for the VM",
+                        "default": "f1-micro"
+                    },
+                    "osImage": {
+                        "description": "The OS image type to use for the VM",
+                        "default": "debian-11"
+                    },
+                    "instanceTag": {
+                        "description": "The tag to apply to the VM instance",
+                        "default": "webserver"
+                    },
+                    "servicePort": {
+                        "description": "The HTTP service port to expose on the VM",
+                        "default": "80"
+                    }
+                }
+            }
+        },
+        "vm-gcp-yaml": {
+            "name": "vm-gcp-yaml",
+            "runtime": "yaml",
+            "template": {
+                "description": "A Pulumi YAML program to deploy a virtual machine on Google Cloud",
+                "config": {
+                    "gcp:project": {
+                        "description": "The Google Cloud project to deploy into"
+                    },
+                    "gcp:region": {
+                        "description": "The Google Cloud region to deploy into",
+                        "default": "us-central1"
+                    },
+                    "gcp:zone": {
+                        "description": "The Google Cloud availability zone to deploy into",
+                        "default": "us-central1-a"
+                    },
+                    "machineType": {
+                        "description": "The GCP machine type to use for the VM",
+                        "default": "f1-micro"
+                    },
+                    "osImage": {
+                        "description": "The OS image type to use for the VM",
+                        "default": "debian-11"
+                    },
+                    "instanceTag": {
+                        "description": "The tag to apply to the VM instance",
+                        "default": "webserver"
+                    },
+                    "servicePort": {
+                        "description": "The HTTP service port to expose on the VM",
+                        "default": "80"
+                    }
+                }
+            }
+        },
+        "webapp-kubernetes-csharp": {
+            "name": "webapp-kubernetes-csharp",
+            "runtime": "dotnet",
+            "template": {
+                "description": "A C# program to deploy a web application onto a Kubernetes cluster",
+                "config": {
+                    "namespace": {
+                        "default": "default",
+                        "description": "The Kubernetes namespace to deploy into"
+                    },
+                    "replicas": {
+                        "default": 1,
+                        "description": "The number of replicas to deploy"
+                    }
+                }
+            }
+        },
+        "webapp-kubernetes-go": {
+            "name": "webapp-kubernetes-go",
+            "runtime": "go",
+            "template": {
+                "description": "A Go program to deploy a web application onto a Kubernetes cluster",
+                "config": {
+                    "namespace": {
+                        "default": "default",
+                        "description": "The Kubernetes namespace to deploy into"
+                    },
+                    "replicas": {
+                        "default": 1,
+                        "description": "The number of replicas to deploy"
+                    }
+                }
+            }
+        },
+        "webapp-kubernetes-python": {
+            "name": "webapp-kubernetes-python",
+            "runtime": "python",
+            "template": {
+                "description": "A Python program to deploy a web application onto a Kubernetes cluster",
+                "config": {
+                    "namespace": {
+                        "default": "default",
+                        "description": "The Kubernetes namespace to deploy into"
+                    },
+                    "replicas": {
+                        "default": 1,
+                        "description": "The number of replicas to deploy"
+                    }
+                }
+            }
+        },
+        "webapp-kubernetes-typescript": {
+            "name": "webapp-kubernetes-typescript",
+            "runtime": "nodejs",
+            "template": {
+                "description": "A TypeScript program to deploy a web application onto a Kubernetes cluster",
+                "config": {
+                    "namespace": {
+                        "default": "default",
+                        "description": "The Kubernetes namespace to deploy into"
+                    },
+                    "replicas": {
+                        "default": 1,
+                        "description": "The number of replicas to deploy"
+                    }
+                }
+            }
+        },
+        "webapp-kubernetes-yaml": {
+            "name": "webapp-kubernetes-yaml",
+            "runtime": "yaml",
+            "template": {
+                "description": "A Pulumi YAML program to deploy a web application onto a Kubernetes cluster",
+                "config": {
+                    "k8sNamespace": {
+                        "default": "default",
+                        "description": "The Kubernetes namespace to deploy into"
+                    },
+                    "numReplicas": {
+                        "default": 1,
+                        "description": "The number of replicas to deploy"
+                    }
+                }
+            }
+        },
+        "yaml": {
+            "name": "yaml",
+            "runtime": "yaml",
+            "template": {
+                "description": "A minimal Pulumi YAML program"
+            }
+        }
+    }
+}

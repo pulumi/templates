@@ -1,0 +1,116 @@
+name: ${PROJECT}
+description: ${DESCRIPTION}
+runtime: yaml
+
+template: 
+    description: A Pulumi YAML program to deploy a virtual machine on Amazon EC2
+    config:
+        aws:region:
+            description: The AWS region to deploy into
+            default: us-west-2
+        instanceType:
+            description: The Amazon EC2 instance type
+            default: t3.micro
+        vpcNetworkCidr:
+            description: The network CIDR to use for the VPC
+            default: 10.0.0.0/16
+
+config:
+    instanceType:
+        type: string
+        default: t3.micro
+    vpcNetworkCidr:
+        type: string
+        default: 10.0.0.0/16
+
+resources:  
+    # Create VPC.
+    vpc:
+        type: aws:ec2:Vpc
+        properties:
+            cidrBlock: ${vpcNetworkCidr}
+            enableDnsHostnames: true
+            enableDnsSupport: true 
+    # Create an internet gateway.
+    gateway:
+        type: aws:ec2:InternetGateway
+        properties:
+            vpcId: ${vpc.id}
+    # Create a subnet that automatically assigns new instances a public IP address.
+    subnet:
+        type: aws:ec2:Subnet
+        properties:
+            vpcId: ${vpc.id}
+            cidrBlock: 10.0.1.0/24
+            mapPublicIpOnLaunch: true
+    # Create a route table.
+    routeTable:
+        type: aws:ec2:RouteTable
+        properties:
+            vpcId: ${vpc.id}
+            routes:
+                - cidrBlock: 0.0.0.0/0
+                  gatewayId: ${gateway.id}
+    # Associate the route table with the public subnet.
+    routeTableAssociation:
+        type: aws:ec2:RouteTableAssociation
+        properties:
+            subnetId: ${subnet.id}
+            routeTableId: ${routeTable.id}
+    # Create a security group allowing inbound access over port 80 and outbound
+    # access to anywhere.
+    secGroup:
+        type: aws:ec2:SecurityGroup
+        properties:
+            description: Enable HTTP access
+            vpcId: ${vpc.id}
+            ingress:
+                - fromPort: 80
+                  toPort: 80
+                  protocol: tcp
+                  cidrBlocks: 
+                    - 0.0.0.0/0
+            egress:
+                - fromPort: 0
+                  toPort: 0
+                  protocol: -1
+                  cidrBlocks:
+                    - 0.0.0.0/0
+    # Create and launch an EC2 instance into the public subnet.
+    server:
+        type: aws:ec2:Instance
+        properties:
+            instanceType: ${instanceType}
+            subnetId: ${subnet.id}
+            vpcSecurityGroupIds: 
+                - ${secGroup}
+            userData: ${userData}
+            ami: ${ami}
+            tags:
+                Name: webserver
+
+variables:
+    # Look up the latest Amazon Linux 2 AMI.
+    ami:
+        fn::invoke:
+            function: aws:ec2:getAmi
+            arguments:
+                filters:
+                    - name: name
+                      values: 
+                        - "amzn2-ami-hvm-*"
+                owners: 
+                    - "amazon"
+                mostRecent: true
+            return: id    
+    # User data to start a HTTP server in the EC2 instance
+    userData: |
+        #!/bin/bash
+        echo "Hello, World from Pulumi!" > index.html
+        nohup python -m SimpleHTTPServer 80 &
+
+# Export the instance's publicly accessible IP address and hostname.            
+outputs:
+    ip: ${server.publicIp}
+    hostname: ${server.publicDns}
+    url: http://${server.publicDns}

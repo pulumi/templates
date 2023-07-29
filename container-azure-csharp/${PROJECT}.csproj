@@ -1,0 +1,17 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+        <OutputType>Exe</OutputType>
+        <TargetFramework>net6.0</TargetFramework>
+        <Nullable>enable</Nullable>
+
+        <!-- Ignore the files in the app folder. -->
+        <DefaultItemExcludes>app/**;$(DefaultItemExcludes)</DefaultItemExcludes>
+
+    </PropertyGroup>
+    <ItemGroup>
+        <PackageReference Include="Pulumi" Version="3.*" />
+        <PackageReference Include="Pulumi.AzureNative" Version="2.*" />
+        <PackageReference Include="Pulumi.Docker" Version="4.*" />
+        <PackageReference Include="Pulumi.Random" Version="4.*" />
+    </ItemGroup>
+</Project>

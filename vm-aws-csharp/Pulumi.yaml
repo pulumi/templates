@@ -1,0 +1,15 @@
+name: ${PROJECT}
+description: ${DESCRIPTION}
+runtime: dotnet
+template:
+  description: A C# program to deploy a virtual machine on Amazon EC2
+  config:
+    aws:region:
+      description: The AWS region to deploy into
+      default: us-west-2
+    instanceType:
+      description: The Amazon EC2 instance type
+      default: t3.micro
+    vpcNetworkCidr:
+      description: The network CIDR to use for the VPC
+      default: 10.0.0.0/16

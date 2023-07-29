@@ -1,0 +1,24 @@
+name: ${PROJECT}
+description: ${DESCRIPTION}
+runtime: nodejs
+template:
+  description: A TypeScript program to deploy a Kubernetes cluster on AWS
+  config:
+    aws:region:
+      description: The AWS region to deploy into
+      default: us-west-2
+    minClusterSize:
+      description: Minimum size (number of nodes) of cluster
+      default: 3
+    maxClusterSize:
+      description: Maximum size (number of nodes) of cluster
+      default: 6
+    desiredClusterSize:
+      description: Desired number of nodes in the cluster
+      default: 3
+    eksNodeInstanceType:
+      description: Instance type to use for worker nodes
+      default: t3.medium
+    vpcNetworkCidr:
+      description: Network CIDR to use for new VPC
+      default: 10.0.0.0/16

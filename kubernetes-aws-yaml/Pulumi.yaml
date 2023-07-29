@@ -1,0 +1,71 @@
+name: ${PROJECT}
+description: ${DESCRIPTION}
+runtime: yaml
+template:
+  description: A Pulumi YAML program to deploy a Kubernetes cluster on AWS
+  config:
+    aws:region:
+      description: The AWS region to deploy into
+      default: us-west-2
+    minClusterSize:
+      description: Minimum size (number of nodes) of cluster
+      default: 3
+    maxClusterSize:
+      description: Maximum size (number of nodes) of cluster
+      default: 6
+    desiredClusterSize:
+      description: Desired number of nodes in the cluster
+      default: 3
+    eksNodeInstanceType:
+      description: Instance type to use for worker nodes
+      default: t3.medium
+    vpcNetworkCidr:
+      description: Network CIDR to use for new VPC
+      default: 10.0.0.0/16
+config:
+  minClusterSize:
+    type: integer
+    default: 3
+  maxClusterSize:
+    type: integer
+    default: 6
+  desiredClusterSize:
+    type: integer
+    default: 3
+  eksNodeInstanceType:
+    type: string
+    default: t3.medium
+  vpcNetworkCidr:
+    type: string
+    default: 10.0.0.0/16
+resources:
+  # Create a VPC for the EKS cluster
+  eks-vpc:
+    type: awsx:ec2:Vpc
+    properties:
+      enableDnsHostnames: true
+      cidrBlock: ${vpcNetworkCidr}
+  # Create the EKS cluster
+  eks-cluster:
+    type: eks:Cluster
+    properties:
+      # Put the cluster in the new VPC created earlier
+      vpcId: ${eks-vpc.vpcId}
+      # Public subnets will be used for load balancers
+      publicSubnetIds: ${eks-vpc.publicSubnetIds}
+      # Private subnets will be used for cluster nodes
+      privateSubnetIds: ${eks-vpc.privateSubnetIds}
+      # Change configuration section above to change any of the following settings
+      instanceType: ${eksNodeInstanceType}
+      desiredCapacity: ${desiredClusterSize}
+      minSize: ${minClusterSize}
+      maxSize: ${maxClusterSize}
+      # Do not give the worker nodes public IP addresses
+      nodeAssociatePublicIpAddress: false
+      # Uncomment next two lines for private cluster access (VPN access required)
+      # endpointPrivateAccess: true
+      # endpointPublicAccess: false
+outputs:
+  # Output the Kubeconfig for the cluster
+  kubeconfig: ${eks-cluster.kubeconfig}
+  vpcId: ${eks-vpc.vpcId}
