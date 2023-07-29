@@ -3,9 +3,9 @@ module ${PROJECT}
 go 1.18
 
 require (
-	github.com/pulumi/pulumi-azure-native-sdk/compute/v2 v2.0.0
-	github.com/pulumi/pulumi-azure-native-sdk/network/v2 v2.0.0
-	github.com/pulumi/pulumi-azure-native-sdk/resources/v2 v2.0.0
+	github.com/pulumi/pulumi-azure-native-sdk/compute/v2 v2.1.1
+	github.com/pulumi/pulumi-azure-native-sdk/network/v2 v2.1.1
+	github.com/pulumi/pulumi-azure-native-sdk/resources/v2 v2.1.1
 	github.com/pulumi/pulumi-random/sdk/v4 v4.8.2
 	github.com/pulumi/pulumi/sdk/v3 v3.74.0
 )
@@ -45,7 +45,7 @@ require (
 	github.com/opentracing/opentracing-go v1.2.0 // indirect
 	github.com/pkg/errors v0.9.1 // indirect
 	github.com/pkg/term v1.1.0 // indirect
-	github.com/pulumi/pulumi-azure-native-sdk/v2 v2.0.0 // indirect
+	github.com/pulumi/pulumi-azure-native-sdk/v2 v2.1.1 // indirect
 	github.com/rivo/uniseg v0.4.2 // indirect
 	github.com/rogpeppe/go-internal v1.9.0 // indirect
 	github.com/sabhiram/go-gitignore v0.0.0-20210923224102-525f6e181f06 // indirect
