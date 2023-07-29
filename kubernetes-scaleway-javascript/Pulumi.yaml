@@ -1,8 +1,0 @@
-name: ${PROJECT}
-description: ${DESCRIPTION}
-runtime:
-  name: nodejs
-  options:
-    typescript: false
-template:
-  description: A minimal JavaScript Scaleway program

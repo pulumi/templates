@@ -1,8 +1,0 @@
-name: ${PROJECT}
-description: ${DESCRIPTION}
-runtime:
-  name: python
-  options:
-    virtualenv: venv
-template:
-  description: A minimal Python Scaleway program

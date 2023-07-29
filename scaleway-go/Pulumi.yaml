@@ -1,0 +1,11 @@
+name: ${PROJECT}
+description: ${DESCRIPTION}
+runtime: go
+template:
+  description: A minimal Scaleway Go program
+  config:
+    scaleway:project_id:
+      description: The Scaleway project ID
+    scaleway:region:
+      description: The Scaleway region to deploy into
+      default: fr-par

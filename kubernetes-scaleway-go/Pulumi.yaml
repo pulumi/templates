@@ -1,5 +1,0 @@
-name: ${PROJECT}
-description: ${DESCRIPTION}
-runtime: go
-template:
-  description: A minimal Scaleway Go Pulumi program
