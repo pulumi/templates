@@ -3,8 +3,8 @@ module ${PROJECT}
 go 1.18
 
 require (
-	github.com/pulumi/pulumi-azure-native-sdk/containerinstance/v2 v2.0.0
-	github.com/pulumi/pulumi-azure-native-sdk/containerregistry/v2 v2.0.0
+	github.com/pulumi/pulumi-azure-native-sdk/containerinstance/v2 v2.1.1
+	github.com/pulumi/pulumi-azure-native-sdk/containerregistry/v2 v2.1.1
 	github.com/pulumi/pulumi-azure-native-sdk/resources/v2 v2.0.0
 	github.com/pulumi/pulumi-random/sdk/v4 v4.8.2
 	github.com/pulumi/pulumi-docker/sdk/v4 v4.2.3
@@ -30,7 +30,7 @@ require (
 	github.com/mitchellh/go-ps v1.0.0 // indirect
 	github.com/pkg/errors v0.9.1 // indirect
 	github.com/pkg/term v1.1.0 // indirect
-	github.com/pulumi/pulumi-azure-native-sdk/v2 v2.0.0 // indirect
+	github.com/pulumi/pulumi-azure-native-sdk/v2 v2.1.1 // indirect
 	github.com/spf13/cast v1.3.1 // indirect
 	github.com/spf13/pflag v1.0.5 // indirect
 	github.com/stretchr/objx v0.2.0 // indirect
