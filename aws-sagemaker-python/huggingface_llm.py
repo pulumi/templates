@@ -15,7 +15,7 @@ from typing import Mapping, Optional
 
 class HuggingFaceLlm(pulumi.ComponentResource):
     """
-    A Pulumi component for deploying a Hugging Face LLM model on AWS SageMaker.
+    A Pulumi component for deploying a Hugging Face LLM model on Amazon SageMaker.
 
     Attributes:
         endpoint: The deployed SageMaker endpoint for the model.
