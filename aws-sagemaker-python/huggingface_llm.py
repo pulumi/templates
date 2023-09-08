@@ -1,5 +1,5 @@
 """
-A Pulumi program to deploy a Hugging Face Language Model (LLM) on AWS SageMaker.
+A Pulumi program to deploy a Hugging Face Language Model (LLM) on Amazon SageMaker.
 
 This Python module defines a Pulumi component resource for deploying a Hugging Face
 LLM model on AWS SageMaker. It also sets up CloudWatch monitoring for the deployed model.
