@@ -75,7 +75,7 @@ python3 test.py $(pulumi stack output EndpointName)
 
 ### Cleanup
 
-To destroy the Pulumi stack and all of it's resources:
+To destroy the Pulumi stack and all of its resources:
 
 ```bash
 pulumi destroy
