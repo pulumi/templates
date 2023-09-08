@@ -67,7 +67,7 @@ if __name__ == "__main__":
 
 2. Run the test:
 
-> replace the endpoint with your Pulumi outpu endpoint name:
+> replace the endpoint with the endpoint name in your Pulumi stack output:
 
 ```bash
 python3 test.py Llama2Llm-endpoint-2bc72c2
