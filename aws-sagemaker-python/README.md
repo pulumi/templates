@@ -1,4 +1,4 @@
-# AWS SageMaker + Hugging Face LLM Deployment
+# Amazon SageMaker + Hugging Face LLM Deployment
 
 ## Overview
 
@@ -67,10 +67,10 @@ if __name__ == "__main__":
 
 2. Run the test:
 
-> replace the endpoint with the endpoint name in your Pulumi stack output:
+> Notice: using the `pulumi stack output` command to return EndpointName from Pulumi state
 
 ```bash
-python3 test.py Llama2Llm-endpoint-2bc72c2
+python3 test.py $(pulumi stack output EndpointName)
 ```
 
 ### Cleanup
