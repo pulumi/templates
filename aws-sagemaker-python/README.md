@@ -39,7 +39,7 @@ pulumi up
 
 Use this rudimentary Python snippet to test the deployed SageMaker endpoint.
 
-1. Activate the python `venv` locally
+1. Activate the Python `venv` locally
 
 ```bash
 # On Linux & MacOS
