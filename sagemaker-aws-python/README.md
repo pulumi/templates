@@ -24,7 +24,7 @@ A Pulumi IaC program written in Python to deploy a Hugging Face Language Model (
 
 ```bash
 mkdir newProject && cd newProject
-pulumi new aws-sagemaker-python
+pulumi new sagemaker-aws-python
 ```
 
 2. Deploy the stack:
