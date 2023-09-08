@@ -1,7 +1,7 @@
 """A Python Pulumi program"""
 """
 This Pulumi program deploys a Hugging Face Language Model (LLM)
-on an AWS SageMaker instance. The deployment includes various configurations
+on an Amazon SageMaker instance. The deployment includes various configurations
 such as instance type, environment variables, and health check timeouts.
 
 Modules:
