@@ -12,7 +12,7 @@ A Pulumi IaC program written in Python to deploy a Hugging Face Language Model (
 
 ## Prerequisites
 
-* Python 3.8+
+* Python 3.9+
 * Pulumi
 * AWS CLIv2 & valid credentials configured
 
