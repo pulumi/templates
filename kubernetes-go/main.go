@@ -37,7 +37,7 @@ func main() {
 			return err
 		}
 
-		ctx.Export("name", deployment.Metadata.Elem().Name())
+		ctx.Export("name", deployment.Metadata.Name())
 
 		return nil
 	})
