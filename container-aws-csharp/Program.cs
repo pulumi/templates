@@ -21,7 +21,7 @@ return await Deployment.RunAsync(() =>
     var image = new Awsx.Ecr.Image("image", new()
     {
         RepositoryUrl = repo.Url,
-        Path = "./app",
+        Context = "./app",
     });
 
     var service = new Awsx.Ecs.FargateService("service", new()
