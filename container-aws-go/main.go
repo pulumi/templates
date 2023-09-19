@@ -1,11 +1,11 @@
 package main
 
 import (
-	"github.com/pulumi/pulumi-aws/sdk/v5/go/aws/ecs"
-	"github.com/pulumi/pulumi-awsx/sdk/go/awsx/ecr"
-	ecrx "github.com/pulumi/pulumi-awsx/sdk/go/awsx/ecr"
-	ecsx "github.com/pulumi/pulumi-awsx/sdk/go/awsx/ecs"
-	lbx "github.com/pulumi/pulumi-awsx/sdk/go/awsx/lb"
+	"github.com/pulumi/pulumi-aws/sdk/v6/go/aws/ecs"
+	"github.com/pulumi/pulumi-awsx/sdk/v2/go/awsx/ecr"
+	ecrx "github.com/pulumi/pulumi-awsx/sdk/v2/go/awsx/ecr"
+	ecsx "github.com/pulumi/pulumi-awsx/sdk/v2/go/awsx/ecs"
+	lbx "github.com/pulumi/pulumi-awsx/sdk/v2/go/awsx/lb"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi/config"
 )
@@ -49,7 +49,7 @@ func main() {
 		// Build and publish our application's container image from ./app to the ECR repository
 		image, err := ecrx.NewImage(ctx, "image", &ecr.ImageArgs{
 			RepositoryUrl: repo.Url,
-			Path:          pulumi.String("./app"),
+			Context:       pulumi.String("./app"),
 		})
 		if err != nil {
 			return err

@@ -6,7 +6,7 @@
     "dependencies": {
         "typescript": "^4.0.0",
         "@pulumi/pulumi": "^3.0.0",
-        "@pulumi/awsx": "^1.0.0",
-        "@pulumi/eks": "^1.0.0"
+        "@pulumi/awsx": "2.0.0-beta.3",
+        "@pulumi/eks": "v2.0.0-alpha.3"
     }
 }
