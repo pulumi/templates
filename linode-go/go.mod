@@ -1,6 +1,6 @@
 module ${PROJECT}
 
-go 1.18
+go 1.20
 
 require (
 	github.com/pulumi/pulumi-linode/sdk/v4 v4.4.2
