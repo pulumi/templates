@@ -1,10 +1,10 @@
 module ${PROJECT}
 
-go 1.20
+go 1.21
 
 require (
-	github.com/pulumi/pulumi-aws-apigateway/sdk v1.1.0-alpha.3
-	github.com/pulumi/pulumi-aws/sdk/v6 v6.0.4
+	github.com/pulumi/pulumi-aws-apigateway/sdk/v2 v2.0.0-alpha.1
+	github.com/pulumi/pulumi-aws/sdk/v6 v6.4.0
 	github.com/pulumi/pulumi/sdk/v3 v3.81.0
 )
 

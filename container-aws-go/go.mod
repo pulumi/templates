@@ -1,9 +1,9 @@
 module ${PROJECT}
 
-go 1.20
+go 1.21
 
 require (
-	github.com/pulumi/pulumi-aws/sdk/v6 v6.0.4
+	github.com/pulumi/pulumi-aws/sdk/v6 v6.4.0
 	github.com/pulumi/pulumi-awsx/sdk/v2 v2.0.0-beta.3
 	github.com/pulumi/pulumi/sdk/v3 v3.81.0
 )
