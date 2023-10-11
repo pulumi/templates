@@ -1,6 +1,6 @@
 module ${PROJECT}
 
-go 1.21
+go 1.20
 
 require (
 	github.com/pulumi/pulumi-gcp/sdk/v7 v7.0.0-alpha.0
