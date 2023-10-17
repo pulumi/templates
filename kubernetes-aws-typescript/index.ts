@@ -31,9 +31,9 @@ const eksCluster = new eks.Cluster("eks-cluster", {
     maxSize: maxClusterSize,
     // Do not give the worker nodes public IP addresses
     nodeAssociatePublicIpAddress: false,
-    // Uncomment the next two lines for a private cluster (VPN access required)
-    // endpointPrivateAccess: true,
-    // endpointPublicAccess: false
+    // Change these values for a private cluster (VPN access required)
+    endpointPrivateAccess: false,
+    endpointPublicAccess: true,
 });
 
 // Export some values for use elsewhere

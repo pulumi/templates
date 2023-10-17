@@ -42,6 +42,7 @@ func main() {
 		}
 
 		// Create a new EKS cluster
+		f := false
 		eksCluster, err := eks.NewCluster(ctx, "eks-cluster", &eks.ClusterArgs{
 			// Put the cluster in the new VPC created earlier
 			VpcId: eksVpc.VpcId,
@@ -55,10 +56,10 @@ func main() {
 			MinSize:         pulumi.Int(minClusterSize),
 			MaxSize:         pulumi.Int(maxClusterSize),
 			// Do not give the worker nodes a public IP address
-			NodeAssociatePublicIpAddress: pulumi.Bool(false),
-			// Uncomment the next two lines for a private cluster (VPN access required)
-			// EndpointPrivateAccess: 	      pulumi.Bool(true),
-			// EndpointPublicAccess:         pulumi.Bool(false),
+			NodeAssociatePublicIpAddress: &f,
+			// Change these values for a private cluster (VPN access required)
+			EndpointPrivateAccess: pulumi.Bool(false),
+			EndpointPublicAccess:  pulumi.Bool(true),
 		})
 		if err != nil {
 			return err

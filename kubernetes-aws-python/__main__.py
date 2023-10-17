@@ -30,9 +30,9 @@ eks_cluster = eks.Cluster("eks-cluster",
     max_size=max_cluster_size,
     # Do not give worker nodes a public IP address
     node_associate_public_ip_address=False,
-    # Uncomment the next two lines for private cluster (VPN access required)
-    # endpoint_private_access=true,
-    # endpoint_public_access=false
+    # Change these values for a private cluster (VPN access required)
+    endpoint_private_access=False,
+    endpoint_public_access=True
     )
 
 # Export values to use elsewhere
