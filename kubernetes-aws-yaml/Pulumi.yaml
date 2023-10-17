@@ -62,9 +62,9 @@ resources:
       maxSize: ${maxClusterSize}
       # Do not give the worker nodes public IP addresses
       nodeAssociatePublicIpAddress: false
-      # Uncomment next two lines for private cluster access (VPN access required)
-      # endpointPrivateAccess: true
-      # endpointPublicAccess: false
+      # Change these values for a private cluster (VPN access required)
+      endpointPrivateAccess: false
+      endpointPublicAccess: true
 outputs:
   # Output the Kubeconfig for the cluster
   kubeconfig: ${eks-cluster.kubeconfig}
