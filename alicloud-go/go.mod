@@ -1,8 +1,6 @@
 module ${PROJECT}
 
-go 1.21
-
-toolchain go1.21.1
+go 1.20
 
 require (
 	github.com/pulumi/pulumi-alicloud/sdk/v2 v2.39.1
