@@ -4,8 +4,8 @@ go 1.21
 
 require (
 	github.com/pulumi/pulumi-awsx/sdk/v2 v2.0.2
-	github.com/pulumi/pulumi-eks/sdk/v2 v2.0.0-alpha.3
-	github.com/pulumi/pulumi/sdk/v3 v3.85.0
+	github.com/pulumi/pulumi-eks/sdk/v2 v2.0.0-alpha.4
+	github.com/pulumi/pulumi/sdk/v3 v3.91.1
 )
 
 require (
@@ -35,7 +35,7 @@ require (
 	github.com/grpc-ecosystem/grpc-opentracing v0.0.0-20180507213350-8e809c8a8645 // indirect
 	github.com/hashicorp/errwrap v1.1.0 // indirect
 	github.com/hashicorp/go-multierror v1.1.1 // indirect
-	github.com/hashicorp/hcl/v2 v2.16.2 // indirect
+	github.com/hashicorp/hcl/v2 v2.17.0 // indirect
 	github.com/imdario/mergo v0.3.13 // indirect
 	github.com/inconshreveable/mousetrap v1.1.0 // indirect
 	github.com/jbenet/go-context v0.0.0-20150711004518-d14ea06fba99 // indirect
@@ -59,7 +59,7 @@ require (
 	github.com/pulumi/pulumi-docker/sdk/v4 v4.4.3 // indirect
 	github.com/pulumi/pulumi-kubernetes/sdk/v3 v3.17.0 // indirect
 	github.com/rivo/uniseg v0.4.4 // indirect
-	github.com/rogpeppe/go-internal v1.9.0 // indirect
+	github.com/rogpeppe/go-internal v1.11.0 // indirect
 	github.com/sabhiram/go-gitignore v0.0.0-20210923224102-525f6e181f06 // indirect
 	github.com/santhosh-tekuri/jsonschema/v5 v5.0.0 // indirect
 	github.com/sergi/go-diff v1.3.1 // indirect
