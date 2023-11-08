@@ -2,7 +2,7 @@ module ${PROJECT}
 
 go 1.21
 
-toolchain go1.21.3
+
 
 require (
 	github.com/pulumi/pulumi-gcp/sdk/v7 v7.0.0-rc.0
