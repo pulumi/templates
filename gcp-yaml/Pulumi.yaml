@@ -14,8 +14,6 @@ resources:
     type: gcp:storage:Bucket
     properties:
       location: US
-    options:
-      version: v7.0.0-rc.0
 
 outputs:
   # Export the DNS name of the bucket
