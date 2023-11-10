@@ -3,8 +3,8 @@ module ${PROJECT}
 go 1.21
 
 require (
-	github.com/pulumi/pulumi-awsx/sdk/v2 v2.0.2
-	github.com/pulumi/pulumi-eks/sdk/v2 v2.0.0-alpha.4
+	github.com/pulumi/pulumi-awsx/sdk/v2 v2.1.1
+	github.com/pulumi/pulumi-eks/sdk/v2 v2.0.0
 	github.com/pulumi/pulumi/sdk/v3 v3.91.1
 )
 
@@ -40,6 +40,7 @@ require (
 	github.com/inconshreveable/mousetrap v1.1.0 // indirect
 	github.com/jbenet/go-context v0.0.0-20150711004518-d14ea06fba99 // indirect
 	github.com/kevinburke/ssh_config v1.2.0 // indirect
+	github.com/kr/pretty v0.3.0 // indirect
 	github.com/lucasb-eyer/go-colorful v1.2.0 // indirect
 	github.com/mattn/go-isatty v0.0.18 // indirect
 	github.com/mattn/go-localereader v0.0.1 // indirect
@@ -55,9 +56,10 @@ require (
 	github.com/pjbgf/sha1cd v0.3.0 // indirect
 	github.com/pkg/errors v0.9.1 // indirect
 	github.com/pkg/term v1.1.0 // indirect
-	github.com/pulumi/pulumi-aws/sdk/v6 v6.5.0 // indirect
+	github.com/pulumi/esc v0.5.6 // indirect
+	github.com/pulumi/pulumi-aws/sdk/v6 v6.7.0 // indirect
 	github.com/pulumi/pulumi-docker/sdk/v4 v4.4.3 // indirect
-	github.com/pulumi/pulumi-kubernetes/sdk/v3 v3.17.0 // indirect
+	github.com/pulumi/pulumi-kubernetes/sdk/v4 v4.4.0 // indirect
 	github.com/rivo/uniseg v0.4.4 // indirect
 	github.com/rogpeppe/go-internal v1.11.0 // indirect
 	github.com/sabhiram/go-gitignore v0.0.0-20210923224102-525f6e181f06 // indirect
@@ -75,13 +77,14 @@ require (
 	github.com/zclconf/go-cty v1.13.2 // indirect
 	go.uber.org/atomic v1.9.0 // indirect
 	golang.org/x/crypto v0.14.0 // indirect
+	golang.org/x/exp v0.0.0-20231006140011-7918f672742d // indirect
 	golang.org/x/net v0.17.0 // indirect
 	golang.org/x/sync v0.2.0 // indirect
 	golang.org/x/sys v0.13.0 // indirect
 	golang.org/x/term v0.13.0 // indirect
 	golang.org/x/text v0.13.0 // indirect
 	google.golang.org/genproto/googleapis/rpc v0.0.0-20230731190214-cbb8c96f2d6d // indirect
-	google.golang.org/grpc v1.57.0 // indirect
+	google.golang.org/grpc v1.57.1 // indirect
 	google.golang.org/protobuf v1.31.0 // indirect
 	gopkg.in/warnings.v0 v0.1.2 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
