@@ -23,10 +23,8 @@ template:
     servicePort:
       description: The HTTP service port to expose on the VM
       default: "80"
-    sshPublicKey:
-      description: The public key data to use for SSH authentication
 
-# Import the program's configuration settings.
+# Import the program's configuration settings
 config:
   adminUsername:
     type: string
@@ -43,13 +41,11 @@ config:
   servicePort:
     type: string
     default: "80"
-  sshPublicKey:
-    type: string
 
 variables:
   dnsName: ${vmName}-${random-string.result}
 
-  # Define a script to be run when the VM starts up.
+  # Define a script to be run when the VM starts up
   initScript:
     fn::toBase64: |
       #!/bin/bash
@@ -74,7 +70,7 @@ variables:
   osImageSku: ${osImageArgs[2]}
   osImageVersion: ${osImageArgs[3]}
 
-  # Once the machine is created, fetch its IP address and DNS hostname.
+  # Once the machine is created, fetch its IP address and DNS hostname
   address:
     fn::invoke:
       function: azure-native:network:getPublicIPAddress
@@ -85,11 +81,18 @@ variables:
 
 resources:
 
-  # Create a resource group.
+  # Create an SSH key
+  ssh-key:
+    properties:
+      algorithm: RSA
+      rsaBits: 4096
+    type: tls:PrivateKey
+
+  # Create a resource group
   resource-group:
     type: azure-native:resources:ResourceGroup
 
-  # Create a virtual network.
+  # Create a virtual network
   network:
     type: azure-native:network:VirtualNetwork
     properties:
@@ -101,7 +104,7 @@ resources:
         - name: default
           addressPrefix: 10.0.1.0/24
 
-  # Use a random string to give the VM a unique DNS name.
+  # Use a random string to give the VM a unique DNS name
   random-string:
     type: random:RandomString
     properties:
@@ -109,7 +112,7 @@ resources:
       upper: false
       special: false
 
-  # Create a public IP address for the VM.
+  # Create a public IP address for the VM
   public-ip:
     type: azure-native:network:PublicIPAddress
     properties:
@@ -118,7 +121,7 @@ resources:
       dnsSettings:
         domainNameLabel: ${dnsName}
 
-  # Create a security group allowing inbound access over ports 80 (for HTTP) and 22 (for SSH).
+  # Create a security group allowing inbound access over ports 80 (for HTTP) and 22 (for SSH)
   security-group:
     type: azure-native:network:NetworkSecurityGroup
     properties:
@@ -133,10 +136,10 @@ resources:
           sourceAddressPrefix: "*"
           destinationAddressPrefix: "*"
           destinationPortRanges:
-            - ${servicePort}
+            - fn::toJSON: ${servicePort}
             - "22"
 
-  # Create a network interface with the virtual network, IP address, and security group.
+  # Create a network interface with the virtual network, IP address, and security group
   network-interface:
     type: azure-native:network:NetworkInterface
     properties:
@@ -151,7 +154,7 @@ resources:
           publicIPAddress:
             id: ${public-ip.id}
 
-  # Create the virtual machine.
+  # Create the virtual machine
   vm:
     type: azure-native:compute:VirtualMachine
     properties:
@@ -170,7 +173,7 @@ resources:
           disablePasswordAuthentication: true
           ssh:
             publicKeys:
-              - keyData: ${sshPublicKey}
+              - keyData: ${ssh-key.publicKeyOpenssh}
                 path: /home/${adminUsername}/.ssh/authorized_keys
       storageProfile:
         osDisk:
@@ -182,8 +185,9 @@ resources:
           sku: ${osImageSku}
           version: ${osImageVersion}
 
-# Export the VM's hostname, public IP address, and HTTP URL.
+# Export the VM's hostname, public IP address, HTTP URL, and SSH private key
 outputs:
   ip: ${address.ipAddress}
   hostname: ${address.dnsSettings.fqdn}
   url: http://${address.dnsSettings.fqdn}:${servicePort}
+  privatekey: ${ssh-key.privateKeyOpenssh}
