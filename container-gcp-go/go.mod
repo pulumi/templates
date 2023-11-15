@@ -80,7 +80,7 @@ require (
 	github.com/mattn/go-runewidth v0.0.14 // indirect
 	github.com/opentracing/basictracer-go v1.1.0 // indirect
 	github.com/opentracing/opentracing-go v1.2.0 // indirect
-	github.com/pulumi/pulumi-docker/sdk/v4 v4.2.3
+	github.com/pulumi/pulumi-docker/sdk/v4 v4.5.0-beta.0
 	github.com/rivo/uniseg v0.4.4 // indirect
 	github.com/rogpeppe/go-internal v1.11.0 // indirect
 	github.com/sabhiram/go-gitignore v0.0.0-20210923224102-525f6e181f06 // indirect
