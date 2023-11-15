@@ -1,8 +1,8 @@
 package main
 
 import (
-	"github.com/pulumi/pulumi-awsx/sdk/go/awsx/ec2"
-	"github.com/pulumi/pulumi-eks/sdk/go/eks"
+	"github.com/pulumi/pulumi-awsx/sdk/v2/go/awsx/ec2"
+	"github.com/pulumi/pulumi-eks/sdk/v2/go/eks"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi/config"
 )
@@ -42,7 +42,6 @@ func main() {
 		}
 
 		// Create a new EKS cluster
-		f := false
 		eksCluster, err := eks.NewCluster(ctx, "eks-cluster", &eks.ClusterArgs{
 			// Put the cluster in the new VPC created earlier
 			VpcId: eksVpc.VpcId,
@@ -56,7 +55,7 @@ func main() {
 			MinSize:         pulumi.Int(minClusterSize),
 			MaxSize:         pulumi.Int(maxClusterSize),
 			// Do not give the worker nodes a public IP address
-			NodeAssociatePublicIpAddress: &f,
+			NodeAssociatePublicIpAddress: pulumi.BoolRef(false),
 			// Change these values for a private cluster (VPN access required)
 			EndpointPrivateAccess: pulumi.Bool(false),
 			EndpointPublicAccess:  pulumi.Bool(true),

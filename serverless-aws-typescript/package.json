@@ -1,13 +1,13 @@
 {
     "name": "${PROJECT}",
     "devDependencies": {
-	    "@types/node": "^16"
+	    "@types/node": "^18"
     },
     "dependencies": {
-	    "@pulumi/aws": "^5.23.0",
-	    "@pulumi/aws-apigateway": "^1.0.1",
-	    "@pulumi/awsx": "^1.0.0",
+	    "@pulumi/aws": "^6.0.0",
+	    "@pulumi/aws-apigateway": "^2.0.0",
+	    "@pulumi/awsx": "^2.0.2",
 	    "@pulumi/pulumi": "^3.49.0",
-	    "typescript": "^4.0.0"
+	    "typescript": "^4.6.2"
     }
 }
