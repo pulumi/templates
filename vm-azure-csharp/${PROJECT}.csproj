@@ -10,6 +10,7 @@
     <PackageReference Include="Pulumi" Version="3.*" />
     <PackageReference Include="Pulumi.AzureNative" Version="2.*" />
     <PackageReference Include="Pulumi.Random" Version="4.*" />
+    <PackageReference Include="Pulumi.Tls" Version="4.*" />
   </ItemGroup>
 
 </Project>
