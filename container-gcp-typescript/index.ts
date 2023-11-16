@@ -46,11 +46,6 @@ const image = new docker.Image("image", {
     build: {
         context: appPath,
         platform: "linux/amd64",
-        args: {
-            // Cloud Run currently requires x86_64 images
-            // https://cloud.google.com/run/docs/container-contract#languages
-            DOCKER_DEFAULT_PLATFORM: "linux/amd64",
-        },
     },
 });
 
