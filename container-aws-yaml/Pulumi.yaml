@@ -26,23 +26,29 @@ config:
     default: 128
 
 resources:
+
   # An ECS cluster to deploy into
   cluster:
     type: aws:ecs:Cluster
+
   # An ALB to serve the container endpoint to the internet
   loadbalancer:
     type: awsx:lb:ApplicationLoadBalancer
+
   # An ECR repository to store our application's container image
   repo:
     type: awsx:ecr:Repository
     properties:
       forceDelete: true
+
   # Build and publish our application's container image from ./app to the ECR repository
   image:
     type: awsx:ecr:Image
     properties:
       repositoryUrl: ${repo.url}
-      path: ./app
+      context: ./app
+      platform: linux/amd64
+
   # Deploy an ECS Service on Fargate to host the application container
   service:
     type: awsx:ecs:FargateService
@@ -51,6 +57,7 @@ resources:
       assignPublicIp: true
       taskDefinitionArgs:
         container:
+          name: app
           image: ${image.imageUri}
           cpu: ${cpu}
           memory: ${memory}
@@ -60,5 +67,6 @@ resources:
             targetGroup: ${loadbalancer.defaultTargetGroup}
 
 outputs:
+
   # The URL at which the container's HTTP endpoint will be available
   url: http://${loadbalancer.loadBalancer.dnsName}
