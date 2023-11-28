@@ -50,6 +50,7 @@ func main() {
 		image, err := ecrx.NewImage(ctx, "image", &ecr.ImageArgs{
 			RepositoryUrl: repo.Url,
 			Context:       pulumi.String("./app"),
+			Platform:      pulumi.String("linux/amd64"),
 		})
 		if err != nil {
 			return err
@@ -61,6 +62,7 @@ func main() {
 			AssignPublicIp: pulumi.Bool(true),
 			TaskDefinitionArgs: &ecsx.FargateServiceTaskDefinitionArgs{
 				Container: &ecsx.TaskDefinitionContainerDefinitionArgs{
+					Name:      pulumi.String("app"),
 					Image:     image.ImageUri,
 					Cpu:       pulumi.Int(cpu),
 					Memory:    pulumi.Int(memory),
