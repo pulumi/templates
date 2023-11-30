@@ -73,7 +73,7 @@ service = cloudrun.Service(
             spec=cloudrun.ServiceTemplateSpecArgs(
                 containers=[
                     cloudrun.ServiceTemplateSpecContainerArgs(
-                        image=image.image_name,
+                        image=image.repo_digest,
                         resources=cloudrun.ServiceTemplateSpecContainerResourcesArgs(
                             limits=dict(
                                 memory=memory,
