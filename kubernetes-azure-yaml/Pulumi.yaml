@@ -2,6 +2,7 @@ name: ${PROJECT}
 description: ${DESCRIPTION}
 runtime: yaml
 template:
+  displayName: Kubernetes Cluster
   description: A Pulumi YAML program to deploy a Kubernetes cluster on Azure
   config:
     azure-native:location:
@@ -22,6 +23,8 @@ template:
       description: The object ID (from az ad group list) of a group to make cluster admins
     sshPubKey:
       description: Contents of the public key for SSH access to cluster nodes
+  metadata:
+    cloud: azure
 
 config:
   azure-native:location:

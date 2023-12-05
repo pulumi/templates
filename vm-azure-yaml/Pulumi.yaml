@@ -3,6 +3,7 @@ description: ${DESCRIPTION}
 runtime: yaml
 
 template:
+  displayName: Virtual Machine
   description: A Pulumi YAML program to deploy a virtual machine on Azure
   config:
     azure-native:location:
@@ -23,6 +24,8 @@ template:
     servicePort:
       description: The HTTP service port to expose on the VM
       default: "80"
+  metadata:
+    cloud: azure
 
 # Import the program's configuration settings
 config:
