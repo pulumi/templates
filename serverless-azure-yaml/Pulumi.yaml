@@ -3,6 +3,7 @@ description: ${DESCRIPTION}
 runtime: yaml
 
 template:
+  displayName: Serverless Application
   description: A Pulumi YAML program to deploy a serverless application on Azure
   config:
     azure-native:location:
@@ -20,6 +21,8 @@ template:
     errorDocument:
       description: The file to use for error pages
       default: error.html
+  metadata:
+    cloud: azure
 
 # Import the program's configuration settings.
 config:

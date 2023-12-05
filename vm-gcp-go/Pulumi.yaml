@@ -2,6 +2,7 @@ name: ${PROJECT}
 description: ${DESCRIPTION}
 runtime: go
 template:
+  displayName: Virtual Machine
   description: A Go program to deploy a virtual machine on Google Cloud
   config:
     gcp:project:
@@ -24,3 +25,5 @@ template:
     servicePort:
       description: The HTTP service port to expose on the VM
       default: "80"
+  metadata:
+    cloud: gcp

@@ -3,6 +3,7 @@ description: ${DESCRIPTION}
 runtime: go
 
 template:
+  displayName: Static Website
   description: A Go program to deploy a static website on AWS
   config:
     aws:region:
@@ -17,3 +18,5 @@ template:
     errorDocument:
       description: The file to use for error pages
       default: error.html
+  metadata:
+    cloud: aws

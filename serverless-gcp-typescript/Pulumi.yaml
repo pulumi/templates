@@ -3,6 +3,7 @@ description: ${DESCRIPTION}
 runtime: nodejs
 
 template:
+  displayName: Serverless Application
   description: A TypeScript program to deploy a serverless application on Google Cloud
   config:
     gcp:project:
@@ -22,3 +23,5 @@ template:
     errorDocument:
       description: The file to use for error pages
       default: error.html
+  metadata:
+    cloud: gcp
