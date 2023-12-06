@@ -19,6 +19,7 @@ env:
   LINODE_TOKEN: ${{ secrets.LINODE_TOKEN }}
   SKIPPED_TESTS: "alicloud,digitalocean,kubernetes,openstack,equinix-metal,civo,aiven,auth0,github,oci,java-jbang,java-gradle,azuredevops,vm-azure-yaml"
   PULUMI_API: https://api.pulumi-staging.io
+  PULUMI_VERSION: "^3.95.0"
   ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
   ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
   ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
