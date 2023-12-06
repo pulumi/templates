@@ -2,9 +2,12 @@ name: ${PROJECT}
 description: ${DESCRIPTION}
 runtime: python
 template:
+  displayName: Starter
   description: A minimal Azure Native Python Pulumi program
   important: true
   config:
     azure-native:location:
       description: The Azure location to use
       default: WestUS2
+  metadata:
+    cloud: azure

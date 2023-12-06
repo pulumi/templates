@@ -2,8 +2,11 @@ name: ${PROJECT}
 description: ${DESCRIPTION}
 runtime: yaml
 template:
+  displayName: Starter
   description: A minimal Kubernetes Pulumi YAML program
   important: true
+  metadata:
+    cloud: kubernetes
 
 variables:
   appLabels:

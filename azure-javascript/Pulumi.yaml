@@ -5,9 +5,12 @@ runtime:
   options:
     typescript: false
 template:
+  displayName: Starter
   description: A minimal JavaScript Pulumi program with the native Azure provider
   important: true
   config:
     azure-native:location:
       description: The Azure location to use
       default: WestUS2
+  metadata:
+    cloud: azure
