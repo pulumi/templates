@@ -19,6 +19,7 @@ env:
   LINODE_TOKEN: ${{ secrets.LINODE_TOKEN }}
   SKIPPED_TESTS: "alicloud,digitalocean,kubernetes,openstack,equinix-metal,civo,aiven,auth0,github,oci,java-jbang,java-gradle,azuredevops,vm-azure-yaml"
   PULUMI_API: https://api.pulumi-staging.io
+  MIN_PULUMI_VERSION: "3.95.0"
   ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
   ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
   ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
@@ -77,7 +78,7 @@ jobs:
       - name: Install Pulumi CLI
         uses: pulumi/actions@v4
         with:
-          pulumi-version: ${{ env.PULUMI_VERSION != '' && format('v{0}', env.PULUMI_VERSION) || null }}
+          pulumi-version: ${{ env.MIN_PULUMI_VERSION != '' && format('^v{0}', env.MIN_PULUMI_VERSION) || null }}
       - run: pulumi version
       - name: Set up Python ${{ matrix.python-version }}
         uses: actions/setup-python@v4
