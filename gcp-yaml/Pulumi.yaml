@@ -2,11 +2,14 @@ name: ${PROJECT}
 description: ${DESCRIPTION}
 runtime: yaml
 template:
+  displayName: Starter
   description: A minimal Google Cloud Pulumi YAML program
   important: true
   config:
     gcp:project:
       description: The Google Cloud project to deploy into
+  metadata:
+    cloud: gcp
 
 resources:
   # Create a GCP resource (Storage Bucket)

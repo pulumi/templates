@@ -2,5 +2,8 @@ name: ${PROJECT}
 description: ${DESCRIPTION}
 runtime: python
 template:
+  displayName: Starter
   description: A minimal Kubernetes Python Pulumi program
   important: true
+  metadata:
+    cloud: kubernetes

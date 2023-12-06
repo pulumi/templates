@@ -2,9 +2,12 @@ name: ${PROJECT}
 description: ${DESCRIPTION}
 runtime: dotnet
 template:
+  displayName: Starter
   description: "A minimal AWS C# Pulumi program"
   important: true
   config:
     aws:region:
       description: The AWS region to deploy into
       default: us-east-1
+  metadata:
+    cloud: aws

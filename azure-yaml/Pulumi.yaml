@@ -2,12 +2,15 @@ name: ${PROJECT}
 description: ${DESCRIPTION}
 runtime: yaml
 template:
+  displayName: Starter
   description: A minimal Azure Native Pulumi YAML program
   important: true
   config:
     azure-native:location:
       description: The Azure location to use
       default: WestUS2
+  metadata:
+    cloud: azure
 
 resources:
   # Create an Azure Resource Group
