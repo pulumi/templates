@@ -2,8 +2,5 @@ name: ${PROJECT}
 description: ${DESCRIPTION}
 runtime: go
 template:
-  displayName: Starter
   description: "A minimal Kubernetes Go Pulumi program"
   important: true
-  metadata:
-    cloud: kubernetes

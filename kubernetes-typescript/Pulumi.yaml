@@ -2,8 +2,5 @@ name: ${PROJECT}
 description: ${DESCRIPTION}
 runtime: nodejs
 template:
-  displayName: Starter
   description: A minimal Kubernetes TypeScript Pulumi program
   important: true
-  metadata:
-    cloud: kubernetes

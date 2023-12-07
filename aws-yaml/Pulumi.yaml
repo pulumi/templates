@@ -2,15 +2,12 @@ name: ${PROJECT}
 description: ${DESCRIPTION}
 runtime: yaml
 template:
-  displayName: Starter
   description: A minimal AWS Pulumi YAML program
   important: true
   config:
     aws:region:
       description: The AWS region to deploy into
       default: us-east-1
-  metadata:
-    cloud: aws
 
 resources:
   # Create an AWS resource (S3 Bucket)

@@ -2,8 +2,5 @@ name: ${PROJECT}
 description: ${DESCRIPTION}
 runtime: dotnet
 template:
-  displayName: Starter
   description: "A minimal Kubernetes C# Pulumi program"
   important: true
-  metadata:
-    cloud: kubernetes

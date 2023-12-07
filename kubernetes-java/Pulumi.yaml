@@ -2,8 +2,5 @@ name: ${PROJECT}
 description: ${DESCRIPTION}
 runtime: java
 template:
-  displayName: Starter
   description: A minimal Kubernetes Java Pulumi program
   important: true
-  metadata:
-    cloud: kubernetes
