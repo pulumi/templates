@@ -2,7 +2,6 @@ name: ${PROJECT}
 description: ${DESCRIPTION}
 runtime: yaml
 template:
-  displayName: Web Application
   description: A Pulumi YAML program to deploy a web application onto a Kubernetes cluster
   config:
     k8sNamespace:
@@ -11,8 +10,6 @@ template:
     numReplicas:
       default: 1
       description: The number of replicas to deploy
-  metadata:
-    cloud: kubernetes
 
 config:
   k8sNamespace:

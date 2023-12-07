@@ -2,7 +2,6 @@ name: ${PROJECT}
 description: ${DESCRIPTION}
 runtime: nodejs
 template:
-  displayName: Virtual Machine
   description: A TypeScript program to deploy a virtual machine on Amazon EC2
   config:
     aws:region:
@@ -14,5 +13,3 @@ template:
     vpcNetworkCidr:
       description: The network CIDR to use for the VPC
       default: 10.0.0.0/16
-  metadata:
-    cloud: aws

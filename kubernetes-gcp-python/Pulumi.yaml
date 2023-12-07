@@ -2,7 +2,6 @@ name: ${PROJECT}
 description: ${DESCRIPTION}
 runtime: python
 template:
-  displayName: Kubernetes Cluster
   description: A Python program to deploy a Kubernetes cluster on Google Cloud
   config:
     gcp:project:
@@ -13,5 +12,3 @@ template:
     nodesPerZone:
       default: 1
       description: The desired number of nodes PER ZONE in the nodepool
-  metadata:
-    cloud: gcp

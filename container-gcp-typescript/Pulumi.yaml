@@ -2,7 +2,6 @@ name: ${PROJECT}
 description: ${DESCRIPTION}
 runtime: nodejs
 template:
-  displayName: Container Service
   description: A TypeScript program to deploy a containerized service on Google Cloud
   config:
     gcp:region:
@@ -25,5 +24,3 @@ template:
     concurrency:
       description: The maximum number of concurrent requests to serve per container instance
       default: 50
-  metadata:
-    cloud: gcp

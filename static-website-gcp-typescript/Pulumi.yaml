@@ -3,7 +3,6 @@ description: ${DESCRIPTION}
 runtime: nodejs
 
 template:
-  displayName: Static Website
   description: A TypeScript program to deploy a static website on Google Cloud
   config:
     gcp:project:
@@ -17,5 +16,3 @@ template:
     errorDocument:
       description: The file to use for error pages
       default: error.html
-  metadata:
-    cloud: gcp

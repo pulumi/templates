@@ -2,14 +2,11 @@ name: ${PROJECT}
 description: ${DESCRIPTION}
 runtime: yaml
 template:
-  displayName: Helm Chart
   description: A Pulumi YAML program to deploy a Helm chart onto a Kubernetes cluster
   config:
     k8sNamespace:
       default: nginx-ingress
       description: The Kubernetes namespace to deploy into
-  metadata:
-    cloud: kubernetes
 
 config:
   # Use this user-supplied value to create a Kubernetes namespace later

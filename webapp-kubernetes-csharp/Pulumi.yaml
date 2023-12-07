@@ -2,7 +2,6 @@ name: ${PROJECT}
 description: ${DESCRIPTION}
 runtime: dotnet
 template:
-  displayName: Web Application
   description: A C# program to deploy a web application onto a Kubernetes cluster
   config:
     namespace:
@@ -11,5 +10,3 @@ template:
     replicas:
       default: 1
       description: The number of replicas to deploy
-  metadata:
-    cloud: kubernetes

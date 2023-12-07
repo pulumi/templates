@@ -2,7 +2,6 @@ name: ${PROJECT}
 description: ${DESCRIPTION}
 runtime: dotnet
 template:
-  displayName: Kubernetes Cluster
   description: A C# program to deploy a Kubernetes cluster on AWS
   config:
     aws:region:
@@ -23,5 +22,3 @@ template:
     vpcNetworkCidr:
       description: Network CIDR to use for new VPC
       default: 10.0.0.0/16
-  metadata:
-    cloud: aws

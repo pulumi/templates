@@ -2,7 +2,6 @@ name: ${PROJECT}
 description: ${DESCRIPTION}
 runtime: go
 template:
-  displayName: Container Service
   description: A Go program to deploy a containerized service on Azure
   config:
     azure-native:location:
@@ -20,5 +19,3 @@ template:
     memory:
       description: The amount of memory, in GB, to allocate on the container
       default: 2
-  metadata:
-    cloud: azure

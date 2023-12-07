@@ -3,7 +3,6 @@ description: ${DESCRIPTION}
 runtime: yaml
 
 template:
-  displayName: Virtual Machine
   description: A Pulumi YAML program to deploy a virtual machine on Google Cloud
   config:
     gcp:project:
@@ -26,8 +25,6 @@ template:
     servicePort:
       description: The HTTP service port to expose on the VM
       default: "80"
-  metadata:
-    cloud: gcp
 
 # Import the program's configuration settings.
 config:

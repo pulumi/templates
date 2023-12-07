@@ -3,7 +3,6 @@ description: ${DESCRIPTION}
 runtime: dotnet
 
 template:
-  displayName: Virtual Machine
   description: A C# program to deploy a virtual machine on Google Cloud
   config:
     gcp:project:
@@ -26,5 +25,3 @@ template:
     servicePort:
       description: The HTTP service port to expose on the VM
       default: "80"
-  metadata:
-    cloud: gcp
