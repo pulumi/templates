@@ -1157,7 +1157,6 @@
             "name": "container-aws-csharp",
             "runtime": "dotnet",
             "template": {
-                "displayName": "Container Service",
                 "description": "A C# program to deploy a containerized service on AWS",
                 "config": {
                     "aws:region": {
@@ -1176,9 +1175,6 @@
                         "description": "The amount of memory to allocate for the container",
                         "default": 128
                     }
-                },
-                "metadata": {
-                    "cloud": "aws"
                 }
             }
         },
@@ -1186,7 +1182,6 @@
             "name": "container-aws-go",
             "runtime": "go",
             "template": {
-                "displayName": "Container Service",
                 "description": "A Go program to deploy a containerized service on AWS",
                 "config": {
                     "aws:region": {
@@ -1205,9 +1200,6 @@
                         "description": "The amount of memory to allocate for the container",
                         "default": 128
                     }
-                },
-                "metadata": {
-                    "cloud": "aws"
                 }
             }
         },
@@ -1215,7 +1207,6 @@
             "name": "container-aws-python",
             "runtime": "python",
             "template": {
-                "displayName": "Container Service",
                 "description": "A Python program to deploy a containerized service on AWS",
                 "config": {
                     "aws:region": {
@@ -1234,9 +1225,6 @@
                         "description": "The amount of memory to allocate for the container",
                         "default": 128
                     }
-                },
-                "metadata": {
-                    "cloud": "aws"
                 }
             }
         },
@@ -1244,7 +1232,6 @@
             "name": "container-aws-typescript",
             "runtime": "nodejs",
             "template": {
-                "displayName": "Container Service",
                 "description": "A TypeScript program to deploy a containerized service on AWS",
                 "config": {
                     "aws:region": {
@@ -1263,9 +1250,6 @@
                         "description": "The amount of memory to allocate for the container",
                         "default": 128
                     }
-                },
-                "metadata": {
-                    "cloud": "aws"
                 }
             }
         },
@@ -1273,7 +1257,6 @@
             "name": "container-aws-yaml",
             "runtime": "yaml",
             "template": {
-                "displayName": "Container Service",
                 "description": "A Pulumi YAML program to deploy a containerized service on AWS",
                 "config": {
                     "aws:region": {
@@ -1292,9 +1275,6 @@
                         "description": "The amount of memory to allocate for the container",
                         "default": 128
                     }
-                },
-                "metadata": {
-                    "cloud": "aws"
                 }
             }
         },
@@ -1302,7 +1282,6 @@
             "name": "container-azure-csharp",
             "runtime": "dotnet",
             "template": {
-                "displayName": "Container Service",
                 "description": "A C# program to deploy a containerized service on Azure",
                 "config": {
                     "azure-native:location": {
@@ -1325,9 +1304,6 @@
                         "description": "The amount of memory, in GB, to allocate on the container",
                         "default": 2
                     }
-                },
-                "metadata": {
-                    "cloud": "azure"
                 }
             }
         },
@@ -1335,7 +1311,6 @@
             "name": "container-azure-go",
             "runtime": "go",
             "template": {
-                "displayName": "Container Service",
                 "description": "A Go program to deploy a containerized service on Azure",
                 "config": {
                     "azure-native:location": {
@@ -1358,9 +1333,6 @@
                         "description": "The amount of memory, in GB, to allocate on the container",
                         "default": 2
                     }
-                },
-                "metadata": {
-                    "cloud": "azure"
                 }
             }
         },
@@ -1373,7 +1345,6 @@
                 }
             },
             "template": {
-                "displayName": "Container Service",
                 "description": "A Python program to deploy a containerized service on Azure",
                 "config": {
                     "azure-native:location": {
@@ -1396,9 +1367,6 @@
                         "description": "The amount of memory, in GB, to allocate on the container",
                         "default": 2
                     }
-                },
-                "metadata": {
-                    "cloud": "azure"
                 }
             }
         },
@@ -1408,7 +1376,6 @@
                 "name": "nodejs"
             },
             "template": {
-                "displayName": "Container Service",
                 "description": "A TypeScript program to deploy a containerized service on Azure",
                 "config": {
                     "azure-native:location": {
@@ -1431,9 +1398,6 @@
                         "description": "The amount of memory, in GB, to allocate on the container",
                         "default": 2
                     }
-                },
-                "metadata": {
-                    "cloud": "azure"
                 }
             }
         },
@@ -1441,7 +1405,6 @@
             "name": "container-gcp-csharp",
             "runtime": "dotnet",
             "template": {
-                "displayName": "Container Service",
                 "description": "A C# program to deploy a containerized service on Google Cloud",
                 "config": {
                     "gcp:region": {
@@ -1471,9 +1434,6 @@
                         "description": "The maximum number of concurrent requests to serve per container instance",
                         "default": 50
                     }
-                },
-                "metadata": {
-                    "cloud": "gcp"
                 }
             }
         },
@@ -1481,7 +1441,6 @@
             "name": "container-gcp-go",
             "runtime": "go",
             "template": {
-                "displayName": "Container Service",
                 "description": "A Go program to deploy a containerized service on Google Cloud",
                 "config": {
                     "gcp:region": {
@@ -1511,9 +1470,6 @@
                         "description": "The maximum number of concurrent requests to serve per container instance",
                         "default": 50
                     }
-                },
-                "metadata": {
-                    "cloud": "gcp"
                 }
             }
         },
@@ -1526,7 +1482,6 @@
                 }
             },
             "template": {
-                "displayName": "Container Service",
                 "description": "A Python program to deploy a containerized service on Google Cloud",
                 "config": {
                     "gcp:region": {
@@ -1556,9 +1511,6 @@
                         "description": "The maximum number of concurrent requests to serve per container instance",
                         "default": 50
                     }
-                },
-                "metadata": {
-                    "cloud": "gcp"
                 }
             }
         },
@@ -1566,7 +1518,6 @@
             "name": "container-gcp-typescript",
             "runtime": "nodejs",
             "template": {
-                "displayName": "Container Service",
                 "description": "A TypeScript program to deploy a containerized service on Google Cloud",
                 "config": {
                     "gcp:region": {
@@ -1596,9 +1547,6 @@
                         "description": "The maximum number of concurrent requests to serve per container instance",
                         "default": 50
                     }
-                },
-                "metadata": {
-                    "cloud": "gcp"
                 }
             }
         },
@@ -2011,16 +1959,12 @@
             "name": "helm-kubernetes-csharp",
             "runtime": "dotnet",
             "template": {
-                "displayName": "Helm Chart",
                 "description": "A C# program to deploy a Helm chart onto a Kubernetes cluster",
                 "config": {
                     "k8sNamespace": {
                         "default": "nginx-ingress",
                         "description": "The Kubernetes namespace to deploy into"
                     }
-                },
-                "metadata": {
-                    "cloud": "kubernetes"
                 }
             }
         },
@@ -2028,16 +1972,12 @@
             "name": "helm-kubernetes-go",
             "runtime": "go",
             "template": {
-                "displayName": "Helm Chart",
                 "description": "A Go program to deploy a Helm chart onto a Kubernetes cluster",
                 "config": {
                     "k8sNamespace": {
                         "default": "nginx-ingress",
                         "description": "The Kubernetes namespace to deploy into"
                     }
-                },
-                "metadata": {
-                    "cloud": "kubernetes"
                 }
             }
         },
@@ -2045,16 +1985,12 @@
             "name": "helm-kubernetes-python",
             "runtime": "python",
             "template": {
-                "displayName": "Helm Chart",
                 "description": "A Python program to deploy a Helm chart onto a Kubernetes cluster",
                 "config": {
                     "k8sNamespace": {
                         "default": "nginx-ingress",
                         "description": "The Kubernetes namespace to deploy into"
                     }
-                },
-                "metadata": {
-                    "cloud": "kubernetes"
                 }
             }
         },
@@ -2062,16 +1998,12 @@
             "name": "helm-kubernetes-typescript",
             "runtime": "nodejs",
             "template": {
-                "displayName": "Helm Chart",
                 "description": "A TypeScript program to deploy a Helm chart onto a Kubernetes cluster",
                 "config": {
                     "k8sNamespace": {
                         "default": "nginx-ingress",
                         "description": "The Kubernetes namespace to deploy into"
                     }
-                },
-                "metadata": {
-                    "cloud": "kubernetes"
                 }
             }
         },
@@ -2079,16 +2011,12 @@
             "name": "helm-kubernetes-yaml",
             "runtime": "yaml",
             "template": {
-                "displayName": "Helm Chart",
                 "description": "A Pulumi YAML program to deploy a Helm chart onto a Kubernetes cluster",
                 "config": {
                     "k8sNamespace": {
                         "default": "nginx-ingress",
                         "description": "The Kubernetes namespace to deploy into"
                     }
-                },
-                "metadata": {
-                    "cloud": "kubernetes"
                 }
             }
         },
@@ -2129,7 +2057,6 @@
             "name": "kubernetes-aws-csharp",
             "runtime": "dotnet",
             "template": {
-                "displayName": "Kubernetes Cluster",
                 "description": "A C# program to deploy a Kubernetes cluster on AWS",
                 "config": {
                     "aws:region": {
@@ -2156,9 +2083,6 @@
                         "description": "Network CIDR to use for new VPC",
                         "default": "10.0.0.0/16"
                     }
-                },
-                "metadata": {
-                    "cloud": "aws"
                 }
             }
         },
@@ -2166,7 +2090,6 @@
             "name": "kubernetes-aws-go",
             "runtime": "go",
             "template": {
-                "displayName": "Kubernetes Cluster",
                 "description": "A Go program to deploy a Kubernetes cluster on AWS",
                 "config": {
                     "aws:region": {
@@ -2193,9 +2116,6 @@
                         "description": "Network CIDR to use for new VPC",
                         "default": "10.0.0.0/16"
                     }
-                },
-                "metadata": {
-                    "cloud": "aws"
                 }
             }
         },
@@ -2203,7 +2123,6 @@
             "name": "kubernetes-aws-python",
             "runtime": "python",
             "template": {
-                "displayName": "Kubernetes Cluster",
                 "description": "A Python program to deploy a Kubernetes cluster on AWS",
                 "config": {
                     "aws:region": {
@@ -2230,9 +2149,6 @@
                         "description": "Network CIDR to use for new VPC",
                         "default": "10.0.0.0/16"
                     }
-                },
-                "metadata": {
-                    "cloud": "aws"
                 }
             }
         },
@@ -2240,7 +2156,6 @@
             "name": "kubernetes-aws-typescript",
             "runtime": "nodejs",
             "template": {
-                "displayName": "Kubernetes Cluster",
                 "description": "A TypeScript program to deploy a Kubernetes cluster on AWS",
                 "config": {
                     "aws:region": {
@@ -2267,9 +2182,6 @@
                         "description": "Network CIDR to use for new VPC",
                         "default": "10.0.0.0/16"
                     }
-                },
-                "metadata": {
-                    "cloud": "aws"
                 }
             }
         },
@@ -2277,7 +2189,6 @@
             "name": "kubernetes-aws-yaml",
             "runtime": "yaml",
             "template": {
-                "displayName": "Kubernetes Cluster",
                 "description": "A Pulumi YAML program to deploy a Kubernetes cluster on AWS",
                 "config": {
                     "aws:region": {
@@ -2304,9 +2215,6 @@
                         "description": "Network CIDR to use for new VPC",
                         "default": "10.0.0.0/16"
                     }
-                },
-                "metadata": {
-                    "cloud": "aws"
                 }
             }
         },
@@ -2314,7 +2222,6 @@
             "name": "kubernetes-azure-csharp",
             "runtime": "dotnet",
             "template": {
-                "displayName": "Kubernetes Cluster",
                 "description": "A C# program to deploy a Kubernetes cluster on Azure",
                 "config": {
                     "azure-native:location": {
@@ -2343,9 +2250,6 @@
                     "sshPubKey": {
                         "description": "Contents of the public key for SSH access to cluster nodes"
                     }
-                },
-                "metadata": {
-                    "cloud": "azure"
                 }
             }
         },
@@ -2353,7 +2257,6 @@
             "name": "kubernetes-azure-go",
             "runtime": "go",
             "template": {
-                "displayName": "Kubernetes Cluster",
                 "description": "A Go program to deploy a Kubernetes cluster on Azure",
                 "config": {
                     "azure-native:location": {
@@ -2382,9 +2285,6 @@
                     "sshPubKey": {
                         "description": "Contents of the public key for SSH access to cluster nodes"
                     }
-                },
-                "metadata": {
-                    "cloud": "azure"
                 }
             }
         },
@@ -2392,7 +2292,6 @@
             "name": "kubernetes-azure-python",
             "runtime": "python",
             "template": {
-                "displayName": "Kubernetes Cluster",
                 "description": "A Python program to deploy a Kubernetes cluster on Azure",
                 "config": {
                     "azure-native:location": {
@@ -2421,9 +2320,6 @@
                     "sshPubKey": {
                         "description": "Contents of the public key for SSH access to cluster nodes"
                     }
-                },
-                "metadata": {
-                    "cloud": "azure"
                 }
             }
         },
@@ -2431,7 +2327,6 @@
             "name": "kubernetes-azure-typescript",
             "runtime": "nodejs",
             "template": {
-                "displayName": "Kubernetes Cluster",
                 "description": "A TypeScript program to deploy a Kubernetes cluster on Azure",
                 "config": {
                     "azure-native:location": {
@@ -2460,9 +2355,6 @@
                     "sshPubKey": {
                         "description": "Contents of the public key for SSH access to cluster nodes"
                     }
-                },
-                "metadata": {
-                    "cloud": "azure"
                 }
             }
         },
@@ -2470,7 +2362,6 @@
             "name": "kubernetes-azure-yaml",
             "runtime": "yaml",
             "template": {
-                "displayName": "Kubernetes Cluster",
                 "description": "A Pulumi YAML program to deploy a Kubernetes cluster on Azure",
                 "config": {
                     "azure-native:location": {
@@ -2498,9 +2389,6 @@
                     "sshPubKey": {
                         "description": "Contents of the public key for SSH access to cluster nodes"
                     }
-                },
-                "metadata": {
-                    "cloud": "azure"
                 }
             }
         },
@@ -2523,7 +2411,6 @@
             "name": "kubernetes-gcp-csharp",
             "runtime": "dotnet",
             "template": {
-                "displayName": "Kubernetes Cluster",
                 "description": "A C# program to deploy a Kubernetes cluster on Google Cloud",
                 "config": {
                     "gcp:project": {
@@ -2537,9 +2424,6 @@
                         "default": 1,
                         "description": "The desired number of nodes PER ZONE in the nodepool"
                     }
-                },
-                "metadata": {
-                    "cloud": "gcp"
                 }
             }
         },
@@ -2547,7 +2431,6 @@
             "name": "kubernetes-gcp-go",
             "runtime": "go",
             "template": {
-                "displayName": "Kubernetes Cluster",
                 "description": "A Go program to deploy a Kubernetes cluster on Google Cloud",
                 "config": {
                     "gcp:project": {
@@ -2561,9 +2444,6 @@
                         "default": 1,
                         "description": "The desired number of nodes PER ZONE in the nodepool"
                     }
-                },
-                "metadata": {
-                    "cloud": "gcp"
                 }
             }
         },
@@ -2571,7 +2451,6 @@
             "name": "kubernetes-gcp-python",
             "runtime": "python",
             "template": {
-                "displayName": "Kubernetes Cluster",
                 "description": "A Python program to deploy a Kubernetes cluster on Google Cloud",
                 "config": {
                     "gcp:project": {
@@ -2585,9 +2464,6 @@
                         "default": 1,
                         "description": "The desired number of nodes PER ZONE in the nodepool"
                     }
-                },
-                "metadata": {
-                    "cloud": "gcp"
                 }
             }
         },
@@ -2595,7 +2471,6 @@
             "name": "kubernetes-gcp-typescript",
             "runtime": "nodejs",
             "template": {
-                "displayName": "Kubernetes Cluster",
                 "description": "A TypeScript program to deploy a Kubernetes cluster on Google Cloud",
                 "config": {
                     "gcp:project": {
@@ -2609,9 +2484,6 @@
                         "default": 1,
                         "description": "The desired number of nodes PER ZONE in the nodepool"
                     }
-                },
-                "metadata": {
-                    "cloud": "gcp"
                 }
             }
         },
@@ -2619,7 +2491,6 @@
             "name": "kubernetes-gcp-yaml",
             "runtime": "yaml",
             "template": {
-                "displayName": "Kubernetes Cluster",
                 "description": "A Pulumi YAML program to deploy a Kubernetes cluster on Google Cloud",
                 "config": {
                     "gcp:project": {
@@ -2633,9 +2504,6 @@
                         "default": 1,
                         "description": "The desired number of nodes PER ZONE in the nodepool"
                     }
-                },
-                "metadata": {
-                    "cloud": "gcp"
                 }
             }
         },
@@ -3072,16 +2940,12 @@
             "name": "serverless-aws-csharp",
             "runtime": "dotnet",
             "template": {
-                "displayName": "Serverless Application",
                 "description": "A C# program to deploy a serverless application on AWS",
                 "config": {
                     "aws:region": {
                         "description": "The AWS region to deploy into",
                         "default": "us-west-2"
                     }
-                },
-                "metadata": {
-                    "cloud": "aws"
                 }
             }
         },
@@ -3089,16 +2953,12 @@
             "name": "serverless-aws-go",
             "runtime": "go",
             "template": {
-                "displayName": "Serverless Application",
                 "description": "A Go program to deploy a serverless application on AWS",
                 "config": {
                     "aws:region": {
                         "description": "The AWS region to deploy into",
                         "default": "us-west-2"
                     }
-                },
-                "metadata": {
-                    "cloud": "aws"
                 }
             }
         },
@@ -3111,16 +2971,12 @@
                 }
             },
             "template": {
-                "displayName": "Serverless Application",
                 "description": "A Python program to deploy a serverless application on AWS",
                 "config": {
                     "aws:region": {
                         "description": "The AWS region to deploy into",
                         "default": "us-west-2"
                     }
-                },
-                "metadata": {
-                    "cloud": "aws"
                 }
             }
         },
@@ -3128,16 +2984,12 @@
             "name": "serverless-aws-typescript",
             "runtime": "nodejs",
             "template": {
-                "displayName": "Serverless Application",
                 "description": "A TypeScript program to deploy a serverless application on AWS",
                 "config": {
                     "aws:region": {
                         "description": "The AWS region to deploy into",
                         "default": "us-west-2"
                     }
-                },
-                "metadata": {
-                    "cloud": "aws"
                 }
             }
         },
@@ -3145,16 +2997,12 @@
             "name": "serverless-aws-yaml",
             "runtime": "yaml",
             "template": {
-                "displayName": "Serverless Application",
                 "description": "A Pulumi YAML program to deploy a serverless application on AWS",
                 "config": {
                     "aws:region": {
                         "description": "The AWS region to deploy into",
                         "default": "us-west-2"
                     }
-                },
-                "metadata": {
-                    "cloud": "aws"
                 }
             }
         },
@@ -3162,7 +3010,6 @@
             "name": "serverless-azure-csharp",
             "runtime": "dotnet",
             "template": {
-                "displayName": "Serverless Application",
                 "description": "A C# program to deploy a serverless application on Azure",
                 "config": {
                     "azure-native:location": {
@@ -3185,9 +3032,6 @@
                         "description": "The file to use for error pages",
                         "default": "error.html"
                     }
-                },
-                "metadata": {
-                    "cloud": "azure"
                 }
             }
         },
@@ -3195,7 +3039,6 @@
             "name": "serverless-azure-go",
             "runtime": "go",
             "template": {
-                "displayName": "Serverless Application",
                 "description": "A Go program to deploy a serverless application on Azure",
                 "config": {
                     "azure-native:location": {
@@ -3218,9 +3061,6 @@
                         "description": "The file to use for error pages",
                         "default": "error.html"
                     }
-                },
-                "metadata": {
-                    "cloud": "azure"
                 }
             }
         },
@@ -3228,7 +3068,6 @@
             "name": "serverless-azure-python",
             "runtime": "python",
             "template": {
-                "displayName": "Serverless Application",
                 "description": "A Python program to deploy a serverless application on Azure",
                 "config": {
                     "azure-native:location": {
@@ -3251,9 +3090,6 @@
                         "description": "The file to use for error pages",
                         "default": "error.html"
                     }
-                },
-                "metadata": {
-                    "cloud": "azure"
                 }
             }
         },
@@ -3261,7 +3097,6 @@
             "name": "serverless-azure-typescript",
             "runtime": "nodejs",
             "template": {
-                "displayName": "Serverless Application",
                 "description": "A TypeScript program to deploy a serverless application on Azure",
                 "config": {
                     "azure-native:location": {
@@ -3284,9 +3119,6 @@
                         "description": "The file to use for error pages",
                         "default": "error.html"
                     }
-                },
-                "metadata": {
-                    "cloud": "azure"
                 }
             }
         },
@@ -3294,7 +3126,6 @@
             "name": "serverless-azure-yaml",
             "runtime": "yaml",
             "template": {
-                "displayName": "Serverless Application",
                 "description": "A Pulumi YAML program to deploy a serverless application on Azure",
                 "config": {
                     "azure-native:location": {
@@ -3317,9 +3148,6 @@
                         "description": "The file to use for error pages",
                         "default": "error.html"
                     }
-                },
-                "metadata": {
-                    "cloud": "azure"
                 }
             }
         },
@@ -3327,7 +3155,6 @@
             "name": "serverless-gcp-csharp",
             "runtime": "dotnet",
             "template": {
-                "displayName": "Serverless Application",
                 "description": "A C# program to deploy a serverless application on Google Cloud",
                 "config": {
                     "gcp:project": {
@@ -3353,9 +3180,6 @@
                         "description": "The file to use for error pages",
                         "default": "error.html"
                     }
-                },
-                "metadata": {
-                    "cloud": "gcp"
                 }
             }
         },
@@ -3363,7 +3187,6 @@
             "name": "serverless-gcp-go",
             "runtime": "go",
             "template": {
-                "displayName": "Serverless Application",
                 "description": "A Go program to deploy a serverless application on Google Cloud",
                 "config": {
                     "gcp:project": {
@@ -3389,9 +3212,6 @@
                         "description": "The file to use for error pages",
                         "default": "error.html"
                     }
-                },
-                "metadata": {
-                    "cloud": "gcp"
                 }
             }
         },
@@ -3399,7 +3219,6 @@
             "name": "serverless-gcp-python",
             "runtime": "python",
             "template": {
-                "displayName": "Serverless Application",
                 "description": "A Python program to deploy a serverless application on Google Cloud",
                 "config": {
                     "gcp:project": {
@@ -3425,9 +3244,6 @@
                         "description": "The file to use for error pages",
                         "default": "error.html"
                     }
-                },
-                "metadata": {
-                    "cloud": "gcp"
                 }
             }
         },
@@ -3435,7 +3251,6 @@
             "name": "serverless-gcp-typescript",
             "runtime": "nodejs",
             "template": {
-                "displayName": "Serverless Application",
                 "description": "A TypeScript program to deploy a serverless application on Google Cloud",
                 "config": {
                     "gcp:project": {
@@ -3461,9 +3276,6 @@
                         "description": "The file to use for error pages",
                         "default": "error.html"
                     }
-                },
-                "metadata": {
-                    "cloud": "gcp"
                 }
             }
         },
@@ -3471,7 +3283,6 @@
             "name": "serverless-gcp-yaml",
             "runtime": "yaml",
             "template": {
-                "displayName": "Serverless Application",
                 "description": "A Pulumi YAML program to deploy a serverless application on Google Cloud",
                 "config": {
                     "gcp:project": {
@@ -3497,9 +3308,6 @@
                         "description": "The file to use for error pages",
                         "default": "error.html"
                     }
-                },
-                "metadata": {
-                    "cloud": "gcp"
                 }
             }
         },
@@ -3507,7 +3315,6 @@
             "name": "static-website-aws-csharp",
             "runtime": "dotnet",
             "template": {
-                "displayName": "Static Website",
                 "description": "A C# program to deploy a static website on AWS",
                 "config": {
                     "aws:region": {
@@ -3526,9 +3333,6 @@
                         "description": "The file to use for error pages",
                         "default": "error.html"
                     }
-                },
-                "metadata": {
-                    "cloud": "aws"
                 }
             }
         },
@@ -3536,7 +3340,6 @@
             "name": "static-website-aws-go",
             "runtime": "go",
             "template": {
-                "displayName": "Static Website",
                 "description": "A Go program to deploy a static website on AWS",
                 "config": {
                     "aws:region": {
@@ -3555,9 +3358,6 @@
                         "description": "The file to use for error pages",
                         "default": "error.html"
                     }
-                },
-                "metadata": {
-                    "cloud": "aws"
                 }
             }
         },
@@ -3565,7 +3365,6 @@
             "name": "static-website-aws-python",
             "runtime": "python",
             "template": {
-                "displayName": "Static Website",
                 "description": "A Python program to deploy a static website on AWS",
                 "config": {
                     "aws:region": {
@@ -3584,9 +3383,6 @@
                         "description": "The file to use for error pages",
                         "default": "error.html"
                     }
-                },
-                "metadata": {
-                    "cloud": "aws"
                 }
             }
         },
@@ -3594,7 +3390,6 @@
             "name": "static-website-aws-typescript",
             "runtime": "nodejs",
             "template": {
-                "displayName": "Static Website",
                 "description": "A TypeScript program to deploy a static website on AWS",
                 "config": {
                     "aws:region": {
@@ -3613,9 +3408,6 @@
                         "description": "The file to use for error pages",
                         "default": "error.html"
                     }
-                },
-                "metadata": {
-                    "cloud": "aws"
                 }
             }
         },
@@ -3623,7 +3415,6 @@
             "name": "static-website-aws-yaml",
             "runtime": "yaml",
             "template": {
-                "displayName": "Static Website",
                 "description": "A Pulumi YAML program to deploy a static website on AWS",
                 "config": {
                     "aws:region": {
@@ -3642,9 +3433,6 @@
                         "description": "The file to use for error pages",
                         "default": "error.html"
                     }
-                },
-                "metadata": {
-                    "cloud": "aws"
                 }
             }
         },
@@ -3652,7 +3440,6 @@
             "name": "static-website-azure-csharp",
             "runtime": "dotnet",
             "template": {
-                "displayName": "Static Website",
                 "description": "A C# program to deploy a static website on Azure",
                 "config": {
                     "azure-native:location": {
@@ -3671,9 +3458,6 @@
                         "description": "The file to use for error pages",
                         "default": "error.html"
                     }
-                },
-                "metadata": {
-                    "cloud": "azure"
                 }
             }
         },
@@ -3681,7 +3465,6 @@
             "name": "static-website-azure-go",
             "runtime": "go",
             "template": {
-                "displayName": "Static Website",
                 "description": "A Go program to deploy a static website on Azure",
                 "config": {
                     "azure-native:location": {
@@ -3700,9 +3483,6 @@
                         "description": "The file to use for error pages",
                         "default": "error.html"
                     }
-                },
-                "metadata": {
-                    "cloud": "azure"
                 }
             }
         },
@@ -3710,7 +3490,6 @@
             "name": "static-website-azure-python",
             "runtime": "python",
             "template": {
-                "displayName": "Static Website",
                 "description": "A Python program to deploy a static website on Azure",
                 "config": {
                     "azure-native:location": {
@@ -3729,9 +3508,6 @@
                         "description": "The file to use for error pages",
                         "default": "error.html"
                     }
-                },
-                "metadata": {
-                    "cloud": "azure"
                 }
             }
         },
@@ -3739,7 +3515,6 @@
             "name": "static-website-azure-typescript",
             "runtime": "nodejs",
             "template": {
-                "displayName": "Static Website",
                 "description": "A TypeScript program to deploy a static website on Azure",
                 "config": {
                     "azure-native:location": {
@@ -3758,9 +3533,6 @@
                         "description": "The file to use for error pages",
                         "default": "error.html"
                     }
-                },
-                "metadata": {
-                    "cloud": "azure"
                 }
             }
         },
@@ -3768,7 +3540,6 @@
             "name": "static-website-azure-yaml",
             "runtime": "yaml",
             "template": {
-                "displayName": "Static Website",
                 "description": "A Pulumi YAML program to deploy a static website on Azure",
                 "config": {
                     "azure-native:location": {
@@ -3787,9 +3558,6 @@
                         "description": "The file to use for error pages",
                         "default": "error.html"
                     }
-                },
-                "metadata": {
-                    "cloud": "azure"
                 }
             }
         },
@@ -3797,7 +3565,6 @@
             "name": "static-website-gcp-csharp",
             "runtime": "dotnet",
             "template": {
-                "displayName": "Static Website",
                 "description": "A C# program to deploy a static website on Google Cloud",
                 "config": {
                     "gcp:project": {
@@ -3815,9 +3582,6 @@
                         "description": "The file to use for error pages",
                         "default": "error.html"
                     }
-                },
-                "metadata": {
-                    "cloud": "gcp"
                 }
             }
         },
@@ -3825,7 +3589,6 @@
             "name": "static-website-gcp-go",
             "runtime": "go",
             "template": {
-                "displayName": "Static Website",
                 "description": "A Go program to deploy a static website on Google Cloud",
                 "config": {
                     "gcp:project": {
@@ -3843,9 +3606,6 @@
                         "description": "The file to use for error pages",
                         "default": "error.html"
                     }
-                },
-                "metadata": {
-                    "cloud": "gcp"
                 }
             }
         },
@@ -3853,7 +3613,6 @@
             "name": "static-website-gcp-python",
             "runtime": "python",
             "template": {
-                "displayName": "Static Website",
                 "description": "A Python program to deploy a static website on Google Cloud",
                 "config": {
                     "gcp:project": {
@@ -3871,9 +3630,6 @@
                         "description": "The file to use for error pages",
                         "default": "error.html"
                     }
-                },
-                "metadata": {
-                    "cloud": "gcp"
                 }
             }
         },
@@ -3881,7 +3637,6 @@
             "name": "static-website-gcp-typescript",
             "runtime": "nodejs",
             "template": {
-                "displayName": "Static Website",
                 "description": "A TypeScript program to deploy a static website on Google Cloud",
                 "config": {
                     "gcp:project": {
@@ -3899,9 +3654,6 @@
                         "description": "The file to use for error pages",
                         "default": "error.html"
                     }
-                },
-                "metadata": {
-                    "cloud": "gcp"
                 }
             }
         },
@@ -3909,7 +3661,6 @@
             "name": "static-website-gcp-yaml",
             "runtime": "yaml",
             "template": {
-                "displayName": "Static Website",
                 "description": "A Pulumi YAML program to deploy a static website on Google Cloud",
                 "config": {
                     "gcp:project": {
@@ -3927,9 +3678,6 @@
                         "description": "The file to use for error pages",
                         "default": "error.html"
                     }
-                },
-                "metadata": {
-                    "cloud": "gcp"
                 }
             }
         },
@@ -3951,7 +3699,6 @@
             "name": "vm-aws-csharp",
             "runtime": "dotnet",
             "template": {
-                "displayName": "Virtual Machine",
                 "description": "A C# program to deploy a virtual machine on Amazon EC2",
                 "config": {
                     "aws:region": {
@@ -3966,9 +3713,6 @@
                         "description": "The network CIDR to use for the VPC",
                         "default": "10.0.0.0/16"
                     }
-                },
-                "metadata": {
-                    "cloud": "aws"
                 }
             }
         },
@@ -3976,7 +3720,6 @@
             "name": "vm-aws-go",
             "runtime": "go",
             "template": {
-                "displayName": "Virtual Machine",
                 "description": "A Go program to deploy a virtual machine on Amazon EC2",
                 "config": {
                     "aws:region": {
@@ -3991,9 +3734,6 @@
                         "description": "The network CIDR to use for the VPC",
                         "default": "10.0.0.0/16"
                     }
-                },
-                "metadata": {
-                    "cloud": "aws"
                 }
             }
         },
@@ -4001,7 +3741,6 @@
             "name": "vm-aws-python",
             "runtime": "python",
             "template": {
-                "displayName": "Virtual Machine",
                 "description": "A Python program to deploy a virtual machine on Amazon EC2",
                 "config": {
                     "aws:region": {
@@ -4016,9 +3755,6 @@
                         "description": "The network CIDR to use for the VPC",
                         "default": "10.0.0.0/16"
                     }
-                },
-                "metadata": {
-                    "cloud": "aws"
                 }
             }
         },
@@ -4026,7 +3762,6 @@
             "name": "vm-aws-typescript",
             "runtime": "nodejs",
             "template": {
-                "displayName": "Virtual Machine",
                 "description": "A TypeScript program to deploy a virtual machine on Amazon EC2",
                 "config": {
                     "aws:region": {
@@ -4041,9 +3776,6 @@
                         "description": "The network CIDR to use for the VPC",
                         "default": "10.0.0.0/16"
                     }
-                },
-                "metadata": {
-                    "cloud": "aws"
                 }
             }
         },
@@ -4051,7 +3783,6 @@
             "name": "vm-aws-yaml",
             "runtime": "yaml",
             "template": {
-                "displayName": "Virtual Machine",
                 "description": "A Pulumi YAML program to deploy a virtual machine on Amazon EC2",
                 "config": {
                     "aws:region": {
@@ -4066,9 +3797,6 @@
                         "description": "The network CIDR to use for the VPC",
                         "default": "10.0.0.0/16"
                     }
-                },
-                "metadata": {
-                    "cloud": "aws"
                 }
             }
         },
@@ -4076,7 +3804,6 @@
             "name": "vm-azure-csharp",
             "runtime": "dotnet",
             "template": {
-                "displayName": "Virtual Machine",
                 "description": "A C# program to deploy a virtual machine on Azure",
                 "config": {
                     "azure-native:location": {
@@ -4103,9 +3830,6 @@
                         "description": "The HTTP service port to expose on the VM",
                         "default": "80"
                     }
-                },
-                "metadata": {
-                    "cloud": "azure"
                 }
             }
         },
@@ -4113,7 +3837,6 @@
             "name": "vm-azure-go",
             "runtime": "go",
             "template": {
-                "displayName": "Virtual Machine",
                 "description": "A Go program to deploy a virtual machine on Azure",
                 "config": {
                     "azure-native:location": {
@@ -4140,9 +3863,6 @@
                         "description": "The HTTP service port to expose on the VM",
                         "default": "80"
                     }
-                },
-                "metadata": {
-                    "cloud": "azure"
                 }
             }
         },
@@ -4150,7 +3870,6 @@
             "name": "vm-azure-python",
             "runtime": "python",
             "template": {
-                "displayName": "Virtual Machine",
                 "description": "A Python program to deploy a virtual machine on Azure",
                 "config": {
                     "azure-native:location": {
@@ -4177,9 +3896,6 @@
                         "description": "The HTTP service port to expose on the VM",
                         "default": "80"
                     }
-                },
-                "metadata": {
-                    "cloud": "azure"
                 }
             }
         },
@@ -4187,7 +3903,6 @@
             "name": "vm-azure-typescript",
             "runtime": "nodejs",
             "template": {
-                "displayName": "Virtual Machine",
                 "description": "A TypeScript program to deploy a virtual machine on Azure",
                 "config": {
                     "azure-native:location": {
@@ -4214,9 +3929,6 @@
                         "description": "The HTTP service port to expose on the VM",
                         "default": "80"
                     }
-                },
-                "metadata": {
-                    "cloud": "azure"
                 }
             }
         },
@@ -4224,7 +3936,6 @@
             "name": "vm-azure-yaml",
             "runtime": "yaml",
             "template": {
-                "displayName": "Virtual Machine",
                 "description": "A Pulumi YAML program to deploy a virtual machine on Azure",
                 "config": {
                     "azure-native:location": {
@@ -4251,9 +3962,6 @@
                         "description": "The HTTP service port to expose on the VM",
                         "default": "80"
                     }
-                },
-                "metadata": {
-                    "cloud": "azure"
                 }
             }
         },
@@ -4261,7 +3969,6 @@
             "name": "vm-gcp-csharp",
             "runtime": "dotnet",
             "template": {
-                "displayName": "Virtual Machine",
                 "description": "A C# program to deploy a virtual machine on Google Cloud",
                 "config": {
                     "gcp:project": {
@@ -4291,9 +3998,6 @@
                         "description": "The HTTP service port to expose on the VM",
                         "default": "80"
                     }
-                },
-                "metadata": {
-                    "cloud": "gcp"
                 }
             }
         },
@@ -4301,7 +4005,6 @@
             "name": "vm-gcp-go",
             "runtime": "go",
             "template": {
-                "displayName": "Virtual Machine",
                 "description": "A Go program to deploy a virtual machine on Google Cloud",
                 "config": {
                     "gcp:project": {
@@ -4331,9 +4034,6 @@
                         "description": "The HTTP service port to expose on the VM",
                         "default": "80"
                     }
-                },
-                "metadata": {
-                    "cloud": "gcp"
                 }
             }
         },
@@ -4341,7 +4041,6 @@
             "name": "vm-gcp-python",
             "runtime": "python",
             "template": {
-                "displayName": "Virtual Machine",
                 "description": "A Python program to deploy a virtual machine on Google Cloud",
                 "config": {
                     "gcp:project": {
@@ -4371,9 +4070,6 @@
                         "description": "The HTTP service port to expose on the VM",
                         "default": "80"
                     }
-                },
-                "metadata": {
-                    "cloud": "gcp"
                 }
             }
         },
@@ -4381,7 +4077,6 @@
             "name": "vm-gcp-typescript",
             "runtime": "nodejs",
             "template": {
-                "displayName": "Virtual Machine",
                 "description": "A TypeScript program to deploy a virtual machine on Google Cloud",
                 "config": {
                     "gcp:project": {
@@ -4411,9 +4106,6 @@
                         "description": "The HTTP service port to expose on the VM",
                         "default": "80"
                     }
-                },
-                "metadata": {
-                    "cloud": "gcp"
                 }
             }
         },
@@ -4421,7 +4113,6 @@
             "name": "vm-gcp-yaml",
             "runtime": "yaml",
             "template": {
-                "displayName": "Virtual Machine",
                 "description": "A Pulumi YAML program to deploy a virtual machine on Google Cloud",
                 "config": {
                     "gcp:project": {
@@ -4451,9 +4142,6 @@
                         "description": "The HTTP service port to expose on the VM",
                         "default": "80"
                     }
-                },
-                "metadata": {
-                    "cloud": "gcp"
                 }
             }
         },
@@ -4461,7 +4149,6 @@
             "name": "webapp-kubernetes-csharp",
             "runtime": "dotnet",
             "template": {
-                "displayName": "Web Application",
                 "description": "A C# program to deploy a web application onto a Kubernetes cluster",
                 "config": {
                     "namespace": {
@@ -4472,9 +4159,6 @@
                         "default": 1,
                         "description": "The number of replicas to deploy"
                     }
-                },
-                "metadata": {
-                    "cloud": "kubernetes"
                 }
             }
         },
@@ -4482,7 +4166,6 @@
             "name": "webapp-kubernetes-go",
             "runtime": "go",
             "template": {
-                "displayName": "Web Application",
                 "description": "A Go program to deploy a web application onto a Kubernetes cluster",
                 "config": {
                     "namespace": {
@@ -4493,9 +4176,6 @@
                         "default": 1,
                         "description": "The number of replicas to deploy"
                     }
-                },
-                "metadata": {
-                    "cloud": "kubernetes"
                 }
             }
         },
@@ -4503,7 +4183,6 @@
             "name": "webapp-kubernetes-python",
             "runtime": "python",
             "template": {
-                "displayName": "Web Application",
                 "description": "A Python program to deploy a web application onto a Kubernetes cluster",
                 "config": {
                     "namespace": {
@@ -4514,9 +4193,6 @@
                         "default": 1,
                         "description": "The number of replicas to deploy"
                     }
-                },
-                "metadata": {
-                    "cloud": "kubernetes"
                 }
             }
         },
@@ -4524,7 +4200,6 @@
             "name": "webapp-kubernetes-typescript",
             "runtime": "nodejs",
             "template": {
-                "displayName": "Web Application",
                 "description": "A TypeScript program to deploy a web application onto a Kubernetes cluster",
                 "config": {
                     "namespace": {
@@ -4535,9 +4210,6 @@
                         "default": 1,
                         "description": "The number of replicas to deploy"
                     }
-                },
-                "metadata": {
-                    "cloud": "kubernetes"
                 }
             }
         },
@@ -4545,7 +4217,6 @@
             "name": "webapp-kubernetes-yaml",
             "runtime": "yaml",
             "template": {
-                "displayName": "Web Application",
                 "description": "A Pulumi YAML program to deploy a web application onto a Kubernetes cluster",
                 "config": {
                     "k8sNamespace": {
@@ -4556,9 +4227,6 @@
                         "default": 1,
                         "description": "The number of replicas to deploy"
                     }
-                },
-                "metadata": {
-                    "cloud": "kubernetes"
                 }
             }
         },
