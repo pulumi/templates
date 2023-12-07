@@ -3,12 +3,12 @@ using Pulumi;
 
 return await Deployment.RunAsync(() =>
 {
-   // Add your resources here
-   // e.g. var resource = new Resource("name", new ResourceArgs { });
+    // Add your resources here
+    // e.g. var resource = new Resource("name", new ResourceArgs { });
 
-   // Export outputs here
-   return new Dictionary<string, object?>
-   {
-      ["outputKey"] = "outputValue"
-   };
+    // Export outputs here
+    return new Dictionary<string, object?>
+    {
+        ["outputKey"] = "outputValue"
+    };
 });
