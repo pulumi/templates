@@ -2,11 +2,8 @@ name: ${PROJECT}
 description: ${DESCRIPTION}
 runtime: go
 template:
-  displayName: Starter
   description: A minimal Google Cloud Go Pulumi program
   important: true
   config:
     gcp:project:
       description: The Google Cloud project to deploy into
-  metadata:
-    cloud: gcp

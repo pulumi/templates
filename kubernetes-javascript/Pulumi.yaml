@@ -5,8 +5,5 @@ runtime:
   options:
     typescript: false
 template:
-  displayName: Starter
   description: A minimal Kubernetes JavaScript Pulumi program
   important: true
-  metadata:
-    cloud: kubernetes

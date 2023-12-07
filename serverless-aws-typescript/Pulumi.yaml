@@ -2,11 +2,8 @@ name: ${PROJECT}
 description: ${DESCRIPTION}
 runtime: nodejs
 template:
-  displayName: Serverless Application
   description: A TypeScript program to deploy a serverless application on AWS
   config:
     aws:region:
       description: The AWS region to deploy into
       default: us-west-2
-  metadata:
-    cloud: aws

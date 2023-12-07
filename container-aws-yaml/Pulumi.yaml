@@ -2,7 +2,6 @@ name: ${PROJECT}
 description: ${DESCRIPTION}
 runtime: yaml
 template:
-  displayName: Container Service
   description: A Pulumi YAML program to deploy a containerized service on AWS
   config:
     aws:region:
@@ -17,8 +16,6 @@ template:
     memory:
       description: The amount of memory to allocate for the container
       default: 128
-  metadata:
-    cloud: aws
 
 config:
   containerPort:

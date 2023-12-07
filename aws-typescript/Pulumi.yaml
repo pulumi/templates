@@ -2,12 +2,9 @@ name: ${PROJECT}
 description: ${DESCRIPTION}
 runtime: nodejs
 template:
-  displayName: Starter
   description: A minimal AWS TypeScript Pulumi program
   important: true
   config:
     aws:region:
       description: The AWS region to deploy into
       default: us-east-1
-  metadata:
-    cloud: aws

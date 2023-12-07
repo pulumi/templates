@@ -5,11 +5,8 @@ runtime:
   options:
     typescript: false
 template:
-  displayName: Starter
   description: A minimal Google Cloud JavaScript Pulumi program
   important: true
   config:
     gcp:project:
       description: The Google Cloud project to deploy into
-  metadata:
-    cloud: gcp

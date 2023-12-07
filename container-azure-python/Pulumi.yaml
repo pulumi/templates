@@ -5,7 +5,6 @@ runtime:
   options:
     virtualenv: venv
 template:
-  displayName: Container Service
   description: A Python program to deploy a containerized service on Azure
   config:
     azure-native:location:
@@ -23,5 +22,3 @@ template:
     memory:
       description: The amount of memory, in GB, to allocate on the container
       default: 2
-  metadata:
-    cloud: azure
