@@ -604,7 +604,6 @@
             "name": "aws-csharp",
             "runtime": "dotnet",
             "template": {
-                "displayName": "Starter",
                 "description": "A minimal AWS C# Pulumi program",
                 "important": true,
                 "config": {
@@ -612,9 +611,6 @@
                         "description": "The AWS region to deploy into",
                         "default": "us-east-1"
                     }
-                },
-                "metadata": {
-                    "cloud": "aws"
                 }
             }
         },
@@ -622,16 +618,12 @@
             "name": "aws-fsharp",
             "runtime": "dotnet",
             "template": {
-                "displayName": "Starter",
                 "description": "A minimal AWS F# Pulumi program",
                 "config": {
                     "aws:region": {
                         "description": "The AWS region to deploy into",
                         "default": "us-east-1"
                     }
-                },
-                "metadata": {
-                    "cloud": "aws"
                 }
             }
         },
@@ -639,7 +631,6 @@
             "name": "aws-go",
             "runtime": "go",
             "template": {
-                "displayName": "Starter",
                 "description": "A minimal AWS Go Pulumi program",
                 "important": true,
                 "config": {
@@ -647,9 +638,6 @@
                         "description": "The AWS region to deploy into",
                         "default": "us-east-1"
                     }
-                },
-                "metadata": {
-                    "cloud": "aws"
                 }
             }
         },
@@ -657,7 +645,6 @@
             "name": "aws-java",
             "runtime": "java",
             "template": {
-                "displayName": "Starter",
                 "description": "A minimal AWS Java Pulumi program",
                 "important": true,
                 "config": {
@@ -665,9 +652,6 @@
                         "description": "The AWS region to deploy into",
                         "default": "us-east-1"
                     }
-                },
-                "metadata": {
-                    "cloud": "aws"
                 }
             }
         },
@@ -680,7 +664,6 @@
                 }
             },
             "template": {
-                "displayName": "Starter",
                 "description": "A minimal AWS JavaScript Pulumi program",
                 "important": true,
                 "config": {
@@ -688,9 +671,6 @@
                         "description": "The AWS region to deploy into",
                         "default": "us-east-1"
                     }
-                },
-                "metadata": {
-                    "cloud": "aws"
                 }
             }
         },
@@ -807,7 +787,6 @@
             "name": "aws-python",
             "runtime": "python",
             "template": {
-                "displayName": "Starter",
                 "description": "A minimal AWS Python Pulumi program",
                 "important": true,
                 "config": {
@@ -815,9 +794,6 @@
                         "description": "The AWS region to deploy into",
                         "default": "us-east-1"
                     }
-                },
-                "metadata": {
-                    "cloud": "aws"
                 }
             }
         },
@@ -838,7 +814,6 @@
             "name": "aws-typescript",
             "runtime": "nodejs",
             "template": {
-                "displayName": "Starter",
                 "description": "A minimal AWS TypeScript Pulumi program",
                 "important": true,
                 "config": {
@@ -846,9 +821,6 @@
                         "description": "The AWS region to deploy into",
                         "default": "us-east-1"
                     }
-                },
-                "metadata": {
-                    "cloud": "aws"
                 }
             }
         },
@@ -856,16 +828,12 @@
             "name": "aws-visualbasic",
             "runtime": "dotnet",
             "template": {
-                "displayName": "Starter",
                 "description": "A minimal AWS VB.NET Pulumi program",
                 "config": {
                     "aws:region": {
                         "description": "The AWS region to deploy into",
                         "default": "us-east-1"
                     }
-                },
-                "metadata": {
-                    "cloud": "aws"
                 }
             }
         },
@@ -873,7 +841,6 @@
             "name": "aws-yaml",
             "runtime": "yaml",
             "template": {
-                "displayName": "Starter",
                 "description": "A minimal AWS Pulumi YAML program",
                 "important": true,
                 "config": {
@@ -881,9 +848,6 @@
                         "description": "The AWS region to deploy into",
                         "default": "us-east-1"
                     }
-                },
-                "metadata": {
-                    "cloud": "aws"
                 }
             }
         },
@@ -1000,7 +964,6 @@
             "name": "azure-csharp",
             "runtime": "dotnet",
             "template": {
-                "displayName": "Starter",
                 "description": "A minimal Azure Native C# Pulumi program",
                 "important": true,
                 "config": {
@@ -1008,9 +971,6 @@
                         "description": "The Azure location to use",
                         "default": "WestUS2"
                     }
-                },
-                "metadata": {
-                    "cloud": "azure"
                 }
             }
         },
@@ -1018,16 +978,12 @@
             "name": "azure-fsharp",
             "runtime": "dotnet",
             "template": {
-                "displayName": "Starter",
                 "description": "A minimal Azure Native F# Pulumi program",
                 "config": {
                     "azure-native:location": {
                         "description": "The Azure location to use",
                         "default": "WestUS2"
                     }
-                },
-                "metadata": {
-                    "cloud": "azure"
                 }
             }
         },
@@ -1035,7 +991,6 @@
             "name": "azure-go",
             "runtime": "go",
             "template": {
-                "displayName": "Starter",
                 "description": "A minimal Azure Native Go Pulumi program",
                 "important": true,
                 "config": {
@@ -1043,9 +998,6 @@
                         "description": "The Azure location to use",
                         "default": "WestUS2"
                     }
-                },
-                "metadata": {
-                    "cloud": "azure"
                 }
             }
         },
@@ -1053,7 +1005,6 @@
             "name": "azure-java",
             "runtime": "java",
             "template": {
-                "displayName": "Starter",
                 "description": "A minimal Azure Native Java Pulumi program",
                 "important": true,
                 "config": {
@@ -1061,9 +1012,6 @@
                         "description": "The Azure location to use",
                         "default": "WestUS2"
                     }
-                },
-                "metadata": {
-                    "cloud": "azure"
                 }
             }
         },
@@ -1076,7 +1024,6 @@
                 }
             },
             "template": {
-                "displayName": "Starter",
                 "description": "A minimal JavaScript Pulumi program with the native Azure provider",
                 "important": true,
                 "config": {
@@ -1084,9 +1031,6 @@
                         "description": "The Azure location to use",
                         "default": "WestUS2"
                     }
-                },
-                "metadata": {
-                    "cloud": "azure"
                 }
             }
         },
@@ -1094,7 +1038,6 @@
             "name": "azure-python",
             "runtime": "python",
             "template": {
-                "displayName": "Starter",
                 "description": "A minimal Azure Native Python Pulumi program",
                 "important": true,
                 "config": {
@@ -1102,9 +1045,6 @@
                         "description": "The Azure location to use",
                         "default": "WestUS2"
                     }
-                },
-                "metadata": {
-                    "cloud": "azure"
                 }
             }
         },
@@ -1112,7 +1052,6 @@
             "name": "azure-typescript",
             "runtime": "nodejs",
             "template": {
-                "displayName": "Starter",
                 "description": "A minimal Azure Native TypeScript Pulumi program",
                 "important": true,
                 "config": {
@@ -1120,9 +1059,6 @@
                         "description": "The Azure location to use",
                         "default": "WestUS2"
                     }
-                },
-                "metadata": {
-                    "cloud": "azure"
                 }
             }
         },
@@ -1130,7 +1066,6 @@
             "name": "azure-yaml",
             "runtime": "yaml",
             "template": {
-                "displayName": "Starter",
                 "description": "A minimal Azure Native Pulumi YAML program",
                 "important": true,
                 "config": {
@@ -1138,9 +1073,6 @@
                         "description": "The Azure location to use",
                         "default": "WestUS2"
                     }
-                },
-                "metadata": {
-                    "cloud": "azure"
                 }
             }
         },
@@ -1768,16 +1700,12 @@
             "name": "gcp-csharp",
             "runtime": "dotnet",
             "template": {
-                "displayName": "Starter",
                 "description": "A minimal Google Cloud C# Pulumi program",
                 "important": true,
                 "config": {
                     "gcp:project": {
                         "description": "The Google Cloud project to deploy into"
                     }
-                },
-                "metadata": {
-                    "cloud": "gcp"
                 }
             }
         },
@@ -1785,15 +1713,11 @@
             "name": "gcp-fsharp",
             "runtime": "dotnet",
             "template": {
-                "displayName": "Starter",
                 "description": "A minimal GCP F# Pulumi program",
                 "config": {
                     "gcp:project": {
                         "description": "The Google Cloud project to deploy into"
                     }
-                },
-                "metadata": {
-                    "cloud": "gcp"
                 }
             }
         },
@@ -1801,16 +1725,12 @@
             "name": "gcp-go",
             "runtime": "go",
             "template": {
-                "displayName": "Starter",
                 "description": "A minimal Google Cloud Go Pulumi program",
                 "important": true,
                 "config": {
                     "gcp:project": {
                         "description": "The Google Cloud project to deploy into"
                     }
-                },
-                "metadata": {
-                    "cloud": "gcp"
                 }
             }
         },
@@ -1818,16 +1738,12 @@
             "name": "gcp-java",
             "runtime": "java",
             "template": {
-                "displayName": "Starter",
                 "description": "A minimal Google Cloud Java Pulumi program",
                 "important": true,
                 "config": {
                     "gcp:project": {
                         "description": "The Google Cloud project to deploy into"
                     }
-                },
-                "metadata": {
-                    "cloud": "gcp"
                 }
             }
         },
@@ -1840,16 +1756,12 @@
                 }
             },
             "template": {
-                "displayName": "Starter",
                 "description": "A minimal Google Cloud JavaScript Pulumi program",
                 "important": true,
                 "config": {
                     "gcp:project": {
                         "description": "The Google Cloud project to deploy into"
                     }
-                },
-                "metadata": {
-                    "cloud": "gcp"
                 }
             }
         },
@@ -1857,16 +1769,12 @@
             "name": "gcp-python",
             "runtime": "python",
             "template": {
-                "displayName": "Starter",
                 "description": "A minimal Google Cloud Python Pulumi program",
                 "important": true,
                 "config": {
                     "gcp:project": {
                         "description": "The Google Cloud project to deploy into"
                     }
-                },
-                "metadata": {
-                    "cloud": "gcp"
                 }
             }
         },
@@ -1874,16 +1782,12 @@
             "name": "gcp-typescript",
             "runtime": "nodejs",
             "template": {
-                "displayName": "Starter",
                 "description": "A minimal Google Cloud TypeScript Pulumi program",
                 "important": true,
                 "config": {
                     "gcp:project": {
                         "description": "The Google Cloud project to deploy into"
                     }
-                },
-                "metadata": {
-                    "cloud": "gcp"
                 }
             }
         },
@@ -1891,15 +1795,11 @@
             "name": "gcp-visualbasic",
             "runtime": "dotnet",
             "template": {
-                "displayName": "Starter",
                 "description": "A minimal GCP VB.NET Pulumi program",
                 "config": {
                     "gcp:project": {
                         "description": "The Google Cloud project to deploy into"
                     }
-                },
-                "metadata": {
-                    "cloud": "gcp"
                 }
             }
         },
@@ -1907,16 +1807,12 @@
             "name": "gcp-yaml",
             "runtime": "yaml",
             "template": {
-                "displayName": "Starter",
                 "description": "A minimal Google Cloud Pulumi YAML program",
                 "important": true,
                 "config": {
                     "gcp:project": {
                         "description": "The Google Cloud project to deploy into"
                     }
-                },
-                "metadata": {
-                    "cloud": "gcp"
                 }
             }
         },
@@ -2612,23 +2508,15 @@
             "name": "kubernetes-csharp",
             "runtime": "dotnet",
             "template": {
-                "displayName": "Starter",
                 "description": "A minimal Kubernetes C# Pulumi program",
-                "important": true,
-                "metadata": {
-                    "cloud": "kubernetes"
-                }
+                "important": true
             }
         },
         "kubernetes-fsharp": {
             "name": "kubernetes-fsharp",
             "runtime": "dotnet",
             "template": {
-                "displayName": "Starter",
-                "description": "A minimal Kubernetes F# Pulumi program",
-                "metadata": {
-                    "cloud": "kubernetes"
-                }
+                "description": "A minimal Kubernetes F# Pulumi program"
             }
         },
         "kubernetes-gcp-csharp": {
@@ -2755,24 +2643,16 @@
             "name": "kubernetes-go",
             "runtime": "go",
             "template": {
-                "displayName": "Starter",
                 "description": "A minimal Kubernetes Go Pulumi program",
-                "important": true,
-                "metadata": {
-                    "cloud": "kubernetes"
-                }
+                "important": true
             }
         },
         "kubernetes-java": {
             "name": "kubernetes-java",
             "runtime": "java",
             "template": {
-                "displayName": "Starter",
                 "description": "A minimal Kubernetes Java Pulumi program",
-                "important": true,
-                "metadata": {
-                    "cloud": "kubernetes"
-                }
+                "important": true
             }
         },
         "kubernetes-javascript": {
@@ -2784,48 +2664,32 @@
                 }
             },
             "template": {
-                "displayName": "Starter",
                 "description": "A minimal Kubernetes JavaScript Pulumi program",
-                "important": true,
-                "metadata": {
-                    "cloud": "kubernetes"
-                }
+                "important": true
             }
         },
         "kubernetes-python": {
             "name": "kubernetes-python",
             "runtime": "python",
             "template": {
-                "displayName": "Starter",
                 "description": "A minimal Kubernetes Python Pulumi program",
-                "important": true,
-                "metadata": {
-                    "cloud": "kubernetes"
-                }
+                "important": true
             }
         },
         "kubernetes-typescript": {
             "name": "kubernetes-typescript",
             "runtime": "nodejs",
             "template": {
-                "displayName": "Starter",
                 "description": "A minimal Kubernetes TypeScript Pulumi program",
-                "important": true,
-                "metadata": {
-                    "cloud": "kubernetes"
-                }
+                "important": true
             }
         },
         "kubernetes-yaml": {
             "name": "kubernetes-yaml",
             "runtime": "yaml",
             "template": {
-                "displayName": "Starter",
                 "description": "A minimal Kubernetes Pulumi YAML program",
-                "important": true,
-                "metadata": {
-                    "cloud": "kubernetes"
-                }
+                "important": true
             }
         },
         "linode-go": {
