@@ -1,6 +1,6 @@
 module ${PROJECT}
 
-go 1.21
+go 1.20
 
 require (
 	github.com/pulumi/pulumi-aws/sdk/v6 v6.5.0
