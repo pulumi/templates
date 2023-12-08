@@ -2,7 +2,7 @@
     "name": "vm-azure-typescript",
     "main": "index.ts",
     "devDependencies": {
-        "@types/node": "^16"
+        "@types/node": "^18"
     },
     "dependencies": {
         "@pulumi/azure-native": "^2.0.0",
