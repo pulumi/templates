@@ -5,10 +5,11 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/pulumi/pulumi-azure-native-sdk/compute"
-	"github.com/pulumi/pulumi-azure-native-sdk/network"
-	"github.com/pulumi/pulumi-azure-native-sdk/resources"
+	"github.com/pulumi/pulumi-azure-native-sdk/compute/v2"
+	"github.com/pulumi/pulumi-azure-native-sdk/network/v2"
+	"github.com/pulumi/pulumi-azure-native-sdk/resources/v2"
 	"github.com/pulumi/pulumi-random/sdk/v4/go/random"
+	tls "github.com/pulumi/pulumi-tls/sdk/v4/go/tls"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi/config"
 )
@@ -16,7 +17,7 @@ import (
 func main() {
 	pulumi.Run(func(ctx *pulumi.Context) error {
 
-		// Import the program's configuration settings.
+		// Import the program's configuration settings
 		cfg := config.New(ctx, "")
 		vmName, err := cfg.Try("vmName")
 		if err != nil {
@@ -38,7 +39,6 @@ func main() {
 		if err != nil {
 			servicePort = "80"
 		}
-		sshPublicKey := cfg.Require("sshPublicKey")
 
 		osImageArgs := strings.Split(osImage, ":")
 		osImagePublisher := osImageArgs[0]
@@ -46,13 +46,22 @@ func main() {
 		osImageSku := osImageArgs[2]
 		osImageVersion := osImageArgs[3]
 
-		// Create a resource group.
+		// Create an SSH key
+		sshKey, err := tls.NewPrivateKey(ctx, "ssh-key", &tls.PrivateKeyArgs{
+			Algorithm: pulumi.String("RSA"),
+			RsaBits:   pulumi.Int(4096),
+		})
+		if err != nil {
+			return err
+		}
+
+		// Create a resource group
 		resourceGroup, err := resources.NewResourceGroup(ctx, "resource-group", nil)
 		if err != nil {
 			return err
 		}
 
-		// Create a virtual network.
+		// Create a virtual network
 		virtualNetwork, err := network.NewVirtualNetwork(ctx, "network", &network.VirtualNetworkArgs{
 			ResourceGroupName: resourceGroup.Name,
 			AddressSpace: network.AddressSpaceArgs{
@@ -71,7 +80,7 @@ func main() {
 			return err
 		}
 
-		// Use a random string to give the VM a unique DNS name.
+		// Use a random string to give the VM a unique DNS name
 		domainLabelSuffix, err := random.NewRandomString(ctx, "domain-label", &random.RandomStringArgs{
 			Length:  pulumi.Int(8),
 			Upper:   pulumi.Bool(false),
@@ -84,7 +93,7 @@ func main() {
 			return fmt.Sprintf("%s-%s", vmName, result)
 		}).(pulumi.StringOutput)
 
-		// Create a public IP address for the VM.
+		// Create a public IP address for the VM
 		publicIp, err := network.NewPublicIPAddress(ctx, "public-ip", &network.PublicIPAddressArgs{
 			ResourceGroupName:        resourceGroup.Name,
 			PublicIPAllocationMethod: pulumi.StringPtr("Dynamic"),
@@ -96,7 +105,7 @@ func main() {
 			return err
 		}
 
-		// Create a security group allowing inbound access over ports 80 (for HTTP) and 22 (for SSH).
+		// Create a security group allowing inbound access over ports 80 (for HTTP) and 22 (for SSH)
 		securityGroup, err := network.NewNetworkSecurityGroup(ctx, "security-group", &network.NetworkSecurityGroupArgs{
 			ResourceGroupName: resourceGroup.Name,
 			SecurityRules: network.SecurityRuleTypeArray{
@@ -120,7 +129,7 @@ func main() {
 			return err
 		}
 
-		// Create a network interface with the virtual network, IP address, and security group.
+		// Create a network interface with the virtual network, IP address, and security group
 		networkInterface, err := network.NewNetworkInterface(ctx, "network-interface", &network.NetworkInterfaceArgs{
 			ResourceGroupName: resourceGroup.Name,
 			NetworkSecurityGroup: &network.NetworkSecurityGroupTypeArgs{
@@ -145,7 +154,7 @@ func main() {
 			return err
 		}
 
-		// Define a script to be run when the VM starts up.
+		// Define a script to be run when the VM starts up
 		initScript := fmt.Sprintf(`#!/bin/bash
 			echo '<!DOCTYPE html>
 			<html lang="en">
@@ -160,7 +169,7 @@ func main() {
 			</html>' > index.html
 			sudo python3 -m http.server %s &`, servicePort)
 
-		// Create the virtual machine.
+		// Create the virtual machine
 		vm, err := compute.NewVirtualMachine(ctx, "vm", &compute.VirtualMachineArgs{
 			ResourceGroupName: resourceGroup.Name,
 			NetworkProfile: &compute.NetworkProfileArgs{
@@ -183,7 +192,7 @@ func main() {
 					Ssh: &compute.SshConfigurationArgs{
 						PublicKeys: compute.SshPublicKeyTypeArray{
 							&compute.SshPublicKeyTypeArgs{
-								KeyData: pulumi.String(sshPublicKey),
+								KeyData: sshKey.PublicKeyOpenssh,
 								Path:    pulumi.String(fmt.Sprintf("/home/%v/.ssh/authorized_keys", adminUsername)),
 							},
 						},
@@ -207,7 +216,7 @@ func main() {
 			return err
 		}
 
-		// Once the machine is created, fetch its IP address and DNS hostname.
+		// Once the machine is created, fetch its IP address and DNS hostname
 		address := vm.ID().ApplyT(func(_ pulumi.ID) network.LookupPublicIPAddressResultOutput {
 			return network.LookupPublicIPAddressOutput(ctx, network.LookupPublicIPAddressOutputArgs{
 				ResourceGroupName:   resourceGroup.Name,
@@ -215,7 +224,7 @@ func main() {
 			})
 		})
 
-		// Export the VM's hostname, public IP address, and HTTP URL.
+		// Export the VM's hostname, public IP address, HTTP URL, and SSH private key
 		ctx.Export("ip", address.ApplyT(func(addr network.LookupPublicIPAddressResult) (string, error) {
 			return *addr.IpAddress, nil
 		}).(pulumi.StringOutput))
@@ -227,6 +236,8 @@ func main() {
 		ctx.Export("url", address.ApplyT(func(addr network.LookupPublicIPAddressResult) (string, error) {
 			return fmt.Sprintf("http://%s:%s", *addr.DnsSettings.Fqdn, servicePort), nil
 		}).(pulumi.StringOutput))
+
+		ctx.Export("privatekey", sshKey.PrivateKeyOpenssh)
 
 		return nil
 	})

@@ -3,9 +3,9 @@ package main
 import (
 	"net/url"
 
-	cdn "github.com/pulumi/pulumi-azure-native-sdk/cdn"
-	resources "github.com/pulumi/pulumi-azure-native-sdk/resources"
-	storage "github.com/pulumi/pulumi-azure-native-sdk/storage"
+	cdn "github.com/pulumi/pulumi-azure-native-sdk/cdn/v2"
+	resources "github.com/pulumi/pulumi-azure-native-sdk/resources/v2"
+	storage "github.com/pulumi/pulumi-azure-native-sdk/storage/v2"
 	synced "github.com/pulumi/pulumi-synced-folder/sdk/go/synced-folder"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi/config"

@@ -1,23 +1,30 @@
 import pulumi
 from pulumi_azure_native import resources, network, compute
 from pulumi_random import random_string
+import pulumi_tls as tls
 import base64
 
-# Import the program's configuration settings.
+# Import the program's configuration settings
 config = pulumi.Config()
 vm_name = config.get("vmName", "my-server")
 vm_size = config.get("vmSize", "Standard_A1_v2")
 os_image = config.get("osImage", "Debian:debian-11:11:latest")
 admin_username = config.get("adminUsername", "pulumiuser")
 service_port = config.get("servicePort", "80")
-ssh_public_key = config.require("sshPublicKey")
 
 os_image_publisher, os_image_offer, os_image_sku, os_image_version = os_image.split(":")
 
-# Create a resource group.
+# Create an SSH key
+ssh_key = tls.PrivateKey(
+    "ssh-key",
+    algorithm = "RSA",
+    rsa_bits = 4096,
+)
+
+# Create a resource group
 resource_group = resources.ResourceGroup("resource-group")
 
-# Create a virtual network.
+# Create a virtual network
 virtual_network = network.VirtualNetwork(
     "network",
     resource_group_name=resource_group.name,
@@ -33,7 +40,7 @@ virtual_network = network.VirtualNetwork(
         ),
     ],
 )
-# Use a random string to give the VM a unique DNS name.
+# Use a random string to give the VM a unique DNS name
 domain_name_label = random_string.RandomString(
     "domain-label",
     length=8,
@@ -41,7 +48,7 @@ domain_name_label = random_string.RandomString(
     special=False,
 ).result.apply(lambda result: f"{vm_name}-{result}")
 
-# Create a public IP address for the VM.
+# Create a public IP address for the VM
 public_ip = network.PublicIPAddress(
     "public-ip",
     resource_group_name=resource_group.name,
@@ -51,7 +58,7 @@ public_ip = network.PublicIPAddress(
     ),
 )
 
-# Create a security group allowing inbound access over ports 80 (for HTTP) and 22 (for SSH).
+# Create a security group allowing inbound access over ports 80 (for HTTP) and 22 (for SSH)
 security_group = network.NetworkSecurityGroup(
     "security-group",
     resource_group_name=resource_group.name,
@@ -73,7 +80,7 @@ security_group = network.NetworkSecurityGroup(
     ],
 )
 
-# Create a network interface with the virtual network, IP address, and security group.
+# Create a network interface with the virtual network, IP address, and security group
 network_interface = network.NetworkInterface(
     "network-interface",
     resource_group_name=resource_group.name,
@@ -94,7 +101,7 @@ network_interface = network.NetworkInterface(
     ],
 )
 
-# Define a script to be run when the VM starts up.
+# Define a script to be run when the VM starts up
 init_script = f"""#!/bin/bash
     echo '<!DOCTYPE html>
     <html lang="en">
@@ -110,7 +117,7 @@ init_script = f"""#!/bin/bash
     sudo python3 -m http.server {service_port} &
     """
 
-# Create the virtual machine.
+# Create the virtual machine
 vm = compute.VirtualMachine(
     "vm",
     resource_group_name=resource_group.name,
@@ -134,7 +141,7 @@ vm = compute.VirtualMachine(
             ssh=compute.SshConfigurationArgs(
                 public_keys=[
                     compute.SshPublicKeyArgs(
-                        key_data=ssh_public_key,
+                        key_data=ssh_key.public_key_openssh,
                         path=f"/home/{admin_username}/.ssh/authorized_keys",
                     ),
                 ],
@@ -155,7 +162,7 @@ vm = compute.VirtualMachine(
     ),
 )
 
-# Once the machine is created, fetch its IP address and DNS hostname.
+# Once the machine is created, fetch its IP address and DNS hostname
 vm_address = vm.id.apply(
     lambda id: network.get_public_ip_address_output(
         resource_group_name=resource_group.name,
@@ -163,12 +170,24 @@ vm_address = vm.id.apply(
     )
 )
 
-# Export the VM's hostname, public IP address, and HTTP URL.
-pulumi.export("ip", vm_address.ip_address)
-pulumi.export("hostname", vm_address.dns_settings.apply(lambda settings: settings.fqdn))
+# Export the VM's hostname, public IP address, HTTP URL, and SSH private key
+pulumi.export(
+    "ip",
+    vm_address.ip_address
+)
+pulumi.export(
+    "hostname",
+    vm_address.dns_settings.apply(
+        lambda settings: settings.fqdn
+    )
+)
 pulumi.export(
     "url",
     vm_address.dns_settings.apply(
         lambda settings: f"http://{settings.fqdn}:{service_port}"
     ),
+)
+pulumi.export(
+    "privatekey",
+    ssh_key.private_key_openssh,
 )

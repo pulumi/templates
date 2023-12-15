@@ -4,10 +4,10 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/pulumi/pulumi-azure-native-sdk/containerinstance"
-	"github.com/pulumi/pulumi-azure-native-sdk/containerregistry"
-	"github.com/pulumi/pulumi-azure-native-sdk/resources"
-	"github.com/pulumi/pulumi-docker/sdk/v3/go/docker"
+	"github.com/pulumi/pulumi-azure-native-sdk/containerinstance/v2"
+	"github.com/pulumi/pulumi-azure-native-sdk/containerregistry/v2"
+	"github.com/pulumi/pulumi-azure-native-sdk/resources/v2"
+	"github.com/pulumi/pulumi-docker/sdk/v4/go/docker"
 	"github.com/pulumi/pulumi-random/sdk/v4/go/random"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi/config"
@@ -74,8 +74,9 @@ func main() {
 			ImageName: pulumi.Sprintf("%s/%s:%s", registry.LoginServer, imageName, imageTag),
 			Build: docker.DockerBuildArgs{
 				Context: pulumi.String(appPath),
+				Platform: pulumi.String("linux/amd64"),
 			},
-			Registry: docker.ImageRegistryArgs{
+			Registry: docker.RegistryArgs{
 				Server:   registry.LoginServer,
 				Username: registryUsername,
 				Password: registryPassword,
@@ -144,6 +145,9 @@ func main() {
 				},
 			},
 		})
+		if err != nil {
+			return err
+		}
 
 		// Export the service's IP address, hostname, and fully-qualified URL.
 		ctx.Export("ip", containerGroup.IpAddress.Elem().Ip())

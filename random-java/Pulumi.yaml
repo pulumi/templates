@@ -1,0 +1,6 @@
+name: ${PROJECT}
+description: ${DESCRIPTION}
+runtime: java
+template:
+  description: A minimal Random Java Pulumi program
+  important: true

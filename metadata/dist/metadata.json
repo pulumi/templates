@@ -2237,7 +2237,7 @@
                         "description": "DNS prefix for the cluster"
                     },
                     "kubernetesVersion": {
-                        "default": "1.24.3",
+                        "default": "1.26.3",
                         "description": "Kubernetes version to deploy in the cluster"
                     },
                     "nodeVmSize": {
@@ -2272,7 +2272,7 @@
                         "description": "DNS prefix for the cluster"
                     },
                     "kubernetesVersion": {
-                        "default": "1.24.3",
+                        "default": "1.26.3",
                         "description": "Kubernetes version to deploy in the cluster"
                     },
                     "nodeVmSize": {
@@ -2307,7 +2307,7 @@
                         "description": "DNS prefix for the cluster"
                     },
                     "kubernetesVersion": {
-                        "default": "1.24.3",
+                        "default": "1.26.3",
                         "description": "Kubernetes version to deploy in the cluster"
                     },
                     "nodeVmSize": {
@@ -2342,7 +2342,7 @@
                         "description": "DNS prefix for the cluster"
                     },
                     "kubernetesVersion": {
-                        "default": "1.24.3",
+                        "default": "1.26.3",
                         "description": "Kubernetes version to deploy in the cluster"
                     },
                     "nodeVmSize": {
@@ -2719,6 +2719,221 @@
             "runtime": "python",
             "template": {
                 "description": "A minimal Python Pulumi program"
+            }
+        },
+        "random-csharp": {
+            "name": "random-csharp",
+            "runtime": "dotnet",
+            "template": {
+                "description": "A minimal Random C# Pulumi program."
+            }
+        },
+        "random-go": {
+            "name": "random-go",
+            "runtime": "go",
+            "template": {
+                "description": "A minimal Random Go Pulumi program."
+            }
+        },
+        "random-java": {
+            "name": "random-java",
+            "runtime": "java",
+            "template": {
+                "description": "A minimal Random Java Pulumi program",
+                "important": true
+            }
+        },
+        "random-python": {
+            "name": "random-python",
+            "runtime": "python",
+            "template": {
+                "description": "A minimal Random Python Pulumi program."
+            }
+        },
+        "random-typescript": {
+            "name": "random-typescript",
+            "runtime": "nodejs",
+            "template": {
+                "description": "A minimal Random TypeScript Pulumi program."
+            }
+        },
+        "random-yaml": {
+            "name": "random-yaml",
+            "runtime": "yaml",
+            "template": {
+                "description": "A minimal Random Pulumi YAML program."
+            }
+        },
+        "rediscloud-go": {
+            "name": "rediscloud-go",
+            "runtime": "go",
+            "template": {
+                "description": "A minimal RedisCloud Pulumi YAML program",
+                "config": {
+                    "cardType": {
+                        "description": "Credit card type (Visa, Mastercard) of the card on file with Rediscloud"
+                    },
+                    "lastFourNumbers": {
+                        "description": "Last four numbers of the card on file with RedisCloud"
+                    },
+                    "rediscloud:apiKey": {
+                        "description": "RedisCloud access key",
+                        "secret": true
+                    },
+                    "rediscloud:secretKey": {
+                        "description": "RedisCloud secret key",
+                        "secret": true
+                    }
+                }
+            }
+        },
+        "rediscloud-javascript": {
+            "name": "rediscloud-javascript",
+            "runtime": {
+                "name": "nodejs",
+                "options": {
+                    "typescript": false
+                }
+            },
+            "template": {
+                "description": "A minimal RedisCloud JavaScript Pulumi program",
+                "config": {
+                    "cardType": {
+                        "description": "Credit card type (Visa, Mastercard) of the card on file with Rediscloud"
+                    },
+                    "lastFourNumbers": {
+                        "description": "Last four numbers of the card on file with RedisCloud"
+                    },
+                    "rediscloud:apiKey": {
+                        "description": "RedisCloud access key",
+                        "secret": true
+                    },
+                    "rediscloud:secretKey": {
+                        "description": "RedisCloud secret key",
+                        "secret": true
+                    }
+                }
+            }
+        },
+        "rediscloud-python": {
+            "name": "rediscloud-python",
+            "runtime": "python",
+            "template": {
+                "description": "A minimal RedisCloud Python Pulumi program",
+                "config": {
+                    "cardType": {
+                        "description": "Credit card type (Visa, Mastercard) of the card on file with Rediscloud"
+                    },
+                    "lastFourNumbers": {
+                        "description": "Last four numbers of the card on file with RedisCloud"
+                    },
+                    "rediscloud:apiKey": {
+                        "description": "RedisCloud access key",
+                        "secret": true
+                    },
+                    "rediscloud:secretKey": {
+                        "description": "RedisCloud secret key",
+                        "secret": true
+                    }
+                }
+            }
+        },
+        "sagemaker-aws-python": {
+            "name": "sagemaker-aws-python",
+            "runtime": "python",
+            "template": {
+                "description": "A Python program to deploy a Huggingface LLM model to Amazon SageMaker with CloudWatch monitoring",
+                "config": {
+                    "aws:region": {
+                        "description": "The AWS region where resources will be created",
+                        "default": "us-east-1"
+                    }
+                }
+            }
+        },
+        "scaleway-go": {
+            "name": "scaleway-go",
+            "runtime": "go",
+            "template": {
+                "description": "A minimal Scaleway Go program",
+                "config": {
+                    "scaleway:project_id": {
+                        "description": "The Scaleway project ID"
+                    },
+                    "scaleway:region": {
+                        "description": "The Scaleway region to deploy into",
+                        "default": "fr-par"
+                    }
+                }
+            }
+        },
+        "scaleway-javascript": {
+            "name": "scaleway-javascript",
+            "runtime": {
+                "name": "nodejs",
+                "options": {
+                    "typescript": false
+                }
+            },
+            "template": {
+                "description": "A minimal Scaleway JavaScript program",
+                "config": {
+                    "scaleway:project_id": {
+                        "description": "The Scaleway project ID"
+                    },
+                    "scaleway:region": {
+                        "description": "The Scaleway region to deploy into",
+                        "default": "fr-par"
+                    }
+                }
+            }
+        },
+        "scaleway-python": {
+            "name": "scaleway-python",
+            "runtime": "python",
+            "template": {
+                "description": "A minimal Scaleway Python program",
+                "config": {
+                    "scaleway:project_id": {
+                        "description": "The Scaleway project ID"
+                    },
+                    "scaleway:region": {
+                        "description": "The Scaleway region to deploy into",
+                        "default": "fr-par"
+                    }
+                }
+            }
+        },
+        "scaleway-typescript": {
+            "name": "scaleway-typescript",
+            "runtime": "nodejs",
+            "template": {
+                "description": "A minimal Scaleway TypeScript program",
+                "config": {
+                    "scaleway:project_id": {
+                        "description": "The Scaleway project ID"
+                    },
+                    "scaleway:region": {
+                        "description": "The Scaleway region to deploy into",
+                        "default": "fr-par"
+                    }
+                }
+            }
+        },
+        "scaleway-yaml": {
+            "name": "scaleway-yaml",
+            "runtime": "yaml",
+            "template": {
+                "description": "A minimal Scaleway Pulumi YAML program",
+                "config": {
+                    "scaleway:project_id": {
+                        "description": "The Scaleway project ID"
+                    },
+                    "scaleway:region": {
+                        "description": "The Scaleway region to deploy into",
+                        "default": "fr-par"
+                    }
+                }
             }
         },
         "serverless-aws-csharp": {
@@ -3614,9 +3829,6 @@
                     "servicePort": {
                         "description": "The HTTP service port to expose on the VM",
                         "default": "80"
-                    },
-                    "sshPublicKey": {
-                        "description": "The public key data to use for SSH authentication"
                     }
                 }
             }
@@ -3650,9 +3862,6 @@
                     "servicePort": {
                         "description": "The HTTP service port to expose on the VM",
                         "default": "80"
-                    },
-                    "sshPublicKey": {
-                        "description": "The public key data to use for SSH authentication"
                     }
                 }
             }
@@ -3686,9 +3895,6 @@
                     "servicePort": {
                         "description": "The HTTP service port to expose on the VM",
                         "default": "80"
-                    },
-                    "sshPublicKey": {
-                        "description": "The public key data to use for SSH authentication"
                     }
                 }
             }
@@ -3722,9 +3928,6 @@
                     "servicePort": {
                         "description": "The HTTP service port to expose on the VM",
                         "default": "80"
-                    },
-                    "sshPublicKey": {
-                        "description": "The public key data to use for SSH authentication"
                     }
                 }
             }
@@ -3758,9 +3961,6 @@
                     "servicePort": {
                         "description": "The HTTP service port to expose on the VM",
                         "default": "80"
-                    },
-                    "sshPublicKey": {
-                        "description": "The public key data to use for SSH authentication"
                     }
                 }
             }

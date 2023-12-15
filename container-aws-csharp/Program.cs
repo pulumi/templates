@@ -21,7 +21,8 @@ return await Deployment.RunAsync(() =>
     var image = new Awsx.Ecr.Image("image", new()
     {
         RepositoryUrl = repo.Url,
-        Path = "./app",
+        Context = "./app",
+        Platform = "linux/amd64",
     });
 
     var service = new Awsx.Ecs.FargateService("service", new()
@@ -32,6 +33,7 @@ return await Deployment.RunAsync(() =>
         {
             Container = new Awsx.Ecs.Inputs.TaskDefinitionContainerDefinitionArgs
             {
+                Name = "app",
                 Image = image.ImageUri,
                 Cpu = cpu,
                 Memory = memory,

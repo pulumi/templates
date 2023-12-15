@@ -1,6 +1,7 @@
 import * as pulumi from "@pulumi/pulumi";
 import * as gcp from "@pulumi/gcp";
 import * as docker from "@pulumi/docker";
+import * as random from "@pulumi/random";
 
 // Import the program's configuration settings.
 const config = new pulumi.Config();
@@ -16,12 +17,36 @@ const gcpConfig = new pulumi.Config("gcp");
 const location = gcpConfig.require("region");
 const project = gcpConfig.require("project");
 
+// Generate a unique Artifact Registry repository ID
+const uniqueString = new random.RandomString("unique-string", {
+    length: 4,
+    lower: true,
+    upper: false,
+    numeric: true,
+    special: false,
+})
+let repoId = uniqueString.result.apply(result => "repo-" + result);
+
+// Create an Artifact Registry repository
+const repository = new gcp.artifactregistry.Repository("repository", {
+    description: "Repository for container image",
+    format: "DOCKER",
+    location: location,
+    repositoryId: repoId,
+});
+
+// Form the repository URL
+let repoUrl = pulumi.concat(location, "-docker.pkg.dev/", project, "/", repository.repositoryId);
+
 // Create a container image for the service.
+// Before running `pulumi up`, configure Docker for authentication to Artifact Registry
+// as described here: https://cloud.google.com/artifact-registry/docs/docker/authentication
 const image = new docker.Image("image", {
-    imageName: `gcr.io/${project}/${imageName}`,
+    imageName: pulumi.concat(repoUrl, "/", imageName),
     build: {
         context: appPath,
-        env: {
+        platform: "linux/amd64",
+        args: {
             // Cloud Run currently requires x86_64 images
             // https://cloud.google.com/run/docs/container-contract#languages
             DOCKER_DEFAULT_PLATFORM: "linux/amd64",

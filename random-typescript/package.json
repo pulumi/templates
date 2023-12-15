@@ -1,0 +1,11 @@
+{
+  "name": "${PROJECT}",
+  "main": "index.ts",
+  "devDependencies": {
+    "@types/node": "^18"
+  },
+  "dependencies": {
+    "@pulumi/pulumi": "^3.19.0",
+    "@pulumi/random": "^4.13.0"
+  }
+}

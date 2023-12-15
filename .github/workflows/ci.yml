@@ -19,7 +19,7 @@ env:
   GOOGLE_PROJECT: pulumi-ci-gcp-provider
   GOOGLE_PROJECT_NUMBER: 895284651812
   LINODE_TOKEN: ${{ secrets.LINODE_TOKEN }}
-  SKIPPED_TESTS: "alicloud,digitalocean,kubernetes,openstack,equinix-metal,civo,aiven,auth0,github,oci,java-jbang,java-gradle,azuredevops,container,vm-azure"
+  SKIPPED_TESTS: "alicloud,digitalocean,kubernetes,openstack,equinix-metal,civo,aiven,auth0,github,oci,java-jbang,java-gradle,azuredevops,vm-azure"
   PULUMI_API: https://api.pulumi-staging.io
   SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
   PULUMI_VERSION: ${{ github.event.client_payload.ref }}
@@ -36,10 +36,10 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        platform: [ubuntu-latest, macOS-latest, windows-latest]
-        go-version: [1.18.x]
-        node-version: [16.x]
-        python-version: [3.7]
+        platform: [ubuntu-latest, macOS-latest, windows-8core-2022]
+        go-version: [1.20.x]
+        node-version: [18.x]
+        python-version: [3.8]
         dotnet: [6.0.x]
     runs-on: ${{ matrix.platform }}
     permissions:

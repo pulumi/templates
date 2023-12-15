@@ -41,9 +41,9 @@ return await Deployment.RunAsync(() =>
         // Do not give the worker nodes public IP addresses
         NodeAssociatePublicIpAddress = false,
 
-        // Uncomment the next two lines for a private cluster (VPN access required)
-        // EndpointPrivateAccess = true,
-        // EndpointPublicAccess = false,
+        // Change these values for a private cluster (VPN access required)
+        EndpointPrivateAccess = false,
+        EndpointPublicAccess = true,
     });
 
     // Export some values for use elsewhere

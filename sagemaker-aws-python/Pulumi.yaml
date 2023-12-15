@@ -1,0 +1,9 @@
+name: ${PROJECT}
+description: ${DESCRIPTION}
+runtime: python
+template:
+  description: A Python program to deploy a Huggingface LLM model to Amazon SageMaker with CloudWatch monitoring
+  config:
+    aws:region:
+      description: The AWS region where resources will be created
+      default: us-east-1

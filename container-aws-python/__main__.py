@@ -22,7 +22,8 @@ repo = awsx.ecr.Repository("repo", awsx.ecr.RepositoryArgs(
 image = awsx.ecr.Image(
     "image",
     repository_url=repo.url,
-    path="./app")
+    context="./app",
+    platform="linux/amd64")
 
 # Deploy an ECS Service on Fargate to host the application container
 service = awsx.ecs.FargateService(
@@ -31,6 +32,7 @@ service = awsx.ecs.FargateService(
     assign_public_ip=True,
     task_definition_args=awsx.ecs.FargateServiceTaskDefinitionArgs(
         container=awsx.ecs.TaskDefinitionContainerDefinitionArgs(
+            name="app",
             image=image.image_uri,
             cpu=cpu,
             memory=memory,

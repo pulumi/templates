@@ -1,8 +1,8 @@
 module ${PROJECT}
 
-go 1.18
+go 1.20
 
 require (
-	github.com/pulumi/pulumi-gcp/sdk/v6 ${VERSION}
+	github.com/pulumi/pulumi-gcp/sdk/v7 ${VERSION}
 	github.com/pulumi/pulumi/sdk/v3 ${PULUMI_VERSION}
 )

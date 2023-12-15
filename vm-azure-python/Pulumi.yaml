@@ -23,5 +23,3 @@ template:
     servicePort:
       description: The HTTP service port to expose on the VM
       default: "80"
-    sshPublicKey:
-      description: The public key data to use for SSH authentication
