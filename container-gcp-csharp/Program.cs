@@ -70,7 +70,7 @@ return await Deployment.RunAsync(() =>
                 {
                     new Gcp.CloudRun.Inputs.ServiceTemplateSpecContainerArgs
                     {
-                        Image = image.ImageName,
+                        Image = image.RepoDigest,
                         Resources = new Gcp.CloudRun.Inputs.ServiceTemplateSpecContainerResourcesArgs
                         {
                             Limits = {

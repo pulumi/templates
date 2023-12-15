@@ -61,7 +61,7 @@ const service = new gcp.cloudrun.Service("service", {
         spec: {
             containers: [
                 {
-                    image: image.imageName,
+                    image: image.repoDigest,
                     resources: {
                         limits: {
                             memory,
