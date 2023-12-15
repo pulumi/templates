@@ -13,3 +13,4 @@ node_modules
 .vscode
 [Bb]in/
 [Oo]bj/
+.gradle
