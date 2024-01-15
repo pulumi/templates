@@ -1,0 +1,20 @@
+name: ${PROJECT}
+description: ${DESCRIPTION}
+runtime: yaml
+template:
+  description: A minimal Pinecone Serverless Pulumi YAML program
+
+resources:
+  myExampleIndex:
+    type: pinecone:index:PineconeIndex
+    properties:
+      name: "example-index"
+      metric: "cosine"
+      spec:
+        serverless:
+          cloud: aws
+          region: us-west-2
+
+outputs:
+  output:
+    value: ${myExampleIndex.host}

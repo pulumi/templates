@@ -1,0 +1,8 @@
+name: ${PROJECT}
+description: ${DESCRIPTION}
+runtime:
+  name: python
+  options:
+    virtualenv: venv
+template:
+  description: A minimal Pinecone Serverless Python Pulumi program

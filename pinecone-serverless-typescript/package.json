@@ -1,0 +1,11 @@
+{
+    "name": "${PROJECT}",
+    "main": "index.ts",
+    "devDependencies": {
+        "@types/node": "^18"
+    },
+    "dependencies": {
+        "@pulumi/pulumi": "^3.0.0",
+        "@pinecone-database/pulumi": "^0.3.0"
+    }
+}
