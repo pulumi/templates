@@ -2,4 +2,4 @@ name: ${PROJECT}
 description: ${DESCRIPTION}
 runtime: dotnet
 template:
-  description: A minimal Pinecone Serverless C# Pulumi program
+  description: A minimal Pinecone C# Pulumi program

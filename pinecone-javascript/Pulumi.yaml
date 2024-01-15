@@ -5,4 +5,4 @@ runtime:
   options:
     typescript: false
 template:
-  description: A minimal Pinecone Serverless JavaScript Pulumi program
+  description: A minimal Pinecone JavaScript Pulumi program

@@ -2,7 +2,7 @@ name: ${PROJECT}
 description: ${DESCRIPTION}
 runtime: yaml
 template:
-  description: A minimal Pinecone Serverless Pulumi YAML program
+  description: A minimal Pinecone Pulumi YAML program
 
 resources:
   myExampleIndex:
