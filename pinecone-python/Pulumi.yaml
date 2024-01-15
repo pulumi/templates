@@ -5,4 +5,4 @@ runtime:
   options:
     virtualenv: venv
 template:
-  description: A minimal Pinecone Serverless Python Pulumi program
+  description: A minimal Pinecone Python Pulumi program

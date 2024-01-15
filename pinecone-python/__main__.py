@@ -1,4 +1,4 @@
-"""A minimal Pinecone Serverless Python Pulumi program"""
+"""A minimal Pinecone Python Pulumi program"""
 
 import pulumi
 import pinecone_pulumi as pinecone

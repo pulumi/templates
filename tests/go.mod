@@ -1,6 +1,8 @@
 module github.com/pulumi/templates/v2
 
-go 1.20
+go 1.21
+
+toolchain go1.21.6
 
 require (
 	github.com/pulumi/pulumi-trace-tool v0.0.0-20240104194646-0aad5f431060
