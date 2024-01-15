@@ -10,7 +10,7 @@ resources:
     type: openstack:compute:Instance
     properties:
       flavorName: s1-2
-      imageName: Ubuntu 16.04
+      imageName: Ubuntu 22.04
 
 outputs:
   # Export the IP of the instance

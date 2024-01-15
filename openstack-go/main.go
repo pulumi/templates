@@ -10,7 +10,7 @@ func main() {
 		// Create an OpenStack resource (Compute Instance)
 		instance, err := compute.NewInstance(ctx, "test", &compute.InstanceArgs{
 			FlavorName: pulumi.String("s1-2"),
-			ImageName:  pulumi.String("Ubuntu 16.04"),
+			ImageName:  pulumi.String("Ubuntu 22.04"),
 		})
 		if err != nil {
 			return err
