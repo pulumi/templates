@@ -2714,6 +2714,58 @@
                 "description": "A minimal OpenStack Pulumi YAML program"
             }
         },
+        "pinecone-serverless-csharp": {
+            "name": "pinecone-serverless-csharp",
+            "runtime": "dotnet",
+            "template": {
+                "description": "A minimal Pinecone Serverless C# Pulumi program"
+            }
+        },
+        "pinecone-serverless-go": {
+            "name": "pinecone-serverless-go",
+            "runtime": "go",
+            "template": {
+                "description": "A minimal Pinecone Serverless Go Pulumi program"
+            }
+        },
+        "pinecone-serverless-javascript": {
+            "name": "pinecone-serverless-javascript",
+            "runtime": {
+                "name": "nodejs",
+                "options": {
+                    "typescript": false
+                }
+            },
+            "template": {
+                "description": "A minimal Pinecone Serverless JavaScript Pulumi program"
+            }
+        },
+        "pinecone-serverless-python": {
+            "name": "pinecone-serverless-python",
+            "runtime": {
+                "name": "python",
+                "options": {
+                    "virtualenv": "venv"
+                }
+            },
+            "template": {
+                "description": "A minimal Pinecone Serverless Python Pulumi program"
+            }
+        },
+        "pinecone-serverless-typescript": {
+            "name": "pinecone-serverless-typescript",
+            "runtime": "nodejs",
+            "template": {
+                "description": "A minimal Pinecone Serverless TypeScript Pulumi program"
+            }
+        },
+        "pinecone-serverless-yaml": {
+            "name": "pinecone-serverless-yaml",
+            "runtime": "yaml",
+            "template": {
+                "description": "A minimal Pinecone Serverless Pulumi YAML program"
+            }
+        },
         "python": {
             "name": "python",
             "runtime": "python",
