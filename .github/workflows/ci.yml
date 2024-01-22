@@ -69,9 +69,9 @@ jobs:
           go-version: ${{ matrix.go-version }}
       - run: go env
       - name: Install Pulumi CLI
-        uses: pulumi/actions@v4
+        uses: pulumi/actions@v5
         with:
-          pulumi-version: ${{ env.PULUMI_VERSION != '' && format('v{0}', env.PULUMI_VERSION) || null }}
+          pulumi-version: ${{ env.PULUMI_VERSION != '' && format('v{0}', env.PULUMI_VERSION) || dev }}
       - run: pulumi version
       - name: Set up Python ${{ matrix.python-version }}
         uses: actions/setup-python@v4
