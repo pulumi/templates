@@ -96,12 +96,10 @@ jobs:
         uses: google-github-actions/setup-gcloud@v0
         with:
           install_components: gke-gcloud-auth-plugin
-      # TODO find a way to preferably use latest dev builds here instead:
-      # https://github.com/pulumi/pulumi/issues/10728
       - name: Install Latest Pulumi CLI
-        uses: pulumi/actions@v4
+        uses: pulumi/actions@v5
         with:
-          pulumi-version: latest
+          pulumi-version: dev
       - run: echo "Currently Pulumi $(pulumi version) is installed"
       - name: Install Testing Dependencies
         run: make ensure
