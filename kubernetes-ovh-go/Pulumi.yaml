@@ -1,0 +1,14 @@
+name: hashnode-article
+runtime: go
+description: A simple demo of Kubernetes on OVH with Pulumi
+config:
+  # Cluster info
+  k8s_enabled: true
+  cluster:flavor: d2-4
+  cluster:name: pulumi-cluster
+  cluster:nodepool: pulumi-pool
+  cluster:min_nodes: 1
+  cluster:max_nodes: 2
+  cluster:region: GRA9
+  # OVH info
+  ovh:endpoint: ovh-eu
