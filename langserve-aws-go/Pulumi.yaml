@@ -1,0 +1,25 @@
+name: ${PROJECT}
+description: ${DESCRIPTION}
+runtime: go
+
+template:
+  description: A minimal Langserve AWS Go Pulumi program
+  config:
+    vpc-cidr:
+      type: string
+      default: 10.0.0.0/16
+    subnet-1-cidr:
+      type: string
+      default: 10.0.0.0/24
+    subnet-2-cidr:
+      type: string
+      default: 10.0.1.0/24
+    container-context:
+      type: string
+      default: .
+    container-file:
+      type: string
+      default: ./Dockerfile
+    open-api-key:
+      type: string
+      secret: true
