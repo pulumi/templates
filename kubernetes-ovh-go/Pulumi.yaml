@@ -1,6 +1,6 @@
-name: hashnode-article
+name: ovhcloud-kubernetes
 runtime: go
-description: A simple demo of Kubernetes on OVH with Pulumi
+description: A Go program to deploy a Kubernetes cluster on OVHcloud
 config:
   # Cluster info
   k8s_enabled: true

@@ -22,7 +22,7 @@ You can easily configure your setup in `Pulumi.yaml`
 ### pulumi preview
 
 ```console
-gitpod /workspace/templates/kubernetes-ovh-go (master) $ pulumi preview
+$ pulumi preview
 Please choose a stack, or create a new one: gitpod
 Previewing update (gitpod)
 
@@ -43,7 +43,7 @@ Resources:
 ### pulumi up
 
 ```console
-gitpod /workspace/templates/kubernetes-ovh-go (master) $ pulumi up
+$ pulumi up
 Please choose a stack, or create a new one: gitpod
 Previewing update (gitpod)
 
