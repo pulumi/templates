@@ -1,6 +1,9 @@
 {
   "name": "${PROJECT}",
   "main": "index.js",
+  "engines": {
+    "node": ">=16"
+  },
   "dependencies": {
     "@pulumi/pulumi": "^3.19.0",
     "@pulumi/github": "^4.8.1"

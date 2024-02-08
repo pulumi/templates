@@ -1,6 +1,9 @@
 {
     "name": "${PROJECT}",
     "type": "module",
+    "engines": {
+        "node": ">=16"
+    },
     "main": "index.js",
     "dependencies": {
         "@pulumi/pulumi": "3.60.0",

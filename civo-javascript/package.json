@@ -1,6 +1,9 @@
 {
   "name": "${PROJECT}",
   "main": "index.js",
+  "engines": {
+    "node": ">=16"
+  },
   "dependencies": {
     "@pulumi/pulumi": "3.60.0",
     "@pulumi/civo": "2.3.4"
