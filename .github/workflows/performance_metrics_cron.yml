@@ -96,7 +96,7 @@ jobs:
         uses: google-github-actions/setup-gcloud@v0
         with:
           install_components: gke-gcloud-auth-plugin
-      - name: Install Latest Pulumi CLI
+      - name: Install Pulumi CLI
         uses: pulumi/actions@v5
         with:
           pulumi-version: dev
