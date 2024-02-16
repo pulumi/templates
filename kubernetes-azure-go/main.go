@@ -20,7 +20,7 @@ func main() {
 		}
 		kubernetesVersion, err := cfg.Try("kubernetesVersion")
 		if err != nil {
-			kubernetesVersion = "1.26.3"
+			kubernetesVersion = "1.27"
 		}
 		numWorkerNodes, err := cfg.TryInt("numWorkerNodes")
 		if err != nil {
@@ -145,7 +145,9 @@ func main() {
 			return err
 		}
 
-		// Build a Kubeconfig for accessing the cluster
+		// Build a user Kubeconfig
+		// This Kubeconfig SHOULD NOT be used for an explicit provider
+		// This Kubeconfig SHOULD be used for user logins to the cluster
 		creds := containerservice.ListManagedClusterUserCredentialsOutput(ctx,
 			containerservice.ListManagedClusterUserCredentialsOutputArgs{
 				ResourceGroupName: resourceGroup.Name,
@@ -161,6 +163,24 @@ func main() {
 				return string(kubeconfig)
 			})
 
+		// Build an admin Kubeconfig
+		// This Kubeconfig SHOULD be used for an explicit provider
+		// This Kubeconfig SHOULD NOT be used for user logins to the cluster
+		adminCreds := containerservice.ListManagedClusterAdminCredentialsOutput(ctx,
+			containerservice.ListManagedClusterAdminCredentialsOutputArgs{
+				ResourceGroupName: resourceGroup.Name,
+				ResourceName:      cluster.Name,
+			})
+
+		adminKubeconfig := adminCreds.Kubeconfigs().Index(pulumi.Int(0)).Value().
+			ApplyT(func(encoded string) string {
+				adminKubeconfig, err := base64.StdEncoding.DecodeString(encoded)
+				if err != nil {
+					return ""
+				}
+				return string(adminKubeconfig)
+			})
+
 		// Export some values for use elsewhere
 		ctx.Export("resourceGroupName", resourceGroup.Name)
 		ctx.Export("networkName", virtualNetwork.Name)
@@ -169,6 +189,7 @@ func main() {
 		ctx.Export("subnet3Name", subnet3.Name)
 		ctx.Export("clusterName", cluster.Name)
 		ctx.Export("kubeconfig", kubeconfig)
+		ctx.Export("adminKubeconfig", pulumi.ToSecret(adminKubeconfig))
 
 		return nil
 	})

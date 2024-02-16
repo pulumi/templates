@@ -8,8 +8,8 @@ from pulumi_azure_native import containerservice
 
 # Get some project-namespaced configuration values or use default values
 proj_cfg = pulumi.Config()
-num_worker_nodes = proj_cfg.get_float("numWorkerNodes", 3)
-k8s_version = proj_cfg.get("kubernetesVersion", "1.26.3")
+num_worker_nodes = proj_cfg.get_int("numWorkerNodes", 3)
+k8s_version = proj_cfg.get("kubernetesVersion", "1.27")
 prefix_for_dns = proj_cfg.get("prefixForDns", "pulumi")
 node_vm_size = proj_cfg.get("nodeVmSize", "Standard_DS2_v2")
 # The next two configuration values are required (no default can be provided)
@@ -101,7 +101,9 @@ managed_cluster = containerservice.ManagedCluster(
     resource_group_name=resource_group.name
 )
 
-# Build a Kubeconfig to access the cluster
+# Build a user Kubeconfig
+# This SHOULD NOT be used for an explicit provider
+# This SHOULD be used for user logins to the cluster
 creds = containerservice.list_managed_cluster_user_credentials_output(
     resource_group_name=resource_group.name,
     resource_name=managed_cluster.name,
@@ -109,8 +111,19 @@ creds = containerservice.list_managed_cluster_user_credentials_output(
 encoded = creds.kubeconfigs[0].value
 kubeconfig = encoded.apply(lambda enc: base64.b64decode(enc).decode())
 
+# Build an admin Kubeconfig
+# This SHOULD be used for an explicit provider
+# THIS SHOULD NOT be used for user logins to the cluster
+adminCreds = containerservice.list_managed_cluster_admin_credentials_output(
+    resource_group_name=resource_group.name,
+    resource_name=managed_cluster.name,
+)
+encoded = adminCreds.kubeconfigs[0].value
+adminKubeconfig = encoded.apply(lambda enc: base64.b64decode(enc).decode())
+
 # Export some values for use elsewhere
 pulumi.export("rgname", resource_group.name)
 pulumi.export("vnetName", virtual_network.name)
 pulumi.export("clusterName", managed_cluster.name)
 pulumi.export("kubeconfig", kubeconfig)
+pulumi.export("adminKubeconfig", pulumi.Output.secret(adminKubeconfig))

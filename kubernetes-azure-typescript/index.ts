@@ -6,7 +6,7 @@ import * as containerservice from "@pulumi/azure-native/containerservice";
 // Grab some values from the Pulumi stack configuration (or use defaults)
 const projCfg = new pulumi.Config();
 const numWorkerNodes = projCfg.getNumber("numWorkerNodes") || 3;
-const k8sVersion = projCfg.get("kubernetesVersion") || "1.26.3";
+const k8sVersion = projCfg.get("kubernetesVersion") || "1.27";
 const prefixForDns = projCfg.get("prefixForDns") || "pulumi";
 const nodeVmSize = projCfg.get("nodeVmSize") || "Standard_DS2_v2";
 // The next two configuration values are required (no default can be provided)
@@ -94,7 +94,9 @@ const managedCluster = new containerservice.ManagedCluster("managedCluster", {
     resourceGroupName: resourceGroup.name,
 });
 
-// Build a Kubeconfig to access the cluster
+// Build a user Kubeconfig
+// This SHOULD NOT be used for an explicit provider
+// This SHOULD be used for user logins to the cluster
 const creds = containerservice.listManagedClusterUserCredentialsOutput({
     resourceGroupName: resourceGroup.name,
     resourceName: managedCluster.name,
@@ -102,8 +104,19 @@ const creds = containerservice.listManagedClusterUserCredentialsOutput({
 const encoded = creds.kubeconfigs[0].value;
 const decoded = encoded.apply(enc => Buffer.from(enc, "base64").toString());
 
+// Build an admin Kubeconfig
+// This SHOULD be used for an explicit provider
+// This SHOULD NOT be used for user logins to the cluster
+const adminCreds = containerservice.listManagedClusterAdminCredentialsOutput({
+    resourceGroupName: resourceGroup.name,
+    resourceName: managedCluster.name,
+});
+const adminEncoded = adminCreds.kubeconfigs[0].value;
+const adminDecoded = adminEncoded.apply(enc => Buffer.from(enc, "base64").toString());
+
 // Export some values for use elsewhere
 export const rgName = resourceGroup.name;
 export const networkName = virtualNetwork.name;
 export const clusterName = managedCluster.name;
 export const kubeconfig = decoded;
+export const adminKubeconfig = pulumi.secret(adminDecoded)

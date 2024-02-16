@@ -13,7 +13,7 @@ template:
       default: pulumi
       description: DNS prefix for the cluster
     kubernetesVersion:
-      default: 1.24.3
+      default: "1.27"
       description: Kubernetes version to deploy in the cluster
     nodeVmSize:
       default: Standard_DS2_v2
@@ -34,7 +34,7 @@ config:
     default: pulumi
   kubernetesVersion:
     type: string
-    default: 1.24.3
+    default: "1.27"
   nodeVmSize:
     type: string
     default: Standard_DS2_v2
@@ -119,15 +119,28 @@ resources:
       resourceGroupName: ${resourceGroup.name}
 
 variables:
-  # Get the credentials for the AKS cluster created above
-  aksCredentials:
+  # Create a user Kubeconfig
+  # This SHOULD NOT be used for an explicit provider
+  # This SHOULD be used for user logins to the cluster
+  userKubeconfig:
+    fn::fromBase64: ${aksUserCredentials.kubeconfigs[0].value}
+  # Create a admin Kubeconfig
+  # This SHOULD be used for an explicit provider
+  # This SHOULD NOT be used for user logins to the cluster
+  adminKubeconfig:
+    fn::fromBase64: ${aksAdminCredentials.kubeconfigs[0].value}
+  aksUserCredentials:
     fn::azure-native:containerservice:listManagedClusterUserCredentials:
       resourceGroupName: ${resourceGroup.name}
       resourceName: ${managedCluster.name}
-  actualKubeConfig:
-    fn::fromBase64: ${aksCredentials.kubeconfigs[0].value}
+  aksAdminCredentials:
+    fn::azure-native:containerservice:listManagedClusterAdminCredentials:
+      resourceGroupName: ${resourceGroup.name}
+      resourceName: ${managedCluster.name}
 
 outputs:
-    # Export the Kubeconfig of the cluster
-    clusterName: ${managedCluster.name}
-    kubeconfig: ${actualKubeConfig}
+  # Export the Kubeconfig of the cluster
+  clusterName: ${managedCluster.name}
+  kubeconfig: ${userKubeconfig}
+  adminKubeconfig:
+    fn::secret: ${adminKubeconfig}
