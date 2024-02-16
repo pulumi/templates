@@ -9,7 +9,7 @@ return await Pulumi.Deployment.RunAsync(() =>
     // Grab some values from the Pulumi stack configuration (or use defaults)
     var projCfg = new Config();
     var numWorkerNodes = projCfg.GetInt32("numWorkerNodes") ?? 3;
-    var k8sVersion = projCfg.Get("kubernetesVersion") ?? "1.26.3";
+    var k8sVersion = projCfg.Get("kubernetesVersion") ?? "1.27";
     var prefixForDns = projCfg.Get("prefixForDns") ?? "pulumi";
     var nodeVmSize = projCfg.Get("nodeVmSize") ?? "Standard_DS2_v2";
 
@@ -128,7 +128,9 @@ return await Pulumi.Deployment.RunAsync(() =>
         ResourceGroupName = resourceGroup.Name,
     });
 
-    // Build a Kubeconfig to access the cluster
+    // Build a user Kubeconfig
+    // This SHOULD NOT be used for an explicit provider
+    // This SHOULD be used for user logins to the cluster
     var creds = AzureNative.ContainerService.ListManagedClusterUserCredentials.Invoke(new()
     {
         ResourceGroupName = resourceGroup.Name,
@@ -140,6 +142,21 @@ return await Pulumi.Deployment.RunAsync(() =>
         return Encoding.UTF8.GetString(bytes);
     });
 
+    // Build an admin Kubeconfig
+    // This SHOULD be used for an explicit provider
+    // This SHOULD NOT be used for user logins to the cluster
+    var adminCreds = AzureNative.ContainerService.ListManagedClusterAdminCredentials.Invoke(new()
+    {
+        ResourceGroupName = resourceGroup.Name,
+        ResourceName = managedCluster.Name,
+    });
+    var adminEncoded = adminCreds.Apply(result => result.Kubeconfigs[0]!.Value);
+    var adminDecoded = adminEncoded.Apply(enc => {
+        var bytes = Convert.FromBase64String(enc);
+        return Encoding.UTF8.GetString(bytes);
+    });
+
+
     // Export some values for use elsewhere
     return new Dictionary<string, object?>
     {
@@ -147,5 +164,6 @@ return await Pulumi.Deployment.RunAsync(() =>
         ["networkName"] = virtualNetwork.Name,
         ["clusterName"] = managedCluster.Name,
         ["kubeconfig"] = decoded,
+        ["adminKubeconfig"] = Pulumi.Output.CreateSecret(adminDecoded),
     };
 });
