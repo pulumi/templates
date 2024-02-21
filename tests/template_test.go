@@ -37,6 +37,7 @@ func TestTemplates(t *testing.T) {
 				UseAutomaticVirtualEnv: true,
 				PrepareProject:         testutils.PrepareProject(t, e),
 				RequireService:         true,
+				InstallDevReleases:     true,
 			}.With(testutils.UpdateOptions(templateInfo))
 
 			integration.ProgramTest(t, &opts)
