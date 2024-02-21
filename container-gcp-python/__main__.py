@@ -11,7 +11,7 @@ image_name = config.get("imageName", "my-app")
 container_port = config.get_int("containerPort", 8080)
 cpu = config.get_int("cpu", 1)
 memory = config.get("memory", "1Gi")
-concurrency = config.get_float("concurrency", 50)
+concurrency = config.get_int("concurrency", 50)
 
 # Import the provider's configuration settings.
 gcp_config = pulumi.Config("gcp")

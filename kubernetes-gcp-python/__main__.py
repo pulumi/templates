@@ -7,7 +7,7 @@ gcp_project = provider_cfg.require("project")
 gcp_region = provider_cfg.get("region", "us-central1")
 # Get some additional configuration values
 config = pulumi.Config()
-nodes_per_zone = config.get_float("nodesPerZone", 1)
+nodes_per_zone = config.get_int("nodesPerZone", 1)
 
 # Create a new network
 gke_network = gcp.compute.Network(
