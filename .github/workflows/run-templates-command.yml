@@ -119,6 +119,11 @@ jobs:
           repo: gotesttools/gotestfmt
       - name: Get dependencies
         run: make ensure
+      - name: Free Disk Space (Ubuntu)
+        uses: jlumbroso/free-disk-space@main
+        with:
+          tool-cache: false
+          swap-storage: false      - if: contains(matrix.platform, 'windows')
       - if: contains(matrix.platform, 'windows')
         name: Running Windows tests
         shell: bash
