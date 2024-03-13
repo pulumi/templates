@@ -123,7 +123,7 @@ jobs:
         uses: jlumbroso/free-disk-space@main
         with:
           tool-cache: false
-          swap-storage: false      - if: contains(matrix.platform, 'windows')
+          swap-storage: false
       - if: contains(matrix.platform, 'windows')
         name: Running Windows tests
         shell: bash
