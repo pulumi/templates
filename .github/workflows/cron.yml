@@ -37,7 +37,7 @@ jobs:
         python-version: [3.8]
         dotnet: [6.0.x]
         pulumi-version:
-          - latest
+          - dev
     runs-on: ${{ matrix.platform }}
     permissions:
       contents: read
