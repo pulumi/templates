@@ -1,0 +1,3 @@
+name: quickstart-java
+runtime: java
+description: A minimal Kubernetes Kotlin Pulumi program
