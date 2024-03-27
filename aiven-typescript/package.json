@@ -6,6 +6,6 @@
     },
     "dependencies": {
         "@pulumi/pulumi": "^3.20.0",
-        "@pulumi/aiven": "^5.4.0"
+        "@pulumi/aiven": "^6.11.0"
     }
 }
