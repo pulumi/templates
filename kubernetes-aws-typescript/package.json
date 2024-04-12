@@ -4,9 +4,9 @@
         "@types/node": "^18"
     },
     "dependencies": {
-        "typescript": "^4.0.0",
-        "@pulumi/pulumi": "^3.0.0",
         "@pulumi/awsx": "^2.0.2",
-        "@pulumi/eks": "^v2.0.0"
+        "@pulumi/eks": "^v2.0.0",
+        "@pulumi/pulumi": "^3.113.0",
+        "typescript": "^5.0.0"
     }
 }
