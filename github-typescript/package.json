@@ -1,11 +1,12 @@
 {
-  "name": "${PROJECT}",
-  "main": "index.ts",
-  "devDependencies": {
-    "@types/node": "^18"
-  },
-  "dependencies": {
-    "@pulumi/pulumi": "^3.19.0",
-    "@pulumi/github": "^4.8.1"
-  }
+    "name": "${PROJECT}",
+    "main": "index.ts",
+    "devDependencies": {
+        "@types/node": "^18"
+    },
+    "dependencies": {
+        "@pulumi/github": "^4.8.1",
+        "@pulumi/pulumi": "^3.113.0",
+        "typescript": "^5.0.0"
+    }
 }

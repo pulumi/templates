@@ -5,7 +5,8 @@
         "@types/node": "^18"
     },
     "dependencies": {
-        "@pulumi/pulumi": "^3.0.0",
-        "@pulumi/linode": "^4.0.0"
+        "@pulumi/linode": "^4.0.0",
+        "@pulumi/pulumi": "^3.113.0",
+        "typescript": "^5.0.0"
     }
 }
