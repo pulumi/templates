@@ -3,6 +3,6 @@ module ${PROJECT}
 go 1.20
 
 require (
-	github.com/pulumi/pulumi-civo/sdk/v2 v2.3.13
-	github.com/pulumi/pulumi/sdk/v3 v3.108.1
+	github.com/pulumi/pulumi-civo/sdk/v2 v2.3.14
+	github.com/pulumi/pulumi/sdk/v3 v3.113.0
 )
