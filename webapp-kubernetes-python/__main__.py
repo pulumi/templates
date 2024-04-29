@@ -4,7 +4,7 @@ import pulumi_kubernetes as kubernetes
 # Get some values from the Pulumi stack configuration, or use defaults
 config = pulumi.Config()
 k8sNamespace = config.get("namespace", "default")
-numReplicas = config.get_float("replicas", 1)
+numReplicas = config.get_int("replicas", 1)
 app_labels = {
     "app": "nginx",
 }

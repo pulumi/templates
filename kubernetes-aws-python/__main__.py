@@ -4,9 +4,9 @@ import pulumi_eks as eks
 
 # Get some values from the Pulumi configuration (or use defaults)
 config = pulumi.Config()
-min_cluster_size = config.get_float("minClusterSize", 3)
-max_cluster_size = config.get_float("maxClusterSize", 6)
-desired_cluster_size = config.get_float("desiredClusterSize", 3)
+min_cluster_size = config.get_int("minClusterSize", 3)
+max_cluster_size = config.get_int("maxClusterSize", 6)
+desired_cluster_size = config.get_int("desiredClusterSize", 3)
 eks_node_instance_type = config.get("eksNodeInstanceType", "t3.medium")
 vpc_network_cidr = config.get("vpcNetworkCidr", "10.0.0.0/16")
 

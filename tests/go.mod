@@ -1,11 +1,11 @@
 module github.com/pulumi/templates/v2
 
-go 1.20
+go 1.21
 
 require (
 	github.com/pulumi/pulumi-trace-tool v0.0.0-20240104194646-0aad5f431060
-	github.com/pulumi/pulumi/pkg/v3 v3.99.0
-	github.com/pulumi/pulumi/sdk/v3 v3.100.0
+	github.com/pulumi/pulumi/pkg/v3 v3.105.1-0.20240216141650-38c13b5d4c77
+	github.com/pulumi/pulumi/sdk/v3 v3.105.0
 	github.com/stretchr/testify v1.8.4
 )
 
