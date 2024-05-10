@@ -2,11 +2,11 @@
     "name": "scaleway-typescript",
     "main": "index.ts",
     "devDependencies": {
-        "@types/node": "^18"
+        "@types/node": "^18",
+        "typescript": "^5.0.0"
     },
     "dependencies": {
         "@lbrlabs/pulumi-scaleway": "1.7.0",
-        "@pulumi/pulumi": "^3.113.0",
-        "typescript": "^5.0.0"
+        "@pulumi/pulumi": "^3.113.0"
     }
 }
