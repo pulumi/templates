@@ -32,11 +32,11 @@ jobs:
       github.event.pull_request.head.repo.full_name == github.repository
     name: sentinel
     needs:
-    - test
+      - test
     runs-on: ubuntu-latest
     steps:
-    - name: Is workflow a success
-      run: echo yes
+      - name: Is workflow a success
+        run: echo yes
   test:
     if: github.event_name == 'repository_dispatch' || github.event.pull_request.head.repo.full_name == github.repository
     strategy:
@@ -55,8 +55,8 @@ jobs:
       - name: Install Java 11 (temurin)
         uses: actions/setup-java@v3
         with:
-          distribution: 'temurin'
-          java-version: '11'
+          distribution: "temurin"
+          java-version: "11"
       - name: Install DotNet ${{ matrix.dotnet }}
         uses: actions/setup-dotnet@v3
         with:
@@ -138,6 +138,8 @@ jobs:
         name: Running macOS tests
         run: |
           set -euo pipefail
+          which gotestfmt
+          ls -ahl gotestfmt
           cd tests && go test -v -json -count=1 -cover -timeout 6h -parallel ${{ env.TESTPARALLELISM }} . 2>&1 | gotestfmt
       - if: contains(matrix.platform, 'ubuntu')
         name: Running Linux tests
