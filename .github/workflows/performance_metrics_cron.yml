@@ -71,7 +71,7 @@ jobs:
           pip3 install virtualenv==20.0.23
           pip3 install pipenv
       - name: Install gotestfmt
-        uses: jaxxstorm/action-install-gh-release@v1.9.0
+        uses: jaxxstorm/action-install-gh-release@v1.11.0
         with:
           repo: gotesttools/gotestfmt
       - uses: actions/checkout@v3
