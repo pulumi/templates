@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Pulumi;
 using AzureNative = Pulumi.AzureNative;
-using Docker = Pulumi.Docker;
+using DockerBuild = Pulumi.DockerBuild;
 using Random = Pulumi.Random;
 
 return await Pulumi.Deployment.RunAsync(() =>
@@ -24,7 +24,8 @@ return await Pulumi.Deployment.RunAsync(() =>
     {
         ResourceGroupName = resourceGroup.Name,
         AdminUserEnabled = true,
-        Sku = new AzureNative.ContainerRegistry.Inputs.SkuArgs {
+        Sku = new AzureNative.ContainerRegistry.Inputs.SkuArgs
+        {
             Name = AzureNative.ContainerRegistry.SkuName.Basic,
         },
     });
@@ -39,18 +40,21 @@ return await Pulumi.Deployment.RunAsync(() =>
     var registryPassword = credentials.Apply(result => result.Passwords[0]!.Value!);
 
     // Create a container image for the service.
-    var image = new Docker.Image("image", new()
+    var image = new DockerBuild.Image("image", new()
     {
-        ImageName = Pulumi.Output.Format($"{registry.LoginServer}/{imageName}:{imageTag}"),
-        Build = new Docker.Inputs.DockerBuildArgs {
-            Context = appPath,
-            Platform = "linux/amd64",
+        Push = true,
+        Tags = new[] { Pulumi.Output.Format($"{registry.LoginServer}/{imageName}:{imageTag}") },
+        Context = new DockerBuild.Inputs.BuildContextArgs
+        {
+            Location = appPath
         },
-        Registry = new Docker.Inputs.RegistryArgs {
-            Server = registry.LoginServer,
+        Platforms = new[] { DockerBuild.Platform.Linux_amd64 },
+        Registries = new[]{
+            new DockerBuild.Inputs.RegistryArgs{
+            Address = registry.LoginServer,
             Username = registryUsername,
             Password = registryPassword,
-        },
+        }},
     });
 
     // Use a random string to give the service a unique DNS name.
@@ -66,7 +70,8 @@ return await Pulumi.Deployment.RunAsync(() =>
         ResourceGroupName = resourceGroup.Name,
         OsType = "linux",
         RestartPolicy = "always",
-        ImageRegistryCredentials = new AzureNative.ContainerInstance.Inputs.ImageRegistryCredentialArgs {
+        ImageRegistryCredentials = new AzureNative.ContainerInstance.Inputs.ImageRegistryCredentialArgs
+        {
             Server = registry.LoginServer,
             Username = registryUsername,
             Password = registryPassword,
@@ -75,7 +80,7 @@ return await Pulumi.Deployment.RunAsync(() =>
         {
             new AzureNative.ContainerInstance.Inputs.ContainerArgs {
                 Name = imageName,
-                Image = image.ImageName,
+                Image = image.Ref,
                 Ports = new[]
                 {
                     new AzureNative.ContainerInstance.Inputs.ContainerPortArgs {
@@ -98,7 +103,8 @@ return await Pulumi.Deployment.RunAsync(() =>
                 },
             },
         },
-        IpAddress = new AzureNative.ContainerInstance.Inputs.IpAddressArgs {
+        IpAddress = new AzureNative.ContainerInstance.Inputs.IpAddressArgs
+        {
             Type = AzureNative.ContainerInstance.ContainerGroupIpAddressType.Public,
             DnsNameLabel = dnsName,
             Ports = new[]
