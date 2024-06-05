@@ -2,11 +2,11 @@
     "name": "${PROJECT}",
     "main": "index.ts",
     "devDependencies": {
-        "@types/node": "^18"
+        "@types/node": "^18",
+        "typescript": "^5.0.0"
     },
     "dependencies": {
         "@pulumi/aiven": "^6.13.0",
-        "@pulumi/pulumi": "^3.113.0",
-        "typescript": "^5.0.0"
+        "@pulumi/pulumi": "^3.113.0"
     }
 }
