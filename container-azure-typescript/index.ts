@@ -1,9 +1,9 @@
-import * as pulumi from "@pulumi/pulumi";
-import * as resources from "@pulumi/azure-native/resources";
-import * as containerregistry from "@pulumi/azure-native/containerregistry";
 import * as containerinstance from "@pulumi/azure-native/containerinstance";
+import * as containerregistry from "@pulumi/azure-native/containerregistry";
+import * as dockerBuild from "@pulumi/docker-build";
+import * as pulumi from "@pulumi/pulumi";
 import * as random from "@pulumi/random";
-import * as docker from "@pulumi/docker";
+import * as resources from "@pulumi/azure-native/resources";
 
 // Import the program's configuration settings.
 const config = new pulumi.Config();
@@ -38,24 +38,25 @@ const credentials = containerregistry.listRegistryCredentialsOutput({
 });
 
 // Create a container image for the service.
-const image = new docker.Image("image", {
-    imageName: pulumi.interpolate`${registry.loginServer}/${imageName}:${imageTag}`,
-    build: {
-        context: appPath,
-        platform: "linux/amd64",
+const image = new dockerBuild.Image("image", {
+    push: true,
+    tags: [pulumi.interpolate`${registry.loginServer}/${imageName}:${imageTag}`],
+    platforms: [dockerBuild.Platform.Linux_amd64],
+    context: {
+        location: appPath
     },
-    registry: {
-        server: registry.loginServer,
+    registries: [{
+        address: registry.loginServer,
         username: credentials.username,
         password: credentials.password,
-    },
+    }],
 });
 
 // Use a random string to give the service a unique DNS name.
 const dnsName = new random.RandomString("dns-name", {
     length: 8,
     special: false,
-}).result.apply(result => `${imageName}-${result.toLowerCase()}`);
+}).result.apply((result: string) => `${imageName}-${result.toLowerCase()}`);
 
 // Create a container group for the service that makes it publicly accessible.
 const containerGroup = new containerinstance.ContainerGroup("container-group", {
@@ -72,7 +73,7 @@ const containerGroup = new containerinstance.ContainerGroup("container-group", {
     containers: [
         {
             name: imageName,
-            image: image.imageName,
+            image: image.ref,
             ports: [
                 {
                     port: containerPort,
@@ -106,6 +107,6 @@ const containerGroup = new containerinstance.ContainerGroup("container-group", {
 });
 
 // Export the service's IP address, hostname, and fully-qualified URL.
-export const hostname = containerGroup.ipAddress.apply(addr => addr!.fqdn!);
-export const ip = containerGroup.ipAddress.apply(addr => addr!.ip!);
-export const url = containerGroup.ipAddress.apply(addr => `http://${addr!.fqdn!}:${containerPort}`);
+export const hostname = containerGroup.ipAddress.apply((addr: any) => addr!.fqdn!);
+export const ip = containerGroup.ipAddress.apply((addr: any) => addr!.ip!);
+export const url = containerGroup.ipAddress.apply((addr: any) => `http://${addr!.fqdn!}:${containerPort}`);

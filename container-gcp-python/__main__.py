@@ -1,5 +1,5 @@
 import pulumi
-import pulumi_docker as docker
+import pulumi_docker_build as docker_build
 from pulumi_gcp import cloudrun, config as gcp_config
 from pulumi_gcp import artifactregistry
 import pulumi_random as random
@@ -53,14 +53,15 @@ repo_url = pulumi.Output.concat(
 # Create a container image for the service.
 # Before running `pulumi up`, configure Docker for Artifact Registry authentication
 # as described here: https://cloud.google.com/artifact-registry/docs/docker/authentication
-image = docker.Image(
+# Example,
+# gcloud auth configure-docker us-central1-docker.pkg.dev
+image = docker_build.Image(
     "image",
-    image_name=pulumi.Output.concat(repo_url, "/", image_name),
-    build=docker.DockerBuildArgs(
-        context=app_path,
-        # Cloud Run currently requires x86_64 images
-        # https://cloud.google.com/run/docs/container-contract#languages
-        platform="linux/amd64"
+    push=True,
+    tags=[pulumi.Output.concat(repo_url, "/", image_name)],
+    platforms=[docker_build.Platform.LINUX_AMD64],
+    context=docker_build.BuildContextArgs(
+        location=app_path,
     ),
 )
 
@@ -73,7 +74,7 @@ service = cloudrun.Service(
             spec=cloudrun.ServiceTemplateSpecArgs(
                 containers=[
                     cloudrun.ServiceTemplateSpecContainerArgs(
-                        image=image.repo_digest,
+                        image=image.ref,
                         resources=cloudrun.ServiceTemplateSpecContainerResourcesArgs(
                             limits=dict(
                                 memory=memory,
