@@ -1,7 +1,9 @@
-name: Command Dispatch for testing
+name: Commmand dispatch for testing
 on:
   issue_comment:
-    types: [created, edited]
+    types:
+      - created
+      - edited
 
 jobs:
   command-dispatch-for-testing:
