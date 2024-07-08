@@ -37,8 +37,8 @@ env:
   TESTPARALLELISM: 10
   PULUMI_TEMPLATE_LOCATION: ${{ github.workspace}}
 jobs:
-  build:
-    name: Build
+  test:
+    name: Test templates
 
     strategy:
       fail-fast: false
