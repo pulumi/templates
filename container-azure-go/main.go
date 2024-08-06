@@ -7,7 +7,7 @@ import (
 	"github.com/pulumi/pulumi-azure-native-sdk/containerinstance/v2"
 	"github.com/pulumi/pulumi-azure-native-sdk/containerregistry/v2"
 	"github.com/pulumi/pulumi-azure-native-sdk/resources/v2"
-	"github.com/pulumi/pulumi-docker/sdk/v4/go/docker"
+	"github.com/pulumi/pulumi-docker-build/sdk/go/dockerbuild"
 	"github.com/pulumi/pulumi-random/sdk/v4/go/random"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi/config"
@@ -70,16 +70,18 @@ func main() {
 		registryPassword := credentials.Passwords().Index(pulumi.Int(0)).Value().Elem()
 
 		// Create a container image for the service.
-		image, err := docker.NewImage(ctx, "image", &docker.ImageArgs{
-			ImageName: pulumi.Sprintf("%s/%s:%s", registry.LoginServer, imageName, imageTag),
-			Build: docker.DockerBuildArgs{
-				Context: pulumi.String(appPath),
-				Platform: pulumi.String("linux/amd64"),
+		image, err := dockerbuild.NewImage(ctx, "image", &dockerbuild.ImageArgs{
+			Tags: pulumi.StringArray{pulumi.Sprintf("%s/%s:%s", registry.LoginServer, imageName, imageTag)},
+			Context: &dockerbuild.BuildContextArgs{
+				Location: pulumi.String(appPath),
 			},
-			Registry: docker.RegistryArgs{
-				Server:   registry.LoginServer,
-				Username: registryUsername,
-				Password: registryPassword,
+			Platforms: dockerbuild.PlatformArray{dockerbuild.Platform_Linux_amd64},
+			Registries: dockerbuild.RegistryArray{
+				&dockerbuild.RegistryArgs{
+					Address:  registry.LoginServer,
+					Username: registryUsername,
+					Password: registryPassword,
+				}
 			},
 		})
 		if err != nil {
