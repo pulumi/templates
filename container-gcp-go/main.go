@@ -96,7 +96,7 @@ func main() {
 				Spec: cloudrun.ServiceTemplateSpecArgs{
 					Containers: cloudrun.ServiceTemplateSpecContainerArray{
 						cloudrun.ServiceTemplateSpecContainerArgs{
-							Image: image.RepoDigest.Elem(),
+							Image: image.Ref.Elem(),
 							Resources: cloudrun.ServiceTemplateSpecContainerResourcesArgs{
 								Limits: pulumi.ToStringMap(map[string]string{
 									"memory": memory,

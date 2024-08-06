@@ -53,7 +53,7 @@ return await Pulumi.Deployment.RunAsync(() =>
         {
             "linux/amd64",
 
-        }
+        },
         Registries = new[]
         {
             new DockerBuild.Inputs.RegistryArgs

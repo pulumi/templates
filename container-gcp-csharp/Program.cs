@@ -61,7 +61,7 @@ return await Deployment.RunAsync(() =>
         {
             // Cloud Run currently requires x86_64 images
             // https://cloud.google.com/run/docs/container-contract#languages
-            "linux/amd64",
+            DockerBuild.Platform.Linux_amd64,
         },
     });
 
@@ -77,7 +77,7 @@ return await Deployment.RunAsync(() =>
                 {
                     new Gcp.CloudRun.Inputs.ServiceTemplateSpecContainerArgs
                     {
-                        Image = image.RepoDigest,
+                        Image = image.Ref,
                         Resources = new Gcp.CloudRun.Inputs.ServiceTemplateSpecContainerResourcesArgs
                         {
                             Limits = {

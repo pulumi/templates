@@ -81,7 +81,7 @@ func main() {
 					Address:  registry.LoginServer,
 					Username: registryUsername,
 					Password: registryPassword,
-				}
+				},
 			},
 		})
 		if err != nil {
@@ -115,7 +115,7 @@ func main() {
 			Containers: containerinstance.ContainerArray{
 				containerinstance.ContainerArgs{
 					Name:  pulumi.String(imageName),
-					Image: image.ImageName,
+					Image: image.Ref,
 					Ports: containerinstance.ContainerPortArray{
 						containerinstance.ContainerPortArgs{
 							Port:     pulumi.Int(containerPort),
