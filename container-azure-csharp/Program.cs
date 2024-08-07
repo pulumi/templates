@@ -51,7 +51,7 @@ return await Pulumi.Deployment.RunAsync(() =>
         },
         Platforms = new[]
         {
-            "linux/amd64",
+            DockerBuild.Platform.Linux_amd64,
 
         },
         Registries = new[]
@@ -87,7 +87,7 @@ return await Pulumi.Deployment.RunAsync(() =>
         {
             new AzureNative.ContainerInstance.Inputs.ContainerArgs {
                 Name = imageName,
-                Image = image.ImageName,
+                Image = image.Ref,
                 Ports = new[]
                 {
                     new AzureNative.ContainerInstance.Inputs.ContainerPortArgs {
