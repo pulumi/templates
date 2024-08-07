@@ -1,5 +1,5 @@
 import pulumi
-import pulumi_docker as docker
+import pulumi_docker_build as docker_build
 import pulumi_random as random
 from pulumi_azure_native import resources, containerregistry, containerinstance
 
@@ -37,18 +37,18 @@ registry_username = credentials.apply(lambda creds: creds.username)
 registry_password = credentials.apply(lambda creds: creds.passwords[0].value)
 
 # Create a container image for the service.
-image = docker.Image(
+image = docker_build.Image(
     "image",
-    image_name=pulumi.Output.concat(registry.login_server, f"/{image_name}:{image_tag}"),
-    build=docker.DockerBuildArgs(
-        context=app_path,
-        platform="linux/amd64",
+    tags=[pulumi.Output.concat(registry.login_server, f"/{image_name}:{image_tag}")],
+    context=docker_build.BuildContextArgs(
+        location=app_path,
     ),
-    registry=docker.RegistryArgs(
-        server=registry.login_server,
+    platforms=[docker_build.Platform.LINUX_AMD64],
+    registries=[docker_build.RegistryArgs(
+        address=registry.login_server,
         username=registry_username,
         password=registry_password,
-    ),
+    )],
 )
 
 # Use a random string to give the service a unique DNS name.

@@ -3,7 +3,7 @@ import * as resources from "@pulumi/azure-native/resources";
 import * as containerregistry from "@pulumi/azure-native/containerregistry";
 import * as containerinstance from "@pulumi/azure-native/containerinstance";
 import * as random from "@pulumi/random";
-import * as docker from "@pulumi/docker";
+import * as dockerbuild from "@pulumi/docker-build";
 
 // Import the program's configuration settings.
 const config = new pulumi.Config();
@@ -38,17 +38,17 @@ const credentials = containerregistry.listRegistryCredentialsOutput({
 });
 
 // Create a container image for the service.
-const image = new docker.Image("image", {
-    imageName: pulumi.interpolate`${registry.loginServer}/${imageName}:${imageTag}`,
-    build: {
-        context: appPath,
-        platform: "linux/amd64",
+const image = new dockerbuild.Image("image", {
+    tags: [pulumi.interpolate`${registry.loginServer}/${imageName}:${imageTag}`],
+    context: {
+        location: appPath,
     },
-    registry: {
-        server: registry.loginServer,
+    platforms: ["linux/amd64"],
+    registries: [{
+        address: registry.loginServer,
         username: credentials.username,
         password: credentials.password,
-    },
+    }],
 });
 
 // Use a random string to give the service a unique DNS name.
