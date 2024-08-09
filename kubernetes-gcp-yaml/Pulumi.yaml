@@ -71,7 +71,7 @@ resources:
         workloadPool: ${gcp:project}.svc.id.goog
   # Create a new service account for the nodepool
   gke-nodepool-sa:
-    type: gcp:serviceAccount:Account
+    type: gcp:serviceaccount:Account
     properties:
       accountId: ${gke-cluster.name}-np-1-sa
       displayName: Nodepool 1 Service Account
