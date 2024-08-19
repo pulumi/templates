@@ -67,6 +67,12 @@ jobs:
       id-token: write
 
     steps:
+      - name: Free Disk Space (Ubuntu)
+        uses: jlumbroso/free-disk-space@v1.3.1
+        with:
+          tool-cache: false
+          swap-storage: false
+
       - name: Install ${{ matrix.java-version }} (${{ matrix.java-distribution }})
         uses: actions/setup-java@v4
         with:
