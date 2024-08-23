@@ -67,47 +67,43 @@ image = docker_build.Image(
 # Create a Cloud Run service definition.
 service = cloudrun.Service(
     "service",
-    cloudrun.ServiceArgs(
-        location=location,
-        template=cloudrun.ServiceTemplateArgs(
-            spec=cloudrun.ServiceTemplateSpecArgs(
-                containers=[
-                    cloudrun.ServiceTemplateSpecContainerArgs(
-                        image=image.repo_digest,
-                        resources=cloudrun.ServiceTemplateSpecContainerResourcesArgs(
-                            limits=dict(
-                                memory=memory,
-                                cpu=cpu,
-                            ),
-                        ),
-                        ports=[
-                            cloudrun.ServiceTemplateSpecContainerPortArgs(
-                                container_port=container_port,
-                            ),
-                        ],
-                        envs=[
-                            cloudrun.ServiceTemplateSpecContainerEnvArgs(
-                                name="FLASK_RUN_PORT",
-                                value=container_port,
-                            ),
-                        ],
-                    ),
-                ],
-                container_concurrency=concurrency,
-            ),
-        ),
-    ),
+    location=location,
+    template={
+        "spec": {
+            "containers": [
+                {
+                    "image": image.repo_digest,
+                    "resources": {
+                        "limits": {
+                            "memory": memory,
+                            "cpu": str(cpu),
+                        },
+                    },
+                    "ports": [
+                        {
+                            "container_port": container_port,
+                        },
+                    ],
+                    "envs": [
+                        {
+                            "name": "FLASK_RUN_PORT",
+                            "value": str(container_port),
+                        },
+                    ],
+                },
+            ],
+            "container_concurrency": concurrency,
+        },
+    },
 )
 
 # Create an IAM member to make the service publicly accessible.
 invoker = cloudrun.IamMember(
     "invoker",
-    cloudrun.IamMemberArgs(
-        location=location,
-        service=service.name,
-        role="roles/run.invoker",
-        member="allUsers",
-    ),
+    location=location,
+    service=service.name,
+    role="roles/run.invoker",
+    member="allUsers",
 )
 
 # Export the URL of the service.
