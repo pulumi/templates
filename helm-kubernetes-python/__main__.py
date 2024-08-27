@@ -21,9 +21,9 @@ ingresscontroller = kubernetes.helm.v3.Release(
     "ingresscontroller",
     chart="nginx-ingress",
     namespace=ingress_ns.metadata.name,
-    repository_opts=kubernetes.helm.v3.RepositoryOptsArgs(
-        repo="https://helm.nginx.com/stable",
-    ),
+    repository_opts={
+        "repo": "https://helm.nginx.com/stable",
+    },
     skip_crds=True,
     values={
         "controller": {
