@@ -34,7 +34,7 @@ env:
   ARM_SUBSCRIPTION_ID:  ${{ secrets.ARM_SUBSCRIPTION_ID }}
   ARM_TENANT_ID:  ${{ secrets.ARM_TENANT_ID }}
   AZURE_LOCATION: westus
-  TESTPARALLELISM: 10
+  TESTPARALLELISM: 8
   PULUMI_TEMPLATE_LOCATION: ${{ github.workspace}}
 jobs:
   test:
@@ -67,7 +67,8 @@ jobs:
       id-token: write
 
     steps:
-      - name: Free Disk Space (Ubuntu)
+      - if: contains(matrix.platform, 'ubuntu')
+        name: Free Disk Space (Ubuntu)
         uses: jlumbroso/free-disk-space@v1.3.1
         with:
           tool-cache: false
