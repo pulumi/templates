@@ -17,9 +17,9 @@ account = azure_native.storage.StorageAccount(
     "account",
     resource_group_name=resource_group.name,
     kind="StorageV2",
-    sku=azure_native.storage.SkuArgs(
-        name="Standard_LRS",
-    ),
+    sku={
+        "name": "Standard_LRS",
+    },
 )
 
 # Configure the storage account as a website.
@@ -44,9 +44,9 @@ synced_folder = synced_folder.AzureBlobFolder(
 profile = azure_native.cdn.Profile(
     "profile",
     resource_group_name=resource_group.name,
-    sku=azure_native.cdn.SkuArgs(
-        name="Standard_Microsoft",
-    ),
+    sku={
+        "name": "Standard_Microsoft",
+    },
 )
 
 # Pull the hostname out of the storage-account endpoint.
@@ -73,10 +73,10 @@ endpoint = azure_native.cdn.Endpoint(
     ],
     origin_host_header=origin_hostname,
     origins=[
-        azure_native.cdn.DeepCreatedOriginArgs(
-            name=account.name,
-            host_name=origin_hostname,
-        )
+        {
+            "name": account.name,
+            "host_name": origin_hostname,
+        }
     ],
 )
 

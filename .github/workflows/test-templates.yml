@@ -67,7 +67,8 @@ jobs:
       id-token: write
 
     steps:
-      - name: Free Disk Space (Ubuntu)
+      - if: contains(matrix.platform, 'ubuntu')
+        name: Free Disk Space (Ubuntu)
         uses: jlumbroso/free-disk-space@v1.3.1
         with:
           tool-cache: false
@@ -167,11 +168,20 @@ jobs:
           TESTPARALLELISM: 3
           SKIPPED_TESTS: "alicloud,digitalocean,kubernetes,openstack,equinix-metal,civo,aiven,auth0,github,oci,java-jbang,java-gradle,azuredevops,container,vm-azure,fsharp,gcp-visualbasic,azure-classic-visualbasic"
 
-      - if: contains(matrix.platform, 'macOS') || contains(matrix.platform, 'ubuntu')
-        name: Run non-Windows tests
+      - if: contains(matrix.platform, 'ubuntu')
+        name: Run Linux tests
         run: |
           set -euo pipefail
           cd tests && go test -v -json -count=1 -cover -timeout 6h -parallel ${{ env.TESTPARALLELISM }} . 2>&1 | gotestfmt
+
+      - if: contains(matrix.platform, 'macOS')
+        name: Run macOS tests
+        run: |
+          set -euo pipefail
+          cd tests && go test -v -json -count=1 -cover -timeout 6h -parallel ${{ env.TESTPARALLELISM }} . 2>&1 | gotestfmt
+        env:
+          TESTPARALLELISM: 6
+
 
       - if: 'failure()'
         name: Notify Slack

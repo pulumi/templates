@@ -17,8 +17,8 @@ os_image_publisher, os_image_offer, os_image_sku, os_image_version = os_image.sp
 # Create an SSH key
 ssh_key = tls.PrivateKey(
     "ssh-key",
-    algorithm = "RSA",
-    rsa_bits = 4096,
+    algorithm="RSA",
+    rsa_bits=4096,
 )
 
 # Create a resource group
@@ -28,16 +28,16 @@ resource_group = resources.ResourceGroup("resource-group")
 virtual_network = network.VirtualNetwork(
     "network",
     resource_group_name=resource_group.name,
-    address_space=network.AddressSpaceArgs(
-        address_prefixes=[
+    address_space={
+        "address_prefixes": [
             "10.0.0.0/16",
         ],
-    ),
+    },
     subnets=[
-        network.SubnetArgs(
-            name=f"{vm_name}-subnet",
-            address_prefix="10.0.1.0/24",
-        ),
+        {
+            "name": f"{vm_name}-subnet",
+            "address_prefix": "10.0.1.0/24",
+        },
     ],
 )
 # Use a random string to give the VM a unique DNS name
@@ -53,9 +53,9 @@ public_ip = network.PublicIPAddress(
     "public-ip",
     resource_group_name=resource_group.name,
     public_ip_allocation_method=network.IpAllocationMethod.DYNAMIC,
-    dns_settings=network.PublicIPAddressDnsSettingsArgs(
-        domain_name_label=domain_name_label,
-    ),
+    dns_settings={
+        "domain_name_label": domain_name_label,
+    },
 )
 
 # Create a security group allowing inbound access over ports 80 (for HTTP) and 22 (for SSH)
@@ -63,20 +63,20 @@ security_group = network.NetworkSecurityGroup(
     "security-group",
     resource_group_name=resource_group.name,
     security_rules=[
-        network.SecurityRuleArgs(
-            name=f"{vm_name}-securityrule",
-            priority=1000,
-            direction=network.AccessRuleDirection.INBOUND,
-            access="Allow",
-            protocol="Tcp",
-            source_port_range="*",
-            source_address_prefix="*",
-            destination_address_prefix="*",
-            destination_port_ranges=[
+        {
+            "name": f"{vm_name}-securityrule",
+            "priority": 1000,
+            "direction": network.AccessRuleDirection.INBOUND,
+            "access": "Allow",
+            "protocol": "Tcp",
+            "source_port_range": "*",
+            "source_address_prefix": "*",
+            "destination_address_prefix": "*",
+            "destination_port_ranges": [
                 service_port,
                 "22",
             ],
-        ),
+        },
     ],
 )
 
@@ -84,20 +84,20 @@ security_group = network.NetworkSecurityGroup(
 network_interface = network.NetworkInterface(
     "network-interface",
     resource_group_name=resource_group.name,
-    network_security_group=network.NetworkSecurityGroupArgs(
-        id=security_group.id,
-    ),
+    network_security_group={
+        "id": security_group.id,
+    },
     ip_configurations=[
-        network.NetworkInterfaceIPConfigurationArgs(
-            name=f"{vm_name}-ipconfiguration",
-            private_ip_allocation_method=network.IpAllocationMethod.DYNAMIC,
-            subnet=network.SubnetArgs(
-                id=virtual_network.subnets.apply(lambda subnets: subnets[0].id),
-            ),
-            public_ip_address=network.PublicIPAddressArgs(
-                id=public_ip.id,
-            ),
-        ),
+        {
+            "name": f"{vm_name}-ipconfiguration",
+            "private_ip_allocation_method": network.IpAllocationMethod.DYNAMIC,
+            "subnet": {
+                "id": virtual_network.subnets.apply(lambda subnets: subnets[0].id),
+            },
+            "public_ip_address": {
+                "id": public_ip.id,
+            },
+        },
     ],
 )
 
@@ -121,45 +121,45 @@ init_script = f"""#!/bin/bash
 vm = compute.VirtualMachine(
     "vm",
     resource_group_name=resource_group.name,
-    network_profile=compute.NetworkProfileArgs(
-        network_interfaces=[
-            compute.NetworkInterfaceReferenceArgs(
-                id=network_interface.id,
-                primary=True,
-            )
+    network_profile={
+        "network_interfaces": [
+            {
+                "id": network_interface.id,
+                "primary": True,
+            }
         ]
-    ),
-    hardware_profile=compute.HardwareProfileArgs(
-        vm_size=vm_size,
-    ),
-    os_profile=compute.OSProfileArgs(
-        computer_name=vm_name,
-        admin_username=admin_username,
-        custom_data=base64.b64encode(bytes(init_script, "utf-8")).decode("utf-8"),
-        linux_configuration=compute.LinuxConfigurationArgs(
-            disable_password_authentication=True,
-            ssh=compute.SshConfigurationArgs(
-                public_keys=[
-                    compute.SshPublicKeyArgs(
-                        key_data=ssh_key.public_key_openssh,
-                        path=f"/home/{admin_username}/.ssh/authorized_keys",
-                    ),
+    },
+    hardware_profile={
+        "vm_size": vm_size,
+    },
+    os_profile={
+        "computer_name": vm_name,
+        "admin_username": admin_username,
+        "custom_data": base64.b64encode(bytes(init_script, "utf-8")).decode("utf-8"),
+        "linux_configuration": {
+            "disable_password_authentication": True,
+            "ssh": {
+                "public_keys": [
+                    {
+                        "key_data": ssh_key.public_key_openssh,
+                        "path": f"/home/{admin_username}/.ssh/authorized_keys",
+                    },
                 ],
-            ),
-        ),
-    ),
-    storage_profile=compute.StorageProfileArgs(
-        os_disk=compute.OSDiskArgs(
-            name=f"{vm_name}-osdisk",
-            create_option=compute.DiskCreateOption.FROM_IMAGE,
-        ),
-        image_reference=compute.ImageReferenceArgs(
-            publisher=os_image_publisher,
-            offer=os_image_offer,
-            sku=os_image_sku,
-            version=os_image_version,
-        ),
-    ),
+            },
+        },
+    },
+    storage_profile={
+        "os_disk": {
+            "name": f"{vm_name}-osdisk",
+            "create_option": compute.DiskCreateOption.FROM_IMAGE,
+        },
+        "image_reference": {
+            "publisher": os_image_publisher,
+            "offer": os_image_offer,
+            "sku": os_image_sku,
+            "version": os_image_version,
+        },
+    },
 )
 
 # Once the machine is created, fetch its IP address and DNS hostname
@@ -171,16 +171,8 @@ vm_address = vm.id.apply(
 )
 
 # Export the VM's hostname, public IP address, HTTP URL, and SSH private key
-pulumi.export(
-    "ip",
-    vm_address.ip_address
-)
-pulumi.export(
-    "hostname",
-    vm_address.dns_settings.apply(
-        lambda settings: settings.fqdn
-    )
-)
+pulumi.export("ip", vm_address.ip_address)
+pulumi.export("hostname", vm_address.dns_settings.apply(lambda settings: settings.fqdn))
 pulumi.export(
     "url",
     vm_address.dns_settings.apply(

@@ -12,10 +12,10 @@ error_document = config.get("errorDocument") or "error.html"
 bucket = gcp.storage.Bucket(
     "bucket",
     location="US",
-    website=gcp.storage.BucketWebsiteArgs(
-        main_page_suffix=index_document,
-        not_found_page=error_document,
-    ),
+    website={
+        "main_page_suffix": index_document,
+        "not_found_page": error_document,
+    },
 )
 
 # Create an IAM binding to allow public read access to the bucket.
