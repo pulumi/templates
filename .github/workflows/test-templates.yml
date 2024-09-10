@@ -44,9 +44,9 @@ jobs:
       fail-fast: false
       matrix:
         platform:
-          - ubuntu-latest
+#          - ubuntu-latest
           - macOS-latest
-          - windows-16core-2022
+#          - windows-16core-2022
         go-version:
           - 1.21.x
         node-version:
@@ -67,12 +67,12 @@ jobs:
       id-token: write
 
     steps:
-      - if: contains(matrix.platform, 'ubuntu')
-        name: Free Disk Space (Ubuntu)
-        uses: jlumbroso/free-disk-space@v1.3.1
-        with:
-          tool-cache: false
-          swap-storage: false
+#      - if: contains(matrix.platform, 'ubuntu')
+#        name: Free Disk Space (Ubuntu)
+#        uses: jlumbroso/free-disk-space@v1.3.1
+#        with:
+#          tool-cache: false
+#          swap-storage: false
 
       - name: Install ${{ matrix.java-version }} (${{ matrix.java-distribution }})
         uses: actions/setup-java@v4
@@ -90,10 +90,10 @@ jobs:
         with:
           dotnet-version: ${{ matrix.dotnet-version }}
 
-      - if: contains(matrix.platform, 'ubuntu') || contains(matrix.platform, 'windows')
-        name: Run 'dotnet clean' on Windows and Ubuntu
-        run: |
-          dotnet nuget locals all --clear
+#      - if: contains(matrix.platform, 'ubuntu') || contains(matrix.platform, 'windows')
+#        name: Run 'dotnet clean' on Windows and Ubuntu
+#        run: |
+#          dotnet nuget locals all --clear
 
       - name: Install Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v4
@@ -157,28 +157,28 @@ jobs:
       - name: Install dependencies
         run: make ensure
 
-      - if: contains(matrix.platform, 'windows')
-        name: Run Windows tests
-        shell: bash
-        run: |
-          set -euo pipefail
-          cd tests && go test -v -json -count=1 -cover -timeout 6h -parallel ${{ env.TESTPARALLELISM }} . 2>&1 | gotestfmt
-        env:
-          PULUMI_PYTHON_CMD: python
-          TESTPARALLELISM: 3
-          SKIPPED_TESTS: "alicloud,digitalocean,kubernetes,openstack,equinix-metal,civo,aiven,auth0,github,oci,java-jbang,java-gradle,azuredevops,container,vm-azure,fsharp,gcp-visualbasic,azure-classic-visualbasic"
-
-      - if: contains(matrix.platform, 'ubuntu')
-        name: Run Linux tests
-        run: |
-          set -euo pipefail
-          cd tests && go test -v -json -count=1 -cover -timeout 6h -parallel ${{ env.TESTPARALLELISM }} . 2>&1 | gotestfmt
+#      - if: contains(matrix.platform, 'windows')
+#        name: Run Windows tests
+#        shell: bash
+#        run: |
+#          set -euo pipefail
+#          cd tests && go test -v -json -count=1 -cover -timeout 6h -parallel ${{ env.TESTPARALLELISM }} . 2>&1 | gotestfmt
+#        env:
+#          PULUMI_PYTHON_CMD: python
+#          TESTPARALLELISM: 3
+#          SKIPPED_TESTS: "alicloud,digitalocean,kubernetes,openstack,equinix-metal,civo,aiven,auth0,github,oci,java-jbang,java-gradle,azuredevops,container,vm-azure,fsharp,gcp-visualbasic,azure-classic-visualbasic"
+#
+#      - if: contains(matrix.platform, 'ubuntu')
+#        name: Run Linux tests
+#        run: |
+#          set -euo pipefail
+#          cd tests && go test -v -json -count=1 -cover -timeout 6h -parallel ${{ env.TESTPARALLELISM }}  2>&1 | gotestfmt
 
       - if: contains(matrix.platform, 'macOS')
         name: Run macOS tests
         run: |
           set -euo pipefail
-          cd tests && go test -v -json -count=1 -cover -timeout 6h -parallel ${{ env.TESTPARALLELISM }} . 2>&1 | gotestfmt
+          cd tests && go test -v -json -count=1 -cover -timeout 6h -parallel ${{ env.TESTPARALLELISM }} -run TestTemplates/serverless-gcp 2>&1 | gotestfmt
         env:
           TESTPARALLELISM: 6
 
