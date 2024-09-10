@@ -178,7 +178,7 @@ jobs:
         name: Run macOS tests
         run: |
           set -euo pipefail
-          cd tests && go test -v -json -count=1 -cover -timeout 6h -parallel ${{ env.TESTPARALLELISM }} -run TestTemplates/serverless-gcp 2>&1 | gotestfmt
+          cd tests && go test -v -json -count=1 -cover -timeout 6h -parallel ${{ env.TESTPARALLELISM }} -run TestTemplates/static-website-gcp 2>&1 | gotestfmt
         env:
           TESTPARALLELISM: 6
 
