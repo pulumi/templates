@@ -12,12 +12,25 @@ return await Deployment.RunAsync(() =>
     var errorDocument = config.Get("errorDocument") ?? "error.html";
 
     // Create an S3 bucket and configure it as a website.
-    var bucket = new Aws.S3.Bucket("bucket", new()
+    var bucket = new Aws.S3.BucketV2("bucket", new()
     {
         Website = new Aws.S3.Inputs.BucketWebsiteArgs
         {
             IndexDocument = indexDocument,
             ErrorDocument = errorDocument,
+        },
+    });
+
+    var bucketWebsite = new Aws.S3.BucketWebsiteConfigurationV2("bucket", new()
+    {
+        Bucket = bucket.Bucket,
+        IndexDocument = new ()
+        {
+            Suffix = indexDocument,
+        },
+        ErrorDocument = new ()
+        {
+            Key = errorDocument,
         },
     });
 
@@ -44,8 +57,8 @@ return await Deployment.RunAsync(() =>
         Path = path,
         BucketName = bucket.BucketName,
         Acl = "public-read",
-    }, new ComponentResourceOptions { 
-        DependsOn = { 
+    }, new ComponentResourceOptions {
+        DependsOn = {
             ownershipControls,
             publicAccessBlock
         }
@@ -127,7 +140,7 @@ return await Deployment.RunAsync(() =>
     // Export the URLs and hostnames of the bucket and distribution.
     return new Dictionary<string, object?>
     {
-        ["originURL"] = Output.Format($"http://{bucket.WebsiteEndpoint}"),
+        ["originURL"] = Output.Format($"http://{bucketWebsite.WebsiteEndpoint}"),
         ["originHostname"] = bucket.WebsiteEndpoint,
         ["cdnURL"] = Output.Format($"https://{cdn.DomainName}"),
         ["cdnHostname"] = cdn.DomainName,
