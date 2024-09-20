@@ -9,12 +9,19 @@ index_document = config.get("indexDocument") or "index.html"
 error_document = config.get("errorDocument") or "error.html"
 
 # Create an S3 bucket and configure it as a website.
-bucket = aws.s3.Bucket(
+bucket = aws.s3.BucketV2(
     "bucket",
     website={
         "index_document": index_document,
         "error_document": error_document,
     },
+)
+
+bucket_website = aws.s3.BucketWebsiteConfigurationV2(
+    "bucket",
+    bucket=bucket.bucket,
+    index_document={"suffix": index_document},
+    error_document={"key": error_document},
 )
 
 # Set ownership controls for the new bucket
@@ -49,7 +56,7 @@ cdn = aws.cloudfront.Distribution(
     origins=[
         {
             "origin_id": bucket.arn,
-            "domain_name": bucket.website_endpoint,
+            "domain_name": bucket_website.website_endpoint,
             "custom_origin_config": {
                 "origin_protocol_policy": "http-only",
                 "http_port": 80,
@@ -100,7 +107,7 @@ cdn = aws.cloudfront.Distribution(
 )
 
 # Export the URLs and hostnames of the bucket and distribution.
-pulumi.export("originURL", pulumi.Output.concat("http://", bucket.website_endpoint))
+pulumi.export("originURL", pulumi.Output.concat("http://", bucket_website.website_endpoint))
 pulumi.export("originHostname", bucket.website_endpoint)
 pulumi.export("cdnURL", pulumi.Output.concat("https://", cdn.domain_name))
 pulumi.export("cdnHostname", cdn.domain_name)
