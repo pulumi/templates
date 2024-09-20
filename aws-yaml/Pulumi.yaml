@@ -12,7 +12,7 @@ template:
 resources:
   # Create an AWS resource (S3 Bucket)
   my-bucket:
-    type: aws:s3:Bucket
+    type: aws:s3:BucketV2
 
 outputs:
   # Export the name of the bucket
