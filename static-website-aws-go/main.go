@@ -29,10 +29,18 @@ func main() {
 		}
 
 		// Create an S3 bucket and configure it as a website.
-		bucket, err := s3.NewBucket(ctx, "bucket", &s3.BucketArgs{
-			Website: &s3.BucketWebsiteArgs{
-				IndexDocument: pulumi.String(indexDocument),
-				ErrorDocument: pulumi.String(errorDocument),
+		bucket, err := s3.NewBucketV2(ctx, "bucket", nil)
+		if err != nil {
+			return err
+		}
+
+		bucketWebsite, err := s3.NewBucketWebsiteConfigurationV2(ctx, "bucket", &s3.BucketWebsiteConfigurationV2Args{
+			Bucket: bucket.Bucket,
+			IndexDocument: s3.BucketWebsiteConfigurationV2IndexDocumentArgs{
+				Suffix: pulumi.String(indexDocument),
+			},
+			ErrorDocument: s3.BucketWebsiteConfigurationV2ErrorDocumentArgs{
+				Key: pulumi.String(errorDocument),
 			},
 		})
 		if err != nil {
@@ -75,7 +83,7 @@ func main() {
 			Origins: cloudfront.DistributionOriginArray{
 				&cloudfront.DistributionOriginArgs{
 					OriginId:   bucket.Arn,
-					DomainName: bucket.WebsiteEndpoint,
+					DomainName: bucketWebsite.WebsiteEndpoint,
 					CustomOriginConfig: &cloudfront.DistributionOriginCustomOriginConfigArgs{
 						OriginProtocolPolicy: pulumi.String("http-only"),
 						HttpPort:             pulumi.Int(80),
@@ -131,8 +139,8 @@ func main() {
 		}
 
 		// Export the URLs and hostnames of the bucket and distribution.
-		ctx.Export("originURL", pulumi.Sprintf("http://%s", bucket.WebsiteEndpoint))
-		ctx.Export("originHostname", bucket.WebsiteEndpoint)
+		ctx.Export("originURL", pulumi.Sprintf("http://%s", bucketWebsite.WebsiteEndpoint))
+		ctx.Export("originHostname", bucketWebsite.WebsiteEndpoint)
 		ctx.Export("cdnURL", pulumi.Sprintf("https://%s", cdn.DomainName))
 		ctx.Export("cdnHostname", cdn.DomainName)
 		return nil
