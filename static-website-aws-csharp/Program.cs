@@ -55,7 +55,7 @@ return await Deployment.RunAsync(() =>
     var bucketFolder = new SyncedFolder.S3BucketFolder("bucket-folder", new()
     {
         Path = path,
-        BucketName = bucket.BucketName,
+        BucketName = bucket.Bucket,
         Acl = "public-read",
     }, new ComponentResourceOptions {
         DependsOn = {
