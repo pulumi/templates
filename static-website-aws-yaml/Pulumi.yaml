@@ -34,11 +34,16 @@ resources:
 
   # Create an S3 bucket and configure it as a website.
   bucket:
+    type: aws:s3:BucketV2
+
+  bucketWebsite:
     properties:
-      website:
-        errorDocument: ${errorDocument}
-        indexDocument: ${indexDocument}
-    type: aws:s3:Bucket
+      bucket: ${bucket.bucket}
+      errorDocument:
+        suffix: ${errorDocument}
+      indexDocument:
+        key: ${indexDocument}
+    type: aws:s3:BucketWebsiteConfigurationV2
 
   # Assign ownership controls to the new S3 bucket
   ownership-controls:
@@ -74,7 +79,7 @@ resources:
       enabled: true
       origins:
         - originId: ${bucket.arn}
-          domainName: ${bucket.websiteEndpoint}
+          domainName: ${bucketWebsite.websiteEndpoint}
           customOriginConfig:
             originProtocolPolicy: http-only
             httpPort: 80
@@ -113,7 +118,7 @@ resources:
 
 # Export the URLs and hostnames of the bucket and distribution.
 outputs:
-  originURL: http://${bucket.websiteEndpoint}
-  originHostname: ${bucket.websiteEndpoint}
+  originURL: http://${bucketWebsite.websiteEndpoint}
+  originHostname: ${bucketWebsite.websiteEndpoint}
   cdnURL: https://${cdn.domainName}
   cdnHostname: ${cdn.domainName}

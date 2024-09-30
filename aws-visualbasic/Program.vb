@@ -8,7 +8,7 @@ Module Program
 
     Private Function Infra() As IDictionary(Of String,Object)
         ' Create an AWS resource (S3 Bucket)
-        Dim bucket = New Bucket("my-bucket")
+        Dim bucket = New BucketV2("my-bucket")
 
         ' Export the name of the bucket
         Dim outputs = New Dictionary(Of String, Object)
