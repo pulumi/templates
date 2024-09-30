@@ -12,23 +12,16 @@ return await Deployment.RunAsync(() =>
     var errorDocument = config.Get("errorDocument") ?? "error.html";
 
     // Create an S3 bucket and configure it as a website.
-    var bucket = new Aws.S3.BucketV2("bucket", new()
-    {
-        Website = new Aws.S3.Inputs.BucketWebsiteArgs
-        {
-            IndexDocument = indexDocument,
-            ErrorDocument = errorDocument,
-        },
-    });
+    var bucket = new Aws.S3.BucketV2("bucket");
 
     var bucketWebsite = new Aws.S3.BucketWebsiteConfigurationV2("bucket", new()
     {
         Bucket = bucket.Bucket,
-        IndexDocument = new ()
+        IndexDocument = new Aws.S3.Inputs.BucketWebsiteConfigurationV2IndexDocumentArgs
         {
             Suffix = indexDocument,
         },
-        ErrorDocument = new ()
+        ErrorDocument = new Aws.S3.Inputs.BucketWebsiteConfigurationV2ErrorDocumentArgs
         {
             Key = errorDocument,
         },
@@ -73,7 +66,7 @@ return await Deployment.RunAsync(() =>
             new Aws.CloudFront.Inputs.DistributionOriginArgs
             {
                 OriginId = bucket.Arn,
-                DomainName = bucket.WebsiteEndpoint,
+                DomainName = bucketWebsite.WebsiteEndpoint,
                 CustomOriginConfig = new Aws.CloudFront.Inputs.DistributionOriginCustomOriginConfigArgs
                 {
                     OriginProtocolPolicy = "http-only",
