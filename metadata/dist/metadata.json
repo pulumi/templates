@@ -751,6 +751,9 @@
                     "azure:location": {
                         "description": "The Azure location to use",
                         "default": "WestUS2"
+                    },
+                    "azure:subscriptionId": {
+                        "description": "The Azure Subscription to deploy into"
                     }
                 }
             }
@@ -764,6 +767,9 @@
                     "azure:location": {
                         "description": "The Azure location to use",
                         "default": "WestUS2"
+                    },
+                    "azure:subscriptionId": {
+                        "description": "The Azure Subscription to deploy into"
                     }
                 }
             }
@@ -777,6 +783,9 @@
                     "azure:location": {
                         "description": "The Azure location to use",
                         "default": "WestUS2"
+                    },
+                    "azure:subscriptionId": {
+                        "description": "The Azure Subscription to deploy into"
                     }
                 }
             }
@@ -795,6 +804,9 @@
                     "azure:location": {
                         "description": "The Azure location to use",
                         "default": "WestUS2"
+                    },
+                    "azure:subscriptionId": {
+                        "description": "The Azure Subscription to deploy into"
                     }
                 }
             }
@@ -808,6 +820,9 @@
                     "azure:location": {
                         "description": "The Azure location to use",
                         "default": "WestUS2"
+                    },
+                    "azure:subscriptionId": {
+                        "description": "The Azure Subscription to deploy into"
                     }
                 }
             }
@@ -821,6 +836,9 @@
                     "azure:location": {
                         "description": "The Azure location to use",
                         "default": "WestUS2"
+                    },
+                    "azure:subscriptionId": {
+                        "description": "The Azure Subscription to deploy into"
                     }
                 }
             }
@@ -834,6 +852,9 @@
                     "azure:location": {
                         "description": "The Azure location to use",
                         "default": "WestUS2"
+                    },
+                    "azure:subscriptionId": {
+                        "description": "The Azure Subscription to deploy into"
                     }
                 }
             }
@@ -847,6 +868,9 @@
                     "azure:location": {
                         "description": "The Azure location to use",
                         "default": "WestUS2"
+                    },
+                    "azure:subscriptionId": {
+                        "description": "The Azure Subscription to deploy into"
                     }
                 }
             }
