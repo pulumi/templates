@@ -16,4 +16,4 @@ resources:
     description: Demo Repository for GitHub
 
 outputs:
-  clusterName: ${repo.name}
+  repositoryName: ${repo.name}
