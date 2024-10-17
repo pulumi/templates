@@ -41,10 +41,13 @@ func main() {
 			return err
 		}
 
+		apiAuthMode := eks.AuthenticationModeApi
 		// Create a new EKS cluster
 		eksCluster, err := eks.NewCluster(ctx, "eks-cluster", &eks.ClusterArgs{
 			// Put the cluster in the new VPC created earlier
 			VpcId: eksVpc.VpcId,
+			// Use the "API" authentication mode to support access entries
+			AuthenticationMode: &apiAuthMode,
 			// Public subnets will be used for load balancers
 			PublicSubnetIds: eksVpc.PublicSubnetIds,
 			// Private subnets will be used for cluster nodes
