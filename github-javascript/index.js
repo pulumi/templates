@@ -6,4 +6,4 @@ const repo = new github.Repository("demo-repo", {
     description: "Demo Repository for GitHub",
 });
 
-exports.repo = repo.name
+exports.repositoryName = repo.name
