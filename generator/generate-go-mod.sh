@@ -14,7 +14,7 @@ fetch_latest_version() {
 
 PULUMI_VERSION="$(fetch_latest_version pulumi)"
 
-PROVIDER_LIST="aiven,alicloud,auth0,aws,aws-native,azure,azure-classic,civo,digitalocean,equinix-metal,gcp,google-native,kubernetes,linode,oci,openstack"
+PROVIDER_LIST="aiven,alicloud,auth0,aws,azure,azure-classic,civo,digitalocean,equinix-metal,gcp,google-native,kubernetes,linode,oci,openstack"
 IFS=',' read -ra PROVIDERS <<<"$PROVIDER_LIST"
 
 for i in "${PROVIDERS[@]}"; do
