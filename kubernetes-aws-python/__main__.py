@@ -19,6 +19,8 @@ eks_vpc = awsx.ec2.Vpc("eks-vpc",
 eks_cluster = eks.Cluster("eks-cluster",
     # Put the cluster in the new VPC created earlier
     vpc_id=eks_vpc.vpc_id,
+    # Use the "API" authentication mode to support access entries
+    authentication_mode=eks.AuthenticationMode.API,
     # Public subnets will be used for load balancers
     public_subnet_ids=eks_vpc.public_subnet_ids,
     # Private subnets will be used for cluster nodes
