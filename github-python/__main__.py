@@ -7,4 +7,4 @@ import pulumi_github as github
 repository = github.Repository('demo-repo', description="Demo Repository for GitHub")
 
 # Export the Name of the repository
-pulumi.export('name', repository.name)
+pulumi.export('repositoryName', repository.name)
