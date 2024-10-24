@@ -3,6 +3,7 @@ description: ${DESCRIPTION}
 runtime: yaml
 template:
   description: A Pulumi YAML program to deploy a Kubernetes cluster on AWS
+  important: true
   config:
     aws:region:
       description: The AWS region to deploy into
@@ -51,6 +52,8 @@ resources:
     properties:
       # Put the cluster in the new VPC created earlier
       vpcId: ${eks-vpc.vpcId}
+      # Use the "API" authentication mode to support access entries
+      authenticationMode: API
       # Public subnets will be used for load balancers
       publicSubnetIds: ${eks-vpc.publicSubnetIds}
       # Private subnets will be used for cluster nodes

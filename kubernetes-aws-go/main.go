@@ -2,7 +2,7 @@ package main
 
 import (
 	"github.com/pulumi/pulumi-awsx/sdk/v2/go/awsx/ec2"
-	"github.com/pulumi/pulumi-eks/sdk/v2/go/eks"
+	"github.com/pulumi/pulumi-eks/sdk/v3/go/eks"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi/config"
 )
@@ -41,10 +41,13 @@ func main() {
 			return err
 		}
 
+		apiAuthMode := eks.AuthenticationModeApi
 		// Create a new EKS cluster
 		eksCluster, err := eks.NewCluster(ctx, "eks-cluster", &eks.ClusterArgs{
 			// Put the cluster in the new VPC created earlier
 			VpcId: eksVpc.VpcId,
+			// Use the "API" authentication mode to support access entries
+			AuthenticationMode: &apiAuthMode,
 			// Public subnets will be used for load balancers
 			PublicSubnetIds: eksVpc.PublicSubnetIds,
 			// Private subnets will be used for cluster nodes
