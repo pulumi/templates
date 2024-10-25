@@ -3,7 +3,6 @@ description: ${DESCRIPTION}
 runtime: go
 template:
   description: A Go program to deploy a Kubernetes cluster on AWS
-  important: true
   config:
     aws:region:
       description: The AWS region to deploy into
