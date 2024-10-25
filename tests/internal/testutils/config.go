@@ -95,7 +95,7 @@ func (cfg TemplateTestConfig) IsSkipped(info TemplateInfo) bool {
 }
 
 func (cfg TemplateTestConfig) PossiblySkip(t *testing.T, info TemplateInfo) {
-	if cfg.IsSkipped(info) && !strings.Contains(info.Template.Name, "kubernetes-aws") {
+	if cfg.IsSkipped(info) {
 		t.Skip(fmt.Sprintf("Skipping per %s", cfg.SkipEnvVar))
 	}
 }
