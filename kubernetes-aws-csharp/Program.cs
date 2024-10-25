@@ -26,6 +26,9 @@ return await Deployment.RunAsync(() =>
         // Put the cluster in the new VPC created earlier
         VpcId = eksVpc.VpcId,
 
+        // Use the "API" authentication mode to support access entries
+        AuthenticationMode = Eks.AuthenticationMode.Api,
+
         // Public subnets will be used for load balancers
         PublicSubnetIds = eksVpc.PublicSubnetIds,
 
