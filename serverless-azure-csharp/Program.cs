@@ -108,7 +108,7 @@ return await Deployment.RunAsync(() =>
         Kind = "FunctionApp",
         SiteConfig = new AzureNative.Web.Inputs.SiteConfigArgs
         {
-            NetFrameworkVersion = "v6.0",
+            NetFrameworkVersion = "v8.0",
             DetailedErrorLoggingEnabled = true,
             HttpLoggingEnabled = true,
             AppSettings = new[]
