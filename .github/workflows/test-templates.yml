@@ -54,7 +54,7 @@ jobs:
         python-version:
           - 3.8
         dotnet-version:
-          - 6.0.x
+          - 8.0.x
         java-version:
           - 11
         java-distribution:
