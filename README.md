@@ -10,7 +10,7 @@ This repo contains the templates for `pulumi new`, which make it easy to quickly
 
 1. Add template files in the new directory. Note that when new projects are created from templates, all of the files contained in the template directory are copied into the resulting Pulumi project. Be sure to exclude any unnecessary files.
 
-   Also note that dependency lockfiles like `package-lock.json` and `go.sum` are deliberately Git-ignored to ensure that new projects always track with the latest Pulumi and provider SDKs.
+   Also note that dependency lockfiles like `package-lock.json` and `go.sum` are deliberately git-ignored to ensure that new projects always track with the latest Pulumi and provider SDKs.
 
 1. If the template is an architecture template, include the requisite supplemental metadata at `./metadata`:
 
