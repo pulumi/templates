@@ -23,7 +23,7 @@ template:
       description: Number of max nodes in the cluster
     nodePoolMinNodes:
       default: 1
-      description: Number of max nodes in the cluster
+      description: Number of min nodes in the cluster
     flavorName:
       default: b3-8
       description: Name of the flavor/type of the machine
