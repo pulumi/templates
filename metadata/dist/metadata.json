@@ -2451,6 +2451,206 @@
                 "important": true
             }
         },
+        "kubernetes-ovh-csharp": {
+            "name": "kubernetes-ovh-csharp",
+            "runtime": "dotnet",
+            "template": {
+                "description": "A C# program to deploy a Kubernetes cluster on OVHcloud",
+                "config": {
+                    "ovhServiceName": {
+                        "description": "The OVHcloud Public Cloud Project to deploy into"
+                    },
+                    "ovhRegion": {
+                        "default": "GRA9",
+                        "description": "The OVHcloud region to deploy into"
+                    },
+                    "clusterName": {
+                        "default": "my_desired_cluster",
+                        "description": "Name of the cluster"
+                    },
+                    "nodePoolName": {
+                        "default": "my-desired-pool",
+                        "description": "Name of the node pool"
+                    },
+                    "nodePoolDesiredNodes": {
+                        "default": 1,
+                        "description": "Number of desired nodes in the cluster"
+                    },
+                    "nodePoolMaxNodes": {
+                        "default": 3,
+                        "description": "Number of max nodes in the cluster"
+                    },
+                    "nodePoolMinNodes": {
+                        "default": 1,
+                        "description": "Number of min nodes in the cluster"
+                    },
+                    "flavorName": {
+                        "default": "b3-8",
+                        "description": "Name of the flavor/type of the machine"
+                    }
+                }
+            }
+        },
+        "kubernetes-ovh-go": {
+            "name": "kubernetes-ovh-go",
+            "runtime": "go",
+            "template": {
+                "description": "A Go program to deploy a Kubernetes cluster on OVHcloud",
+                "config": {
+                    "ovhServiceName": {
+                        "description": "The OVHcloud Public Cloud Project to deploy into"
+                    },
+                    "ovhRegion": {
+                        "default": "GRA9",
+                        "description": "The OVHcloud region to deploy into"
+                    },
+                    "clusterName": {
+                        "default": "my_desired_cluster",
+                        "description": "Name of the cluster"
+                    },
+                    "nodePoolName": {
+                        "default": "my-desired-pool",
+                        "description": "Name of the node pool"
+                    },
+                    "nodePoolDesiredNodes": {
+                        "default": 1,
+                        "description": "Number of desired nodes in the cluster"
+                    },
+                    "nodePoolMaxNodes": {
+                        "default": 3,
+                        "description": "Number of max nodes in the cluster"
+                    },
+                    "nodePoolMinNodes": {
+                        "default": 1,
+                        "description": "Number of min nodes in the cluster"
+                    },
+                    "flavorName": {
+                        "default": "b3-8",
+                        "description": "Name of the flavor/type of the machine"
+                    }
+                }
+            }
+        },
+        "kubernetes-ovh-java": {
+            "name": "kubernetes-ovh-java",
+            "runtime": "java",
+            "template": {
+                "description": "A Java program to deploy a Kubernetes cluster on OVHcloud",
+                "config": {
+                    "ovhServiceName": {
+                        "description": "The OVHcloud Public Cloud Project to deploy into"
+                    },
+                    "ovhRegion": {
+                        "default": "GRA9",
+                        "description": "The OVHcloud region to deploy into"
+                    },
+                    "clusterName": {
+                        "default": "my_desired_cluster",
+                        "description": "Name of the cluster"
+                    },
+                    "nodePoolName": {
+                        "default": "my-desired-pool",
+                        "description": "Name of the node pool"
+                    },
+                    "nodePoolDesiredNodes": {
+                        "default": 1,
+                        "description": "Number of desired nodes in the cluster"
+                    },
+                    "nodePoolMaxNodes": {
+                        "default": 3,
+                        "description": "Number of max nodes in the cluster"
+                    },
+                    "nodePoolMinNodes": {
+                        "default": 1,
+                        "description": "Number of min nodes in the cluster"
+                    },
+                    "flavorName": {
+                        "default": "b3-8",
+                        "description": "Name of the flavor/type of the machine"
+                    }
+                }
+            }
+        },
+        "kubernetes-ovh-python": {
+            "name": "kubernetes-ovh-python",
+            "runtime": "python",
+            "template": {
+                "description": "A Python program to deploy a Kubernetes cluster on OVHcloud",
+                "config": {
+                    "ovhServiceName": {
+                        "description": "The OVHcloud Public Cloud Project to deploy into"
+                    },
+                    "ovhRegion": {
+                        "default": "GRA9",
+                        "description": "The OVHcloud region to deploy into"
+                    },
+                    "clusterName": {
+                        "default": "my_desired_cluster",
+                        "description": "Name of the cluster"
+                    },
+                    "nodePoolName": {
+                        "default": "my-desired-pool",
+                        "description": "Name of the node pool"
+                    },
+                    "nodePoolDesiredNodes": {
+                        "default": 1,
+                        "description": "Number of desired nodes in the cluster"
+                    },
+                    "nodePoolMaxNodes": {
+                        "default": 3,
+                        "description": "Number of max nodes in the cluster"
+                    },
+                    "nodePoolMinNodes": {
+                        "default": 1,
+                        "description": "Number of min nodes in the cluster"
+                    },
+                    "flavorName": {
+                        "default": "b3-8",
+                        "description": "Name of the flavor/type of the machine"
+                    }
+                }
+            }
+        },
+        "kubernetes-ovh-typescript": {
+            "name": "kubernetes-ovh-typescript",
+            "runtime": "nodejs",
+            "template": {
+                "description": "A TypeScript program to deploy a Kubernetes cluster on OVHcloud",
+                "config": {
+                    "ovhServiceName": {
+                        "description": "The OVHcloud Public Cloud Project to deploy into"
+                    },
+                    "ovhRegion": {
+                        "default": "GRA9",
+                        "description": "The OVHcloud region to deploy into"
+                    },
+                    "clusterName": {
+                        "default": "my_desired_cluster",
+                        "description": "Name of the cluster"
+                    },
+                    "nodePoolName": {
+                        "default": "my-desired-pool",
+                        "description": "Name of the node pool"
+                    },
+                    "nodePoolDesiredNodes": {
+                        "default": 1,
+                        "description": "Number of desired nodes in the cluster"
+                    },
+                    "nodePoolMaxNodes": {
+                        "default": 3,
+                        "description": "Number of max nodes in the cluster"
+                    },
+                    "nodePoolMinNodes": {
+                        "default": 1,
+                        "description": "Number of min nodes in the cluster"
+                    },
+                    "flavorName": {
+                        "default": "b3-8",
+                        "description": "Name of the flavor/type of the machine"
+                    }
+                }
+            }
+        },
         "kubernetes-python": {
             "name": "kubernetes-python",
             "runtime": "python",
