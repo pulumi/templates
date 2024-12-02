@@ -1,0 +1,26 @@
+name: ${PROJECT}
+description: ${DESCRIPTION}
+runtime: dotnet
+template:
+  description: A minimal OVHcloud C# Pulumi program
+  config:
+    ovhServiceName:
+      description: The OVHcloud Public Cloud Project to deploy into
+    ovhRegion:
+      default: GRA
+      description: The OVHcloud region to deploy into
+    planName:
+      default: SMALL
+      description: Name of the plan
+    registryName:
+      default: my-registry
+      description: Name of the private registry
+    registryUserName:
+      default: user
+      description: Name of the user
+    registryUserEmail:
+      default: myuser@ovh.com
+      description: Email of the user
+    registryUserLogin:
+      default: myuser
+      description: Login of the user
