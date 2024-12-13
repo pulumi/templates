@@ -16,7 +16,7 @@ func main() {
 			k8sNamespace = "default"
 		}
 		appLabels := pulumi.StringMap{
-			"app": pulumi.String("nginx-ingress"),
+			"app": pulumi.String("ingress-nginx"),
 		}
 
 		// Create a new namespace (user supplies the name of the namespace)
@@ -32,27 +32,25 @@ func main() {
 
 		// Use Helm to install the Nginx ingress controller
 		ingresscontroller, err := helmv3.NewRelease(ctx, "ingresscontroller", &helmv3.ReleaseArgs{
-			Chart:     pulumi.String("nginx-ingress"),
+			Chart:     pulumi.String("ingress-nginx"),
 			Namespace: ingressNs.Metadata.Name(),
 			RepositoryOpts: &helmv3.RepositoryOptsArgs{
-				Repo: pulumi.String("https://helm.nginx.com/stable"),
+				Repo: pulumi.String("https://kubernetes.github.io/ingress-nginx"),
 			},
 			SkipCrds: pulumi.Bool(true),
 			Values: pulumi.Map{
+				"servicAccount": pulumi.Map{
+					"automountServiceAccountToken": pulumi.Bool(true),
+				},
 				"controller": pulumi.Map{
-					"enableCustomResources": pulumi.Bool(false),
-					"appprotect": pulumi.Map{
-						"enable": pulumi.Bool(false),
-					},
-					"appprotectdos": pulumi.Map{
-						"enable": pulumi.Bool(false),
-					},
 					"service": pulumi.Map{
-						"extraLabels": appLabels,
+						"publishService": pulumi.Map{
+							"enabled": pulumi.Bool(true),
+						},
 					},
 				},
 			},
-			Version: pulumi.String("0.14.1"),
+			Version: pulumi.String("4.11.3"),
 		})
 		if err != nil {
 			return err
