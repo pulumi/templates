@@ -41,11 +41,20 @@ describe("infrastructure", () => {
     });
 
     // Example test. To run, uncomment and run `npm test`.
-    // describe("bucket", () => {
-    //     it("must have a name tag", async () => {
-    //         const tags = await promiseOf(infra.bucket.tags);
-    //         expect(tags).toBeDefined();
-    //         expect(tags).toHaveProperty("Name");
-    //     });
-    // });
+    describe("bucket", () => {
+        it("must have a name tag", async () => {
+            const tags = await promiseOf(infra.bucket.tags);
+            expect(tags).toBeDefined();
+            expect(tags).toHaveProperty("Name");
+        });
+        it("must have the right tags", async () => {
+            await (expect(infra.bucket.tags) as any).toEqualOutputOf({ "Name": "My bucket oops" })
+        })
+        it("some apply thing", async () => {
+            await (expect(infra.bucket.tags) as any).apply((tags: any) => {
+                expect(tags).toBeDefined();
+                expect(tags).toHaveProperty("Name2");
+            })
+        })
+    });
 });

@@ -4,4 +4,5 @@ module.exports = {
     transform: {
         "^.+.tsx?$": ["ts-jest", {}],
     },
+    setupFilesAfterEnv: ['./jest.matchers.js'],
 };
