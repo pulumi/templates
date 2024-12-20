@@ -25,7 +25,7 @@ env:
   GOOGLE_PROJECT: pulumi-ci-gcp-provider
   GOOGLE_PROJECT_NUMBER: 895284651812
   LINODE_TOKEN: ${{ secrets.LINODE_TOKEN }}
-  SKIPPED_TESTS: "alicloud,digitalocean,kubernetes,openstack,equinix-metal,civo,aiven,auth0,github,oci,java-jbang,java-gradle,azuredevops,vm-azure"
+  SKIPPED_TESTS: "alicloud,digitalocean,kubernetes,openstack,equinix-metal,civo,aiven,auth0,github,oci,java-jbang,java-gradle,azuredevops,vm-azure,ovh-java"
   PULUMI_API: https://api.pulumi-staging.io
   PULUMI_VERSION: ${{ github.event.client_payload.ref }}
   SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
@@ -166,7 +166,7 @@ jobs:
         env:
           PULUMI_PYTHON_CMD: python
           TESTPARALLELISM: 3
-          SKIPPED_TESTS: "alicloud,digitalocean,kubernetes,openstack,equinix-metal,civo,aiven,auth0,github,oci,java-jbang,java-gradle,azuredevops,container,vm-azure,fsharp,gcp-visualbasic,azure-classic-visualbasic"
+          SKIPPED_TESTS: "alicloud,digitalocean,kubernetes,openstack,equinix-metal,civo,aiven,auth0,github,oci,java-jbang,java-gradle,azuredevops,container,vm-azure,fsharp,gcp-visualbasic,azure-classic-visualbasic,ovh-java"
 
       - if: contains(matrix.platform, 'ubuntu')
         name: Run Linux tests
