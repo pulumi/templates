@@ -4,7 +4,7 @@ import pulumi_kubernetes as kubernetes
 config = pulumi.Config()
 k8s_namespace = config.get("k8sNamespace", "default")
 app_labels = {
-    "app": "nginx-ingress",
+    "app": "ingress-nginx",
 }
 
 # Create a namespace (user supplies the name of the namespace)
@@ -19,27 +19,23 @@ ingress_ns = kubernetes.core.v1.Namespace(
 # Use Helm to install the Nginx ingress controller
 ingresscontroller = kubernetes.helm.v3.Release(
     "ingresscontroller",
-    chart="nginx-ingress",
+    chart="ingress-nginx",
     namespace=ingress_ns.metadata.name,
     repository_opts={
-        "repo": "https://helm.nginx.com/stable",
+        "repo": "https://kubernetes.github.io/ingress-nginx",
     },
     skip_crds=True,
     values={
+        "serviceAccount": {
+            "automountServiceAccountToken": True,
+        },
         "controller": {
-            "enableCustomResources": False,
-            "appprotect": {
-                "enable": False,
-            },
-            "appprotectdos": {
-                "enable": False,
-            },
-            "service": {
-                "extraLabels": app_labels,
+            "publishService": {
+                "enabled": True,
             },
         },
     },
-    version="0.14.1"
+    version="4.11.3"
 )
 
 # Export some values for use elsewhere
