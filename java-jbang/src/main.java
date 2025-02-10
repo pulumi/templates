@@ -1,4 +1,4 @@
-//DEPS com.pulumi:pulumi:0.+
+//DEPS com.pulumi:pulumi:1.+
 
 import com.pulumi.Pulumi;
 import com.pulumi.core.Output;
