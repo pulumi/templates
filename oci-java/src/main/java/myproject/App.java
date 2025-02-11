@@ -24,7 +24,7 @@ public class App {
                             .description("My description text").build()
             );
 
-            Output<String> namespace = Output.all(myCompartment.getId()).apply(values -> {
+            Output<String> namespace = Output.all(myCompartment.id()).apply(values -> {
                 try {
                     CompletableFuture<GetNamespaceResult> result = ObjectStorageFunctions.getNamespacePlain(GetNamespacePlainArgs.builder()
                             .compartmentId(values.get(0))
@@ -38,7 +38,7 @@ public class App {
             Bucket myBucket = new Bucket("my-bucket",
                     BucketArgs.builder()
                             .name("my-bucket")
-                            .compartmentId(myCompartment.getId())
+                            .compartmentId(myCompartment.id())
                             .namespace(namespace)
                             .build());
 
