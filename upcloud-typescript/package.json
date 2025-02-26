@@ -1,0 +1,12 @@
+{
+    "name": "upcloud-typescript",
+    "main": "index.ts",
+    "devDependencies": {
+        "@types/node": "^18",
+        "typescript": "^5.0.0"
+    },
+    "dependencies": {
+        "@upcloud/pulumi-upcloud": ">=0.0.5 <1.0.0",
+        "@pulumi/pulumi": "^3.0.0"        
+    }
+}
