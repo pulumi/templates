@@ -1,6 +1,6 @@
-name: upcloud-object-storage-template
+name: ${PROJECT}
 runtime: python
-description: A Pulumi template to provision UpCloud Managed Object Storage and a Bucket.
+description: ${DESCRIPTION}
 
 template:
   config:
