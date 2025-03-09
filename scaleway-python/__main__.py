@@ -1,5 +1,5 @@
 import pulumi
-import lbrlabs_pulumi_scaleway as scaleway
+import pulumiverse_scaleway as scaleway
 
 # Create a Scaleway resource (Object Bucket).
 bucket = scaleway.ObjectBucket("my-bucket")
