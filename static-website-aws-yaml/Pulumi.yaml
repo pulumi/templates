@@ -40,9 +40,9 @@ resources:
     properties:
       bucket: ${bucket.bucket}
       errorDocument:
-        suffix: ${errorDocument}
+        key: ${errorDocument}
       indexDocument:
-        key: ${indexDocument}
+        suffix: ${indexDocument}
     type: aws:s3:BucketWebsiteConfigurationV2
 
   # Assign ownership controls to the new S3 bucket
