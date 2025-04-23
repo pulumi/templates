@@ -1552,6 +1552,13 @@
                 "description": "A minimal Equinix Metal Pulumi YAML program"
             }
         },
+        "esc-connector-lambda-typescript": {
+            "name": "esc-connector-lambda-typescript",
+            "runtime": "nodejs",
+            "template": {
+                "description": "Pulumi program that deploy ESC Secret Rotation Connector lambda into your VPC and will set up a role and environments to allow ESC to invoke it."
+            }
+        },
         "fsharp": {
             "name": "fsharp",
             "runtime": "dotnet",
