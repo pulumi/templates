@@ -16,6 +16,8 @@ This Pulumi program deploys the following AWS resources:
 3. **Security Group Rules** - Enables network access between the Lambda and database
 4. **Assumed Role** - Allows Pulumi ESC to invoke the Lambda
 
+Additionally an [OIDC identity provider](https://www.pulumi.com/docs/esc/environments/configuring-oidc/aws/) will be provisioned if one does not already exist.
+
 ## Configuration Parameters
 
 | Parameter                                         |Required | Description                                                         |
