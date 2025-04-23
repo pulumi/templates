@@ -89,11 +89,8 @@ Allow Pulumi ESC to securely invoke the Lambda
 
 1. In IAM, create a new role:
     - Name: `PulumiESCRotatorLambdaInvocationRole`
-    - Trust relationship: Allow Pulumi's AWS account id (`058607598222`) to assume this role.
-    - Add a ExternalId condition on the role containing the `allowlistedEnvironment` slug that will be allowed to use the rotator. See Configuration Parameters for more details.
-      Pulumi will use an [external id](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_common-scenarios_third-party.html)
-      containing the originating ESC environment name when assuming this role: `{pulumi organization}/{esc project}/{esc env name}`.
-      If you choose, use `StringLike` in the condition to use a wildcard for matching multiple environments.
+    - Trust relationship: Allow the federated access via the OIDC identity provider to assume this role.
+    - You may add additional subject attribute conditions to restrict the role to being used by certain esc environments. ([See documentation](https://www.pulumi.com/docs/esc/environments/configuring-oidc/aws/#subject-claim-example)) 
 
    ```json
    {
@@ -103,17 +100,16 @@ Allow Pulumi ESC to securely invoke the Lambda
          "Action": "sts:AssumeRole",
          "Effect": "Allow",
          "Principal": {
-           "AWS": "arn:aws:iam::058607598222:root"
+           "Federated": "arn:aws:iam::{AWS_ACCOUNT_ID}:oidc-provider/api.pulumi.com/oidc"
          },
          "Condition": {
            "StringEquals": {
-             "sts:ExternalId": "{fully qualified ESC environment allowed to use the rotator}"
+              "api.pulumi.com/oidc:aud": "aws:{PULUMI_ORGANIZATION_NAME}",
             }
          }
        }
      ]
    }
-   ```
 
 2. Add an inline policy granting Lambda invocation and update permissions to the ARN of the Lambda you deployed
    ```json
