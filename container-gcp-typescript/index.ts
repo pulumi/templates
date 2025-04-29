@@ -49,6 +49,7 @@ const image = new dockerbuild.Image("image", {
     // Cloud Run currently requires x86_64 images
     // https://cloud.google.com/run/docs/container-contract#languages
     platforms: ["linux/amd64"],
+    push: true,
 });
 
 // Create a Cloud Run service definition.
@@ -58,7 +59,7 @@ const service = new gcp.cloudrun.Service("service", {
         spec: {
             containers: [
                 {
-                    image: image.repoDigest,
+                    image: image.ref,
                     resources: {
                         limits: {
                             memory,
