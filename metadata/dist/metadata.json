@@ -1556,6 +1556,7 @@
             "name": "esc-connector-lambda-typescript",
             "runtime": "nodejs",
             "template": {
+                "description": "A template to setup an AWS Lambda Secret Rotation Connector",
                 "config": {
                     "aws:region": {
                         "description": "The AWS region to deploy into",
