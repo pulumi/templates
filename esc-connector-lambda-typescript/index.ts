@@ -63,9 +63,9 @@ let validatedSubnetIds = subnetGroup.subnetIds.apply(async ids => {
 });
 
 // Create resources
-const namePrefix = "PulumiEscSecretRotatorLambda-"
+const namePrefix = "PulumiEscSecretConnectorLambda-"
 const codeSigningConfig = new aws.lambda.CodeSigningConfig(namePrefix + "CodeSigningConfig", {
-    description: "Pulumi ESC rotator-lambda signature - https://github.com/pulumi/esc-rotator-lambdas",
+    description: "Pulumi ESC rotation connector lambda signature - https://github.com/pulumi/esc-rotator-lambdas",
     allowedPublishers: {
         signingProfileVersionArns: [ARCHIVE_SIGNING_PROFILE_VERSION_ARN],
     },
@@ -109,7 +109,7 @@ const databaseIngressRule = new aws.ec2.SecurityGroupRule(namePrefix + "FromData
     securityGroupId: databaseSecurityGroupId,
 });
 const lambda = new aws.lambda.Function(namePrefix + "Function", {
-    description: "The rotator lambda proxies a secret rotation request from Pulumi ESC to a service within your VPC.",
+    description: "The connector lambda proxies a secret rotation request from Pulumi ESC to a service within your VPC.",
     s3Bucket: codeArtifact.bucket,
     s3Key: codeArtifact.key,
     s3ObjectVersion: codeArtifact.versionId,
@@ -124,13 +124,14 @@ const lambda = new aws.lambda.Function(namePrefix + "Function", {
 });
 let oidcProviderArn: pulumi.Output<String>
 const oidcAudience = "aws:"+organization;
+const oidcUrlNoProtocol = oidcUrl.replace("https://", "");
 oidcProviderArn = pulumi.output(
     aws.iam.getOpenIdConnectProvider({ url: oidcUrl }, { async: false })
     .then(
         res => { 
             if (!res.clientIdLists.includes(oidcAudience)) {
-                throw Error(`OIDC provider exists, but is not configured for the current organization.
-                    Either add ${oidcAudience} to the audience list, or remove your provider and let this program create it`)
+                throw Error(`Unable to create OIDC identity provider, because OIDC provider for ${oidcUrlNoProtocol} already exists for the AWS Account.
+                    Please manually add "${oidcAudience}" to the list of audiences within the ${oidcUrlNoProtocol} identity provider`)
             }
             return res.arn 
         },
@@ -144,9 +145,8 @@ oidcProviderArn = pulumi.output(
         }
     )
 );
-const oidcUrlNoProtocol = oidcUrl.replace("https://", "");
 const assumedRole = new aws.iam.Role(namePrefix + "InvocationRole", {
-    description: "Allow Pulumi ESC to invoke/manage the rotator lambda",
+    description: "Allow Pulumi ESC to invoke/manage the connector lambda",
     assumeRolePolicy: pulumi.jsonStringify({
         Version: "2012-10-17",
         Statement: [{
@@ -198,7 +198,9 @@ const credsYaml = pulumi.interpolate
     `values:
        managingUser:
          username: managing_user # Replace with your user value
-         password: manager_password # Replace with your user value behind fn::secret
+         # Replace ciphertext below with your password, keeping fn::secret to encrypt it, like so "fn::secret: <password>"
+         password:
+           fn::secret: manager_password
        awsLogin:
          fn::open::aws-login:
            oidc:
