@@ -63,9 +63,9 @@ let validatedSubnetIds = subnetGroup.subnetIds.apply(async ids => {
 });
 
 // Create resources
-const namePrefix = "PulumiEscSecretRotatorLambda-"
+const namePrefix = "PulumiEscSecretConnectorLambda-"
 const codeSigningConfig = new aws.lambda.CodeSigningConfig(namePrefix + "CodeSigningConfig", {
-    description: "Pulumi ESC rotator-lambda signature - https://github.com/pulumi/esc-rotator-lambdas",
+    description: "Pulumi ESC rotation connector lambda signature - https://github.com/pulumi/esc-rotator-lambdas",
     allowedPublishers: {
         signingProfileVersionArns: [ARCHIVE_SIGNING_PROFILE_VERSION_ARN],
     },
@@ -109,7 +109,7 @@ const databaseIngressRule = new aws.ec2.SecurityGroupRule(namePrefix + "FromData
     securityGroupId: databaseSecurityGroupId,
 });
 const lambda = new aws.lambda.Function(namePrefix + "Function", {
-    description: "The rotator lambda proxies a secret rotation request from Pulumi ESC to a service within your VPC.",
+    description: "The connector lambda proxies a secret rotation request from Pulumi ESC to a service within your VPC.",
     s3Bucket: codeArtifact.bucket,
     s3Key: codeArtifact.key,
     s3ObjectVersion: codeArtifact.versionId,
@@ -146,7 +146,7 @@ oidcProviderArn = pulumi.output(
     )
 );
 const assumedRole = new aws.iam.Role(namePrefix + "InvocationRole", {
-    description: "Allow Pulumi ESC to invoke/manage the rotator lambda",
+    description: "Allow Pulumi ESC to invoke/manage the connector lambda",
     assumeRolePolicy: pulumi.jsonStringify({
         Version: "2012-10-17",
         Statement: [{
