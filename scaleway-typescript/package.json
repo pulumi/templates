@@ -1,12 +1,12 @@
 {
-    "name": "scaleway-typescript",
+    "name": "${PROJECT}",
     "main": "index.ts",
     "devDependencies": {
         "@types/node": "^18",
         "typescript": "^5.0.0"
     },
     "dependencies": {
-        "@lbrlabs/pulumi-scaleway": "1.7.0",
-        "@pulumi/pulumi": "^3.113.0"
+        "@pulumi/pulumi": "^3.113.0",
+        "@pulumiverse/scaleway": "^1.23.0"
     }
 }
