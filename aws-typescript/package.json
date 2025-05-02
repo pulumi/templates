@@ -2,12 +2,18 @@
     "name": "${PROJECT}",
     "main": "index.ts",
     "devDependencies": {
+        "@types/jest": "^29.5.14",
         "@types/node": "^18",
+        "jest": "^29.7.0",
+        "ts-jest": "^29.2.5",
         "typescript": "^5.0.0"
     },
     "dependencies": {
         "@pulumi/aws": "^6.0.0",
         "@pulumi/awsx": "^2.0.2",
         "@pulumi/pulumi": "^3.113.0"
+    },
+    "scripts": {
+        "test": "jest"
     }
 }
