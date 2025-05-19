@@ -1,5 +1,5 @@
 import pulumi
-import pulumi_docker as docker
+import pulumi_docker_build as docker_build
 import pulumi_random as random
 from pulumi_azure_native import resources, containerregistry, containerinstance
 
@@ -37,18 +37,18 @@ registry_username = credentials.apply(lambda creds: creds.username)
 registry_password = credentials.apply(lambda creds: creds.passwords[0].value)
 
 # Create a container image for the service.
-image = docker.Image(
+image = docker_build.Image(
     "image",
-    image_name=pulumi.Output.concat(registry.login_server, f"/{image_name}:{image_tag}"),
-    build=docker.DockerBuildArgs(
-        context=app_path,
-        platform="linux/amd64",
+    tags=[pulumi.Output.concat(registry.login_server, f"/{image_name}:{image_tag}")],
+    context=docker_build.BuildContextArgs(
+        location=app_path,
     ),
-    registry=docker.RegistryArgs(
-        server=registry.login_server,
-        username=registry_username,
-        password=registry_password,
-    ),
+    platforms=[docker_build.Platform.LINUX_AMD64],
+    registries=[{
+        "address": registry.login_server,
+        "username": registry_username,
+        "password": registry_password,
+    }],
 )
 
 # Use a random string to give the service a unique DNS name.
@@ -63,56 +63,54 @@ dns_name = random.RandomString(
 # Create a container group for the service that makes it publicly accessible.
 container_group = containerinstance.ContainerGroup(
     "container-group",
-    containerinstance.ContainerGroupArgs(
-        resource_group_name=resource_group.name,
-        os_type="linux",
-        restart_policy="always",
-        image_registry_credentials=[
-            containerinstance.ImageRegistryCredentialArgs(
-                server=registry.login_server,
-                username=registry_username,
-                password=registry_password,
-            ),
-        ],
-        containers=[
-            containerinstance.ContainerArgs(
-                name=image_name,
-                image=image.image_name,
-                ports=[
-                    containerinstance.ContainerPortArgs(
-                        port=container_port,
-                        protocol="tcp",
-                    ),
-                ],
-                environment_variables=[
-                    containerinstance.EnvironmentVariableArgs(
-                        name="FLASK_RUN_PORT",
-                        value=str(container_port),
-                    ),
-                    containerinstance.EnvironmentVariableArgs(
-                        name="FLASK_RUN_HOST",
-                        value="0.0.0.0",
-                    ),
-                ],
-                resources=containerinstance.ResourceRequirementsArgs(
-                    requests=containerinstance.ResourceRequestsArgs(
-                        cpu=cpu,
-                        memory_in_gb=memory,
-                    ),
-                ),
-            ),
-        ],
-        ip_address=containerinstance.IpAddressArgs(
-            type=containerinstance.ContainerGroupIpAddressType.PUBLIC,
-            dns_name_label=dns_name,
-            ports=[
-                containerinstance.PortArgs(
-                    port=container_port,
-                    protocol="tcp",
-                ),
+    resource_group_name=resource_group.name,
+    os_type="linux",
+    restart_policy="always",
+    image_registry_credentials=[
+        {
+            "server": registry.login_server,
+            "username": registry_username,
+            "password": registry_password,
+        },
+    ],
+    containers=[
+        {
+            "name": image_name,
+            "image": image.image_name,
+            "ports": [
+                {
+                    "port": container_port,
+                    "protocol": "tcp",
+                },
             ],
-        ),
-    ),
+            "environment_variables": [
+                {
+                    "name": "FLASK_RUN_PORT",
+                    "value": str(container_port),
+                },
+                {
+                    "name": "FLASK_RUN_HOST",
+                    "value": "0.0.0.0",
+                },
+            ],
+            "resources": {
+                "requests": {
+                    "cpu": cpu,
+                    "memory_in_gb": memory,
+                },
+            },
+        },
+    ],
+    ip_address={
+        "type": containerinstance.ContainerGroupIpAddressType.PUBLIC,
+        "dns_name_label": dns_name,
+        "ports": [
+            {
+                "port": container_port,
+                "protocol":"tcp",
+            },
+        ],
+    }
 )
 
 # Export the service's IP address, hostname, and fully-qualified URL.

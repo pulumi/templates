@@ -1,4 +1,4 @@
-name: Build Template Metadata
+name: Build template metadata
 on:
   push:
     branches:

@@ -9,11 +9,12 @@ const indexDocument = config.get("indexDocument") || "index.html";
 const errorDocument = config.get("errorDocument") || "error.html";
 
 // Create an S3 bucket and configure it as a website.
-const bucket = new aws.s3.Bucket("bucket", {
-    website: {
-        indexDocument: indexDocument,
-        errorDocument: errorDocument,
-    },
+const bucket = new aws.s3.BucketV2("bucket");
+
+const bucketWebsite = new aws.s3.BucketWebsiteConfigurationV2("bucketWebsite", {
+    bucket: bucket.bucket,
+    indexDocument: {suffix: indexDocument},
+    errorDocument: {key: errorDocument},
 });
 
 // Configure ownership controls for the new S3 bucket
@@ -42,7 +43,7 @@ const cdn = new aws.cloudfront.Distribution("cdn", {
     enabled: true,
     origins: [{
         originId: bucket.arn,
-        domainName: bucket.websiteEndpoint,
+        domainName: bucketWebsite.websiteEndpoint,
         customOriginConfig: {
             originProtocolPolicy: "http-only",
             httpPort: 80,
@@ -90,7 +91,7 @@ const cdn = new aws.cloudfront.Distribution("cdn", {
 });
 
 // Export the URLs and hostnames of the bucket and distribution.
-export const originURL = pulumi.interpolate`http://${bucket.websiteEndpoint}`;
-export const originHostname = bucket.websiteEndpoint;
+export const originURL = pulumi.interpolate`http://${bucketWebsite.websiteEndpoint}`;
+export const originHostname = bucketWebsite.websiteEndpoint;
 export const cdnURL = pulumi.interpolate`https://${cdn.domainName}`;
 export const cdnHostname = cdn.domainName;

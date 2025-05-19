@@ -1,6 +1,6 @@
 import * as pulumi from "@pulumi/pulumi";
 import * as gcp from "@pulumi/gcp";
-import * as docker from "@pulumi/docker";
+import * as dockerbuild from "@pulumi/docker-build";
 import * as random from "@pulumi/random";
 
 // Import the program's configuration settings.
@@ -41,17 +41,15 @@ let repoUrl = pulumi.concat(location, "-docker.pkg.dev/", project, "/", reposito
 // Create a container image for the service.
 // Before running `pulumi up`, configure Docker for authentication to Artifact Registry
 // as described here: https://cloud.google.com/artifact-registry/docs/docker/authentication
-const image = new docker.Image("image", {
-    imageName: pulumi.concat(repoUrl, "/", imageName),
-    build: {
-        context: appPath,
-        platform: "linux/amd64",
-        args: {
-            // Cloud Run currently requires x86_64 images
-            // https://cloud.google.com/run/docs/container-contract#languages
-            DOCKER_DEFAULT_PLATFORM: "linux/amd64",
-        },
+const image = new dockerbuild.Image("image", {
+    tags: [pulumi.concat(repoUrl, "/", imageName)],
+    context: {
+        location: appPath,
     },
+    // Cloud Run currently requires x86_64 images
+    // https://cloud.google.com/run/docs/container-contract#languages
+    platforms: ["linux/amd64"],
+    push: true,
 });
 
 // Create a Cloud Run service definition.
@@ -61,7 +59,7 @@ const service = new gcp.cloudrun.Service("service", {
         spec: {
             containers: [
                 {
-                    image: image.repoDigest,
+                    image: image.ref,
                     resources: {
                         limits: {
                             memory,

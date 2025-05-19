@@ -674,115 +674,6 @@
                 }
             }
         },
-        "aws-native-csharp": {
-            "name": "aws-native-csharp",
-            "runtime": "dotnet",
-            "template": {
-                "description": "A minimal AWS C# Pulumi program",
-                "config": {
-                    "aws-native:region": {
-                        "description": "The AWS region to deploy into",
-                        "default": "us-east-1"
-                    }
-                }
-            }
-        },
-        "aws-native-fsharp": {
-            "name": "aws-native-fsharp",
-            "runtime": "dotnet",
-            "template": {
-                "description": "A minimal AWS F# Pulumi program",
-                "config": {
-                    "aws-native:region": {
-                        "description": "The AWS region to deploy into",
-                        "default": "us-east-1"
-                    }
-                }
-            }
-        },
-        "aws-native-go": {
-            "name": "aws-native-go",
-            "runtime": "go",
-            "template": {
-                "description": "A minimal AWS Go Pulumi program",
-                "config": {
-                    "aws-native:region": {
-                        "description": "The AWS region to deploy into",
-                        "default": "us-east-1"
-                    }
-                }
-            }
-        },
-        "aws-native-javascript": {
-            "name": "aws-native-javascript",
-            "runtime": {
-                "name": "nodejs",
-                "options": {
-                    "typescript": false
-                }
-            },
-            "template": {
-                "description": "A minimal AWS JavaScript Pulumi program",
-                "config": {
-                    "aws-native:region": {
-                        "description": "The AWS region to deploy into",
-                        "default": "us-east-1"
-                    }
-                }
-            }
-        },
-        "aws-native-python": {
-            "name": "aws-native-python",
-            "runtime": "python",
-            "template": {
-                "description": "A minimal AWS Python Pulumi program",
-                "config": {
-                    "aws-native:region": {
-                        "description": "The AWS region to deploy into",
-                        "default": "us-east-1"
-                    }
-                }
-            }
-        },
-        "aws-native-typescript": {
-            "name": "aws-native-typescript",
-            "runtime": "nodejs",
-            "template": {
-                "description": "A minimal AWS TypeScript Pulumi program",
-                "config": {
-                    "aws-native:region": {
-                        "description": "The AWS region to deploy into",
-                        "default": "us-east-1"
-                    }
-                }
-            }
-        },
-        "aws-native-visualbasic": {
-            "name": "aws-native-visualbasic",
-            "runtime": "dotnet",
-            "template": {
-                "description": "A minimal AWS VB.NET Pulumi program",
-                "config": {
-                    "aws-native:region": {
-                        "description": "The AWS region to deploy into",
-                        "default": "us-east-1"
-                    }
-                }
-            }
-        },
-        "aws-native-yaml": {
-            "name": "aws-native-yaml",
-            "runtime": "yaml",
-            "template": {
-                "description": "A minimal AWS Pulumi YAML program",
-                "config": {
-                    "aws-native:region": {
-                        "description": "The AWS region to deploy into",
-                        "default": "us-east-1"
-                    }
-                }
-            }
-        },
         "aws-python": {
             "name": "aws-python",
             "runtime": "python",
@@ -860,6 +751,9 @@
                     "azure:location": {
                         "description": "The Azure location to use",
                         "default": "WestUS2"
+                    },
+                    "azure:subscriptionId": {
+                        "description": "The Azure Subscription to deploy into"
                     }
                 }
             }
@@ -873,6 +767,9 @@
                     "azure:location": {
                         "description": "The Azure location to use",
                         "default": "WestUS2"
+                    },
+                    "azure:subscriptionId": {
+                        "description": "The Azure Subscription to deploy into"
                     }
                 }
             }
@@ -886,6 +783,9 @@
                     "azure:location": {
                         "description": "The Azure location to use",
                         "default": "WestUS2"
+                    },
+                    "azure:subscriptionId": {
+                        "description": "The Azure Subscription to deploy into"
                     }
                 }
             }
@@ -904,6 +804,9 @@
                     "azure:location": {
                         "description": "The Azure location to use",
                         "default": "WestUS2"
+                    },
+                    "azure:subscriptionId": {
+                        "description": "The Azure Subscription to deploy into"
                     }
                 }
             }
@@ -917,6 +820,9 @@
                     "azure:location": {
                         "description": "The Azure location to use",
                         "default": "WestUS2"
+                    },
+                    "azure:subscriptionId": {
+                        "description": "The Azure Subscription to deploy into"
                     }
                 }
             }
@@ -930,6 +836,9 @@
                     "azure:location": {
                         "description": "The Azure location to use",
                         "default": "WestUS2"
+                    },
+                    "azure:subscriptionId": {
+                        "description": "The Azure Subscription to deploy into"
                     }
                 }
             }
@@ -943,6 +852,9 @@
                     "azure:location": {
                         "description": "The Azure location to use",
                         "default": "WestUS2"
+                    },
+                    "azure:subscriptionId": {
+                        "description": "The Azure Subscription to deploy into"
                     }
                 }
             }
@@ -956,6 +868,9 @@
                     "azure:location": {
                         "description": "The Azure location to use",
                         "default": "WestUS2"
+                    },
+                    "azure:subscriptionId": {
+                        "description": "The Azure Subscription to deploy into"
                     }
                 }
             }
@@ -1635,6 +1550,32 @@
             "runtime": "yaml",
             "template": {
                 "description": "A minimal Equinix Metal Pulumi YAML program"
+            }
+        },
+        "esc-connector-lambda-typescript": {
+            "name": "esc-connector-lambda-typescript",
+            "runtime": "nodejs",
+            "template": {
+                "description": "A template to setup an AWS Lambda Secret Rotation Connector",
+                "config": {
+                    "aws:region": {
+                        "description": "The AWS region to deploy into",
+                        "default": "us-west-2"
+                    },
+                    "rdsDbIdentifier": {
+                        "description": "The DB Identifier of the RDS cluster for which rotating secrets are being configured."
+                    },
+                    "rotatedSecretsEnvironmentName": {
+                        "description": "Name of the environment that will rotate the DB credentials. Format of the name needs to be `myProject/myEnvironment`."
+                    },
+                    "managingCredsEnvironmentName": {
+                        "description": "(Optional) Name of the environment that will contain the privileged managing user credentials used to rotate the user DB credentials. Otherwise the name will be derived from the rotated secrets environment name."
+                    },
+                    "backendUrl": {
+                        "default": "https://api.pulumi.com",
+                        "description": "(Optional) The Pulumi Cloud URL. Change this URL ONLY if you are self-hosting Pulumi Cloud."
+                    }
+                }
             }
         },
         "fsharp": {
@@ -2536,6 +2477,206 @@
                 "important": true
             }
         },
+        "kubernetes-ovh-csharp": {
+            "name": "kubernetes-ovh-csharp",
+            "runtime": "dotnet",
+            "template": {
+                "description": "A C# program to deploy a Kubernetes cluster on OVHcloud",
+                "config": {
+                    "ovhServiceName": {
+                        "description": "The OVHcloud Public Cloud Project to deploy into"
+                    },
+                    "ovhRegion": {
+                        "default": "GRA9",
+                        "description": "The OVHcloud region to deploy into"
+                    },
+                    "clusterName": {
+                        "default": "my_desired_cluster",
+                        "description": "Name of the cluster"
+                    },
+                    "nodePoolName": {
+                        "default": "my-desired-pool",
+                        "description": "Name of the node pool"
+                    },
+                    "nodePoolDesiredNodes": {
+                        "default": 1,
+                        "description": "Number of desired nodes in the cluster"
+                    },
+                    "nodePoolMaxNodes": {
+                        "default": 3,
+                        "description": "Number of max nodes in the cluster"
+                    },
+                    "nodePoolMinNodes": {
+                        "default": 1,
+                        "description": "Number of min nodes in the cluster"
+                    },
+                    "flavorName": {
+                        "default": "b3-8",
+                        "description": "Name of the flavor/type of the machine"
+                    }
+                }
+            }
+        },
+        "kubernetes-ovh-go": {
+            "name": "kubernetes-ovh-go",
+            "runtime": "go",
+            "template": {
+                "description": "A Go program to deploy a Kubernetes cluster on OVHcloud",
+                "config": {
+                    "ovhServiceName": {
+                        "description": "The OVHcloud Public Cloud Project to deploy into"
+                    },
+                    "ovhRegion": {
+                        "default": "GRA9",
+                        "description": "The OVHcloud region to deploy into"
+                    },
+                    "clusterName": {
+                        "default": "my_desired_cluster",
+                        "description": "Name of the cluster"
+                    },
+                    "nodePoolName": {
+                        "default": "my-desired-pool",
+                        "description": "Name of the node pool"
+                    },
+                    "nodePoolDesiredNodes": {
+                        "default": 1,
+                        "description": "Number of desired nodes in the cluster"
+                    },
+                    "nodePoolMaxNodes": {
+                        "default": 3,
+                        "description": "Number of max nodes in the cluster"
+                    },
+                    "nodePoolMinNodes": {
+                        "default": 1,
+                        "description": "Number of min nodes in the cluster"
+                    },
+                    "flavorName": {
+                        "default": "b3-8",
+                        "description": "Name of the flavor/type of the machine"
+                    }
+                }
+            }
+        },
+        "kubernetes-ovh-java": {
+            "name": "kubernetes-ovh-java",
+            "runtime": "java",
+            "template": {
+                "description": "A Java program to deploy a Kubernetes cluster on OVHcloud",
+                "config": {
+                    "ovhServiceName": {
+                        "description": "The OVHcloud Public Cloud Project to deploy into"
+                    },
+                    "ovhRegion": {
+                        "default": "GRA9",
+                        "description": "The OVHcloud region to deploy into"
+                    },
+                    "clusterName": {
+                        "default": "my_desired_cluster",
+                        "description": "Name of the cluster"
+                    },
+                    "nodePoolName": {
+                        "default": "my-desired-pool",
+                        "description": "Name of the node pool"
+                    },
+                    "nodePoolDesiredNodes": {
+                        "default": 1,
+                        "description": "Number of desired nodes in the cluster"
+                    },
+                    "nodePoolMaxNodes": {
+                        "default": 3,
+                        "description": "Number of max nodes in the cluster"
+                    },
+                    "nodePoolMinNodes": {
+                        "default": 1,
+                        "description": "Number of min nodes in the cluster"
+                    },
+                    "flavorName": {
+                        "default": "b3-8",
+                        "description": "Name of the flavor/type of the machine"
+                    }
+                }
+            }
+        },
+        "kubernetes-ovh-python": {
+            "name": "kubernetes-ovh-python",
+            "runtime": "python",
+            "template": {
+                "description": "A Python program to deploy a Kubernetes cluster on OVHcloud",
+                "config": {
+                    "ovhServiceName": {
+                        "description": "The OVHcloud Public Cloud Project to deploy into"
+                    },
+                    "ovhRegion": {
+                        "default": "GRA9",
+                        "description": "The OVHcloud region to deploy into"
+                    },
+                    "clusterName": {
+                        "default": "my_desired_cluster",
+                        "description": "Name of the cluster"
+                    },
+                    "nodePoolName": {
+                        "default": "my-desired-pool",
+                        "description": "Name of the node pool"
+                    },
+                    "nodePoolDesiredNodes": {
+                        "default": 1,
+                        "description": "Number of desired nodes in the cluster"
+                    },
+                    "nodePoolMaxNodes": {
+                        "default": 3,
+                        "description": "Number of max nodes in the cluster"
+                    },
+                    "nodePoolMinNodes": {
+                        "default": 1,
+                        "description": "Number of min nodes in the cluster"
+                    },
+                    "flavorName": {
+                        "default": "b3-8",
+                        "description": "Name of the flavor/type of the machine"
+                    }
+                }
+            }
+        },
+        "kubernetes-ovh-typescript": {
+            "name": "kubernetes-ovh-typescript",
+            "runtime": "nodejs",
+            "template": {
+                "description": "A TypeScript program to deploy a Kubernetes cluster on OVHcloud",
+                "config": {
+                    "ovhServiceName": {
+                        "description": "The OVHcloud Public Cloud Project to deploy into"
+                    },
+                    "ovhRegion": {
+                        "default": "GRA9",
+                        "description": "The OVHcloud region to deploy into"
+                    },
+                    "clusterName": {
+                        "default": "my_desired_cluster",
+                        "description": "Name of the cluster"
+                    },
+                    "nodePoolName": {
+                        "default": "my-desired-pool",
+                        "description": "Name of the node pool"
+                    },
+                    "nodePoolDesiredNodes": {
+                        "default": 1,
+                        "description": "Number of desired nodes in the cluster"
+                    },
+                    "nodePoolMaxNodes": {
+                        "default": 3,
+                        "description": "Number of max nodes in the cluster"
+                    },
+                    "nodePoolMinNodes": {
+                        "default": 1,
+                        "description": "Number of min nodes in the cluster"
+                    },
+                    "flavorName": {
+                        "default": "b3-8",
+                        "description": "Name of the flavor/type of the machine"
+                    }
+                }
+            }
+        },
         "kubernetes-python": {
             "name": "kubernetes-python",
             "runtime": "python",
@@ -2712,6 +2853,186 @@
             "runtime": "yaml",
             "template": {
                 "description": "A minimal OpenStack Pulumi YAML program"
+            }
+        },
+        "ovh-csharp": {
+            "name": "ovh-csharp",
+            "runtime": "dotnet",
+            "template": {
+                "description": "A minimal OVHcloud C# Pulumi program",
+                "config": {
+                    "ovhServiceName": {
+                        "description": "The OVHcloud Public Cloud Project to deploy into"
+                    },
+                    "ovhRegion": {
+                        "default": "GRA",
+                        "description": "The OVHcloud region to deploy into"
+                    },
+                    "planName": {
+                        "default": "SMALL",
+                        "description": "Name of the plan"
+                    },
+                    "registryName": {
+                        "default": "my-registry",
+                        "description": "Name of the private registry"
+                    },
+                    "registryUserName": {
+                        "default": "user",
+                        "description": "Name of the user"
+                    },
+                    "registryUserEmail": {
+                        "default": "myuser@ovh.com",
+                        "description": "Email of the user"
+                    },
+                    "registryUserLogin": {
+                        "default": "myuser",
+                        "description": "Login of the user"
+                    }
+                }
+            }
+        },
+        "ovh-go": {
+            "name": "ovh-go",
+            "runtime": "go",
+            "template": {
+                "description": "A minimal OVHcloud Go Pulumi program",
+                "config": {
+                    "ovhServiceName": {
+                        "description": "The OVHcloud Public Cloud Project to deploy into"
+                    },
+                    "ovhRegion": {
+                        "default": "GRA",
+                        "description": "The OVHcloud region to deploy into"
+                    },
+                    "planName": {
+                        "default": "SMALL",
+                        "description": "Name of the plan"
+                    },
+                    "registryName": {
+                        "default": "my-registry",
+                        "description": "Name of the private registry"
+                    },
+                    "registryUserName": {
+                        "default": "user",
+                        "description": "Name of the user"
+                    },
+                    "registryUserEmail": {
+                        "default": "myuser@ovh.com",
+                        "description": "Email of the user"
+                    },
+                    "registryUserLogin": {
+                        "default": "myuser",
+                        "description": "Login of the user"
+                    }
+                }
+            }
+        },
+        "ovh-java": {
+            "name": "ovh-java",
+            "runtime": "java",
+            "template": {
+                "description": "A minimal OVHcloud Java Pulumi program",
+                "config": {
+                    "ovhServiceName": {
+                        "description": "The OVHcloud Public Cloud Project to deploy into"
+                    },
+                    "ovhRegion": {
+                        "default": "GRA",
+                        "description": "The OVHcloud region to deploy into"
+                    },
+                    "planName": {
+                        "default": "SMALL",
+                        "description": "Name of the plan"
+                    },
+                    "registryName": {
+                        "default": "my-registry",
+                        "description": "Name of the private registry"
+                    },
+                    "registryUserName": {
+                        "default": "user",
+                        "description": "Name of the user"
+                    },
+                    "registryUserEmail": {
+                        "default": "myuser@ovh.com",
+                        "description": "Email of the user"
+                    },
+                    "registryUserLogin": {
+                        "default": "myuser",
+                        "description": "Login of the user"
+                    }
+                }
+            }
+        },
+        "ovh-python": {
+            "name": "ovh-python",
+            "runtime": "python",
+            "template": {
+                "description": "A minimal OVHcloud Python Pulumi program",
+                "config": {
+                    "ovhServiceName": {
+                        "description": "The OVHcloud Public Cloud Project to deploy into"
+                    },
+                    "ovhRegion": {
+                        "default": "GRA",
+                        "description": "The OVHcloud region to deploy into"
+                    },
+                    "planName": {
+                        "default": "SMALL",
+                        "description": "Name of the plan"
+                    },
+                    "registryName": {
+                        "default": "my-registry",
+                        "description": "Name of the private registry"
+                    },
+                    "registryUserName": {
+                        "default": "user",
+                        "description": "Name of the user"
+                    },
+                    "registryUserEmail": {
+                        "default": "myuser@ovh.com",
+                        "description": "Email of the user"
+                    },
+                    "registryUserLogin": {
+                        "default": "myuser",
+                        "description": "Login of the user"
+                    }
+                }
+            }
+        },
+        "ovh-typescript": {
+            "name": "ovh-typescript",
+            "runtime": "nodejs",
+            "template": {
+                "description": "A minimal OVHcloud TypeScript Pulumi program",
+                "config": {
+                    "ovhServiceName": {
+                        "description": "The OVHcloud Public Cloud Project to deploy into"
+                    },
+                    "ovhRegion": {
+                        "default": "GRA",
+                        "description": "The OVHcloud region to deploy into"
+                    },
+                    "planName": {
+                        "default": "SMALL",
+                        "description": "Name of the plan"
+                    },
+                    "registryName": {
+                        "default": "my-registry",
+                        "description": "Name of the private registry"
+                    },
+                    "registryUserName": {
+                        "default": "user",
+                        "description": "Name of the user"
+                    },
+                    "registryUserEmail": {
+                        "default": "myuser@ovh.com",
+                        "description": "Email of the user"
+                    },
+                    "registryUserLogin": {
+                        "default": "myuser",
+                        "description": "Login of the user"
+                    }
+                }
             }
         },
         "pinecone-csharp": {

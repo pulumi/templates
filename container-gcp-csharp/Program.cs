@@ -1,6 +1,6 @@
 using Pulumi;
 using Gcp = Pulumi.Gcp;
-using Docker = Pulumi.Docker;
+using DockerBuild = Pulumi.DockerBuild;
 using System.Collections.Generic;
 using Random = Pulumi.Random;
 using Output = Pulumi.Output;
@@ -47,14 +47,21 @@ return await Deployment.RunAsync(() =>
     // Create a container image for the service.
     // Before running `pulumi up`, configure Docker for Artifact Registry authentication
     // as described here: https://cloud.google.com/artifact-registry/docs/docker/authentication
-    var image = new Docker.Image("image", new()
+    var image = new DockerBuild.Image("image", new()
     {
-        ImageName = Output.Format($"{repoUrl}/{imageName}"),
-        Build = new Docker.Inputs.DockerBuildArgs {
-            Context = appPath,
+        Tags = new[]
+        {
+            Output.Format($"{repoUrl}/{imageName}"),
+        },
+        Context = new DockerBuild.Inputs.BuildContextArgs
+        {
+            Location = appPath,
+        },
+        Platforms = new[]
+        {
             // Cloud Run currently requires x86_64 images
             // https://cloud.google.com/run/docs/container-contract#languages
-            Platform = "linux/amd64",
+            DockerBuild.Platform.Linux_amd64,
         },
     });
 
@@ -70,7 +77,7 @@ return await Deployment.RunAsync(() =>
                 {
                     new Gcp.CloudRun.Inputs.ServiceTemplateSpecContainerArgs
                     {
-                        Image = image.RepoDigest,
+                        Image = image.Ref,
                         Resources = new Gcp.CloudRun.Inputs.ServiceTemplateSpecContainerResourcesArgs
                         {
                             Limits = {

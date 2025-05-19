@@ -24,9 +24,9 @@ resource_group = resources.ResourceGroup(
 # Create an Azure Virtual Network
 virtual_network = network.VirtualNetwork(
     "virtual_network",
-    address_space=network.AddressSpaceArgs(
-        address_prefixes=["10.0.0.0/16"],
-    ),
+    address_space={
+        "address_prefixes": ["10.0.0.0/16"],
+    },
     resource_group_name=resource_group.name
 )
 
@@ -53,51 +53,51 @@ subnet3 = network.Subnet(
 # Create an Azure Kubernetes Service cluster
 managed_cluster = containerservice.ManagedCluster(
     "managed_cluster",
-    aad_profile=containerservice.ManagedClusterAADProfileArgs(
-        enable_azure_rbac=True,
-        managed=True,
-        admin_group_object_ids=[mgmt_group_id],
-    ),
+    aad_profile={
+        "enable_azure_rbac": True,
+        "managed": True,
+        "admin_group_object_ids": [mgmt_group_id],
+    },
     # Use multiple agent/node pools to distribute nodes across subnets
-    agent_pool_profiles=[containerservice.ManagedClusterAgentPoolProfileArgs(
-        availability_zones=["1","2","3",],
-        count=3,
-        enable_node_public_ip=False,
-        mode="System",
-        name="systempool",
-        os_type="Linux",
-        os_disk_size_gb=30,
-        type="VirtualMachineScaleSets",
-        vm_size=node_vm_size,
+    agent_pool_profiles=[{
+        "availability_zones": ["1","2","3",],
+        "count": 3,
+        "enable_node_public_ip": False,
+        "mode": "System",
+        "name": "systempool",
+        "os_type": "Linux",
+        "os_disk_size_gb": 30,
+        "type": "VirtualMachineScaleSets",
+        "vm_size": node_vm_size,
         # Change next line for additional node pools to distribute across subnets
-        vnet_subnet_id=subnet1.id
-    )],
+        "vnet_subnet_id": subnet1.id
+    }],
     # Change authorized_ip_ranges to limit access to API server
     # Changing enable_private_cluster requires alternate access to API server (VPN or similar)
-    api_server_access_profile=containerservice.ManagedClusterAPIServerAccessProfileArgs(
-        authorized_ip_ranges=["0.0.0.0/0"],
-        enable_private_cluster=False
-    ),
+    api_server_access_profile={
+        "authorized_ip_ranges": ["0.0.0.0/0"],
+        "enable_private_cluster": False
+    },
     dns_prefix=prefix_for_dns,
     enable_rbac=True,
-    identity=containerservice.ManagedClusterIdentityArgs(
-        type=containerservice.ResourceIdentityType.SYSTEM_ASSIGNED,
-    ),
+    identity={
+        "type": containerservice.ResourceIdentityType.SYSTEM_ASSIGNED,
+    },
     kubernetes_version=k8s_version,
-    linux_profile=containerservice.ContainerServiceLinuxProfileArgs(
-        admin_username="azureuser",
-        ssh=containerservice.ContainerServiceSshConfigurationArgs(
-            public_keys=[containerservice.ContainerServiceSshPublicKeyArgs(
-                key_data=ssh_pub_key,
-            )],
-        ),
-    ),
-    network_profile=containerservice.ContainerServiceNetworkProfileArgs(
-        network_plugin="azure",
-        network_policy="azure",
-        service_cidr="10.96.0.0/16",
-        dns_service_ip="10.96.0.10",
-    ),
+    linux_profile={
+        "admin_username": "azureuser",
+        "ssh": {
+            "public_keys": [{
+                "key_data": ssh_pub_key,
+            }],
+        },
+    },
+    network_profile={
+        "network_plugin": "azure",
+        "network_policy": "azure",
+        "service_cidr": "10.96.0.0/16",
+        "dns_service_ip": "10.96.0.10",
+    },
     resource_group_name=resource_group.name
 )
 

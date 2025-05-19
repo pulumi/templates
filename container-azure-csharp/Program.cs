@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Pulumi;
 using AzureNative = Pulumi.AzureNative;
-using Docker = Pulumi.Docker;
+using DockerBuild = Pulumi.DockerBuild;
 using Random = Pulumi.Random;
 
 return await Pulumi.Deployment.RunAsync(() =>
@@ -39,17 +39,29 @@ return await Pulumi.Deployment.RunAsync(() =>
     var registryPassword = credentials.Apply(result => result.Passwords[0]!.Value!);
 
     // Create a container image for the service.
-    var image = new Docker.Image("image", new()
+    var image = new DockerBuild.Image("image", new()
     {
-        ImageName = Pulumi.Output.Format($"{registry.LoginServer}/{imageName}:{imageTag}"),
-        Build = new Docker.Inputs.DockerBuildArgs {
-            Context = appPath,
-            Platform = "linux/amd64",
+        Tags = new[]
+        {
+            Pulumi.Output.Format($"{registry.LoginServer}/{imageName}:{imageTag}"),
         },
-        Registry = new Docker.Inputs.RegistryArgs {
-            Server = registry.LoginServer,
-            Username = registryUsername,
-            Password = registryPassword,
+        Context = new DockerBuild.Inputs.BuildContextArgs
+        {
+            Location = appPath,
+        },
+        Platforms = new[]
+        {
+            DockerBuild.Platform.Linux_amd64,
+
+        },
+        Registries = new[]
+        {
+            new DockerBuild.Inputs.RegistryArgs
+            {
+                Address = registry.LoginServer,
+                Password = registryPassword,
+                Username = registryUsername,
+            },
         },
     });
 
@@ -75,7 +87,7 @@ return await Pulumi.Deployment.RunAsync(() =>
         {
             new AzureNative.ContainerInstance.Inputs.ContainerArgs {
                 Name = imageName,
-                Image = image.ImageName,
+                Image = image.Ref,
                 Ports = new[]
                 {
                     new AzureNative.ContainerInstance.Inputs.ContainerPortArgs {

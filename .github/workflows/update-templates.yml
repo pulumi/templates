@@ -1,4 +1,4 @@
-name: Upgrade Templates
+name: Upgrade templates
 on:
   workflow_dispatch: {}
   repository_dispatch:

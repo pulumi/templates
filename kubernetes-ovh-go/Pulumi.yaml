@@ -1,0 +1,29 @@
+name: ${PROJECT}
+description: ${DESCRIPTION}
+runtime: go
+template:
+  description: A Go program to deploy a Kubernetes cluster on OVHcloud
+  config:
+    ovhServiceName:
+      description: The OVHcloud Public Cloud Project to deploy into
+    ovhRegion:
+      default: GRA9
+      description: The OVHcloud region to deploy into
+    clusterName:
+      default: my_desired_cluster
+      description: Name of the cluster
+    nodePoolName:
+      default: my-desired-pool
+      description: Name of the node pool
+    nodePoolDesiredNodes:
+      default: 1
+      description: Number of desired nodes in the cluster
+    nodePoolMaxNodes:
+      default: 3
+      description: Number of max nodes in the cluster
+    nodePoolMinNodes:
+      default: 1
+      description: Number of min nodes in the cluster
+    flavorName:
+      default: b3-8
+      description: Name of the flavor/type of the machine

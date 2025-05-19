@@ -51,6 +51,8 @@ resources:
     properties:
       # Put the cluster in the new VPC created earlier
       vpcId: ${eks-vpc.vpcId}
+      # Use the "API" authentication mode to support access entries
+      authenticationMode: API
       # Public subnets will be used for load balancers
       publicSubnetIds: ${eks-vpc.publicSubnetIds}
       # Private subnets will be used for cluster nodes
