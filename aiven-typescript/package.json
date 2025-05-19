@@ -6,7 +6,7 @@
         "typescript": "^5.0.0"
     },
     "dependencies": {
-        "@pulumi/aiven": "^6.13.0",
+        "@pulumi/aiven": "^6.38.0",
         "@pulumi/pulumi": "^3.113.0"
     }
 }
