@@ -1,8 +1,8 @@
 package main
 
 import (
-	"github.com/pulumi/pulumi-azure/sdk/v5/go/azure/core"
-	"github.com/pulumi/pulumi-azure/sdk/v5/go/azure/storage"
+	"github.com/pulumi/pulumi-azure/sdk/v6/go/azure/core"
+	"github.com/pulumi/pulumi-azure/sdk/v6/go/azure/storage"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 )
 

@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>net8.0</TargetFramework>
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
@@ -13,7 +13,7 @@
   <ItemGroup>
     <PackageReference Include="Pulumi" Version="3.*" />
     <PackageReference Include="Pulumi.FSharp" Version="3.*" />
-    <PackageReference Include="Pulumi.Gcp" Version="7.*" />
+    <PackageReference Include="Pulumi.Gcp" Version="8.*" />
   </ItemGroup>
 
 </Project>

@@ -1,5 +1,5 @@
 import pulumi
-import pulumi_docker as docker
+import pulumi_docker_build as docker_build
 from pulumi_gcp import cloudrun, config as gcp_config
 from pulumi_gcp import artifactregistry
 import pulumi_random as random
@@ -53,61 +53,57 @@ repo_url = pulumi.Output.concat(
 # Create a container image for the service.
 # Before running `pulumi up`, configure Docker for Artifact Registry authentication
 # as described here: https://cloud.google.com/artifact-registry/docs/docker/authentication
-image = docker.Image(
+image = docker_build.Image(
     "image",
-    image_name=pulumi.Output.concat(repo_url, "/", image_name),
-    build=docker.DockerBuildArgs(
-        context=app_path,
-        # Cloud Run currently requires x86_64 images
-        # https://cloud.google.com/run/docs/container-contract#languages
-        platform="linux/amd64"
+    tags=[pulumi.Output.concat(repo_url, "/", image_name)],
+    context=docker_build.BuildContextArgs(
+        location=app_path,
     ),
+    # Cloud Run currently requires x86_64 images
+    # https://cloud.google.com/run/docs/container-contract#languages
+    platforms=[docker_build.Platform.LINUX_AMD64],
 )
 
 # Create a Cloud Run service definition.
 service = cloudrun.Service(
     "service",
-    cloudrun.ServiceArgs(
-        location=location,
-        template=cloudrun.ServiceTemplateArgs(
-            spec=cloudrun.ServiceTemplateSpecArgs(
-                containers=[
-                    cloudrun.ServiceTemplateSpecContainerArgs(
-                        image=image.repo_digest,
-                        resources=cloudrun.ServiceTemplateSpecContainerResourcesArgs(
-                            limits=dict(
-                                memory=memory,
-                                cpu=cpu,
-                            ),
-                        ),
-                        ports=[
-                            cloudrun.ServiceTemplateSpecContainerPortArgs(
-                                container_port=container_port,
-                            ),
-                        ],
-                        envs=[
-                            cloudrun.ServiceTemplateSpecContainerEnvArgs(
-                                name="FLASK_RUN_PORT",
-                                value=container_port,
-                            ),
-                        ],
-                    ),
-                ],
-                container_concurrency=concurrency,
-            ),
-        ),
-    ),
+    location=location,
+    template={
+        "spec": {
+            "containers": [
+                {
+                    "image": image.repo_digest,
+                    "resources": {
+                        "limits": {
+                            "memory": memory,
+                            "cpu": str(cpu),
+                        },
+                    },
+                    "ports": [
+                        {
+                            "container_port": container_port,
+                        },
+                    ],
+                    "envs": [
+                        {
+                            "name": "FLASK_RUN_PORT",
+                            "value": str(container_port),
+                        },
+                    ],
+                },
+            ],
+            "container_concurrency": concurrency,
+        },
+    },
 )
 
 # Create an IAM member to make the service publicly accessible.
 invoker = cloudrun.IamMember(
     "invoker",
-    cloudrun.IamMemberArgs(
-        location=location,
-        service=service.name,
-        role="roles/run.invoker",
-        member="allUsers",
-    ),
+    location=location,
+    service=service.name,
+    role="roles/run.invoker",
+    member="allUsers",
 )
 
 # Export the URL of the service.

@@ -17,9 +17,9 @@ account = azure.storage.StorageAccount(
     "account",
     resource_group_name=resource_group.name,
     kind=azure.storage.Kind.STORAGE_V2,
-    sku=azure.storage.SkuArgs(
-        name=azure.storage.SkuName.STANDARD_LRS,
-    ),
+    sku={
+        "name": azure.storage.SkuName.STANDARD_LRS,
+    },
 )
 
 # Create a storage container for the pages of the website.
@@ -85,10 +85,10 @@ plan = azure.web.AppServicePlan(
     resource_group_name=resource_group.name,
     kind="Linux",
     reserved=True,
-    sku=azure.web.SkuDescriptionArgs(
-        name="Y1",
-        tier="Dynamic",
-    ),
+    sku={
+        "name": "Y1",
+        "tier": "Dynamic",
+    },
 )
 
 # Create the Function App.
@@ -97,29 +97,29 @@ app = azure.web.WebApp(
     resource_group_name=resource_group.name,
     server_farm_id=plan.id,
     kind="FunctionApp",
-    site_config=azure.web.SiteConfigArgs(
-        app_settings=[
-            azure.web.NameValuePairArgs(
-                name="FUNCTIONS_WORKER_RUNTIME",
-                value="python",
-            ),
-            azure.web.NameValuePairArgs(
-                name="FUNCTIONS_EXTENSION_VERSION",
-                value="~3",
-            ),
-            azure.web.NameValuePairArgs(
-                name="WEBSITE_RUN_FROM_PACKAGE",
-                value=pulumi.Output.all(
+    site_config={
+        "app_settings": [
+            {
+                "name": "FUNCTIONS_WORKER_RUNTIME",
+                "value": "python",
+            },
+            {
+                "name": "FUNCTIONS_EXTENSION_VERSION",
+                "value": "~3",
+            },
+            {
+                "name": "WEBSITE_RUN_FROM_PACKAGE",
+                "value": pulumi.Output.all(
                     account.name, app_container.name, app_blob.name, signature
                 ).apply(
                     lambda args: f"https://{args[0]}.blob.core.windows.net/{args[1]}/{args[2]}?{args[3]}"
                 ),
-            ),
+            },
         ],
-        cors=azure.web.CorsSettingsArgs(
-            allowed_origins=["*"],
-        ),
-    ),
+        "cors": {
+            "allowed_origins": ["*"],
+        },
+    },
 )
 
 # Create a JSON configuration file for the website.

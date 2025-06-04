@@ -1,0 +1,21 @@
+name: Commmand dispatch for testing
+on:
+  issue_comment:
+    types:
+      - created
+      - edited
+
+jobs:
+  command-dispatch-for-testing:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Run Build
+        uses: peter-evans/slash-command-dispatch@v2
+        with:
+          token: ${{ secrets.REPO_ACCESS_TOKEN }}
+          reaction-token: ${{ secrets.GITHUB_TOKEN }}
+          commands: run-templates
+          permission: write
+          issue-type: pull-request
+          repository: pulumi/templates

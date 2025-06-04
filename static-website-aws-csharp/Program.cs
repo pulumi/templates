@@ -12,12 +12,18 @@ return await Deployment.RunAsync(() =>
     var errorDocument = config.Get("errorDocument") ?? "error.html";
 
     // Create an S3 bucket and configure it as a website.
-    var bucket = new Aws.S3.Bucket("bucket", new()
+    var bucket = new Aws.S3.BucketV2("bucket");
+
+    var bucketWebsite = new Aws.S3.BucketWebsiteConfigurationV2("bucket", new()
     {
-        Website = new Aws.S3.Inputs.BucketWebsiteArgs
+        Bucket = bucket.Bucket,
+        IndexDocument = new Aws.S3.Inputs.BucketWebsiteConfigurationV2IndexDocumentArgs
         {
-            IndexDocument = indexDocument,
-            ErrorDocument = errorDocument,
+            Suffix = indexDocument,
+        },
+        ErrorDocument = new Aws.S3.Inputs.BucketWebsiteConfigurationV2ErrorDocumentArgs
+        {
+            Key = errorDocument,
         },
     });
 
@@ -42,10 +48,10 @@ return await Deployment.RunAsync(() =>
     var bucketFolder = new SyncedFolder.S3BucketFolder("bucket-folder", new()
     {
         Path = path,
-        BucketName = bucket.BucketName,
+        BucketName = bucket.Bucket,
         Acl = "public-read",
-    }, new ComponentResourceOptions { 
-        DependsOn = { 
+    }, new ComponentResourceOptions {
+        DependsOn = {
             ownershipControls,
             publicAccessBlock
         }
@@ -60,7 +66,7 @@ return await Deployment.RunAsync(() =>
             new Aws.CloudFront.Inputs.DistributionOriginArgs
             {
                 OriginId = bucket.Arn,
-                DomainName = bucket.WebsiteEndpoint,
+                DomainName = bucketWebsite.WebsiteEndpoint,
                 CustomOriginConfig = new Aws.CloudFront.Inputs.DistributionOriginCustomOriginConfigArgs
                 {
                     OriginProtocolPolicy = "http-only",
@@ -127,7 +133,7 @@ return await Deployment.RunAsync(() =>
     // Export the URLs and hostnames of the bucket and distribution.
     return new Dictionary<string, object?>
     {
-        ["originURL"] = Output.Format($"http://{bucket.WebsiteEndpoint}"),
+        ["originURL"] = Output.Format($"http://{bucketWebsite.WebsiteEndpoint}"),
         ["originHostname"] = bucket.WebsiteEndpoint,
         ["cdnURL"] = Output.Format($"https://{cdn.DomainName}"),
         ["cdnHostname"] = cdn.DomainName,

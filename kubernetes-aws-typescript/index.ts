@@ -20,6 +20,8 @@ const eksVpc = new awsx.ec2.Vpc("eks-vpc", {
 const eksCluster = new eks.Cluster("eks-cluster", {
     // Put the cluster in the new VPC created earlier
     vpcId: eksVpc.vpcId,
+    // Use the "API" authentication mode to support access entries
+    authenticationMode: eks.AuthenticationMode.Api,
     // Public subnets will be used for load balancers
     publicSubnetIds: eksVpc.publicSubnetIds,
     // Private subnets will be used for cluster nodes

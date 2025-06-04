@@ -14,7 +14,7 @@ func main() {
 			return err
 		}
 
-		ctx.Export("repository", repository.Name)
+		ctx.Export("repositoryName", repository.Name)
 		return nil
 	})
 }
