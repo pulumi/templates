@@ -22,4 +22,4 @@ const storageAccountKeys = storage.listStorageAccountKeysOutput({
 });
 
 // Export the primary storage key for the storage account
-exports.primaryStorageKey = storageAccountKeys.keys[0].value;
+exports.primaryStorageKey = pulumi.secret(storageAccountKeys.keys[0].value);
