@@ -1,0 +1,15 @@
+name: ${PROJECT}
+runtime: python
+description: ${DESCRIPTION}
+
+template:
+  config:
+    object_storage_name:
+      description: "Enter a name for the Object Storage"
+      default: "bucket-example-objstov2"
+    region:
+      description: "Enter the region for the storage"
+      default: "europe-1"
+    bucket_name:
+      description: "Enter a name for the bucket"
+      default: "example-bucket"
