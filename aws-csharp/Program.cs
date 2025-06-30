@@ -2,14 +2,25 @@
 using Pulumi.Aws.S3;
 using System.Collections.Generic;
 
-return await Deployment.RunAsync(() =>
-{
-    // Create an AWS resource (S3 Bucket)
-    var bucket = new BucketV2("my-bucket");
+return await Deployment.RunAsync(Deploy.Infra);
 
-    // Export the name of the bucket
-    return new Dictionary<string, object?>
+public static class Deploy
+{
+    public static Dictionary<string, object?> Infra()
     {
-        ["bucketName"] = bucket.Id
-    };
-});
+        // Create an AWS resource (S3 Bucket) with tags.
+        var bucket = new BucketV2("my-bucket", new()
+        {
+            Tags =
+            {
+                { "Name", "My bucket" },
+            },
+        });
+
+        // Export the name of the bucket.
+        return new Dictionary<string, object?>
+        {
+            ["bucketName"] = bucket.Id
+        };
+    }
+}
