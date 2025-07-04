@@ -5,10 +5,10 @@ using Kubernetes = Pulumi.Kubernetes;
 return await Deployment.RunAsync(() => 
 {
     var config = new Config();
-    var k8sNamespace = config.Get("k8sNamespace") ?? "default";
+    var k8sNamespace = config.Get("k8sNamespace") ?? "ingress-nginx";
     var appLabels = new InputMap<string>
     {
-        { "app", "nginx-ingress" },
+        { "app", "ingress-nginx" },
     };
 
     var ingressns = new Kubernetes.Core.V1.Namespace("ingressns", new()
@@ -22,33 +22,28 @@ return await Deployment.RunAsync(() =>
 
     var ingresscontroller = new Kubernetes.Helm.V3.Release("ingresscontroller", new()
     {
-        Chart = "nginx-ingress",
+        Chart = "ingress-nginx",
         Namespace = ingressns.Metadata.Apply(m => m.Name),
         RepositoryOpts = new Kubernetes.Types.Inputs.Helm.V3.RepositoryOptsArgs
         {
-            Repo = "https://helm.nginx.com/stable",
+            Repo = "https://kubernetes.github.io/ingress-nginx",
         },
         SkipCrds = true,
         Values = new Dictionary<string, object>
         {
+            ["serviceAccount"] = new Dictionary<string, object>
+            {
+                ["automountServiceAccountToken"] = "true"
+            },
             ["controller"] = new Dictionary<string, object>
             {
-                ["enableCustomResources"] = "false",
-                ["appprotect"] = new Dictionary<string, object>
+                ["publishService"] = new Dictionary<string, object>
                 {
-                    ["enable"] = "false"
-                },
-                ["appprotectdos"] = new Dictionary<string, object>
-                {
-                    ["enable"] = "false"
-                },
-                ["service"] = new Dictionary<string, object>
-                {
-                    ["extraLabels"] = appLabels
+                    ["enabled"] = "true"
                 },
             },
         },
-        Version = "0.14.1",
+        Version = "4.11.3",
     });
 
     return new Dictionary<string, object?>
