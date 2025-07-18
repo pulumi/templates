@@ -9,9 +9,9 @@ const indexDocument = config.get("indexDocument") || "index.html";
 const errorDocument = config.get("errorDocument") || "error.html";
 
 // Create an S3 bucket and configure it as a website.
-const bucket = new aws.s3.BucketV2("bucket");
+const bucket = new aws.s3.Bucket("bucket");
 
-const bucketWebsite = new aws.s3.BucketWebsiteConfigurationV2("bucketWebsite", {
+const bucketWebsite = new aws.s3.BucketWebsiteConfiguration("bucketWebsite", {
     bucket: bucket.bucket,
     indexDocument: {suffix: indexDocument},
     errorDocument: {key: errorDocument},

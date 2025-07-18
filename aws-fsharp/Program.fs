@@ -6,7 +6,7 @@ open Pulumi.Aws.S3
 let infra () =
 
   // Create an AWS resource (S3 Bucket)
-  let bucket = BucketV2 "my-bucket"
+  let bucket = Bucket "my-bucket"
 
   // Export the name of the bucket
   dict [("bucketName", bucket.Id :> obj)]
