@@ -12,9 +12,9 @@ return await Deployment.RunAsync(() =>
     var errorDocument = config.Get("errorDocument") ?? "error.html";
 
     // Create an S3 bucket and configure it as a website.
-    var bucket = new Aws.S3.BucketV2("bucket");
+    var bucket = new Aws.S3.Bucket("bucket");
 
-    var bucketWebsite = new Aws.S3.BucketWebsiteConfigurationV2("bucket", new()
+    var bucketWebsite = new Aws.S3.BucketWebsiteConfiguration("bucket", new()
     {
         Bucket = bucket.Bucket,
         IndexDocument = new Aws.S3.Inputs.BucketWebsiteConfigurationV2IndexDocumentArgs
