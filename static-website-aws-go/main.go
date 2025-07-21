@@ -29,17 +29,17 @@ func main() {
 		}
 
 		// Create an S3 bucket and configure it as a website.
-		bucket, err := s3.NewBucketV2(ctx, "bucket", nil)
+		bucket, err := s3.NewBucket(ctx, "bucket", nil)
 		if err != nil {
 			return err
 		}
 
-		bucketWebsite, err := s3.NewBucketWebsiteConfigurationV2(ctx, "bucket", &s3.BucketWebsiteConfigurationV2Args{
+		bucketWebsite, err := s3.NewBucketWebsiteConfiguration(ctx, "bucket", &s3.BucketWebsiteConfigurationArgs{
 			Bucket: bucket.Bucket,
-			IndexDocument: s3.BucketWebsiteConfigurationV2IndexDocumentArgs{
+			IndexDocument: s3.BucketWebsiteConfigurationIndexDocumentArgs{
 				Suffix: pulumi.String(indexDocument),
 			},
-			ErrorDocument: s3.BucketWebsiteConfigurationV2ErrorDocumentArgs{
+			ErrorDocument: s3.BucketWebsiteConfigurationErrorDocumentArgs{
 				Key: pulumi.String(errorDocument),
 			},
 		})
