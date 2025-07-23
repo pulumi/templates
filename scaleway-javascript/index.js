@@ -1,6 +1,6 @@
 "use strict";
 const pulumi = require("@pulumi/pulumi");
-const scaleway = require("@lbrlabs/pulumi-scaleway");
+const scaleway = require("@pulumiverse/scaleway");
 
 // Create a Scaleway resource (Object Bucket).
 const bucket = new scaleway.ObjectBucket("my-bucket");
