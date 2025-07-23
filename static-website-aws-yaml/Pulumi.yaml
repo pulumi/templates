@@ -34,7 +34,7 @@ resources:
 
   # Create an S3 bucket and configure it as a website.
   bucket:
-    type: aws:s3:BucketV2
+    type: aws:s3:Bucket
 
   bucketWebsite:
     properties:
@@ -43,7 +43,7 @@ resources:
         suffix: ${errorDocument}
       indexDocument:
         key: ${indexDocument}
-    type: aws:s3:BucketWebsiteConfigurationV2
+    type: aws:s3:BucketWebsiteConfiguration
 
   # Assign ownership controls to the new S3 bucket
   ownership-controls:

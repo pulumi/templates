@@ -9,7 +9,7 @@ index_document = config.get("indexDocument") or "index.html"
 error_document = config.get("errorDocument") or "error.html"
 
 # Create an S3 bucket and configure it as a website.
-bucket = aws.s3.BucketV2(
+bucket = aws.s3.Bucket(
     "bucket",
     website={
         "index_document": index_document,
@@ -17,7 +17,7 @@ bucket = aws.s3.BucketV2(
     },
 )
 
-bucket_website = aws.s3.BucketWebsiteConfigurationV2(
+bucket_website = aws.s3.BucketWebsiteConfiguration(
     "bucket",
     bucket=bucket.bucket,
     index_document={"suffix": index_document},

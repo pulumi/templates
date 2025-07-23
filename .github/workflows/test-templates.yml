@@ -52,7 +52,7 @@ jobs:
         node-version:
           - 18.x
         python-version:
-          - 3.8
+          - 3.9
         dotnet-version:
           - 8.0.x
         java-version:
