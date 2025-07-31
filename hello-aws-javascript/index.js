@@ -1,4 +1,4 @@
-// Import the [pulumi/aws](https://pulumi.io/reference/pkg/nodejs/@pulumi/aws/index.html) package
+// Import the [pulumi/aws](https://www.pulumi.com/registry/packages/aws/api-docs/) package
 const pulumi = require("@pulumi/pulumi");
 const aws = require("@pulumi/aws");
 const awsx = require("@pulumi/awsx");
