@@ -49,7 +49,9 @@ jobs:
           - windows-16core-2022
         go-version:
           - 1.21.x
+        # https://nodejs.org/en/about/previous-releases
         node-version:
+          - 20.x
           - 22.x
         python-version:
           - 3.9
