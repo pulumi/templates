@@ -1,11 +1,11 @@
 package main
 
 import (
-	"github.com/pulumi/pulumi-aws/sdk/v6/go/aws/ecs"
-	"github.com/pulumi/pulumi-awsx/sdk/v2/go/awsx/ecr"
-	ecrx "github.com/pulumi/pulumi-awsx/sdk/v2/go/awsx/ecr"
-	ecsx "github.com/pulumi/pulumi-awsx/sdk/v2/go/awsx/ecs"
-	lbx "github.com/pulumi/pulumi-awsx/sdk/v2/go/awsx/lb"
+	"github.com/pulumi/pulumi-aws/sdk/v7/go/aws/ecs"
+	"github.com/pulumi/pulumi-awsx/sdk/v3/go/awsx/ecr"
+	ecrx "github.com/pulumi/pulumi-awsx/sdk/v3/go/awsx/ecr"
+	ecsx "github.com/pulumi/pulumi-awsx/sdk/v3/go/awsx/ecs"
+	lbx "github.com/pulumi/pulumi-awsx/sdk/v3/go/awsx/lb"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi/config"
 )

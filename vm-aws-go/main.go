@@ -2,7 +2,7 @@ package main
 
 import (
 	"fmt"
-	"github.com/pulumi/pulumi-aws/sdk/v6/go/aws/ec2"
+	"github.com/pulumi/pulumi-aws/sdk/v7/go/aws/ec2"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi/config"
 )
@@ -19,7 +19,7 @@ func main() {
 		if param := cfg.Get("vpcNetworkCidr"); param != "" {
 			vpcNetworkCidr = param
 		}
-		
+
 		// Look up the latest Amazon Linux 2 AMI.
 		ami, err := ec2.LookupAmi(ctx, &ec2.LookupAmiArgs{
 			Filters: []ec2.GetAmiFilter{
@@ -41,7 +41,7 @@ func main() {
 
 		// User data to start a HTTP server in the EC2 instance
 		userData := "#!/bin/bash\necho \"Hello, World from Pulumi!\" > index.html\nnohup python -m SimpleHTTPServer 80 &\n"
-		
+
 		// Create VPC.
 		vpc, err := ec2.NewVpc(ctx, "vpc", &ec2.VpcArgs{
 			CidrBlock:          pulumi.String(vpcNetworkCidr),
@@ -59,7 +59,7 @@ func main() {
 		if err != nil {
 			return err
 		}
-		
+
 		// Create a subnet that automatically assigns new instances a public IP address.
 		subnet, err := ec2.NewSubnet(ctx, "subnet", &ec2.SubnetArgs{
 			VpcId:               vpc.ID(),
@@ -69,7 +69,7 @@ func main() {
 		if err != nil {
 			return err
 		}
-		
+
 		// Create a route table.
 		routeTable, err := ec2.NewRouteTable(ctx, "routeTable", &ec2.RouteTableArgs{
 			VpcId: vpc.ID(),
@@ -83,7 +83,7 @@ func main() {
 		if err != nil {
 			return err
 		}
-		
+
 		// Associate the route table with the public subnet.
 		_, err = ec2.NewRouteTableAssociation(ctx, "routeTableAssociation", &ec2.RouteTableAssociationArgs{
 			SubnetId:     subnet.ID(),
