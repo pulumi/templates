@@ -1,8 +1,0 @@
-{
-    "name": "scaleway-javascript",
-    "main": "index.js",
-    "dependencies": {
-        "@pulumi/pulumi": "3.60.0",
-        "@lbrlabs/pulumi-scaleway": "1.7.0"
-    }
-}
