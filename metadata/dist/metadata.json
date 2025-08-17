@@ -1903,7 +1903,7 @@
                 "description": "A C# program to deploy a Helm chart onto a Kubernetes cluster",
                 "config": {
                     "k8sNamespace": {
-                        "default": "nginx-ingress",
+                        "default": "ingress-nginx",
                         "description": "The Kubernetes namespace to deploy into"
                     }
                 }
@@ -1916,7 +1916,7 @@
                 "description": "A Go program to deploy a Helm chart onto a Kubernetes cluster",
                 "config": {
                     "k8sNamespace": {
-                        "default": "nginx-ingress",
+                        "default": "ingress-nginx",
                         "description": "The Kubernetes namespace to deploy into"
                     }
                 }
@@ -1929,7 +1929,7 @@
                 "description": "A Python program to deploy a Helm chart onto a Kubernetes cluster",
                 "config": {
                     "k8sNamespace": {
-                        "default": "nginx-ingress",
+                        "default": "ingress-nginx",
                         "description": "The Kubernetes namespace to deploy into"
                     }
                 }
@@ -1942,7 +1942,7 @@
                 "description": "A TypeScript program to deploy a Helm chart onto a Kubernetes cluster",
                 "config": {
                     "k8sNamespace": {
-                        "default": "nginx-ingress",
+                        "default": "ingress-nginx",
                         "description": "The Kubernetes namespace to deploy into"
                     }
                 }
@@ -1955,7 +1955,7 @@
                 "description": "A Pulumi YAML program to deploy a Helm chart onto a Kubernetes cluster",
                 "config": {
                     "k8sNamespace": {
-                        "default": "nginx-ingress",
+                        "default": "ingress-nginx",
                         "description": "The Kubernetes namespace to deploy into"
                     }
                 }
