@@ -4,5 +4,5 @@ go 1.23
 
 require (
 	github.com/pulumi/pulumi-linode/sdk/v5 v5.1.1
-	github.com/pulumi/pulumi/sdk/v3 v3.190.0
+	github.com/pulumi/pulumi/sdk/v3 v3.191.0
 )
