@@ -1,0 +1,24 @@
+name: ${PROJECT}
+description: ${DESCRIPTION}
+runtime: nodejs
+template:
+  description: A minimal Vultr TypeScript Pulumi program
+  config:
+    instanceName: my-instance
+      description: Name of the Vultr instance
+    planName:
+      default: v2c-1c-1gb
+      description: Name of Vultr plan
+    region:
+      default: ewr
+      description: Vultr region to deploy into
+    hostName:
+      default: my-instance-hostname
+      description: Hostname of the instance
+    tags:
+      default:
+        - web
+      description: Tags to apply to instance
+    label:
+      default: my-label
+      description: Label for the instance
