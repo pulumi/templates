@@ -6,13 +6,13 @@ template:
   config:
     instanceName: my-instance
       description: Name of the Vultr instance
-    planName:
+    plan:
       default: v2c-1c-1gb
       description: Name of Vultr plan
     region:
       default: ewr
       description: Vultr region to deploy into
-    hostName:
+    hostname:
       default: my-instance-hostname
       description: Hostname of the instance
     tags:
