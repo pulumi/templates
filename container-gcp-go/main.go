@@ -4,8 +4,8 @@ import (
 	"strconv"
 
 	"github.com/pulumi/pulumi-docker-build/sdk/go/dockerbuild"
-	"github.com/pulumi/pulumi-gcp/sdk/v8/go/gcp/artifactregistry"
-	"github.com/pulumi/pulumi-gcp/sdk/v8/go/gcp/cloudrun"
+	"github.com/pulumi/pulumi-gcp/sdk/v9/go/gcp/artifactregistry"
+	"github.com/pulumi/pulumi-gcp/sdk/v9/go/gcp/cloudrun"
 	"github.com/pulumi/pulumi-random/sdk/v4/go/random"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi/config"
@@ -96,7 +96,7 @@ func main() {
 				Spec: cloudrun.ServiceTemplateSpecArgs{
 					Containers: cloudrun.ServiceTemplateSpecContainerArray{
 						cloudrun.ServiceTemplateSpecContainerArgs{
-							Image: image.Ref.Elem(),
+							Image: image.Ref,
 							Resources: cloudrun.ServiceTemplateSpecContainerResourcesArgs{
 								Limits: pulumi.ToStringMap(map[string]string{
 									"memory": memory,
