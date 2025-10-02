@@ -1,3 +1,4 @@
+permissions: write-all # Equivalent to default permissions plus id-token: write
 name: Upgrade templates
 on:
   workflow_dispatch: {}
@@ -6,13 +7,20 @@ on:
       - update-templates
 
 env:
-  GITHUB_TOKEN: ${{ secrets.PULUMI_BOT_TOKEN }}
+  ESC_ACTION_OIDC_AUTH: true
+  ESC_ACTION_OIDC_ORGANIZATION: pulumi
+  ESC_ACTION_OIDC_REQUESTED_TOKEN_TYPE: urn:pulumi:token-type:access_token:organization
+  ESC_ACTION_ENVIRONMENT: imports/github-secrets
+  ESC_ACTION_EXPORT_ENVIRONMENT_VARIABLES: GITHUB_TOKEN=PULUMI_BOT_TOKEN
 
 jobs:
   build:
     name: Update Templates
     runs-on: ubuntu-latest
     steps:
+      - name: Fetch secrets from ESC
+        id: esc-secrets
+        uses: pulumi/esc-action@v1
       - name: Check out code into the Go module directory
         uses: actions/checkout@v3
       - name: Update Template Versions
@@ -34,4 +42,4 @@ jobs:
           destination_branch: "master"
           pr_title: "Update Go template dependencies to their latest versions"
           pr_body: "This PR was generated automatically, most likely in response to a [pulumi/pulumi release](https://github.com/pulumi/pulumi/releases)."
-          github_token: ${{ secrets.PULUMI_BOT_TOKEN }}
+          github_token: ${{ steps.esc-secrets.outputs.PULUMI_BOT_TOKEN }}
