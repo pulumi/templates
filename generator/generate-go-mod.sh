@@ -36,13 +36,20 @@ for i in "${PROVIDERS[@]}"; do
 			MAJOR_VERSION="/v$major_num"
 		fi
 	fi
+	REQUIRE_LINE="github.com/pulumi/pulumi-${PROVIDER_NAME}/sdk${MAJOR_VERSION} ${PROVIDER_VERSION}"
+	if [ "$PROVIDER_NAME" = "azure-native" ]; then
+		# azure-native has a different internal structure. Generate the go.mod file accordingly.
+		REQUIRE_LINE="github.com/pulumi/pulumi-azure-native-sdk/resources${MAJOR_VERSION} ${PROVIDER_VERSION}
+	github.com/pulumi/pulumi-azure-native-sdk/storage${MAJOR_VERSION} ${PROVIDER_VERSION}"
+	fi
+
         cat<<EOF > "../$i-go/go.mod"
 module \${PROJECT}
 
 go ${GO_VERSION}
 
 require (
-	github.com/pulumi/pulumi-${PROVIDER_NAME}/sdk${MAJOR_VERSION} ${PROVIDER_VERSION}
+	${REQUIRE_LINE}
 	github.com/pulumi/pulumi/sdk/v3 ${PULUMI_VERSION}
 )
 EOF
