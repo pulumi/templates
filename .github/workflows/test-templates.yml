@@ -48,7 +48,7 @@ jobs:
           - macOS-latest
           - windows-16core-2022
         go-version:
-          - 1.21.x
+          - 1.24.x
         # https://nodejs.org/en/about/previous-releases
         node-version:
           - 20.x
