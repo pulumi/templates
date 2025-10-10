@@ -4,5 +4,5 @@ go 1.23
 
 require (
 	github.com/pulumi/pulumi-civo/sdk/v2 v2.4.8
-	github.com/pulumi/pulumi/sdk/v3 v3.201.0
+	github.com/pulumi/pulumi/sdk/v3 v3.202.0
 )
