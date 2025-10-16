@@ -1,6 +1,10 @@
 name: ${PROJECT}
 description: ${DESCRIPTION}
-runtime: python
+runtime:
+  name: python
+  options:
+    toolchain: pip
+    virtualenv: venv
 template:
   description: A minimal Google Cloud Python Pulumi program
   important: true
