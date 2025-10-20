@@ -2,8 +2,6 @@ module ${PROJECT}
 
 go 1.21.7
 
-toolchain go1.22.1
-
 require (
 	github.com/pulumi/pulumi-azure-native-sdk/containerinstance/v2 v2.1.1
 	github.com/pulumi/pulumi-azure-native-sdk/containerregistry/v2 v2.1.1
