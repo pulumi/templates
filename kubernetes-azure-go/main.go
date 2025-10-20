@@ -20,7 +20,7 @@ func main() {
 		}
 		kubernetesVersion, err := cfg.Try("kubernetesVersion")
 		if err != nil {
-			kubernetesVersion = "1.27"
+			kubernetesVersion = "1.32"
 		}
 		numWorkerNodes, err := cfg.TryInt("numWorkerNodes")
 		if err != nil {
