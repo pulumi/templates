@@ -84,6 +84,7 @@ func main() {
 			// Cloud Run currently requires x86_64 images
 			// https://cloud.google.com/run/docs/container-contract#languages
 			Platforms: dockerbuild.PlatformArray{"linux/amd64"},
+			Push:      pulumi.Bool(true),
 		})
 		if err != nil {
 			return err
