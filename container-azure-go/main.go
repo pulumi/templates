@@ -76,6 +76,7 @@ func main() {
 				Location: pulumi.String(appPath),
 			},
 			Platforms: dockerbuild.PlatformArray{dockerbuild.Platform_Linux_amd64},
+			Push:      pulumi.Bool(true),
 			Registries: dockerbuild.RegistryArray{
 				&dockerbuild.RegistryArgs{
 					Address:  registry.LoginServer,
