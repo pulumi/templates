@@ -6,7 +6,7 @@ toolchain go1.24.2
 
 require (
 	github.com/pulumi/pulumi-aws/sdk/v7 v7.0.0
-	github.com/pulumi/pulumi-synced-folder/sdk v0.0.9
+	github.com/pulumi/pulumi-synced-folder/sdk v0.12.4
 	github.com/pulumi/pulumi/sdk/v3 v3.175.0
 )
 
