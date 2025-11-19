@@ -1,7 +1,6 @@
 import pulumi
 import pulumi_docker_build as docker_build
-from pulumi_gcp import cloudrun, config as gcp_config
-from pulumi_gcp import artifactregistry
+from pulumi_gcp import artifactregistry, cloudrun
 import pulumi_random as random
 
 # Import the program's configuration settings.
