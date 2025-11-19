@@ -59,12 +59,8 @@ bench_template.%:
 		go test -run "TestTemplatePerf/^$*$$" $(TESTFLAGS)
 
 
-test_templates::
+test_templates:
 	cd tests && \
 		go test $(TESTFLAGS)
-
-metadata::
-	yarn && yarn run metadata && yarn test
-
-ensure::
+ensure:
 	cd tests && go mod download
