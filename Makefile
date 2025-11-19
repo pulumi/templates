@@ -1,6 +1,6 @@
 PROJECT_NAME 	:= Pulumi Templates
 TESTPARALLELISM ?= 10
-TESTFLAGS       := -v -count=1 -cover -timeout 6h -parallel $(TESTPARALLELISM)
+TESTFLAGS       := -v -count=1 -cover -timeout 1h -parallel $(TESTPARALLELISM)
 
 
 # Quick test of single template, for example:
