@@ -1,6 +1,6 @@
 module ${PROJECT}
 
-go 1.23
+go 1.24
 
 require (
 	github.com/pulumi/pulumi-openstack/sdk/v5 v5.4.0

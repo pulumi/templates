@@ -4,7 +4,7 @@ set -o nounset
 set -o errexit
 set -o pipefail
 
-GO_VERSION="1.23"
+GO_VERSION="1.24"
 
 # Fetch the latest release version of the given Pulumi repo.
 fetch_latest_version() {
@@ -16,7 +16,7 @@ fetch_latest_version() {
 
 PULUMI_VERSION="$(fetch_latest_version pulumi)"
 
-PROVIDER_LIST="aiven,alicloud,auth0,aws,azure,azure-classic,civo,digitalocean,equinix-metal,gcp,google-native,kubernetes,linode,oci,openstack"
+PROVIDER_LIST="aiven,alicloud,auth0,aws,azure,azure-classic,civo,digitalocean,equinix-metal,gcp,google-native,kubernetes,linode,oci,openstack,random"
 IFS=',' read -ra PROVIDERS <<<"$PROVIDER_LIST"
 
 for i in "${PROVIDERS[@]}"; do
