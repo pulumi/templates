@@ -2,29 +2,21 @@ package tests
 
 import (
 	"testing"
-	"time"
 
 	"github.com/pulumi/pulumi/pkg/v3/testing/integration"
-
-	"github.com/pulumi/templates/v2/internal/testutils"
+	"github.com/pulumi/templates/tests/internal/testutils"
 )
 
-const testTimeout = 60 * time.Minute
-
 func TestTemplates(t *testing.T) {
-	cfg := testutils.NewTemplateTestConfigFromEnv(testutils.SKIPPED_TESTS)
+	cfg := testutils.NewTemplateTestConfigFromEnv(t, testutils.SKIPPED_TESTS)
 
 	for _, templateInfo := range testutils.FindAllTemplates(t, cfg.TemplateUrl) {
 		templateInfo := templateInfo
 		templateName := templateInfo.Template.Name
 
-		prepare := func(t *testing.T) {
+		t.Run(templateName, func(t *testing.T) {
 			cfg.PossiblySkip(t, templateInfo)
 			t.Parallel()
-		}
-
-		testutils.RunWithTimeout(t, testTimeout, templateName, prepare, func(t *testing.T) {
-			t.Logf("Starting test run for %q", templateName)
 
 			e := testutils.NewEnvironment(t, cfg)
 			testutils.PulumiNew(e, templateInfo.TemplatePath)
@@ -32,13 +24,13 @@ func TestTemplates(t *testing.T) {
 			opts := integration.ProgramTestOptions{
 				Dir:                    e.RootPath,
 				Config:                 cfg.Config,
-				NoParallel:             true, // marked Parallel by prepare
 				DestroyOnCleanup:       true,
 				UseAutomaticVirtualEnv: true,
+				NoParallel:             true, // Called before
 				PrepareProject:         testutils.PrepareProject(t, e),
 				RequireService:         true,
 				InstallDevReleases:     true,
-			}.With(testutils.UpdateOptions(templateInfo))
+			}.With(testutils.UpdateOptions(t, templateInfo))
 
 			integration.ProgramTest(t, &opts)
 		})

@@ -4,35 +4,33 @@ import (
 	"path/filepath"
 	"strings"
 	"testing"
-	"time"
 
 	"github.com/pulumi/pulumi-trace-tool/traces"
 	"github.com/pulumi/pulumi/pkg/v3/testing/integration"
 	"github.com/pulumi/pulumi/sdk/v3/go/common/workspace"
 
-	"github.com/pulumi/templates/v2/internal/testutils"
+	"github.com/pulumi/templates/tests/internal/testutils"
 )
-
-const testTimeout = 60 * time.Minute
 
 func TestTemplatePerf(t *testing.T) {
 	if !traces.IsTracingEnabled() {
 		t.Fatalf("Required environment variable not set: %s", traces.TRACING_DIR_ENV_VAR)
 	}
 
-	cfg := testutils.NewTemplateTestConfigFromEnv(testutils.SKIPPED_BENCHMARKS)
+	cfg := testutils.NewTemplateTestConfigFromEnv(t, testutils.SKIPPED_BENCHMARKS)
 
 	for _, templateInfo := range testutils.FindAllTemplates(t, cfg.TemplateUrl) {
 		templateInfo := templateInfo
 
 		t.Run(templateInfo.Template.Name, func(t *testing.T) {
 			cfg.PossiblySkip(t, templateInfo)
+			t.Parallel()
 
-			testutils.RunWithTimeout(t, testTimeout, "prewarm", nil, func(t *testing.T) {
+			t.Run("prewarm", func(t *testing.T) {
 				prewarm(t, cfg, templateInfo)
 			})
 
-			testutils.RunWithTimeout(t, testTimeout, "benchmark", nil, func(t *testing.T) {
+			t.Run("benchmark", func(t *testing.T) {
 				benchmark(t, cfg, templateInfo)
 			})
 		})

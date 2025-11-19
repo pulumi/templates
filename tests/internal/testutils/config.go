@@ -17,43 +17,43 @@ type TemplateTestConfig struct {
 	SkipEnvVar  string
 }
 
-func NewTemplateTestConfigFromEnv(skipEnvVar string) TemplateTestConfig {
+func NewTemplateTestConfigFromEnv(t testing.TB, skipEnvVar string) TemplateTestConfig {
 	skipped := []string{}
 	if l := os.Getenv(skipEnvVar); l != "" {
 		skipped = strings.Split(l, ",")
-		fmt.Printf("Reading test skip pattern from env var %s\n", skipEnvVar)
+		t.Logf("Reading test skip pattern from env var %s", skipEnvVar)
 	}
 
 	awsRegion := os.Getenv("AWS_REGION")
 	if awsRegion == "" {
 		awsRegion = "us-west-1"
-		fmt.Println("Defaulting AWS_REGION to 'us-west-1'.  You can override using the AWS_REGION environment variable")
+		t.Log("Defaulting AWS_REGION to 'us-west-1'.  You can override using the AWS_REGION environment variable")
 	}
 	azureEnviron := os.Getenv("ARM_ENVIRONMENT")
 	if azureEnviron == "" {
 		azureEnviron = "public"
-		fmt.Println("Defaulting ARM_ENVIRONMENT to 'public'.  You can override using the ARM_ENVIRONMENT variable")
+		t.Log("Defaulting ARM_ENVIRONMENT to 'public'.  You can override using the ARM_ENVIRONMENT variable")
 	}
 	azureLocation := os.Getenv("ARM_LOCATION")
 	if azureLocation == "" {
 		azureLocation = "westus"
-		fmt.Println("Defaulting ARM_LOCATION to 'westus'.  You can override using the ARM_LOCATION variable")
+		t.Log("Defaulting ARM_LOCATION to 'westus'.  You can override using the ARM_LOCATION variable")
 	}
 	gcpProject := os.Getenv("GOOGLE_PROJECT")
 	if gcpProject == "" {
 		gcpProject = "pulumi-ci-gcp-provider"
-		fmt.Println("Defaulting GOOGLE_PROJECT to 'pulumi-ci-gcp-provider'." +
+		t.Log("Defaulting GOOGLE_PROJECT to 'pulumi-ci-gcp-provider'." +
 			"You can override using the GOOGLE_PROJECT variable")
 	}
 	gcpRegion := os.Getenv("GOOGLE_REGION")
 	if gcpRegion == "" {
 		gcpRegion = "us-central1"
-		fmt.Println("Defaulting GOOGLE_REGION to 'us-central1'.  You can override using the GOOGLE_REGION variable")
+		t.Log("Defaulting GOOGLE_REGION to 'us-central1'.  You can override using the GOOGLE_REGION variable")
 	}
 	gcpZone := os.Getenv("GOOGLE_ZONE")
 	if gcpZone == "" {
 		gcpZone = "us-central1-a"
-		fmt.Println("Defaulting GOOGLE_ZONE to 'us-central1-a'.  You can override using the GOOGLE_ZONE variable")
+		t.Log("Defaulting GOOGLE_ZONE to 'us-central1-a'.  You can override using the GOOGLE_ZONE variable")
 	}
 
 	// by default, we want to test the normal template url path
@@ -62,7 +62,7 @@ func NewTemplateTestConfigFromEnv(skipEnvVar string) TemplateTestConfig {
 	templateUrl := ""
 	if loc := os.Getenv("PULUMI_TEMPLATE_LOCATION"); loc != "" {
 		templateUrl = loc
-		fmt.Printf("Using templates from PULUMI_TEMPLATE_LOCATION=%s\n", loc)
+		t.Log("Using templates from PULUMI_TEMPLATE_LOCATION=%s\n", loc)
 	}
 
 	return TemplateTestConfig{

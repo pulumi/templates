@@ -163,7 +163,7 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          cd tests && go test -v -json -count=1 -cover -timeout 6h -parallel ${{ env.TESTPARALLELISM }} . 2>&1 | gotestfmt
+          cd tests && go test -v -json -count=1 -cover -timeout 1h -parallel ${{ env.TESTPARALLELISM }} . 2>&1 | gotestfmt
         env:
           PULUMI_PYTHON_CMD: python
           TESTPARALLELISM: 3
@@ -173,13 +173,13 @@ jobs:
         name: Run Linux tests
         run: |
           set -euo pipefail
-          cd tests && go test -v -json -count=1 -cover -timeout 6h -parallel ${{ env.TESTPARALLELISM }} . 2>&1 | gotestfmt
+          cd tests && go test -v -json -count=1 -cover -timeout 1h -parallel ${{ env.TESTPARALLELISM }} . 2>&1 | gotestfmt
 
       - if: contains(matrix.platform, 'macOS')
         name: Run macOS tests
         run: |
           set -euo pipefail
-          cd tests && go test -v -json -count=1 -cover -timeout 6h -parallel ${{ env.TESTPARALLELISM }} . 2>&1 | gotestfmt
+          cd tests && go test -v -json -count=1 -cover -timeout 1h -parallel ${{ env.TESTPARALLELISM }} . 2>&1 | gotestfmt
         env:
           TESTPARALLELISM: 6
 
