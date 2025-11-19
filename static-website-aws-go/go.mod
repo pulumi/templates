@@ -2,8 +2,6 @@ module ${PROJECT}
 
 go 1.23.0
 
-toolchain go1.24.2
-
 require (
 	github.com/pulumi/pulumi-aws/sdk/v7 v7.0.0
 	github.com/pulumi/pulumi-synced-folder/sdk v0.12.4

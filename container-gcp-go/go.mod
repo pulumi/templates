@@ -2,8 +2,6 @@ module ${PROJECT}
 
 go 1.21.7
 
-toolchain go1.22.1
-
 require (
 	github.com/pulumi/pulumi-docker-build/sdk/go/dockerbuild v0.0.6
 	github.com/pulumi/pulumi-gcp/sdk/v9 v9.0.0
