@@ -36,6 +36,7 @@ env:
   AZURE_LOCATION: westus
   TESTPARALLELISM: 10
   PULUMI_TEMPLATE_LOCATION: ${{ github.workspace}}
+  PULUMI_ENABLE_JOURNALING: "true"
 jobs:
   test:
     name: Test templates
