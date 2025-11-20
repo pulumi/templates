@@ -1,10 +1,13 @@
-![Build Status](https://github.com/pulumi/templates/actions/workflows/ci.yml/badge.svg?branch=master)
-
 # Pulumi Templates
 
 This repo contains the templates for `pulumi new`, which make it easy to quickly get started building new Pulumi projects.
 
 ## Adding a new template
+
+> [!IMPORTANT]
+> We are currently re-evaluating what content belongs in github.com/pulumi/templates, how
+> it should be organized, and how it should be maintained. During this evaluation process,
+> we will not be accepting new third-party templates.
 
 1. Create a new directory for the template, e.g. `my-template-javascript`. By convention, hyphens are used to separate words and the language is included as a suffix.
 
