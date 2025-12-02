@@ -1,0 +1,10 @@
+name: ${PROJECT}
+description: ${DESCRIPTION}
+runtime: java
+template:
+  description: A minimal GCP Kotlin Pulumi program
+  important: true
+  config:
+    gcp:region:
+      description: The GCP region to deploy into
+      default: us-west1
