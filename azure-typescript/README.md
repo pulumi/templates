@@ -64,11 +64,11 @@
  ## Outputs
 
  After `pulumi up`, the following output is exported:
- - **primaryStorageKey**: The primary access key for the created Storage Account
+ - **storageAccountName**: The name of the created Storage Account
 
  Retrieve it with:
  ```bash
- pulumi stack output primaryStorageKey
+ pulumi stack output storageAccountName
  ```
 
  ## Next Steps

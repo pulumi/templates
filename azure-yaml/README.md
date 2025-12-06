@@ -12,7 +12,7 @@ This repository provides a minimal Pulumi YAML template that provisions an Azure
 - `azure-native:storage:StorageAccount` – a StorageV2 account with Standard_LRS SKU
 
 **Outputs returned**
-- `primaryStorageKey` – the primary key of the created Storage Account
+- `storageAccountName` – the name of the created Storage Account
 
 Use this template when you:
 - Want to explore Azure Native via a YAML-first approach
@@ -62,11 +62,11 @@ pulumi config set azure-native:location eastus
 
 | Name                | Description                               |
 |---------------------|-------------------------------------------|
-| `primaryStorageKey` | Primary access key of the Storage Account |
+| `storageAccountName` | Name of the Storage Account |
 
 Retrieve outputs:
 ```bash
-pulumi stack output primaryStorageKey
+pulumi stack output storageAccountName
 ```
 
 ## Next Steps
