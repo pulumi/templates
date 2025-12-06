@@ -14,7 +14,7 @@ func main() {
 			return err
 		}
 
-		// Create an Azure resource (Storage Account)
+		// Create an Azure Storage Account
 		account, err := storage.NewStorageAccount(ctx, "sa", &storage.StorageAccountArgs{
 			ResourceGroupName: resourceGroup.Name,
 			Sku: &storage.SkuArgs{
@@ -26,22 +26,8 @@ func main() {
 			return err
 		}
 
-		// Export the primary key of the Storage Account
-		ctx.Export("primaryStorageKey", pulumi.All(resourceGroup.Name, account.Name).ApplyT(
-			func(args []interface{}) (string, error) {
-				resourceGroupName := args[0].(string)
-				accountName := args[1].(string)
-				accountKeys, err := storage.ListStorageAccountKeys(ctx, &storage.ListStorageAccountKeysArgs{
-					ResourceGroupName: resourceGroupName,
-					AccountName:       accountName,
-				})
-				if err != nil {
-					return "", err
-				}
-
-				return accountKeys.Keys[0].Value, nil
-			},
-		))
+		// Export the storage account name
+		ctx.Export("storageAccountName", account.Name)
 
 		return nil
 	})

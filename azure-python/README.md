@@ -11,7 +11,7 @@
    - `azure-native:resources:ResourceGroup` — a new resource group
    - `azure-native:storage:StorageAccount` — a storage account in the resource group
  - Output:
-   - `primary_storage_key` — the primary key of the storage account
+   - `storage_account_name` — the name of the storage account
 
  Use this template as a starting point to learn Pulumi, author infrastructure-as-code in Python, and build on top of basic Azure resources.
 
@@ -62,12 +62,12 @@
 
  After deployment, the following output is available:
 
- - `primary_storage_key` — the primary access key for the storage account
+ - `storage_account_name` — the name of the storage account
 
  Retrieve it with:
 
  ```bash
- pulumi stack output primary_storage_key
+ pulumi stack output storage_account_name
  ```
 
  ## When to Use This Template
