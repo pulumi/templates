@@ -1,4 +1,4 @@
-﻿module Program
+module Program
 
 open Pulumi
 open Pulumi.FSharp
@@ -18,14 +18,8 @@ let infra () =
                  Sku = input (SkuArgs(Name = SkuName.Standard_LRS)),
                  Kind = Kind.StorageV2))
 
-    // Get the primary key
-    let primaryKey =
-        ListStorageAccountKeysInvokeArgs(ResourceGroupName = resourceGroup.Name, AccountName = storageAccount.Name)
-        |> ListStorageAccountKeys.Invoke
-        |> Outputs.bind (fun storageKeys -> Output.CreateSecret(storageKeys.Keys[0].Value))
-
-    // Export the primary key for the storage account
-    dict [("connectionString", primaryKey :> obj)]
+    // Export the storage account name
+    dict [("storageAccountName", storageAccount.Name :> obj)]
 
 [<EntryPoint>]
 let main _ =

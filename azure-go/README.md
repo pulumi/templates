@@ -1,6 +1,6 @@
 # Azure Native Go Pulumi Template
 
-A minimal Pulumi template for Go using the Azure Native provider. This project provisions an Azure Resource Group and a Storage Account, then exports the primary access key. It serves as a solid starting point for Go-based Infrastructure as Code on Azure.
+A minimal Pulumi template for Go using the Azure Native provider. This project provisions an Azure Resource Group and a Storage Account, then exports the storage account name. It serves as a solid starting point for Go-based Infrastructure as Code on Azure.
 
 ## Prerequisites
 - Go 1.20 or later
@@ -45,7 +45,7 @@ This template creates:
 - An Azure Storage Account (Standard_LRS, StorageV2)
 
 ## Outputs
-- `primaryStorageKey` – the primary access key for the Storage Account
+- `storageAccountName` – the name of the Storage Account
 
 ## When to Use This Template
 Use this template when you want a quick, Go-based Pulumi project on Azure Native that sets up a resource group and storage account. It’s ideal for:
