@@ -1,5 +1,0 @@
-name: ${PROJECT}
-description: ${DESCRIPTION}
-runtime: python
-template:
-  description: A minimal Equinix Metal Python Pulumi program
