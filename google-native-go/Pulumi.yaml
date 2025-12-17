@@ -1,8 +1,0 @@
-name: ${PROJECT}
-description: ${DESCRIPTION}
-runtime: go
-template:
-  description: A minimal Google Cloud Go Pulumi program
-  config:
-    google-native:project:
-      description: The Google Cloud project to deploy into
