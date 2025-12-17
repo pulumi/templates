@@ -9,7 +9,7 @@ This repo contains the templates for `pulumi new`, which make it easy to quickly
 > it should be organized, and how it should be maintained. During this evaluation process,
 > we will not be accepting new third-party templates.
 
-1. Create a new directory for the template, e.g. `my-template-javascript`. By convention, hyphens are used to separate words and the language is included as a suffix.
+1. Create a new directory for the template, e.g. `my-template-typescript`. By convention, hyphens are used to separate words and the language is included as a suffix.
 
 1. Add template files in the new directory. Note that when new projects are created from templates, all of the files contained in the template directory are copied into the resulting Pulumi project. Be sure to exclude any unnecessary files.
 
