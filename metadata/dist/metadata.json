@@ -405,24 +405,6 @@
                 }
             }
         },
-        "alicloud-javascript": {
-            "name": "alicloud-javascript",
-            "runtime": {
-                "name": "nodejs",
-                "options": {
-                    "typescript": false
-                }
-            },
-            "template": {
-                "description": "A minimal AliCloud JavaScript Pulumi program",
-                "config": {
-                    "alicloud:region": {
-                        "description": "The AliCloud region to deploy into",
-                        "default": "cn-beijing"
-                    }
-                }
-            }
-        },
         "alicloud-python": {
             "name": "alicloud-python",
             "runtime": "python",
@@ -500,31 +482,6 @@
             "runtime": "go",
             "template": {
                 "description": "A minimal Auth0 Go Pulumi program",
-                "config": {
-                    "auth0:clientId": {
-                        "description": "The Auth0 client ID",
-                        "secret": true
-                    },
-                    "auth0:clientSecret": {
-                        "description": "The Auth0 client secret",
-                        "secret": true
-                    },
-                    "auth0:domain": {
-                        "description": "The Auth0 domain"
-                    }
-                }
-            }
-        },
-        "auth0-javascript": {
-            "name": "auth0-javascript",
-            "runtime": {
-                "name": "nodejs",
-                "options": {
-                    "typescript": false
-                }
-            },
-            "template": {
-                "description": "A minimal Auth0 TypeScript Pulumi program",
                 "config": {
                     "auth0:clientId": {
                         "description": "The Auth0 client ID",
@@ -655,25 +612,6 @@
                 }
             }
         },
-        "aws-javascript": {
-            "name": "aws-javascript",
-            "runtime": {
-                "name": "nodejs",
-                "options": {
-                    "typescript": false
-                }
-            },
-            "template": {
-                "description": "A minimal AWS JavaScript Pulumi program",
-                "important": true,
-                "config": {
-                    "aws:region": {
-                        "description": "The AWS region to deploy into",
-                        "default": "us-east-1"
-                    }
-                }
-            }
-        },
         "aws-python": {
             "name": "aws-python",
             "runtime": "python",
@@ -779,27 +717,6 @@
             "runtime": "go",
             "template": {
                 "description": "A minimal Go Pulumi program with the classic Azure provider",
-                "config": {
-                    "azure:location": {
-                        "description": "The Azure location to use",
-                        "default": "WestUS2"
-                    },
-                    "azure:subscriptionId": {
-                        "description": "The Azure Subscription to deploy into"
-                    }
-                }
-            }
-        },
-        "azure-classic-javascript": {
-            "name": "azure-classic-javascript",
-            "runtime": {
-                "name": "nodejs",
-                "options": {
-                    "typescript": false
-                }
-            },
-            "template": {
-                "description": "A minimal JavaScript Pulumi program with the classic Azure provider",
                 "config": {
                     "azure:location": {
                         "description": "The Azure location to use",
@@ -930,25 +847,6 @@
                 }
             }
         },
-        "azure-javascript": {
-            "name": "azure-javascript",
-            "runtime": {
-                "name": "nodejs",
-                "options": {
-                    "typescript": false
-                }
-            },
-            "template": {
-                "description": "A minimal JavaScript Pulumi program with the native Azure provider",
-                "important": true,
-                "config": {
-                    "azure-native:location": {
-                        "description": "The Azure location to use",
-                        "default": "WestUS2"
-                    }
-                }
-            }
-        },
         "azure-python": {
             "name": "azure-python",
             "runtime": "python",
@@ -1003,24 +901,6 @@
             "runtime": "go",
             "template": {
                 "description": "A minimal Civo Go Pulumi program",
-                "config": {
-                    "civo:token": {
-                        "description": "The token that allows you access your CIVO account",
-                        "secret": true
-                    }
-                }
-            }
-        },
-        "civo-javascript": {
-            "name": "civo-javascript",
-            "runtime": {
-                "name": "nodejs",
-                "options": {
-                    "typescript": false
-                }
-            },
-            "template": {
-                "description": "A minimal Civo TypeScript Pulumi program",
                 "config": {
                     "civo:token": {
                         "description": "The token that allows you access your CIVO account",
@@ -1479,18 +1359,6 @@
                 "description": "A minimal DigitalOcean Go Pulumi program"
             }
         },
-        "digitalocean-javascript": {
-            "name": "digitalocean-javascript",
-            "runtime": {
-                "name": "nodejs",
-                "options": {
-                    "typescript": false
-                }
-            },
-            "template": {
-                "description": "A minimal DigitalOcean JavaScript Pulumi program"
-            }
-        },
         "digitalocean-python": {
             "name": "digitalocean-python",
             "runtime": "python",
@@ -1517,18 +1385,6 @@
             "runtime": "go",
             "template": {
                 "description": "A minimal Equinix Metal Go Pulumi program"
-            }
-        },
-        "equinix-metal-javascript": {
-            "name": "equinix-metal-javascript",
-            "runtime": {
-                "name": "nodejs",
-                "options": {
-                    "typescript": false
-                }
-            },
-            "template": {
-                "description": "A minimal Equinix Metal JavaScript Pulumi program"
             }
         },
         "equinix-metal-python": {
@@ -1636,24 +1492,6 @@
                 }
             }
         },
-        "gcp-javascript": {
-            "name": "gcp-javascript",
-            "runtime": {
-                "name": "nodejs",
-                "options": {
-                    "typescript": false
-                }
-            },
-            "template": {
-                "description": "A minimal Google Cloud JavaScript Pulumi program",
-                "important": true,
-                "config": {
-                    "gcp:project": {
-                        "description": "The Google Cloud project to deploy into"
-                    }
-                }
-            }
-        },
         "gcp-python": {
             "name": "gcp-python",
             "runtime": "python",
@@ -1726,27 +1564,6 @@
             "runtime": "go",
             "template": {
                 "description": "A minimal GitHub Go Pulumi program",
-                "config": {
-                    "github:token": {
-                        "description": "The GitHub token to use for authentication",
-                        "secret": true
-                    },
-                    "github:owner": {
-                        "description": "To target a specific GitHub organization or an individual user account, set the GitHub owner configuration value."
-                    }
-                }
-            }
-        },
-        "github-javascript": {
-            "name": "github-javascript",
-            "runtime": {
-                "name": "nodejs",
-                "options": {
-                    "typescript": false
-                }
-            },
-            "template": {
-                "description": "A minimal GitHub JavaScript Pulumi program.",
                 "config": {
                     "github:token": {
                         "description": "The GitHub token to use for authentication",
@@ -1874,24 +1691,6 @@
                 "config": {
                     "google-native:project": {
                         "description": "The Google Cloud project to deploy into"
-                    }
-                }
-            }
-        },
-        "hello-aws-javascript": {
-            "name": "hello-aws-javascript",
-            "runtime": {
-                "name": "nodejs",
-                "options": {
-                    "typescript": false
-                }
-            },
-            "template": {
-                "description": "A simple AWS serverless JavaScript Pulumi program",
-                "config": {
-                    "aws:region": {
-                        "description": "The AWS region to deploy into",
-                        "default": "us-east-1"
                     }
                 }
             }
@@ -2464,19 +2263,6 @@
                 "important": true
             }
         },
-        "kubernetes-javascript": {
-            "name": "kubernetes-javascript",
-            "runtime": {
-                "name": "nodejs",
-                "options": {
-                    "typescript": false
-                }
-            },
-            "template": {
-                "description": "A minimal Kubernetes JavaScript Pulumi program",
-                "important": true
-            }
-        },
         "kubernetes-ovh-csharp": {
             "name": "kubernetes-ovh-csharp",
             "runtime": "dotnet",
@@ -2714,24 +2500,6 @@
                 }
             }
         },
-        "linode-javascript": {
-            "name": "linode-javascript",
-            "runtime": {
-                "name": "nodejs",
-                "options": {
-                    "typescript": false
-                }
-            },
-            "template": {
-                "description": "A minimal Linode JavaScript Pulumi program",
-                "config": {
-                    "linode:token": {
-                        "description": "The token that allows you access to your Linode account",
-                        "secret": true
-                    }
-                }
-            }
-        },
         "linode-python": {
             "name": "linode-python",
             "runtime": "python",
@@ -2785,18 +2553,6 @@
                 "description": "A minimal Java Pulumi program with Maven builds"
             }
         },
-        "oci-javascript": {
-            "name": "oci-javascript",
-            "runtime": {
-                "name": "nodejs",
-                "options": {
-                    "typescript": false
-                }
-            },
-            "template": {
-                "description": "A minimal OCI JavaScript Pulumi program"
-            }
-        },
         "oci-python": {
             "name": "oci-python",
             "runtime": "python",
@@ -2820,18 +2576,6 @@
             "runtime": "go",
             "template": {
                 "description": "A minimal OpenStack Go Pulumi program"
-            }
-        },
-        "openstack-javascript": {
-            "name": "openstack-javascript",
-            "runtime": {
-                "name": "nodejs",
-                "options": {
-                    "typescript": false
-                }
-            },
-            "template": {
-                "description": "A minimal OpenStack JavaScript Pulumi program"
             }
         },
         "openstack-python": {
@@ -3049,18 +2793,6 @@
                 "description": "A minimal Pinecone Go Pulumi program"
             }
         },
-        "pinecone-javascript": {
-            "name": "pinecone-javascript",
-            "runtime": {
-                "name": "nodejs",
-                "options": {
-                    "typescript": false
-                }
-            },
-            "template": {
-                "description": "A minimal Pinecone JavaScript Pulumi program"
-            }
-        },
         "pinecone-python": {
             "name": "pinecone-python",
             "runtime": {
@@ -3142,34 +2874,6 @@
             "runtime": "go",
             "template": {
                 "description": "A minimal RedisCloud Pulumi YAML program",
-                "config": {
-                    "cardType": {
-                        "description": "Credit card type (Visa, Mastercard) of the card on file with Rediscloud"
-                    },
-                    "lastFourNumbers": {
-                        "description": "Last four numbers of the card on file with RedisCloud"
-                    },
-                    "rediscloud:apiKey": {
-                        "description": "RedisCloud access key",
-                        "secret": true
-                    },
-                    "rediscloud:secretKey": {
-                        "description": "RedisCloud secret key",
-                        "secret": true
-                    }
-                }
-            }
-        },
-        "rediscloud-javascript": {
-            "name": "rediscloud-javascript",
-            "runtime": {
-                "name": "nodejs",
-                "options": {
-                    "typescript": false
-                }
-            },
-            "template": {
-                "description": "A minimal RedisCloud JavaScript Pulumi program",
                 "config": {
                     "cardType": {
                         "description": "Credit card type (Visa, Mastercard) of the card on file with Rediscloud"
