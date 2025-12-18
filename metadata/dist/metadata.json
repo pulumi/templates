@@ -1380,34 +1380,6 @@
                 "description": "A minimal DigitalOcean Pulumi YAML program"
             }
         },
-        "equinix-metal-go": {
-            "name": "equinix-metal-go",
-            "runtime": "go",
-            "template": {
-                "description": "A minimal Equinix Metal Go Pulumi program"
-            }
-        },
-        "equinix-metal-python": {
-            "name": "equinix-metal-python",
-            "runtime": "python",
-            "template": {
-                "description": "A minimal Equinix Metal Python Pulumi program"
-            }
-        },
-        "equinix-metal-typescript": {
-            "name": "equinix-metal-typescript",
-            "runtime": "nodejs",
-            "template": {
-                "description": "A minimal Equinix Metal TypeScript Pulumi program"
-            }
-        },
-        "equinix-metal-yaml": {
-            "name": "equinix-metal-yaml",
-            "runtime": "yaml",
-            "template": {
-                "description": "A minimal Equinix Metal Pulumi YAML program"
-            }
-        },
         "esc-connector-lambda-typescript": {
             "name": "esc-connector-lambda-typescript",
             "runtime": "nodejs",
