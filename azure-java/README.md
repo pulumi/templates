@@ -4,7 +4,7 @@
 
  - An Azure Resource Group.
  - An Azure Storage Account (Standard_LRS, StorageV2).
- - Exports the primary storage account key as a secret output.
+ - Exports the storage account name.
 
  ## Prerequisites
 
@@ -61,7 +61,7 @@
 
  ## Outputs
 
- - `primaryStorageKey` (Secret): The primary key for the Storage Account.
+ - `storageAccountName`: The name of the Storage Account.
 
  ## Next Steps
 

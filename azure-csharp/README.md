@@ -7,7 +7,7 @@ A minimal, end-to-end Pulumi template for C# that provisions a Resource Group an
 This template demonstrates a simple Pulumi program written in C# that:
 - Creates an Azure Resource Group
 - Creates an Azure Storage Account (Standard_LRS, StorageV2)
-- Retrieves the primary Storage Account key and exports it as a secret output
+- Exports the Storage Account name
 
 Use this template as a foundation for building more complex Azure infrastructure in C#.
 
@@ -57,7 +57,7 @@ Use this template as a foundation for building more complex Azure infrastructure
 
 ## Outputs
 
-- `primaryStorageKey` (secret): The primary key of the Storage Account
+- `storageAccountName`: The name of the Storage Account
 
 ## Next Steps
 
