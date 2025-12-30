@@ -3,6 +3,6 @@ module ${PROJECT}
 go 1.24
 
 require (
-	github.com/pulumi/pulumi-auth0/sdk/v3 v3.34.0
-	github.com/pulumi/pulumi/sdk/v3 v3.212.0
+	github.com/pulumi/pulumi-auth0/sdk/v3 v3.35.0
+	github.com/pulumi/pulumi/sdk/v3 v3.214.0
 )
