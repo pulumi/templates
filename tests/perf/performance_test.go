@@ -126,10 +126,6 @@ func guessRuntime(template workspace.Template) string {
 }
 
 func guessProvider(template workspace.Template) string {
-	if strings.Contains(template.Name, "azure-classic") {
-		return "azure-classic"
-	}
-
 	if strings.Contains(template.Name, "azure") {
 		return "azure"
 	}

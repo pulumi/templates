@@ -16,14 +16,12 @@ fetch_latest_version() {
 
 PULUMI_VERSION="$(fetch_latest_version pulumi)"
 
-PROVIDER_LIST="aiven,alicloud,auth0,aws,azure,azure-classic,civo,digitalocean,equinix-metal,gcp,google-native,kubernetes,linode,oci,openstack,random"
+PROVIDER_LIST="aiven,alicloud,auth0,aws,azure,civo,digitalocean,equinix-metal,gcp,google-native,kubernetes,linode,oci,openstack,random"
 IFS=',' read -ra PROVIDERS <<<"$PROVIDER_LIST"
 
 for i in "${PROVIDERS[@]}"; do
 	echo "Updating $i template"
-	if [ "$i" = "azure-classic" ]; then
-		PROVIDER_NAME="azure"
-	elif [ "$i" = "azure" ]; then
+        if [ "$i" = "azure" ]; then
 		PROVIDER_NAME="azure-native"
 	else
 		PROVIDER_NAME="$i"
