@@ -130,10 +130,6 @@ func guessProvider(template workspace.Template) string {
 		return "azure"
 	}
 
-	if strings.Contains(template.Name, "google-native") {
-		return "google-native"
-	}
-
 	if strings.Contains(template.Name, "gcp") {
 		return "gcp"
 	}
@@ -160,10 +156,6 @@ func guessProvider(template workspace.Template) string {
 
 	if strings.Contains(template.Name, "alicloud") {
 		return "alicloud"
-	}
-
-	if strings.Contains(template.Name, "equinix-metal") {
-		return "equinix-metal"
 	}
 
 	return ""
