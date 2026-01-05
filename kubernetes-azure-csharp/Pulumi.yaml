@@ -14,7 +14,7 @@ template:
       default: pulumi
       description: DNS prefix for the cluster
     kubernetesVersion:
-      default: 1.32.7
+      default: "1.33"
       description: Kubernetes version to deploy in the cluster
     nodeVmSize:
       default: Standard_DS2_v2
