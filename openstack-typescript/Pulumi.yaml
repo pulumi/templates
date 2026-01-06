@@ -1,5 +1,0 @@
-name: ${PROJECT}
-description: ${DESCRIPTION}
-runtime: nodejs
-template:
-  description: A minimal OpenStack TypeScript Pulumi program
