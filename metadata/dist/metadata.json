@@ -2593,6 +2593,49 @@
                 "description": "A minimal Python Pulumi program"
             }
         },
+        "random-csharp": {
+            "name": "random-csharp",
+            "runtime": "dotnet",
+            "template": {
+                "description": "A minimal Random C# Pulumi program."
+            }
+        },
+        "random-go": {
+            "name": "random-go",
+            "runtime": "go",
+            "template": {
+                "description": "A minimal Random Go Pulumi program."
+            }
+        },
+        "random-java": {
+            "name": "random-java",
+            "runtime": "java",
+            "template": {
+                "description": "A minimal Random Java Pulumi program",
+                "important": true
+            }
+        },
+        "random-python": {
+            "name": "random-python",
+            "runtime": "python",
+            "template": {
+                "description": "A minimal Random Python Pulumi program."
+            }
+        },
+        "random-typescript": {
+            "name": "random-typescript",
+            "runtime": "nodejs",
+            "template": {
+                "description": "A minimal Random TypeScript Pulumi program."
+            }
+        },
+        "random-yaml": {
+            "name": "random-yaml",
+            "runtime": "yaml",
+            "template": {
+                "description": "A minimal Random Pulumi YAML program."
+            }
+        },
         "rediscloud-go": {
             "name": "rediscloud-go",
             "runtime": "go",
