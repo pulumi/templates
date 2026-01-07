@@ -2366,34 +2366,6 @@
             "name": "oci-yaml",
             "runtime": "yaml"
         },
-        "openstack-go": {
-            "name": "openstack-go",
-            "runtime": "go",
-            "template": {
-                "description": "A minimal OpenStack Go Pulumi program"
-            }
-        },
-        "openstack-python": {
-            "name": "openstack-python",
-            "runtime": "python",
-            "template": {
-                "description": "A minimal OpenStack Python Pulumi program"
-            }
-        },
-        "openstack-typescript": {
-            "name": "openstack-typescript",
-            "runtime": "nodejs",
-            "template": {
-                "description": "A minimal OpenStack TypeScript Pulumi program"
-            }
-        },
-        "openstack-yaml": {
-            "name": "openstack-yaml",
-            "runtime": "yaml",
-            "template": {
-                "description": "A minimal OpenStack Pulumi YAML program"
-            }
-        },
         "ovh-csharp": {
             "name": "ovh-csharp",
             "runtime": "dotnet",
