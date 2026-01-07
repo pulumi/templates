@@ -1,0 +1,12 @@
+name: ${PROJECT}
+description: ${DESCRIPTION}
+runtime: yaml
+template:
+  description: A minimal Random Pulumi YAML program.
+
+resources:
+  username:
+    type: random:RandomPet
+
+outputs:
+  name: ${username.id}
