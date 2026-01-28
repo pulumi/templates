@@ -784,58 +784,6 @@
                 "description": "A minimal Azure DevOps Python Pulumi program to create an AzureDevOps Project"
             }
         },
-        "civo-go": {
-            "name": "civo-go",
-            "runtime": "go",
-            "template": {
-                "description": "A minimal Civo Go Pulumi program",
-                "config": {
-                    "civo:token": {
-                        "description": "The token that allows you access your CIVO account",
-                        "secret": true
-                    }
-                }
-            }
-        },
-        "civo-python": {
-            "name": "civo-python",
-            "runtime": "python",
-            "template": {
-                "description": "A minimal Civo Python Pulumi program",
-                "config": {
-                    "civo:token": {
-                        "description": "The token that allows you access your CIVO account",
-                        "secret": true
-                    }
-                }
-            }
-        },
-        "civo-typescript": {
-            "name": "civo-typescript",
-            "runtime": "nodejs",
-            "template": {
-                "description": "A minimal Civo TypeScript Pulumi program",
-                "config": {
-                    "civo:token": {
-                        "description": "The token that allows you access your CIVO account",
-                        "secret": true
-                    }
-                }
-            }
-        },
-        "civo-yaml": {
-            "name": "civo-yaml",
-            "runtime": "yaml",
-            "template": {
-                "description": "A minimal Civo Pulumi YAML program",
-                "config": {
-                    "civo:token": {
-                        "description": "The token that allows you access your CIVO account",
-                        "secret": true
-                    }
-                }
-            }
-        },
         "container-aws-csharp": {
             "name": "container-aws-csharp",
             "runtime": "dotnet",

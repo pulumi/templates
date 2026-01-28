@@ -14,3 +14,5 @@ node_modules
 [Bb]in/
 [Oo]bj/
 .gradle
+.claude/settings.local.json
+templates.sln

@@ -1,9 +1,0 @@
-name: ${PROJECT}
-description: ${DESCRIPTION}
-runtime: nodejs
-template:
-  description: A minimal Civo TypeScript Pulumi program
-  config:
-    civo:token:
-      description: The token that allows you access your CIVO account
-      secret: true
