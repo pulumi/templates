@@ -39,7 +39,7 @@ env:
   PULUMI_ENABLE_JOURNALING: "true"
 jobs:
   test:
-    name: Test templates
+    name: ${{ matrix.platform }}
 
     strategy:
       fail-fast: false
