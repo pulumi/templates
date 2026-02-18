@@ -1,6 +1,6 @@
 module ${PROJECT}
 
-go 1.24
+go 1.25
 
 require (
 	github.com/pulumi/pulumi-azure-native-sdk/resources/v3 v3.13.0

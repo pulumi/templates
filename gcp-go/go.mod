@@ -1,6 +1,6 @@
 module ${PROJECT}
 
-go 1.24
+go 1.25
 
 require (
 	github.com/pulumi/pulumi-gcp/sdk/v9 v9.12.0
