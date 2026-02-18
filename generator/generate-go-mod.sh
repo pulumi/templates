@@ -4,7 +4,7 @@ set -o nounset
 set -o errexit
 set -o pipefail
 
-GO_VERSION="1.24"
+GO_VERSION="1.25"
 
 # Fetch the latest release version of the given Pulumi repo.
 fetch_latest_version() {

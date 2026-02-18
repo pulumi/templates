@@ -1,8 +1,8 @@
 module ${PROJECT}
 
-go 1.24
+go 1.25
 
 require (
-	github.com/pulumi/pulumi-digitalocean/sdk/v4 v4.56.0
-	github.com/pulumi/pulumi/sdk/v3 v3.220.0
+	github.com/pulumi/pulumi-digitalocean/sdk/v4 v4.58.0
+	github.com/pulumi/pulumi/sdk/v3 v3.221.0
 )
