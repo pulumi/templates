@@ -39,7 +39,7 @@ env:
   PULUMI_ENABLE_JOURNALING: "true"
 jobs:
   test:
-    name: Test templates
+    name: ${{ matrix.platform }}
 
     strategy:
       fail-fast: false
@@ -48,13 +48,13 @@ jobs:
           - ubuntu-latest
           - macOS-latest
           - windows-16core-2022
+        # The versions here should match the minimum versions in https://github.com/pulumi/pulumi/blob/master/scripts/get-job-matrix.py#L145-L152
         go-version:
-          - 1.24.x
-        # https://nodejs.org/en/about/previous-releases
+          - 1.25.x
         node-version:
           - 20.x
         python-version:
-          - 3.9
+          - 3.10.x
         dotnet-version:
           - 8.0.x
         java-version:
