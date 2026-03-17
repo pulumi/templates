@@ -10,3 +10,4 @@ templates:
   - static-website-aws-go
   - static-website-aws-csharp
   - static-website-aws-yaml
+  - static-website-aws-bun
