@@ -1,0 +1,5 @@
+name: ${PROJECT}
+description: ${DESCRIPTION}
+runtime: bun
+template:
+  description: A minimal Bun Pulumi program
