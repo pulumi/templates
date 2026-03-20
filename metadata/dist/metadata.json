@@ -17,7 +17,8 @@
                         "static-website-aws-python",
                         "static-website-aws-go",
                         "static-website-aws-csharp",
-                        "static-website-aws-yaml"
+                        "static-website-aws-yaml",
+                        "static-website-aws-bun"
                     ]
                 },
                 {
@@ -557,6 +558,19 @@
                 }
             }
         },
+        "aws-bun": {
+            "name": "aws-bun",
+            "runtime": "bun",
+            "template": {
+                "description": "A minimal AWS Bun Pulumi program",
+                "config": {
+                    "aws:region": {
+                        "description": "The AWS region to deploy into",
+                        "default": "us-east-1"
+                    }
+                }
+            }
+        },
         "aws-csharp": {
             "name": "aws-csharp",
             "runtime": "dotnet",
@@ -782,6 +796,13 @@
             "runtime": "python",
             "template": {
                 "description": "A minimal Azure DevOps Python Pulumi program to create an AzureDevOps Project"
+            }
+        },
+        "bun": {
+            "name": "bun",
+            "runtime": "bun",
+            "template": {
+                "description": "A minimal Bun Pulumi program"
             }
         },
         "container-aws-csharp": {
@@ -3006,6 +3027,31 @@
                     "appPath": {
                         "description": "The path to the folder containing the functions to be deployed",
                         "default": "./app"
+                    },
+                    "indexDocument": {
+                        "description": "The file to use for top-level pages",
+                        "default": "index.html"
+                    },
+                    "errorDocument": {
+                        "description": "The file to use for error pages",
+                        "default": "error.html"
+                    }
+                }
+            }
+        },
+        "static-website-aws-bun": {
+            "name": "static-website-aws-bun",
+            "runtime": "bun",
+            "template": {
+                "description": "A Bun program to deploy a static website on AWS",
+                "config": {
+                    "aws:region": {
+                        "description": "The AWS region to deploy into",
+                        "default": "us-west-2"
+                    },
+                    "path": {
+                        "description": "The path to the folder containing the website",
+                        "default": "./www"
                     },
                     "indexDocument": {
                         "description": "The file to use for top-level pages",
