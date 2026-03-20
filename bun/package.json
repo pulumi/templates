@@ -1,0 +1,13 @@
+{
+    "name": "${PROJECT}",
+    "main": "index.ts",
+    "devDependencies": {
+        "@types/bun": "latest"
+    },
+    "dependencies": {
+        "@pulumi/pulumi": "^3.226.0"
+    },
+    "peerDependencies": {
+        "typescript": "^5"
+    }
+}

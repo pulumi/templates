@@ -1,0 +1,14 @@
+{
+    "name": "${PROJECT}",
+    "devDependencies": {
+        "@types/bun": "latest"
+    },
+    "dependencies": {
+        "@pulumi/aws": "^7.0.0",
+        "@pulumi/synced-folder": "^0.12.4",
+        "@pulumi/pulumi": "^3.226.0"
+    },
+    "peerDependencies": {
+        "typescript": "^5"
+    }
+}
