@@ -1,5 +1,7 @@
 {
     "name": "${PROJECT}",
+    "main": "index.ts",
+    "type": "module",
     "devDependencies": {
         "@types/bun": "latest"
     },
