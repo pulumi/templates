@@ -394,7 +394,7 @@ const dataConnectorBody = pulumi.all([
 const dataConnector = new DataConnectorResource("dataConnector", {
     resourceUrl: connectorResourceUrl,
     body: dataConnectorBody,
-}, { dependsOn: [connectorDefinition, dataCollectionRule] });
+}, { dependsOn: [connectorDefinition, dataCollectionRule], deleteBeforeReplace: true });
 
 // ---------------------------------------------------------------------------
 // 6. Analytic rules
