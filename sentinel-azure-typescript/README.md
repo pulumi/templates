@@ -152,7 +152,6 @@ pulumi stack rm <stack-name>
 | `resourceGroupName` | Azure resource group containing the workspace | Yes | — |
 | `enableAnalyticRules` | Deploy pre-built Sentinel analytic rules | No | `true` |
 | `azure-native:location` | Azure region | No | `eastus` |
-| `apiUrl` | Pulumi API URL (for self-hosted instances only) | No | `https://api.pulumi.com` |
 
 ## Sample Queries
 
