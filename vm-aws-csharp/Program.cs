@@ -9,7 +9,7 @@ return await Deployment.RunAsync(() =>
     var instanceType = config.Get("instanceType") ?? "t3.micro";
     var vpcNetworkCidr = config.Get("vpcNetworkCidr") ?? "10.0.0.0/16";
     
-    // Look up the latest Amazon Linux 2 AMI.
+    // Look up the latest Amazon Linux 2023 AMI.
     var ami = Aws.Ec2.GetAmi.Invoke(new()
     {
         Filters = new[]
@@ -19,7 +19,7 @@ return await Deployment.RunAsync(() =>
                 Name = "name",
                 Values = new[]
                 {
-                    "amzn2-ami-hvm-*",
+                    "al2023-ami-2023.*-x86_64",
                 },
             },
         },
@@ -33,7 +33,7 @@ return await Deployment.RunAsync(() =>
     // User data to start a HTTP server in the EC2 instance
     var userData = @"#!/bin/bash
     echo ""Hello, World from Pulumi!"" > index.html
-    nohup python -m SimpleHTTPServer 80 &
+    nohup python3 -m http.server 80 &
     ";
 
     // Create VPC.

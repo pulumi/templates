@@ -90,24 +90,24 @@ resources:
                 Name: webserver
 
 variables:
-    # Look up the latest Amazon Linux 2 AMI.
+    # Look up the latest Amazon Linux 2023 AMI.
     ami:
         fn::invoke:
             function: aws:ec2:getAmi
             arguments:
                 filters:
                     - name: name
-                      values: 
-                        - "amzn2-ami-hvm-*"
-                owners: 
+                      values:
+                        - "al2023-ami-2023.*-x86_64"
+                owners:
                     - "amazon"
                 mostRecent: true
-            return: id    
+            return: id
     # User data to start a HTTP server in the EC2 instance
     userData: |
         #!/bin/bash
         echo "Hello, World from Pulumi!" > index.html
-        nohup python -m SimpleHTTPServer 80 &
+        nohup python3 -m http.server 80 &
 
 # Export the instance's publicly accessible IP address and hostname.            
 outputs:

@@ -20,13 +20,13 @@ func main() {
 			vpcNetworkCidr = param
 		}
 
-		// Look up the latest Amazon Linux 2 AMI.
+		// Look up the latest Amazon Linux 2023 AMI.
 		ami, err := ec2.LookupAmi(ctx, &ec2.LookupAmiArgs{
 			Filters: []ec2.GetAmiFilter{
 				ec2.GetAmiFilter{
 					Name: "name",
 					Values: []string{
-						"amzn2-ami-hvm-*",
+						"al2023-ami-2023.*-x86_64",
 					},
 				},
 			},
@@ -40,7 +40,7 @@ func main() {
 		}
 
 		// User data to start a HTTP server in the EC2 instance
-		userData := "#!/bin/bash\necho \"Hello, World from Pulumi!\" > index.html\nnohup python -m SimpleHTTPServer 80 &\n"
+		userData := "#!/bin/bash\necho \"Hello, World from Pulumi!\" > index.html\nnohup python3 -m http.server 80 &\n"
 
 		// Create VPC.
 		vpc, err := ec2.NewVpc(ctx, "vpc", &ec2.VpcArgs{

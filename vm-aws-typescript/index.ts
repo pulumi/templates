@@ -6,11 +6,11 @@ const config = new pulumi.Config();
 const instanceType = config.get("instanceType") || "t3.micro";
 const vpcNetworkCidr = config.get("vpcNetworkCidr") || "10.0.0.0/16";
 
-// Look up the latest Amazon Linux 2 AMI.
+// Look up the latest Amazon Linux 2023 AMI.
 const ami = aws.ec2.getAmi({
     filters: [{
         name: "name",
-        values: ["amzn2-ami-hvm-*"],
+        values: ["al2023-ami-2023.*-x86_64"],
     }],
     owners: ["amazon"],
     mostRecent: true,
@@ -19,7 +19,7 @@ const ami = aws.ec2.getAmi({
 // User data to start a HTTP server in the EC2 instance
 const userData = `#!/bin/bash
 echo "Hello, World from Pulumi!" > index.html
-nohup python -m SimpleHTTPServer 80 &
+nohup python3 -m http.server 80 &
 `;
 
 // Create VPC.
