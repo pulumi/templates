@@ -8,71 +8,51 @@ const path = config.get("path") || "./www";
 const indexDocument = config.get("indexDocument") || "index.html";
 const errorDocument = config.get("errorDocument") || "error.html";
 
-// Create an S3 bucket and configure it as a website.
+// Create a private S3 bucket to hold the website content.
 const bucket = new aws.s3.Bucket("bucket");
 
-const bucketWebsite = new aws.s3.BucketWebsiteConfiguration("bucketWebsite", {
-    bucket: bucket.bucket,
-    indexDocument: {suffix: indexDocument},
-    errorDocument: {key: errorDocument},
-});
-
-// Configure ownership controls for the new S3 bucket
-const ownershipControls = new aws.s3.BucketOwnershipControls("ownership-controls", {
-    bucket: bucket.bucket,
-    rule: {
-        objectOwnership: "ObjectWriter",
-    },
-});
-
-// Configure public ACL block on the new S3 bucket
+// Block all public access to the bucket; CloudFront will reach it via OAC.
 const publicAccessBlock = new aws.s3.BucketPublicAccessBlock("public-access-block", {
     bucket: bucket.bucket,
-    blockPublicAcls: false,
+    blockPublicAcls: true,
+    blockPublicPolicy: true,
+    ignorePublicAcls: true,
+    restrictPublicBuckets: true,
 });
 
-// Use a synced folder to manage the files of the website.
+// Sync the website files to the bucket as private objects.
 const bucketFolder = new synced_folder.S3BucketFolder("bucket-folder", {
     path: path,
     bucketName: bucket.bucket,
-    acl: "public-read",
-}, { dependsOn: [ownershipControls, publicAccessBlock]});
+    acl: "private",
+}, { dependsOn: [publicAccessBlock] });
+
+// Create an Origin Access Control so CloudFront can read from the private bucket.
+const originAccessControl = new aws.cloudfront.OriginAccessControl("origin-access-control", {
+    originAccessControlOriginType: "s3",
+    signingBehavior: "always",
+    signingProtocol: "sigv4",
+});
 
 // Create a CloudFront CDN to distribute and cache the website.
 const cdn = new aws.cloudfront.Distribution("cdn", {
     enabled: true,
+    defaultRootObject: indexDocument,
     origins: [{
         originId: bucket.arn,
-        domainName: bucketWebsite.websiteEndpoint,
-        customOriginConfig: {
-            originProtocolPolicy: "http-only",
-            httpPort: 80,
-            httpsPort: 443,
-            originSslProtocols: ["TLSv1.2"],
-        },
+        domainName: bucket.bucketRegionalDomainName,
+        originAccessControlId: originAccessControl.id,
     }],
     defaultCacheBehavior: {
         targetOriginId: bucket.arn,
         viewerProtocolPolicy: "redirect-to-https",
-        allowedMethods: [
-            "GET",
-            "HEAD",
-            "OPTIONS",
-        ],
-        cachedMethods: [
-            "GET",
-            "HEAD",
-            "OPTIONS",
-        ],
-        defaultTtl: 600,
-        maxTtl: 600,
-        minTtl: 600,
-        forwardedValues: {
-            queryString: true,
-            cookies: {
-                forward: "all",
-            },
-        },
+        allowedMethods: ["GET", "HEAD", "OPTIONS"],
+        cachedMethods: ["GET", "HEAD", "OPTIONS"],
+        compress: true,
+        // Managed-CachingOptimized
+        cachePolicyId: "658327ea-f89d-4fab-a63d-7e88639e58f6",
+        // Managed-SecurityHeadersPolicy
+        responseHeadersPolicyId: "67f7725c-6f97-4210-82d7-5512b31e9d03",
     },
     priceClass: "PriceClass_100",
     customErrorResponses: [{
@@ -90,8 +70,25 @@ const cdn = new aws.cloudfront.Distribution("cdn", {
     },
 });
 
+// Grant the CloudFront distribution permission to read objects from the bucket.
+const bucketPolicy = new aws.s3.BucketPolicy("bucket-policy", {
+    bucket: bucket.bucket,
+    policy: pulumi.jsonStringify({
+        Version: "2012-10-17",
+        Statement: [{
+            Sid: "AllowCloudFrontServicePrincipalReadOnly",
+            Effect: "Allow",
+            Principal: { Service: "cloudfront.amazonaws.com" },
+            Action: "s3:GetObject",
+            Resource: pulumi.interpolate`${bucket.arn}/*`,
+            Condition: {
+                StringEquals: { "AWS:SourceArn": cdn.arn },
+            },
+        }],
+    }),
+});
+
 // Export the URLs and hostnames of the bucket and distribution.
-export const originURL = pulumi.interpolate`http://${bucketWebsite.websiteEndpoint}`;
-export const originHostname = bucketWebsite.websiteEndpoint;
+export const originHostname = bucket.bucketRegionalDomainName;
 export const cdnURL = pulumi.interpolate`https://${cdn.domainName}`;
 export const cdnHostname = cdn.domainName;
