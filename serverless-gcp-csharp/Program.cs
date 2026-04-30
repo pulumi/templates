@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Text.Json;
 using Pulumi;
 using Gcp = Pulumi.Gcp;
@@ -12,6 +12,7 @@ return await Deployment.RunAsync(() =>
     var appPath = config.Get("appPath") ?? "./app";
     var indexDocument = config.Get("indexDocument") ?? "index.html";
     var errorDocument = config.Get("errorDocument") ?? "error.html";
+    var region = new Config("gcp").Get("region") ?? "us-central1";
 
     // Create a storage bucket and configure it as a website.
     var siteBucket = new Gcp.Storage.Bucket("site-bucket", new()
@@ -55,23 +56,36 @@ return await Deployment.RunAsync(() =>
         Source = new Pulumi.FileArchive(appPath),
     });
 
-    // Create a Cloud Function that returns some data.
-    var dataFunction = new Gcp.CloudFunctions.Function("data-function", new()
+    // Create a Cloud Function (Gen 2) that returns some data.
+    var dataFunction = new Gcp.CloudFunctionsV2.Function("data-function", new()
     {
-        SourceArchiveBucket = appBucket.Name,
-        SourceArchiveObject = appArchive.Name,
-        Runtime = "dotnet6",
-        EntryPoint = "App.Data",
-        TriggerHttp = true,
+        Location = region,
+        BuildConfig = new Gcp.CloudFunctionsV2.Inputs.FunctionBuildConfigArgs
+        {
+            Runtime = "dotnet8",
+            EntryPoint = "App.Data",
+            Source = new Gcp.CloudFunctionsV2.Inputs.FunctionBuildConfigSourceArgs
+            {
+                StorageSource = new Gcp.CloudFunctionsV2.Inputs.FunctionBuildConfigSourceStorageSourceArgs
+                {
+                    Bucket = appBucket.Name,
+                    Object = appArchive.Name,
+                },
+            },
+        },
+        ServiceConfig = new Gcp.CloudFunctionsV2.Inputs.FunctionServiceConfigArgs
+        {
+            AvailableMemory = "256M",
+            TimeoutSeconds = 60,
+        },
     });
 
-    // Create an IAM member to invoke the function.
-    var invoker = new Gcp.CloudFunctions.FunctionIamMember("data-function-invoker", new()
+    // Allow public, unauthenticated invocations of the underlying Cloud Run service.
+    var invoker = new Gcp.CloudRun.IamMember("data-function-invoker", new()
     {
-        Project = dataFunction.Project,
-        Region = dataFunction.Region,
-        CloudFunction = dataFunction.Name,
-        Role = "roles/cloudfunctions.invoker",
+        Location = dataFunction.Location,
+        Service = dataFunction.Name,
+        Role = "roles/run.invoker",
         Member = "allUsers",
     });
 
@@ -81,7 +95,7 @@ return await Deployment.RunAsync(() =>
         Name = "config.json",
         ContentType = "application/json",
         Bucket = siteBucket.Name,
-        Source = dataFunction.HttpsTriggerUrl.Apply(url => {
+        Source = dataFunction.Url.Apply(url => {
             var config = JsonSerializer.Serialize(new { api = url });
             return new Pulumi.StringAsset(config) as AssetOrArchive;
         }),
@@ -91,6 +105,6 @@ return await Deployment.RunAsync(() =>
     return new Dictionary<string, object?>
     {
         ["siteURL"] = siteBucket.Name.Apply(name => $"https://storage.googleapis.com/{name}/index.html"),
-        ["apiURL"] = dataFunction.HttpsTriggerUrl.Apply(url => url),
+        ["apiURL"] = dataFunction.Url,
     };
 });

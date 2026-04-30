@@ -42,33 +42,43 @@ const appArchive = new gcp.storage.BucketObject("app-archive", {
     source: new pulumi.asset.FileArchive(appPath),
 });
 
-// Create a Cloud Function that returns some data.
-const dataFunction = new gcp.cloudfunctions.Function("data-function", {
-    sourceArchiveBucket: appBucket.name,
-    sourceArchiveObject: appArchive.name,
-    runtime: "nodejs16",
-    entryPoint: "date",
-    triggerHttp: true,
+// Create a Cloud Function (Gen 2) that returns some data.
+const dataFunction = new gcp.cloudfunctionsv2.Function("data-function", {
+    location: gcp.config.region || "us-central1",
+    buildConfig: {
+        runtime: "nodejs22",
+        entryPoint: "date",
+        source: {
+            storageSource: {
+                bucket: appBucket.name,
+                object: appArchive.name,
+            },
+        },
+    },
+    serviceConfig: {
+        availableMemory: "256M",
+        timeoutSeconds: 60,
+    },
 });
 
-// Create an IAM member to invoke the function.
-const invoker = new gcp.cloudfunctions.FunctionIamMember("data-function-invoker", {
-    project: dataFunction.project,
-    region: dataFunction.region,
-    cloudFunction: dataFunction.name,
-    role: "roles/cloudfunctions.invoker",
+// Allow public, unauthenticated invocations of the underlying Cloud Run service.
+const invoker = new gcp.cloudrun.IamMember("data-function-invoker", {
+    location: dataFunction.location,
+    service: dataFunction.name,
+    role: "roles/run.invoker",
     member: "allUsers",
 });
 
 // Create a JSON configuration file for the website.
 const siteConfig = new gcp.storage.BucketObject("site-config", {
     name: "config.json",
-    source: dataFunction.httpsTriggerUrl
-        .apply(url => new pulumi.asset.StringAsset(JSON.stringify({ api: url }))),
+    source: dataFunction.url.apply(url =>
+        new pulumi.asset.StringAsset(JSON.stringify({ api: url })),
+    ),
     contentType: "application/json",
     bucket: siteBucket.name,
 });
 
 // Export the URLs of the website and serverless endpoint.
 export const siteURL = pulumi.interpolate`https://storage.googleapis.com/${siteBucket.name}/index.html`;
-export const apiURL = dataFunction.httpsTriggerUrl;
+export const apiURL = dataFunction.url;

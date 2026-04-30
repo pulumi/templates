@@ -1,5 +1,3 @@
-from cProfile import run
-from pip import main
 import pulumi
 import pulumi_gcp as gcp
 import pulumi_synced_folder as synced
@@ -10,6 +8,7 @@ site_path = config.get("sitePath", "./www")
 app_path = config.get("appPath", "./app")
 index_document = config.get("indexDocument", "index.html")
 error_document = config.get("errorDocument", "error.html")
+region = gcp.config.region or "us-central1"
 
 # Create a storage bucket and configure it as a website.
 site_bucket = gcp.storage.Bucket(
@@ -49,23 +48,32 @@ app_archive = gcp.storage.BucketObject(
     source=pulumi.asset.FileArchive(app_path),
 )
 
-# Create a Cloud Function that returns some data.
-data_function = gcp.cloudfunctions.Function(
+# Create a Cloud Function (Gen 2) that returns some data.
+data_function = gcp.cloudfunctionsv2.Function(
     "data-function",
-    source_archive_bucket=app_bucket.name,
-    source_archive_object=app_archive.name,
-    runtime="python310",
-    entry_point="data",
-    trigger_http=True,
+    location=region,
+    build_config={
+        "runtime": "python312",
+        "entry_point": "data",
+        "source": {
+            "storage_source": {
+                "bucket": app_bucket.name,
+                "object": app_archive.name,
+            },
+        },
+    },
+    service_config={
+        "available_memory": "256M",
+        "timeout_seconds": 60,
+    },
 )
 
-# Create an IAM member to invoke the function.
-invoker = gcp.cloudfunctions.FunctionIamMember(
+# Allow public, unauthenticated invocations of the underlying Cloud Run service.
+invoker = gcp.cloudrun.IamMember(
     "data-function-invoker",
-    project=data_function.project,
-    region=data_function.region,
-    cloud_function=data_function.name,
-    role="roles/cloudfunctions.invoker",
+    location=data_function.location,
+    service=data_function.name,
+    role="roles/run.invoker",
     member="allUsers",
 )
 
@@ -75,7 +83,7 @@ site_config = gcp.storage.BucketObject(
     name="config.json",
     bucket=site_bucket.name,
     content_type="application/json",
-    source=data_function.https_trigger_url.apply(
+    source=data_function.url.apply(
         lambda url: pulumi.StringAsset('{ "api": "' + url + '" }')
     ),
 )
@@ -87,4 +95,4 @@ pulumi.export(
         lambda name: f"https://storage.googleapis.com/{name}/index.html"
     ),
 )
-pulumi.export("apiURL", data_function.https_trigger_url.apply(lambda url: url))
+pulumi.export("apiURL", data_function.url)

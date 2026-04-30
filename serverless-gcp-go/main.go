@@ -3,7 +3,8 @@ package main
 import (
 	"fmt"
 
-	"github.com/pulumi/pulumi-gcp/sdk/v9/go/gcp/cloudfunctions"
+	"github.com/pulumi/pulumi-gcp/sdk/v9/go/gcp/cloudfunctionsv2"
+	"github.com/pulumi/pulumi-gcp/sdk/v9/go/gcp/cloudrun"
 	"github.com/pulumi/pulumi-gcp/sdk/v9/go/gcp/storage"
 	synced "github.com/pulumi/pulumi-synced-folder/sdk/go/synced-folder"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
@@ -30,6 +31,12 @@ func main() {
 		errorDocument := "error.html"
 		if param := cfg.Get("errorDocument"); param != "" {
 			errorDocument = param
+		}
+
+		gcpCfg := config.New(ctx, "gcp")
+		region := gcpCfg.Get("region")
+		if region == "" {
+			region = "us-central1"
 		}
 
 		// Create a storage bucket and configure it as a website.
@@ -82,25 +89,34 @@ func main() {
 			return err
 		}
 
-		// Create a Cloud Function that returns some data.
-		dataFunction, err := cloudfunctions.NewFunction(ctx, "data-function", &cloudfunctions.FunctionArgs{
-			SourceArchiveBucket: appBucket.Name,
-			SourceArchiveObject: appArchive.Name,
-			Runtime:             pulumi.String("go116"),
-			EntryPoint:          pulumi.String("Data"),
-			TriggerHttp:         pulumi.Bool(true),
+		// Create a Cloud Function (Gen 2) that returns some data.
+		dataFunction, err := cloudfunctionsv2.NewFunction(ctx, "data-function", &cloudfunctionsv2.FunctionArgs{
+			Location: pulumi.String(region),
+			BuildConfig: &cloudfunctionsv2.FunctionBuildConfigArgs{
+				Runtime:    pulumi.String("go122"),
+				EntryPoint: pulumi.String("Data"),
+				Source: &cloudfunctionsv2.FunctionBuildConfigSourceArgs{
+					StorageSource: &cloudfunctionsv2.FunctionBuildConfigSourceStorageSourceArgs{
+						Bucket: appBucket.Name,
+						Object: appArchive.Name,
+					},
+				},
+			},
+			ServiceConfig: &cloudfunctionsv2.FunctionServiceConfigArgs{
+				AvailableMemory: pulumi.String("256M"),
+				TimeoutSeconds:  pulumi.Int(60),
+			},
 		})
 		if err != nil {
 			return err
 		}
 
-		// Create an IAM member to invoke the function.
-		_, err = cloudfunctions.NewFunctionIamMember(ctx, "data-function-invoker", &cloudfunctions.FunctionIamMemberArgs{
-			Project:       dataFunction.Project,
-			Region:        dataFunction.Region,
-			CloudFunction: dataFunction.Name,
-			Role:          pulumi.String("roles/cloudfunctions.invoker"),
-			Member:        pulumi.String("allUsers"),
+		// Allow public, unauthenticated invocations of the underlying Cloud Run service.
+		_, err = cloudrun.NewIamMember(ctx, "data-function-invoker", &cloudrun.IamMemberArgs{
+			Location: dataFunction.Location,
+			Service:  dataFunction.Name,
+			Role:     pulumi.String("roles/run.invoker"),
+			Member:   pulumi.String("allUsers"),
 		})
 		if err != nil {
 			return err
@@ -111,7 +127,7 @@ func main() {
 			Name:        pulumi.String("config.json"),
 			Bucket:      siteBucket.Name,
 			ContentType: pulumi.String("application/json"),
-			Source: dataFunction.HttpsTriggerUrl.ApplyT(func(url string) pulumi.AssetOrArchiveOutput {
+			Source: dataFunction.Url.ApplyT(func(url string) pulumi.AssetOrArchiveOutput {
 				config := fmt.Sprintf(`{ "api": "%s" }`, url)
 				return pulumi.NewStringAsset(config).ToAssetOrArchiveOutput()
 			}).(pulumi.AssetOrArchiveOutput),
@@ -122,7 +138,7 @@ func main() {
 
 		// Export the URLs of the website and serverless endpoint.
 		ctx.Export("siteURL", pulumi.Sprintf("https://storage.googleapis.com/%s/index.html", siteBucket.Name))
-		ctx.Export("apiURL", dataFunction.HttpsTriggerUrl)
+		ctx.Export("apiURL", dataFunction.Url)
 
 		return nil
 	})

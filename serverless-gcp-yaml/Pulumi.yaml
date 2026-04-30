@@ -47,7 +47,7 @@ variables:
   # Create a JSON string containing the URL of the serverless app.
   configJSON:
     fn::toJSON:
-      api: ${data-function.httpsTriggerUrl}
+      api: ${data-function.url}
 
   # Create a StringAsset resource to convert the JSON string into a file.
   configFile:
@@ -93,24 +93,29 @@ resources:
       bucket: ${app-bucket.name}
       source: ${appArchive}
 
-  # Create a Cloud Function that returns some data.
+  # Create a Cloud Function (Gen 2) that returns some data.
   data-function:
-    type: gcp:cloudfunctions:Function
+    type: gcp:cloudfunctionsv2:Function
     properties:
-      sourceArchiveBucket: ${app-bucket.name}
-      sourceArchiveObject: ${app-archive.name}
-      runtime: python310
-      entryPoint: data
-      triggerHttp: True
+      location: ${gcp:region}
+      buildConfig:
+        runtime: python312
+        entryPoint: data
+        source:
+          storageSource:
+            bucket: ${app-bucket.name}
+            object: ${app-archive.name}
+      serviceConfig:
+        availableMemory: 256M
+        timeoutSeconds: 60
 
-  # Create an IAM member to invoke the function.
+  # Allow public, unauthenticated invocations of the underlying Cloud Run service.
   invoker:
-    type: gcp:cloudfunctions:FunctionIamMember
+    type: gcp:cloudrun:IamMember
     properties:
-      project: ${data-function.project}
-      region: ${data-function.region}
-      cloudFunction: ${data-function.name}
-      role: roles/cloudfunctions.invoker
+      location: ${data-function.location}
+      service: ${data-function.name}
+      role: roles/run.invoker
       member: allUsers
 
   # Create a JSON configuration file for the website.
@@ -125,4 +130,4 @@ resources:
 # Export the URLs of the website and serverless endpoint.
 outputs:
   siteURL: https://storage.googleapis.com/${site-bucket.name}/index.html
-  apiURL: ${data-function.httpsTriggerUrl}
+  apiURL: ${data-function.url}
