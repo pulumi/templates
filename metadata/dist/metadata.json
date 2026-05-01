@@ -2894,11 +2894,11 @@
                     },
                     "sitePath": {
                         "description": "The path to the folder containing the website",
-                        "default": "./www"
+                        "default": "www"
                     },
                     "appPath": {
                         "description": "The path to the folder containing the functions to be deployed",
-                        "default": "./app"
+                        "default": "app"
                     },
                     "indexDocument": {
                         "description": "The file to use for top-level pages",
@@ -2926,11 +2926,11 @@
                     },
                     "sitePath": {
                         "description": "The path to the folder containing the website",
-                        "default": "./www"
+                        "default": "www"
                     },
                     "appPath": {
                         "description": "The path to the folder containing the functions to be deployed",
-                        "default": "./app"
+                        "default": "app"
                     },
                     "indexDocument": {
                         "description": "The file to use for top-level pages",
@@ -2958,11 +2958,11 @@
                     },
                     "sitePath": {
                         "description": "The path to the folder containing the website",
-                        "default": "./www"
+                        "default": "www"
                     },
                     "appPath": {
                         "description": "The path to the folder containing the functions to be deployed",
-                        "default": "./app"
+                        "default": "app"
                     },
                     "indexDocument": {
                         "description": "The file to use for top-level pages",
@@ -2990,11 +2990,11 @@
                     },
                     "sitePath": {
                         "description": "The path to the folder containing the website",
-                        "default": "./www"
+                        "default": "www"
                     },
                     "appPath": {
                         "description": "The path to the folder containing the functions to be deployed",
-                        "default": "./app"
+                        "default": "app"
                     },
                     "indexDocument": {
                         "description": "The file to use for top-level pages",
@@ -3022,11 +3022,11 @@
                     },
                     "sitePath": {
                         "description": "The path to the folder containing the website",
-                        "default": "./www"
+                        "default": "www"
                     },
                     "appPath": {
                         "description": "The path to the folder containing the functions to be deployed",
-                        "default": "./app"
+                        "default": "app"
                     },
                     "indexDocument": {
                         "description": "The file to use for top-level pages",
@@ -3051,7 +3051,7 @@
                     },
                     "path": {
                         "description": "The path to the folder containing the website",
-                        "default": "./www"
+                        "default": "www"
                     },
                     "indexDocument": {
                         "description": "The file to use for top-level pages",
@@ -3076,7 +3076,7 @@
                     },
                     "path": {
                         "description": "The path to the folder containing the website",
-                        "default": "./www"
+                        "default": "www"
                     },
                     "indexDocument": {
                         "description": "The file to use for top-level pages",
@@ -3101,7 +3101,7 @@
                     },
                     "path": {
                         "description": "The path to the folder containing the website",
-                        "default": "./www"
+                        "default": "www"
                     },
                     "indexDocument": {
                         "description": "The file to use for top-level pages",
@@ -3126,7 +3126,7 @@
                     },
                     "path": {
                         "description": "The path to the folder containing the website",
-                        "default": "./www"
+                        "default": "www"
                     },
                     "indexDocument": {
                         "description": "The file to use for top-level pages",
@@ -3151,7 +3151,7 @@
                     },
                     "path": {
                         "description": "The path to the folder containing the website",
-                        "default": "./www"
+                        "default": "www"
                     },
                     "indexDocument": {
                         "description": "The file to use for top-level pages",
@@ -3176,7 +3176,7 @@
                     },
                     "path": {
                         "description": "The path to the folder containing the website",
-                        "default": "./www"
+                        "default": "www"
                     },
                     "indexDocument": {
                         "description": "The file to use for top-level pages",
