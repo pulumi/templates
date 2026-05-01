@@ -61,13 +61,29 @@ return await Deployment.RunAsync(() =>
         {
             TargetOriginId = bucket.Arn,
             ViewerProtocolPolicy = "redirect-to-https",
-            AllowedMethods = new[] { "GET", "HEAD", "OPTIONS" },
-            CachedMethods = new[] { "GET", "HEAD", "OPTIONS" },
-            Compress = true,
-            // Managed-CachingOptimized
-            CachePolicyId = "658327ea-f89d-4fab-a63d-7e88639e58f6",
-            // Managed-SecurityHeadersPolicy
-            ResponseHeadersPolicyId = "67f7725c-6f97-4210-82d7-5512b31e9d03",
+            AllowedMethods = new[]
+            {
+                "GET",
+                "HEAD",
+                "OPTIONS",
+            },
+            CachedMethods = new[]
+            {
+                "GET",
+                "HEAD",
+                "OPTIONS",
+            },
+            DefaultTtl = 600,
+            MaxTtl = 600,
+            MinTtl = 600,
+            ForwardedValues = new Aws.CloudFront.Inputs.DistributionDefaultCacheBehaviorForwardedValuesArgs
+            {
+                QueryString = true,
+                Cookies = new Aws.CloudFront.Inputs.DistributionDefaultCacheBehaviorForwardedValuesCookiesArgs
+                {
+                    Forward = "all",
+                },
+            },
         },
         PriceClass = "PriceClass_100",
         CustomErrorResponses = new[]

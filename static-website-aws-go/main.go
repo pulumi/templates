@@ -91,11 +91,15 @@ func main() {
 					pulumi.String("HEAD"),
 					pulumi.String("OPTIONS"),
 				},
-				Compress: pulumi.Bool(true),
-				// Managed-CachingOptimized
-				CachePolicyId: pulumi.String("658327ea-f89d-4fab-a63d-7e88639e58f6"),
-				// Managed-SecurityHeadersPolicy
-				ResponseHeadersPolicyId: pulumi.String("67f7725c-6f97-4210-82d7-5512b31e9d03"),
+				DefaultTtl: pulumi.Int(600),
+				MaxTtl:     pulumi.Int(600),
+				MinTtl:     pulumi.Int(600),
+				ForwardedValues: &cloudfront.DistributionDefaultCacheBehaviorForwardedValuesArgs{
+					QueryString: pulumi.Bool(true),
+					Cookies: &cloudfront.DistributionDefaultCacheBehaviorForwardedValuesCookiesArgs{
+						Forward: pulumi.String("all"),
+					},
+				},
 			},
 			PriceClass: pulumi.String("PriceClass_100"),
 			CustomErrorResponses: cloudfront.DistributionCustomErrorResponseArray{

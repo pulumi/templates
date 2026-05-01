@@ -46,13 +46,25 @@ const cdn = new aws.cloudfront.Distribution("cdn", {
     defaultCacheBehavior: {
         targetOriginId: bucket.arn,
         viewerProtocolPolicy: "redirect-to-https",
-        allowedMethods: ["GET", "HEAD", "OPTIONS"],
-        cachedMethods: ["GET", "HEAD", "OPTIONS"],
-        compress: true,
-        // Managed-CachingOptimized
-        cachePolicyId: "658327ea-f89d-4fab-a63d-7e88639e58f6",
-        // Managed-SecurityHeadersPolicy
-        responseHeadersPolicyId: "67f7725c-6f97-4210-82d7-5512b31e9d03",
+        allowedMethods: [
+            "GET",
+            "HEAD",
+            "OPTIONS",
+        ],
+        cachedMethods: [
+            "GET",
+            "HEAD",
+            "OPTIONS",
+        ],
+        defaultTtl: 600,
+        maxTtl: 600,
+        minTtl: 600,
+        forwardedValues: {
+            queryString: true,
+            cookies: {
+                forward: "all",
+            },
+        },
     },
     priceClass: "PriceClass_100",
     customErrorResponses: [{
