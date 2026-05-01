@@ -10,7 +10,7 @@ template:
       default: us-west-2
     path:
       description: The path to the folder containing the website
-      default: ./www
+      default: www
     indexDocument:
       description: The file to use for top-level pages
       default: index.html
@@ -22,7 +22,7 @@ template:
 config:
   path:
     type: string
-    default: ./www
+    default: www
   indexDocument:
     type: string
     default: index.html
@@ -109,7 +109,7 @@ resources:
       bucket: ${bucket.id}
       policy:
         fn::toJSON:
-          Version: 2012-10-17
+          Version: "2012-10-17"
           Statement:
             - Sid: AllowCloudFrontServicePrincipalReadOnly
               Effect: Allow
@@ -119,7 +119,7 @@ resources:
               Resource: ${bucket.arn}/*
               Condition:
                 StringEquals:
-                  AWS:SourceArn: ${cdn.arn}
+                  "AWS:SourceArn": ${cdn.arn}
 
 # Export the URLs and hostnames of the bucket and distribution.
 outputs:
