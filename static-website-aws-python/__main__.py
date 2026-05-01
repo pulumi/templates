@@ -1,68 +1,55 @@
+import json
+
 import pulumi
 import pulumi_aws as aws
 import pulumi_synced_folder as synced_folder
 
 # Import the program's configuration settings.
 config = pulumi.Config()
-path = config.get("path") or "./www"
+path = config.get("path") or "www"
 index_document = config.get("indexDocument") or "index.html"
 error_document = config.get("errorDocument") or "error.html"
 
-# Create an S3 bucket and configure it as a website.
-bucket = aws.s3.Bucket(
-    "bucket",
-    website={
-        "index_document": index_document,
-        "error_document": error_document,
-    },
-)
+# Create a private S3 bucket to hold the website content.
+bucket = aws.s3.Bucket("bucket")
 
-bucket_website = aws.s3.BucketWebsiteConfiguration(
-    "bucket",
-    bucket=bucket.bucket,
-    index_document={"suffix": index_document},
-    error_document={"key": error_document},
-)
-
-# Set ownership controls for the new bucket
-ownership_controls = aws.s3.BucketOwnershipControls(
-    "ownership-controls",
-    bucket=bucket.bucket,
-    rule={
-        "object_ownership": "ObjectWriter",
-    },
-)
-
-# Configure public ACL block on the new bucket
+# Block all public access to the bucket; CloudFront will reach it via OAC.
 public_access_block = aws.s3.BucketPublicAccessBlock(
     "public-access-block",
     bucket=bucket.bucket,
-    block_public_acls=False,
+    block_public_acls=True,
+    block_public_policy=True,
+    ignore_public_acls=True,
+    restrict_public_buckets=True,
 )
 
-# Use a synced folder to manage the files of the website.
+# Sync the website files to the bucket as private objects.
 bucket_folder = synced_folder.S3BucketFolder(
     "bucket-folder",
-    acl="public-read",
+    acl="private",
     bucket_name=bucket.bucket,
     path=path,
-    opts=pulumi.ResourceOptions(depends_on=[ownership_controls, public_access_block]),
+    opts=pulumi.ResourceOptions(depends_on=[public_access_block]),
+)
+
+# Create an Origin Access Control so CloudFront can read from the private bucket.
+origin_access_control = aws.cloudfront.OriginAccessControl(
+    "origin-access-control",
+    origin_access_control_origin_type="s3",
+    signing_behavior="always",
+    signing_protocol="sigv4",
 )
 
 # Create a CloudFront CDN to distribute and cache the website.
 cdn = aws.cloudfront.Distribution(
     "cdn",
     enabled=True,
+    default_root_object=index_document,
     origins=[
         {
             "origin_id": bucket.arn,
-            "domain_name": bucket_website.website_endpoint,
-            "custom_origin_config": {
-                "origin_protocol_policy": "http-only",
-                "http_port": 80,
-                "https_port": 443,
-                "origin_ssl_protocols": ["TLSv1.2"],
-            },
+            "domain_name": bucket.bucket_regional_domain_name,
+            "origin_access_control_id": origin_access_control.id,
         }
     ],
     default_cache_behavior={
@@ -106,8 +93,28 @@ cdn = aws.cloudfront.Distribution(
     },
 )
 
-# Export the URLs and hostnames of the bucket and distribution.
-pulumi.export("originURL", pulumi.Output.concat("http://", bucket_website.website_endpoint))
-pulumi.export("originHostname", bucket.website_endpoint)
+# Grant the CloudFront distribution permission to read objects from the bucket.
+bucket_policy = aws.s3.BucketPolicy(
+    "bucket-policy",
+    bucket=bucket.bucket,
+    policy=pulumi.Output.all(bucket_arn=bucket.arn, cdn_arn=cdn.arn).apply(
+        lambda args: json.dumps(
+            {
+                "Version": "2012-10-17",
+                "Statement": {
+                    "Effect": "Allow",
+                    "Principal": {"Service": "cloudfront.amazonaws.com"},
+                    "Action": "s3:GetObject",
+                    "Resource": f"{args['bucket_arn']}/*",
+                    "Condition": {
+                        "StringEquals": {"AWS:SourceArn": args["cdn_arn"]},
+                    },
+                },
+            }
+        )
+    ),
+)
+
+# Export the URL and hostname of the CloudFront distribution.
 pulumi.export("cdnURL", pulumi.Output.concat("https://", cdn.domain_name))
 pulumi.export("cdnHostname", cdn.domain_name)

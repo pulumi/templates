@@ -1,2 +1,2 @@
-functions-framework==3.2.0
-flask==2.2.5
+functions-framework==3.8.1
+flask==3.0.3

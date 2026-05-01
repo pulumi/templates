@@ -10,7 +10,7 @@ template:
       default: us-west-2
     path:
       description: The path to the folder containing the website
-      default: ./www
+      default: www
     indexDocument:
       description: The file to use for top-level pages
       default: index.html
@@ -22,7 +22,7 @@ template:
 config:
   path:
     type: string
-    default: ./www
+    default: www
   indexDocument:
     type: string
     default: index.html
@@ -32,60 +32,49 @@ config:
 
 resources:
 
-  # Create an S3 bucket and configure it as a website.
+  # Create a private S3 bucket to hold the website content.
   bucket:
     type: aws:s3:Bucket
 
-  bucketWebsite:
-    properties:
-      bucket: ${bucket.bucket}
-      errorDocument:
-        key: ${errorDocument}
-      indexDocument:
-        suffix: ${indexDocument}
-    type: aws:s3:BucketWebsiteConfiguration
-
-  # Assign ownership controls to the new S3 bucket
-  ownership-controls:
-    properties:
-      bucket: ${bucket.id}
-      rule:
-        objectOwnership: ObjectWriter
-    type: aws:s3:BucketOwnershipControls
-
-  # Configure the public access block for the new S3 bucket
+  # Block all public access to the bucket; CloudFront will reach it via OAC.
   public-access-block:
+    type: aws:s3:BucketPublicAccessBlock
     properties:
       bucket: ${bucket.id}
-      blockPublicAcls: false
-    type: aws:s3:BucketPublicAccessBlock
+      blockPublicAcls: true
+      blockPublicPolicy: true
+      ignorePublicAcls: true
+      restrictPublicBuckets: true
 
-  # Use a synced folder to manage the files of the website.
+  # Sync the website files to the bucket as private objects.
   bucket-folder:
+    type: synced-folder:index:S3BucketFolder
     options:
       dependsOn:
-        - ${ownership-controls}
         - ${public-access-block}
     properties:
-      acl: public-read
+      acl: private
       bucketName: ${bucket.bucket}
       path: ${path}
-    type: synced-folder:index:S3BucketFolder
+
+  # Create an Origin Access Control so CloudFront can read from the private bucket.
+  origin-access-control:
+    type: aws:cloudfront:OriginAccessControl
+    properties:
+      originAccessControlOriginType: s3
+      signingBehavior: always
+      signingProtocol: sigv4
 
   # Create a CloudFront CDN to distribute and cache the website.
   cdn:
     type: aws:cloudfront:Distribution
     properties:
       enabled: true
+      defaultRootObject: ${indexDocument}
       origins:
         - originId: ${bucket.arn}
-          domainName: ${bucketWebsite.websiteEndpoint}
-          customOriginConfig:
-            originProtocolPolicy: http-only
-            httpPort: 80
-            httpsPort: 443
-            originSslProtocols:
-              - TLSv1.2
+          domainName: ${bucket.bucketRegionalDomainName}
+          originAccessControlId: ${origin-access-control.id}
       defaultCacheBehavior:
         targetOriginId: ${bucket.arn}
         viewerProtocolPolicy: redirect-to-https
@@ -97,7 +86,6 @@ resources:
           - GET
           - HEAD
           - OPTIONS
-        compress: true
         defaultTtl: 600
         maxTtl: 600
         minTtl: 600
@@ -116,9 +104,25 @@ resources:
       viewerCertificate:
         cloudfrontDefaultCertificate: true
 
-# Export the URLs and hostnames of the bucket and distribution.
+  # Grant the CloudFront distribution permission to read objects from the bucket.
+  bucket-policy:
+    type: aws:s3:BucketPolicy
+    properties:
+      bucket: ${bucket.id}
+      policy:
+        fn::toJSON:
+          Version: "2012-10-17"
+          Statement:
+            Effect: Allow
+            Principal:
+              Service: cloudfront.amazonaws.com
+            Action: s3:GetObject
+            Resource: ${bucket.arn}/*
+            Condition:
+              StringEquals:
+                "AWS:SourceArn": ${cdn.arn}
+
+# Export the URL and hostname of the CloudFront distribution.
 outputs:
-  originURL: http://${bucketWebsite.websiteEndpoint}
-  originHostname: ${bucketWebsite.websiteEndpoint}
   cdnURL: https://${cdn.domainName}
   cdnHostname: ${cdn.domainName}

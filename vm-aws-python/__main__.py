@@ -10,12 +10,12 @@ vpc_network_cidr = config.get("vpcNetworkCidr")
 if vpc_network_cidr is None:
     vpc_network_cidr = "10.0.0.0/16"
 
-# Look up the latest Amazon Linux 2 AMI.
+# Look up the latest Amazon Linux 2023 AMI.
 ami = aws.ec2.get_ami(
     filters=[
         {
             "name": "name",
-            "values": ["amzn2-ami-hvm-*"],
+            "values": ["al2023-ami-2023.*-x86_64"],
         }
     ],
     owners=["amazon"],
@@ -25,7 +25,7 @@ ami = aws.ec2.get_ami(
 # User data to start a HTTP server in the EC2 instance
 user_data = """#!/bin/bash
 echo "Hello, World from Pulumi!" > index.html
-nohup python -m SimpleHTTPServer 80 &
+nohup python3 -m http.server 80 &
 """
 
 # Create VPC.

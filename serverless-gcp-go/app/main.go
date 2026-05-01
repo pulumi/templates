@@ -4,7 +4,13 @@ import (
 	"fmt"
 	"net/http"
 	"time"
+
+	"github.com/GoogleCloudPlatform/functions-framework-go/functions"
 )
+
+func init() {
+	functions.HTTP("Data", Data)
+}
 
 func Data(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Access-Control-Allow-Origin", "*")

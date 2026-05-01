@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
 
 	"github.com/pulumi/pulumi-aws/sdk/v7/go/aws/cloudfront"
@@ -15,7 +16,7 @@ func main() {
 
 		// Import the program's configuration settings.
 		cfg := config.New(ctx, "")
-		path := "./www"
+		path := "www"
 		if param := cfg.Get("path"); param != "" {
 			path = param
 		}
@@ -28,70 +29,53 @@ func main() {
 			errorDocument = param
 		}
 
-		// Create an S3 bucket and configure it as a website.
+		// Create a private S3 bucket to hold the website content.
 		bucket, err := s3.NewBucket(ctx, "bucket", nil)
 		if err != nil {
 			return err
 		}
 
-		bucketWebsite, err := s3.NewBucketWebsiteConfiguration(ctx, "bucket", &s3.BucketWebsiteConfigurationArgs{
-			Bucket: bucket.Bucket,
-			IndexDocument: s3.BucketWebsiteConfigurationIndexDocumentArgs{
-				Suffix: pulumi.String(indexDocument),
-			},
-			ErrorDocument: s3.BucketWebsiteConfigurationErrorDocumentArgs{
-				Key: pulumi.String(errorDocument),
-			},
-		})
-		if err != nil {
-			return err
-		}
-
-		// Set ownership controls for the new S3 bucket
-		ownershipControls, err := s3.NewBucketOwnershipControls(ctx, "ownership-controls", &s3.BucketOwnershipControlsArgs{
-			Bucket: bucket.Bucket,
-			Rule: &s3.BucketOwnershipControlsRuleArgs{
-				ObjectOwnership: pulumi.String("ObjectWriter"),
-			},
-		})
-		if err != nil {
-			return err
-		}
-
-		// Configure public access block for the new S3 bucket
+		// Block all public access to the bucket; CloudFront will reach it via OAC.
 		publicAccessBlock, err := s3.NewBucketPublicAccessBlock(ctx, "public-access-block", &s3.BucketPublicAccessBlockArgs{
-			Bucket:          bucket.Bucket,
-			BlockPublicAcls: pulumi.Bool(false),
+			Bucket:                bucket.Bucket,
+			BlockPublicAcls:       pulumi.Bool(true),
+			BlockPublicPolicy:     pulumi.Bool(true),
+			IgnorePublicAcls:      pulumi.Bool(true),
+			RestrictPublicBuckets: pulumi.Bool(true),
 		})
 		if err != nil {
 			return err
 		}
 
-		// Use a synced folder to manage the files of the website.
+		// Sync the website files to the bucket as private objects.
 		_, err = synced.NewS3BucketFolder(ctx, "bucket-folder", &synced.S3BucketFolderArgs{
 			Path:       pulumi.String(path),
 			BucketName: bucket.Bucket,
-			Acl:        pulumi.String("public-read"),
-		}, pulumi.DependsOn([]pulumi.Resource{ownershipControls, publicAccessBlock}))
+			Acl:        pulumi.String("private"),
+		}, pulumi.DependsOn([]pulumi.Resource{publicAccessBlock}))
+		if err != nil {
+			return err
+		}
+
+		// Create an Origin Access Control so CloudFront can read from the private bucket.
+		originAccessControl, err := cloudfront.NewOriginAccessControl(ctx, "origin-access-control", &cloudfront.OriginAccessControlArgs{
+			OriginAccessControlOriginType: pulumi.String("s3"),
+			SigningBehavior:               pulumi.String("always"),
+			SigningProtocol:               pulumi.String("sigv4"),
+		})
 		if err != nil {
 			return err
 		}
 
 		// Create a CloudFront CDN to distribute and cache the website.
 		cdn, err := cloudfront.NewDistribution(ctx, "cdn", &cloudfront.DistributionArgs{
-			Enabled: pulumi.Bool(true),
+			Enabled:           pulumi.Bool(true),
+			DefaultRootObject: pulumi.String(indexDocument),
 			Origins: cloudfront.DistributionOriginArray{
 				&cloudfront.DistributionOriginArgs{
-					OriginId:   bucket.Arn,
-					DomainName: bucketWebsite.WebsiteEndpoint,
-					CustomOriginConfig: &cloudfront.DistributionOriginCustomOriginConfigArgs{
-						OriginProtocolPolicy: pulumi.String("http-only"),
-						HttpPort:             pulumi.Int(80),
-						HttpsPort:            pulumi.Int(443),
-						OriginSslProtocols: pulumi.StringArray{
-							pulumi.String("TLSv1.2"),
-						},
-					},
+					OriginId:              bucket.Arn,
+					DomainName:            bucket.BucketRegionalDomainName,
+					OriginAccessControlId: originAccessControl.ID(),
 				},
 			},
 			DefaultCacheBehavior: &cloudfront.DistributionDefaultCacheBehaviorArgs{
@@ -138,9 +122,36 @@ func main() {
 			return err
 		}
 
-		// Export the URLs and hostnames of the bucket and distribution.
-		ctx.Export("originURL", pulumi.Sprintf("http://%s", bucketWebsite.WebsiteEndpoint))
-		ctx.Export("originHostname", bucketWebsite.WebsiteEndpoint)
+		// Grant the CloudFront distribution permission to read objects from the bucket.
+		_, err = s3.NewBucketPolicy(ctx, "bucket-policy", &s3.BucketPolicyArgs{
+			Bucket: bucket.Bucket,
+			Policy: pulumi.All(bucket.Arn, cdn.Arn).ApplyT(func(args []interface{}) (string, error) {
+				bucketArn := args[0].(string)
+				cdnArn := args[1].(string)
+				doc := map[string]interface{}{
+					"Version": "2012-10-17",
+					"Statement": map[string]interface{}{
+						"Effect":    "Allow",
+						"Principal": map[string]interface{}{"Service": "cloudfront.amazonaws.com"},
+						"Action":    "s3:GetObject",
+						"Resource":  fmt.Sprintf("%s/*", bucketArn),
+						"Condition": map[string]interface{}{
+							"StringEquals": map[string]interface{}{"AWS:SourceArn": cdnArn},
+						},
+					},
+				}
+				b, err := json.Marshal(doc)
+				if err != nil {
+					return "", err
+				}
+				return string(b), nil
+			}).(pulumi.StringOutput),
+		})
+		if err != nil {
+			return err
+		}
+
+		// Export the URL and hostname of the CloudFront distribution.
 		ctx.Export("cdnURL", pulumi.Sprintf("https://%s", cdn.DomainName))
 		ctx.Export("cdnHostname", cdn.DomainName)
 		return nil
