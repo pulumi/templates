@@ -4,8 +4,8 @@ import * as synced from "@pulumi/synced-folder";
 
 // Import the program's configuration settings.
 const config = new pulumi.Config();
-const sitePath = config.get("path") || "./www";
-const appPath = config.get("appPath") || "./app";
+const sitePath = config.get("path") || "www";
+const appPath = config.get("appPath") || "app";
 const indexDocument = config.get("indexDocument") || "index.html";
 const errorDocument = config.get("errorDocument") || "error.html";
 

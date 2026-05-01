@@ -16,11 +16,11 @@ func main() {
 
 		// Import the program's configuration settings.
 		cfg := config.New(ctx, "")
-		sitePath := "./www"
+		sitePath := "www"
 		if param := cfg.Get("sitePath"); param != "" {
 			sitePath = param
 		}
-		appPath := "./app"
+		appPath := "app"
 		if param := cfg.Get("appPath"); param != "" {
 			appPath = param
 		}

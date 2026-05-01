@@ -4,8 +4,8 @@ import pulumi_synced_folder as synced
 
 # Import the program's configuration settings.
 config = pulumi.Config()
-site_path = config.get("sitePath", "./www")
-app_path = config.get("appPath", "./app")
+site_path = config.get("sitePath", "www")
+app_path = config.get("appPath", "app")
 index_document = config.get("indexDocument", "index.html")
 error_document = config.get("errorDocument", "error.html")
 region = gcp.config.region or "us-central1"

@@ -8,8 +8,8 @@ return await Deployment.RunAsync(() =>
 {
     // Import the program's configuration settings.
     var config = new Config();
-    var sitePath = config.Get("sitePath") ?? "./www";
-    var appPath = config.Get("appPath") ?? "./app";
+    var sitePath = config.Get("sitePath") ?? "www";
+    var appPath = config.Get("appPath") ?? "app";
     var indexDocument = config.Get("indexDocument") ?? "index.html";
     var errorDocument = config.Get("errorDocument") ?? "error.html";
     var region = new Config("gcp").Get("region") ?? "us-central1";

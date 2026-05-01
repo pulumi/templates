@@ -6,7 +6,7 @@ import pulumi_synced_folder as synced_folder
 
 # Import the program's configuration settings.
 config = pulumi.Config()
-path = config.get("path") or "./www"
+path = config.get("path") or "www"
 index_document = config.get("indexDocument") or "index.html"
 error_document = config.get("errorDocument") or "error.html"
 
