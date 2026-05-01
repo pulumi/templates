@@ -123,8 +123,7 @@ resources:
                 StringEquals:
                   "AWS:SourceArn": ${cdn.arn}
 
-# Export the URLs and hostnames of the bucket and distribution.
+# Export the URL and hostname of the CloudFront distribution.
 outputs:
-  originHostname: ${bucket.bucketRegionalDomainName}
   cdnURL: https://${cdn.domainName}
   cdnHostname: ${cdn.domainName}

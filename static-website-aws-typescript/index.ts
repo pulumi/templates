@@ -100,7 +100,6 @@ const bucketPolicy = new aws.s3.BucketPolicy("bucket-policy", {
     }),
 });
 
-// Export the URLs and hostnames of the bucket and distribution.
-export const originHostname = bucket.bucketRegionalDomainName;
+// Export the URL and hostname of the CloudFront distribution.
 export const cdnURL = pulumi.interpolate`https://${cdn.domainName}`;
 export const cdnHostname = cdn.domainName;

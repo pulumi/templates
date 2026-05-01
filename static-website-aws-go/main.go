@@ -154,8 +154,7 @@ func main() {
 			return err
 		}
 
-		// Export the URLs and hostnames of the bucket and distribution.
-		ctx.Export("originHostname", bucket.BucketRegionalDomainName)
+		// Export the URL and hostname of the CloudFront distribution.
 		ctx.Export("cdnURL", pulumi.Sprintf("https://%s", cdn.DomainName))
 		ctx.Export("cdnHostname", cdn.DomainName)
 		return nil

@@ -140,10 +140,9 @@ return await Deployment.RunAsync(() =>
         }),
     });
 
-    // Export the URLs and hostnames of the bucket and distribution.
+    // Export the URL and hostname of the CloudFront distribution.
     return new Dictionary<string, object?>
     {
-        ["originHostname"] = bucket.BucketRegionalDomainName,
         ["cdnURL"] = Output.Format($"https://{cdn.DomainName}"),
         ["cdnHostname"] = cdn.DomainName,
     };

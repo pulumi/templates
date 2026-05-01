@@ -118,7 +118,6 @@ bucket_policy = aws.s3.BucketPolicy(
     ),
 )
 
-# Export the URLs and hostnames of the bucket and distribution.
-pulumi.export("originHostname", bucket.bucket_regional_domain_name)
+# Export the URL and hostname of the CloudFront distribution.
 pulumi.export("cdnURL", pulumi.Output.concat("https://", cdn.domain_name))
 pulumi.export("cdnHostname", cdn.domain_name)
