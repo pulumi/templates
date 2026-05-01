@@ -130,16 +130,13 @@ func main() {
 				cdnArn := args[1].(string)
 				doc := map[string]interface{}{
 					"Version": "2012-10-17",
-					"Statement": []interface{}{
-						map[string]interface{}{
-							"Sid":      "AllowCloudFrontServicePrincipalReadOnly",
-							"Effect":   "Allow",
-							"Principal": map[string]interface{}{"Service": "cloudfront.amazonaws.com"},
-							"Action":   "s3:GetObject",
-							"Resource": fmt.Sprintf("%s/*", bucketArn),
-							"Condition": map[string]interface{}{
-								"StringEquals": map[string]interface{}{"AWS:SourceArn": cdnArn},
-							},
+					"Statement": map[string]interface{}{
+						"Effect":    "Allow",
+						"Principal": map[string]interface{}{"Service": "cloudfront.amazonaws.com"},
+						"Action":    "s3:GetObject",
+						"Resource":  fmt.Sprintf("%s/*", bucketArn),
+						"Condition": map[string]interface{}{
+							"StringEquals": map[string]interface{}{"AWS:SourceArn": cdnArn},
 						},
 					},
 				}

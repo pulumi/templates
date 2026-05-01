@@ -101,18 +101,15 @@ bucket_policy = aws.s3.BucketPolicy(
         lambda args: json.dumps(
             {
                 "Version": "2012-10-17",
-                "Statement": [
-                    {
-                        "Sid": "AllowCloudFrontServicePrincipalReadOnly",
-                        "Effect": "Allow",
-                        "Principal": {"Service": "cloudfront.amazonaws.com"},
-                        "Action": "s3:GetObject",
-                        "Resource": f"{args['bucket_arn']}/*",
-                        "Condition": {
-                            "StringEquals": {"AWS:SourceArn": args["cdn_arn"]},
-                        },
-                    }
-                ],
+                "Statement": {
+                    "Effect": "Allow",
+                    "Principal": {"Service": "cloudfront.amazonaws.com"},
+                    "Action": "s3:GetObject",
+                    "Resource": f"{args['bucket_arn']}/*",
+                    "Condition": {
+                        "StringEquals": {"AWS:SourceArn": args["cdn_arn"]},
+                    },
+                },
             }
         )
     ),

@@ -118,21 +118,17 @@ return await Deployment.RunAsync(() =>
             return JsonSerializer.Serialize(new
             {
                 Version = "2012-10-17",
-                Statement = new[]
+                Statement = new
                 {
-                    new
+                    Effect = "Allow",
+                    Principal = new { Service = "cloudfront.amazonaws.com" },
+                    Action = "s3:GetObject",
+                    Resource = $"{bucketArn}/*",
+                    Condition = new
                     {
-                        Sid = "AllowCloudFrontServicePrincipalReadOnly",
-                        Effect = "Allow",
-                        Principal = new { Service = "cloudfront.amazonaws.com" },
-                        Action = "s3:GetObject",
-                        Resource = $"{bucketArn}/*",
-                        Condition = new
+                        StringEquals = new Dictionary<string, string>
                         {
-                            StringEquals = new Dictionary<string, string>
-                            {
-                                { "AWS:SourceArn", cdnArn },
-                            },
+                            { "AWS:SourceArn", cdnArn },
                         },
                     },
                 },

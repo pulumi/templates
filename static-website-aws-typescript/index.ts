@@ -87,8 +87,7 @@ const bucketPolicy = new aws.s3.BucketPolicy("bucket-policy", {
     bucket: bucket.bucket,
     policy: pulumi.jsonStringify({
         Version: "2012-10-17",
-        Statement: [{
-            Sid: "AllowCloudFrontServicePrincipalReadOnly",
+        Statement: {
             Effect: "Allow",
             Principal: { Service: "cloudfront.amazonaws.com" },
             Action: "s3:GetObject",
@@ -96,7 +95,7 @@ const bucketPolicy = new aws.s3.BucketPolicy("bucket-policy", {
             Condition: {
                 StringEquals: { "AWS:SourceArn": cdn.arn },
             },
-        }],
+        },
     }),
 });
 

@@ -113,15 +113,14 @@ resources:
         fn::toJSON:
           Version: "2012-10-17"
           Statement:
-            - Sid: AllowCloudFrontServicePrincipalReadOnly
-              Effect: Allow
-              Principal:
-                Service: cloudfront.amazonaws.com
-              Action: s3:GetObject
-              Resource: ${bucket.arn}/*
-              Condition:
-                StringEquals:
-                  "AWS:SourceArn": ${cdn.arn}
+            Effect: Allow
+            Principal:
+              Service: cloudfront.amazonaws.com
+            Action: s3:GetObject
+            Resource: ${bucket.arn}/*
+            Condition:
+              StringEquals:
+                "AWS:SourceArn": ${cdn.arn}
 
 # Export the URL and hostname of the CloudFront distribution.
 outputs:
