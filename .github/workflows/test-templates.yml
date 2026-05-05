@@ -29,10 +29,11 @@ env:
   PULUMI_API: https://api.pulumi-staging.io
   PULUMI_VERSION: ${{ github.event.client_payload.ref }}
   SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-  ARM_CLIENT_ID:  ${{ secrets.ARM_CLIENT_ID }}
-  ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
-  ARM_SUBSCRIPTION_ID:  ${{ secrets.ARM_SUBSCRIPTION_ID }}
-  ARM_TENANT_ID:  ${{ secrets.ARM_TENANT_ID }}
+  ESC_ACTION_OIDC_AUTH: true
+  ESC_ACTION_OIDC_ORGANIZATION: pulumi
+  ESC_ACTION_OIDC_REQUESTED_TOKEN_TYPE: urn:pulumi:token-type:access_token:organization
+  ESC_ACTION_ENVIRONMENT: imports/github-secrets
+  ESC_ACTION_EXPORT_ENVIRONMENT_VARIABLES: ARM_CLIENT_ID,ARM_CLIENT_SECRET,ARM_TENANT_ID,ARM_SUBSCRIPTION_ID
   AZURE_LOCATION: westus
   TESTPARALLELISM: 10
   PULUMI_TEMPLATE_LOCATION: ${{ github.workspace}}
@@ -75,6 +76,10 @@ jobs:
         with:
           tool-cache: false
           swap-storage: false
+
+      - name: Fetch secrets from ESC
+        id: esc-secrets
+        uses: pulumi/esc-action@6cf9520e68354d86f81c455e8d43eabd58f5c9f5 # v1
 
       - name: Install ${{ matrix.java-version }} (${{ matrix.java-distribution }})
         uses: actions/setup-java@v4
