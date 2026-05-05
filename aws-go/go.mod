@@ -4,5 +4,5 @@ go 1.25
 
 require (
 	github.com/pulumi/pulumi-aws/sdk/v7 v7.28.0
-	github.com/pulumi/pulumi/sdk/v3 v3.234.0
+	github.com/pulumi/pulumi/sdk/v3 v3.235.0
 )
