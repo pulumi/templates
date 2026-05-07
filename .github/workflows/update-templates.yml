@@ -35,3 +35,16 @@ jobs:
           pr_title: "Update Go template dependencies to their latest versions"
           pr_body: "This PR was generated automatically, most likely in response to a [pulumi/pulumi release](https://github.com/pulumi/pulumi/releases)."
           github_token: ${{ secrets.PULUMI_BOT_TOKEN }}
+      - name: Close superseded upgrade PRs
+        env:
+          GH_TOKEN: ${{ secrets.PULUMI_BOT_TOKEN }}
+          NEW_BRANCH: templates/${{ github.run_id }}-${{ github.run_number }}
+        run: |
+          new_pr=$(gh pr view "$NEW_BRANCH" --json number --jq .number)
+          gh pr list --state open --author pulumi-bot \
+            --json number,headRefName \
+            --jq ".[] | select(.headRefName != \"$NEW_BRANCH\" and (.headRefName | startswith(\"templates/\"))) | .number" \
+            | while read -r pr; do
+                gh pr close "$pr" --delete-branch \
+                  --comment "Superseded by #${new_pr}."
+              done
