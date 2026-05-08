@@ -31,7 +31,7 @@ env:
   ESC_ACTION_OIDC_ORGANIZATION: pulumi
   ESC_ACTION_OIDC_REQUESTED_TOKEN_TYPE: urn:pulumi:token-type:access_token:organization
   ESC_ACTION_ENVIRONMENT: github-secrets/pulumi-templates
-  ESC_ACTION_EXPORT_ENVIRONMENT_VARIABLES: PULUMI_ACCESS_TOKEN,LINODE_TOKEN,SLACK_WEBHOOK_URL,ARM_CLIENT_ID,ARM_CLIENT_SECRET,ARM_SUBSCRIPTION_ID,ARM_TENANT_ID
+  ESC_ACTION_EXPORT_ENVIRONMENT_VARIABLES: LINODE_TOKEN,SLACK_WEBHOOK_URL,ARM_CLIENT_ID,ARM_CLIENT_SECRET,ARM_SUBSCRIPTION_ID,ARM_TENANT_ID
   AZURE_LOCATION: westus
   TESTPARALLELISM: 10
   PULUMI_TEMPLATE_LOCATION: ${{ github.workspace}}
@@ -71,6 +71,9 @@ jobs:
       - name: Fetch secrets from ESC
         id: esc-secrets
         uses: pulumi/esc-action@v1
+      - name: Use staging Pulumi token
+        shell: bash
+        run: echo "PULUMI_ACCESS_TOKEN=${{ steps.esc-secrets.outputs.PULUMI_ACCESS_TOKEN_STAGING }}" >> "$GITHUB_ENV"
       - if: contains(matrix.platform, 'ubuntu')
         name: Free Disk Space (Ubuntu)
         uses: jlumbroso/free-disk-space@v1.3.1
