@@ -78,10 +78,6 @@ jobs:
           tool-cache: false
           swap-storage: false
 
-      - name: Fetch secrets from ESC
-        id: esc-secrets
-        uses: pulumi/esc-action@6cf9520e68354d86f81c455e8d43eabd58f5c9f5 # v1
-
       - name: Install ${{ matrix.java-version }} (${{ matrix.java-distribution }})
         uses: actions/setup-java@v4
         with:
