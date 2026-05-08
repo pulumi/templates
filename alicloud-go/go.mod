@@ -4,5 +4,5 @@ go 1.25
 
 require (
 	github.com/pulumi/pulumi-alicloud/sdk/v3 v3.101.0
-	github.com/pulumi/pulumi/sdk/v3 v3.236.0
+	github.com/pulumi/pulumi/sdk/v3 v3.237.0
 )
