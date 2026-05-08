@@ -36,6 +36,12 @@ env:
   TESTPARALLELISM: 10
   PULUMI_TEMPLATE_LOCATION: ${{ github.workspace}}
   PULUMI_ENABLE_JOURNALING: "true"
+  # Use git's reftable backend for new repos (including the bare repos `go get`
+  # creates under $GOMODCACHE/cache/vcs/<hash>/). The `files` backend can't
+  # store refs that differ only in case on case-insensitive filesystems like
+  # macOS APFS, and an aborted fetch leaves orphaned ref locks that break
+  # subsequent parallel `go get -u .../sdk/v3@master` invocations.
+  GIT_DEFAULT_REF_FORMAT: reftable
 jobs:
   test:
     name: ${{ matrix.platform }}
