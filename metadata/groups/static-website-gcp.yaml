@@ -10,3 +10,4 @@ templates:
   - static-website-gcp-go
   - static-website-gcp-csharp
   - static-website-gcp-yaml
+  - static-website-gcp-hcl

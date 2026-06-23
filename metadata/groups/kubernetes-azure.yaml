@@ -10,3 +10,4 @@ templates:
   - kubernetes-azure-go
   - kubernetes-azure-csharp
   - kubernetes-azure-yaml
+  - kubernetes-azure-hcl

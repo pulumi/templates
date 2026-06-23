@@ -1,0 +1,23 @@
+name: ${PROJECT}
+description: ${DESCRIPTION}
+runtime: hcl
+template:
+  description: A Pulumi HCL program to deploy a serverless application on Google Cloud
+  config:
+    google:project:
+      description: The Google Cloud project to deploy into
+    region:
+      description: The Google Cloud region to deploy into
+      default: us-central1
+    site_path:
+      description: The path to the folder containing the website
+      default: ./www
+    app_path:
+      description: The path to the folder containing the function to deploy
+      default: ./app
+    index_document:
+      description: The file to use for top-level pages
+      default: index.html
+    error_document:
+      description: The file to use for error pages
+      default: error.html

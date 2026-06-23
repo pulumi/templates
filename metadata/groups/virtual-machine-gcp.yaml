@@ -10,3 +10,4 @@ templates:
   - vm-gcp-go
   - vm-gcp-csharp
   - vm-gcp-yaml
+  - vm-gcp-hcl

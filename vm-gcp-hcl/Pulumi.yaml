@@ -1,0 +1,26 @@
+name: ${PROJECT}
+description: ${DESCRIPTION}
+runtime: hcl
+template:
+  description: A Pulumi HCL program to deploy a virtual machine on Google Cloud
+  config:
+    google:project:
+      description: The Google Cloud project to deploy into
+    google:region:
+      description: The Google Cloud region to deploy into
+      default: us-central1
+    google:zone:
+      description: The Google Cloud availability zone to deploy into
+      default: us-central1-a
+    machine_type:
+      description: The GCP machine type to use for the VM
+      default: e2-micro
+    os_image:
+      description: The OS image to use for the VM
+      default: debian-11
+    instance_tag:
+      description: The network tag to apply to the VM instance
+      default: webserver
+    service_port:
+      description: The HTTP service port to expose on the VM
+      default: 80

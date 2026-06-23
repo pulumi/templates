@@ -10,3 +10,4 @@ templates:
   - serverless-azure-go
   - serverless-azure-csharp
   - serverless-azure-yaml
+  - serverless-azure-hcl

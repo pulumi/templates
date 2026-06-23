@@ -1,0 +1,10 @@
+name: ${PROJECT}
+description: ${DESCRIPTION}
+runtime: hcl
+template:
+  description: A minimal Azure Pulumi HCL program
+  important: true
+  config:
+    location:
+      description: The Azure location to deploy into
+      default: WestUS2

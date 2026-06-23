@@ -1,0 +1,18 @@
+name: ${PROJECT}
+description: ${DESCRIPTION}
+runtime: hcl
+template:
+  description: A Pulumi HCL program to deploy a Kubernetes cluster on Azure
+  config:
+    location:
+      description: The Azure region to deploy into
+      default: westus2
+    node_count:
+      description: The number of worker nodes in the cluster
+      default: 3
+    dns_prefix:
+      description: The DNS prefix to use for the cluster
+      default: pulumi
+    node_vm_size:
+      description: The VM size to use for worker nodes
+      default: Standard_DS2_v2

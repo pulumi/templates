@@ -10,3 +10,4 @@ templates:
   - static-website-azure-go
   - static-website-azure-csharp
   - static-website-azure-yaml
+  - static-website-azure-hcl
