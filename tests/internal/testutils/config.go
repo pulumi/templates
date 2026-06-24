@@ -62,7 +62,7 @@ func NewTemplateTestConfigFromEnv(t testing.TB, skipEnvVar string) TemplateTestC
 	templateUrl := ""
 	if loc := os.Getenv("PULUMI_TEMPLATE_LOCATION"); loc != "" {
 		templateUrl = loc
-		t.Log("Using templates from PULUMI_TEMPLATE_LOCATION=%s\n", loc)
+		t.Logf("Using templates from PULUMI_TEMPLATE_LOCATION=%s\n", loc)
 	}
 
 	return TemplateTestConfig{
