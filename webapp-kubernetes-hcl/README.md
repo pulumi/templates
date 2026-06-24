@@ -19,8 +19,8 @@ The program creates a namespace, a ConfigMap holding an Nginx configuration, a D
 
 ## Outputs
 
-- **deploymentName**: The name of the Deployment.
-- **serviceName**: The name of the Service.
+- **deployment_name**: The name of the Deployment.
+- **service_name**: The name of the Service.
 
 ## Prerequisites
 

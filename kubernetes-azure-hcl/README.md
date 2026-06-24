@@ -18,7 +18,7 @@ The program creates a resource group and a managed AKS cluster with a system-ass
 
 ## Outputs
 
-- **clusterName**: The name of the AKS cluster.
+- **cluster_name**: The name of the AKS cluster.
 - **kubeconfig**: A kubeconfig for the cluster (sensitive).
 
 ## Prerequisites

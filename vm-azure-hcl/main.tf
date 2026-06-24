@@ -19,40 +19,40 @@ provider "azurerm" {
   features {}
 }
 
-# The Azure location to deploy into
 variable "location" {
-  type    = string
-  default = "WestUS2"
+  description = "The Azure location to deploy into"
+  type        = string
+  default     = "WestUS2"
 }
 
-# The user account to create on the VM
 variable "admin_username" {
-  type    = string
-  default = "pulumiuser"
+  description = "The user account to create on the VM"
+  type        = string
+  default     = "pulumiuser"
 }
 
-# The DNS hostname prefix and computer name to use for the VM
 variable "vm_name" {
-  type    = string
-  default = "my-server"
+  description = "The DNS hostname prefix and computer name to use for the VM"
+  type        = string
+  default     = "my-server"
 }
 
-# The machine size to use for the VM
 variable "vm_size" {
-  type    = string
-  default = "Standard_A1_v2"
+  description = "The machine size to use for the VM"
+  type        = string
+  default     = "Standard_A1_v2"
 }
 
-# The Azure image reference (publisher:offer:sku:version) to use for the VM
 variable "os_image" {
-  type    = string
-  default = "Debian:debian-11:11:latest"
+  description = "The Azure image reference (publisher:offer:sku:version) to use for the VM"
+  type        = string
+  default     = "Debian:debian-11:11:latest"
 }
 
-# The HTTP service port to expose on the VM
 variable "service_port" {
-  type    = number
-  default = 80
+  description = "The HTTP service port to expose on the VM"
+  type        = number
+  default     = 80
 }
 
 locals {
@@ -199,7 +199,7 @@ output "url" {
   value = "http://${azurerm_public_ip.public_ip.fqdn}:${var.service_port}"
 }
 
-output "privatekey" {
+output "private_key" {
   value     = tls_private_key.ssh.private_key_openssh
   sensitive = true
 }

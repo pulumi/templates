@@ -12,6 +12,6 @@ resource "aws_s3_bucket" "my_bucket" {
 }
 
 # Export the name of the bucket
-output "bucketName" {
+output "bucket_name" {
   value = aws_s3_bucket.my_bucket.id
 }

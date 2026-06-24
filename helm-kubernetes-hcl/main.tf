@@ -21,10 +21,10 @@ provider "helm" {
   }
 }
 
-# The Kubernetes namespace to deploy into
 variable "k8s_namespace" {
-  type    = string
-  default = "nginx-ingress"
+  description = "The Kubernetes namespace to deploy into"
+  type        = string
+  default     = "nginx-ingress"
 }
 
 locals {

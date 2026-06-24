@@ -11,16 +11,16 @@ terraform {
   }
 }
 
-# The Google Cloud region to deploy into
 variable "region" {
-  type    = string
-  default = "us-central1"
+  description = "The Google Cloud region to deploy into"
+  type        = string
+  default     = "us-central1"
 }
 
-# The number of nodes per zone in the node pool
 variable "nodes_per_zone" {
-  type    = number
-  default = 1
+  description = "The number of nodes per zone in the node pool"
+  type        = number
+  default     = 1
 }
 
 data "google_client_config" "current" {}
@@ -109,11 +109,11 @@ resource "google_container_node_pool" "nodepool" {
 }
 
 # Export network and cluster details, plus a kubeconfig for the cluster.
-output "networkName" {
+output "network_name" {
   value = google_compute_network.network.name
 }
 
-output "clusterName" {
+output "cluster_name" {
   value = google_container_cluster.cluster.name
 }
 

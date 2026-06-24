@@ -22,8 +22,8 @@ A Python Azure Function returns the current time. A static website in `./www` is
 
 ## Outputs
 
-- **siteURL**: The URL of the static website.
-- **apiURL**: The URL of the function endpoint (`/api/data`).
+- **site_url**: The URL of the static website.
+- **api_url**: The URL of the function endpoint (`/api/data`).
 
 ## Prerequisites
 

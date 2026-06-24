@@ -15,28 +15,28 @@ provider "azurerm" {
   features {}
 }
 
-# The Azure region to deploy into
 variable "location" {
-  type    = string
-  default = "WestUS"
+  description = "The Azure region to deploy into"
+  type        = string
+  default     = "WestUS"
 }
 
-# The path to the folder containing the website
 variable "path" {
-  type    = string
-  default = "./www"
+  description = "The path to the folder containing the website"
+  type        = string
+  default     = "./www"
 }
 
-# The file to use for top-level pages
 variable "index_document" {
-  type    = string
-  default = "index.html"
+  description = "The file to use for top-level pages"
+  type        = string
+  default     = "index.html"
 }
 
-# The file to use for error pages
 variable "error_document" {
-  type    = string
-  default = "error.html"
+  description = "The file to use for error pages"
+  type        = string
+  default     = "error.html"
 }
 
 locals {
@@ -95,7 +95,7 @@ resource "azurerm_storage_blob" "files" {
   storage_container_name = "$web"
   type                   = "Block"
   source                 = "${var.path}/${each.value}"
-  content_type           = lookup(local.mime_types, regex("\\.[^.]+$", each.value), "application/octet-stream")
+  content_type           = lookup(local.mime_types, try(regex("\\.[^.]+$", each.value), ""), "application/octet-stream")
 
   depends_on = [azurerm_storage_account_static_website.website]
 }
@@ -151,18 +151,18 @@ resource "azurerm_cdn_frontdoor_route" "route" {
 }
 
 # Export the URLs and hostnames of the storage account and distribution.
-output "originURL" {
+output "origin_url" {
   value = azurerm_storage_account.account.primary_web_endpoint
 }
 
-output "originHostname" {
+output "origin_hostname" {
   value = azurerm_storage_account.account.primary_web_host
 }
 
-output "cdnURL" {
+output "cdn_url" {
   value = "https://${azurerm_cdn_frontdoor_endpoint.endpoint.host_name}"
 }
 
-output "cdnHostname" {
+output "cdn_hostname" {
   value = azurerm_cdn_frontdoor_endpoint.endpoint.host_name
 }

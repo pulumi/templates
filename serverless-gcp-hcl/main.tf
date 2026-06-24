@@ -15,34 +15,34 @@ terraform {
   }
 }
 
-# The Google Cloud region to deploy into
 variable "region" {
-  type    = string
-  default = "us-central1"
+  description = "The Google Cloud region to deploy into"
+  type        = string
+  default     = "us-central1"
 }
 
-# The path to the folder containing the website
 variable "site_path" {
-  type    = string
-  default = "./www"
+  description = "The path to the folder containing the website"
+  type        = string
+  default     = "./www"
 }
 
-# The path to the folder containing the function to deploy
 variable "app_path" {
-  type    = string
-  default = "./app"
+  description = "The path to the folder containing the function to deploy"
+  type        = string
+  default     = "./app"
 }
 
-# The file to use for top-level pages
 variable "index_document" {
-  type    = string
-  default = "index.html"
+  description = "The file to use for top-level pages"
+  type        = string
+  default     = "index.html"
 }
 
-# The file to use for error pages
 variable "error_document" {
-  type    = string
-  default = "error.html"
+  description = "The file to use for error pages"
+  type        = string
+  default     = "error.html"
 }
 
 locals {
@@ -89,7 +89,7 @@ resource "google_storage_bucket_object" "files" {
   bucket       = google_storage_bucket.site.name
   name         = each.value
   source       = "${var.site_path}/${each.value}"
-  content_type = lookup(local.mime_types, regex("\\.[^.]+$", each.value), "application/octet-stream")
+  content_type = lookup(local.mime_types, try(regex("\\.[^.]+$", each.value), ""), "application/octet-stream")
 }
 
 # Create a bucket to hold the serverless app's source archive.
@@ -151,11 +151,11 @@ resource "google_storage_bucket_object" "config" {
 }
 
 # The URL of the website.
-output "siteURL" {
+output "site_url" {
   value = "https://storage.googleapis.com/${google_storage_bucket.site.name}/${var.index_document}"
 }
 
 # The URL of the serverless endpoint.
-output "apiURL" {
+output "api_url" {
   value = google_cloudfunctions2_function.data.url
 }

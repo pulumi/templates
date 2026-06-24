@@ -19,7 +19,7 @@ This template uses the AzureRM provider to create a resource group and a `Storag
 
 ## Outputs
 
-- **storageAccountName**: The name of the created storage account.
+- **storage_account_name**: The name of the created storage account.
 
 ## Prerequisites
 

@@ -19,40 +19,40 @@ provider "azurerm" {
   features {}
 }
 
-# The Azure region to deploy into
 variable "location" {
-  type    = string
-  default = "WestUS"
+  description = "The Azure region to deploy into"
+  type        = string
+  default     = "WestUS"
 }
 
-# The path to the container application to deploy
 variable "app_path" {
-  type    = string
-  default = "./app"
+  description = "The path to the container application to deploy"
+  type        = string
+  default     = "./app"
 }
 
-# The name to give the container image
 variable "image_name" {
-  type    = string
-  default = "my-app"
+  description = "The name to give the container image"
+  type        = string
+  default     = "my-app"
 }
 
-# The port to expose on the container
 variable "container_port" {
-  type    = number
-  default = 80
+  description = "The port to expose on the container"
+  type        = number
+  default     = 80
 }
 
-# The number of CPU cores to allocate for the container
 variable "cpu" {
-  type    = number
-  default = 1
+  description = "The number of CPU cores to allocate for the container"
+  type        = number
+  default     = 1
 }
 
-# The amount of memory, in GB, to allocate for the container
 variable "memory" {
-  type    = number
-  default = 2
+  description = "The amount of memory, in GB, to allocate for the container"
+  type        = number
+  default     = 2
 }
 
 # A random suffix to make names globally unique.
@@ -120,7 +120,7 @@ resource "azurerm_container_group" "container_group" {
 
   container {
     name   = var.image_name
-    image  = docker_registry_image.app.name
+    image  = "${azurerm_container_registry.registry.login_server}/${var.image_name}@${docker_registry_image.app.sha256_digest}"
     cpu    = var.cpu
     memory = var.memory
 

@@ -20,8 +20,8 @@ The program creates a VPC-native GKE cluster with private nodes, removes the def
 
 ## Outputs
 
-- **networkName**: The name of the VPC network.
-- **clusterName**: The name of the GKE cluster.
+- **network_name**: The name of the VPC network.
+- **cluster_name**: The name of the GKE cluster.
 - **kubeconfig**: A kubeconfig for the cluster (sensitive). Requires `gke-gcloud-auth-plugin`.
 
 ## Prerequisites

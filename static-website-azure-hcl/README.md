@@ -23,8 +23,8 @@ The website content in `./www` is uploaded to the `$web` container of a storage 
 
 ## Outputs
 
-- **originURL** / **originHostname**: The storage account's static website endpoint and host.
-- **cdnURL** / **cdnHostname**: The Front Door endpoint URL and hostname.
+- **origin_url** / **origin_hostname**: The storage account's static website endpoint and host.
+- **cdn_url** / **cdn_hostname**: The Front Door endpoint URL and hostname.
 
 ## Prerequisites
 

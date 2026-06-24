@@ -26,7 +26,7 @@ The program creates a resource group, a virtual network and subnet, a public IP 
 - **ip**: The VM's public IP address.
 - **hostname**: The VM's fully-qualified domain name.
 - **url**: The HTTP URL of the web server.
-- **privatekey**: The generated SSH private key (sensitive).
+- **private_key**: The generated SSH private key (sensitive).
 
 ## Prerequisites
 

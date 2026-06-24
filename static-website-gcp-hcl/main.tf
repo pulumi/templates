@@ -11,22 +11,22 @@ terraform {
   }
 }
 
-# The path to the folder containing the website
 variable "path" {
-  type    = string
-  default = "./www"
+  description = "The path to the folder containing the website"
+  type        = string
+  default     = "./www"
 }
 
-# The file to use for top-level pages
 variable "index_document" {
-  type    = string
-  default = "index.html"
+  description = "The file to use for top-level pages"
+  type        = string
+  default     = "index.html"
 }
 
-# The file to use for error pages
 variable "error_document" {
-  type    = string
-  default = "error.html"
+  description = "The file to use for error pages"
+  type        = string
+  default     = "error.html"
 }
 
 locals {
@@ -78,7 +78,7 @@ resource "google_storage_bucket_object" "files" {
   bucket       = google_storage_bucket.bucket.name
   name         = each.value
   source       = "${var.path}/${each.value}"
-  content_type = lookup(local.mime_types, regex("\\.[^.]+$", each.value), "application/octet-stream")
+  content_type = lookup(local.mime_types, try(regex("\\.[^.]+$", each.value), ""), "application/octet-stream")
 }
 
 # Enable the storage bucket as a CDN backend.
@@ -115,18 +115,18 @@ resource "google_compute_global_forwarding_rule" "http" {
 }
 
 # Export the URLs and hostnames of the bucket and CDN.
-output "originURL" {
+output "origin_url" {
   value = "https://storage.googleapis.com/${google_storage_bucket.bucket.name}/${var.index_document}"
 }
 
-output "originHostname" {
+output "origin_hostname" {
   value = "storage.googleapis.com/${google_storage_bucket.bucket.name}"
 }
 
-output "cdnURL" {
+output "cdn_url" {
   value = "http://${google_compute_global_address.ip.address}"
 }
 
-output "cdnHostname" {
+output "cdn_hostname" {
   value = google_compute_global_address.ip.address
 }

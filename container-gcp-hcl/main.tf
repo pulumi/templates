@@ -15,46 +15,46 @@ terraform {
   }
 }
 
-# The Google Cloud region to deploy into
 variable "region" {
-  type    = string
-  default = "us-central1"
+  description = "The Google Cloud region to deploy into"
+  type        = string
+  default     = "us-central1"
 }
 
-# The path to the container application to deploy
 variable "app_path" {
-  type    = string
-  default = "./app"
+  description = "The path to the container application to deploy"
+  type        = string
+  default     = "./app"
 }
 
-# The name to give the container image
 variable "image_name" {
-  type    = string
-  default = "my-app"
+  description = "The name to give the container image"
+  type        = string
+  default     = "my-app"
 }
 
-# The port to expose on the container
 variable "container_port" {
-  type    = number
-  default = 8080
+  description = "The port to expose on the container"
+  type        = number
+  default     = 8080
 }
 
-# The number of vCPUs to allocate per container instance
 variable "cpu" {
-  type    = number
-  default = 1
+  description = "The number of vCPUs to allocate per container instance"
+  type        = number
+  default     = 1
 }
 
-# The amount of memory to allocate per container instance
 variable "memory" {
-  type    = string
-  default = "1Gi"
+  description = "The amount of memory to allocate per container instance"
+  type        = string
+  default     = "1Gi"
 }
 
-# The maximum number of concurrent requests per container instance
 variable "concurrency" {
-  type    = number
-  default = 80
+  description = "The maximum number of concurrent requests per container instance"
+  type        = number
+  default     = 80
 }
 
 # Read the active project from the provider's credentials.
@@ -113,7 +113,7 @@ resource "google_cloud_run_v2_service" "service" {
 
   template {
     containers {
-      image = docker_registry_image.app.name
+      image = "${local.repo_url}/${var.image_name}@${docker_registry_image.app.sha256_digest}"
 
       ports {
         container_port = var.container_port

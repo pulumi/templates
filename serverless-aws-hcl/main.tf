@@ -15,16 +15,16 @@ terraform {
   }
 }
 
-# The path to the folder containing the website
 variable "site_path" {
-  type    = string
-  default = "./www"
+  description = "The path to the folder containing the website"
+  type        = string
+  default     = "./www"
 }
 
-# The path to the folder containing the function to deploy
 variable "app_path" {
-  type    = string
-  default = "./function"
+  description = "The path to the folder containing the function to deploy"
+  type        = string
+  default     = "./function"
 }
 
 locals {
@@ -170,7 +170,7 @@ resource "aws_s3_object" "files" {
   key          = each.value
   source       = "${var.site_path}/${each.value}"
   etag         = filemd5("${var.site_path}/${each.value}")
-  content_type = lookup(local.mime_types, regex("\\.[^.]+$", each.value), "application/octet-stream")
+  content_type = lookup(local.mime_types, try(regex("\\.[^.]+$", each.value), ""), "application/octet-stream")
 }
 
 # Write a config file the website uses to find the API endpoint.
@@ -182,11 +182,11 @@ resource "aws_s3_object" "config" {
 }
 
 # The URL of the website.
-output "siteURL" {
+output "site_url" {
   value = "http://${aws_s3_bucket_website_configuration.site.website_endpoint}"
 }
 
 # The URL of the serverless endpoint.
-output "apiURL" {
+output "api_url" {
   value = "${local.api_url}/date"
 }

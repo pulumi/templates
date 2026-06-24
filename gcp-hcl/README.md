@@ -18,7 +18,7 @@ This template uses the Google provider to create a single Cloud Storage bucket. 
 
 ## Outputs
 
-- **bucketName**: The URL of the created bucket.
+- **bucket_name**: The URL of the created bucket.
 
 ## Prerequisites
 

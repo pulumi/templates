@@ -19,8 +19,8 @@ The program creates a VPC with public subnets across two availability zones, the
 
 ## Outputs
 
-- **clusterName**: The name of the EKS cluster.
-- **vpcId**: The ID of the VPC.
+- **cluster_name**: The name of the EKS cluster.
+- **vpc_id**: The ID of the VPC.
 - **kubeconfig**: A kubeconfig for the cluster (sensitive).
 
 ## Prerequisites

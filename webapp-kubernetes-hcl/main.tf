@@ -11,16 +11,16 @@ provider "kubernetes" {
   config_path = "~/.kube/config"
 }
 
-# The Kubernetes namespace to deploy into
 variable "k8s_namespace" {
-  type    = string
-  default = "webapp"
+  description = "The Kubernetes namespace to deploy into"
+  type        = string
+  default     = "webapp"
 }
 
-# The number of replicas to deploy
 variable "num_replicas" {
-  type    = number
-  default = 1
+  description = "The number of replicas to deploy"
+  type        = number
+  default     = 1
 }
 
 locals {
@@ -39,7 +39,7 @@ resource "kubernetes_namespace_v1" "webserver" {
 # Create a ConfigMap to store the Nginx configuration.
 resource "kubernetes_config_map_v1" "config" {
   metadata {
-    namespace    = kubernetes_namespace_v1.webserver.metadata[0].name
+    namespace     = kubernetes_namespace_v1.webserver.metadata[0].name
     generate_name = "webserver-config-"
   }
 
@@ -128,10 +128,10 @@ resource "kubernetes_service_v1" "webserver" {
 }
 
 # Export the deployment and service names.
-output "deploymentName" {
+output "deployment_name" {
   value = kubernetes_deployment_v1.webserver.metadata[0].name
 }
 
-output "serviceName" {
+output "service_name" {
   value = kubernetes_service_v1.webserver.metadata[0].name
 }

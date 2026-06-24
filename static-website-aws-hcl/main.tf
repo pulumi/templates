@@ -4,25 +4,29 @@ terraform {
       source  = "hashicorp/aws"
       version = ">= 5.0.0"
     }
+    random = {
+      source  = "hashicorp/random"
+      version = ">= 3.0.0"
+    }
   }
 }
 
-# The path to the folder containing the website
 variable "path" {
-  type    = string
-  default = "./www"
+  description = "The path to the folder containing the website"
+  type        = string
+  default     = "./www"
 }
 
-# The file to use for top-level pages
 variable "index_document" {
-  type    = string
-  default = "index.html"
+  description = "The file to use for top-level pages"
+  type        = string
+  default     = "index.html"
 }
 
-# The file to use for error pages
 variable "error_document" {
-  type    = string
-  default = "error.html"
+  description = "The file to use for error pages"
+  type        = string
+  default     = "error.html"
 }
 
 locals {
@@ -63,12 +67,19 @@ resource "aws_s3_object" "files" {
   key          = each.value
   source       = "${var.path}/${each.value}"
   etag         = filemd5("${var.path}/${each.value}")
-  content_type = lookup(local.mime_types, regex("\\.[^.]+$", each.value), "application/octet-stream")
+  content_type = lookup(local.mime_types, try(regex("\\.[^.]+$", each.value), ""), "application/octet-stream")
+}
+
+# A random suffix to keep the Origin Access Control name unique.
+resource "random_string" "suffix" {
+  length  = 6
+  special = false
+  upper   = false
 }
 
 # Create an Origin Access Control so CloudFront can read from the private bucket.
 resource "aws_cloudfront_origin_access_control" "oac" {
-  name                              = "static-website-oac"
+  name                              = "static-website-oac-${random_string.suffix.result}"
   origin_access_control_origin_type = "s3"
   signing_behavior                  = "always"
   signing_protocol                  = "sigv4"
@@ -141,10 +152,10 @@ resource "aws_s3_bucket_policy" "bucket_policy" {
 }
 
 # Export the URL and hostname of the CloudFront distribution.
-output "cdnURL" {
+output "cdn_url" {
   value = "https://${aws_cloudfront_distribution.cdn.domain_name}"
 }
 
-output "cdnHostname" {
+output "cdn_hostname" {
   value = aws_cloudfront_distribution.cdn.domain_name
 }

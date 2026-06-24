@@ -23,8 +23,8 @@ The website content in `./www` is uploaded to a public Cloud Storage bucket conf
 
 ## Outputs
 
-- **originURL** / **originHostname**: The direct Cloud Storage URL and hostname.
-- **cdnURL** / **cdnHostname**: The CDN URL and IP address.
+- **origin_url** / **origin_hostname**: The direct Cloud Storage URL and hostname.
+- **cdn_url** / **cdn_hostname**: The CDN URL and IP address.
 
 ## Prerequisites
 

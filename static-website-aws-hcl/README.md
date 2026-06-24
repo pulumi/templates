@@ -21,8 +21,8 @@ The website content in `./www` is uploaded to a private S3 bucket. A CloudFront 
 
 ## Outputs
 
-- **cdnURL**: The HTTPS URL of the CloudFront distribution.
-- **cdnHostname**: The CloudFront distribution hostname.
+- **cdn_url**: The HTTPS URL of the CloudFront distribution.
+- **cdn_hostname**: The CloudFront distribution hostname.
 
 ## Prerequisites
 

@@ -15,28 +15,28 @@ provider "azurerm" {
   features {}
 }
 
-# The Azure region to deploy into
 variable "location" {
-  type    = string
-  default = "westus2"
+  description = "The Azure region to deploy into"
+  type        = string
+  default     = "westus2"
 }
 
-# The number of worker nodes in the cluster
 variable "node_count" {
-  type    = number
-  default = 3
+  description = "The number of worker nodes in the cluster"
+  type        = number
+  default     = 3
 }
 
-# The DNS prefix to use for the cluster
 variable "dns_prefix" {
-  type    = string
-  default = "pulumi"
+  description = "The DNS prefix to use for the cluster"
+  type        = string
+  default     = "pulumi"
 }
 
-# The VM size to use for worker nodes
 variable "node_vm_size" {
-  type    = string
-  default = "Standard_DS2_v2"
+  description = "The VM size to use for worker nodes"
+  type        = string
+  default     = "Standard_DS2_v2"
 }
 
 # A random suffix to make names unique.
@@ -71,7 +71,7 @@ resource "azurerm_kubernetes_cluster" "cluster" {
 }
 
 # Export the cluster name and kubeconfig.
-output "clusterName" {
+output "cluster_name" {
   value = azurerm_kubernetes_cluster.cluster.name
 }
 

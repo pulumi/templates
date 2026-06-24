@@ -8,37 +8,41 @@ terraform {
       source  = "kreuzwerker/docker"
       version = ">= 3.0.0"
     }
+    random = {
+      source  = "hashicorp/random"
+      version = ">= 3.0.0"
+    }
   }
 }
 
-# The path to the container application to deploy
 variable "app_path" {
-  type    = string
-  default = "./app"
+  description = "The path to the container application to deploy"
+  type        = string
+  default     = "./app"
 }
 
-# The name to give the container image
 variable "image_name" {
-  type    = string
-  default = "my-app"
+  description = "The name to give the container image"
+  type        = string
+  default     = "my-app"
 }
 
-# The port to expose on the container
 variable "container_port" {
-  type    = number
-  default = 80
+  description = "The port to expose on the container"
+  type        = number
+  default     = 80
 }
 
-# The amount of CPU units to allocate for the task (must be a valid Fargate value)
 variable "cpu" {
-  type    = number
-  default = 256
+  description = "The amount of CPU units to allocate for the task (must be a valid Fargate value)"
+  type        = number
+  default     = 256
 }
 
-# The amount of memory (MiB) to allocate for the task (must be a valid Fargate value)
 variable "memory" {
-  type    = number
-  default = 512
+  description = "The amount of memory (MiB) to allocate for the task (must be a valid Fargate value)"
+  type        = number
+  default     = 512
 }
 
 data "aws_caller_identity" "current" {}
@@ -63,9 +67,16 @@ locals {
   registry = "${data.aws_caller_identity.current.account_id}.dkr.ecr.${data.aws_region.current.region}.amazonaws.com"
 }
 
+# A random suffix to keep resource names unique.
+resource "random_string" "suffix" {
+  length  = 6
+  special = false
+  upper   = false
+}
+
 # An ECR repository to store the application's container image.
 resource "aws_ecr_repository" "repo" {
-  name         = var.image_name
+  name         = "${var.image_name}-${random_string.suffix.result}"
   force_delete = true
 }
 
@@ -96,7 +107,7 @@ resource "docker_registry_image" "app" {
 
 # An ECS cluster to deploy into.
 resource "aws_ecs_cluster" "cluster" {
-  name = "${var.image_name}-cluster"
+  name = "${var.image_name}-cluster-${random_string.suffix.result}"
 }
 
 # A security group for the load balancer, allowing inbound HTTP.
@@ -190,7 +201,7 @@ resource "aws_ecs_task_definition" "task" {
 
   container_definitions = jsonencode([{
     name      = var.image_name
-    image     = docker_registry_image.app.name
+    image     = "${aws_ecr_repository.repo.repository_url}@${docker_registry_image.app.sha256_digest}"
     essential = true
     portMappings = [{
       containerPort = var.container_port

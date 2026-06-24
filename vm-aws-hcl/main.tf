@@ -7,22 +7,22 @@ terraform {
   }
 }
 
-# The Amazon EC2 instance type
 variable "instance_type" {
-  type    = string
-  default = "t3.micro"
+  description = "The Amazon EC2 instance type"
+  type        = string
+  default     = "t3.micro"
 }
 
-# The network CIDR to use for the VPC
 variable "vpc_network_cidr" {
-  type    = string
-  default = "10.0.0.0/16"
+  description = "The network CIDR to use for the VPC"
+  type        = string
+  default     = "10.0.0.0/16"
 }
 
-# The HTTP service port to expose on the VM
 variable "service_port" {
-  type    = number
-  default = 80
+  description = "The HTTP service port to expose on the VM"
+  type        = number
+  default     = 80
 }
 
 locals {

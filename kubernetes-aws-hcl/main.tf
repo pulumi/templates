@@ -4,37 +4,41 @@ terraform {
       source  = "hashicorp/aws"
       version = ">= 5.0.0"
     }
+    random = {
+      source  = "hashicorp/random"
+      version = ">= 3.0.0"
+    }
   }
 }
 
-# The minimum number of nodes in the cluster
 variable "min_cluster_size" {
-  type    = number
-  default = 3
+  description = "The minimum number of nodes in the cluster"
+  type        = number
+  default     = 3
 }
 
-# The maximum number of nodes in the cluster
 variable "max_cluster_size" {
-  type    = number
-  default = 6
+  description = "The maximum number of nodes in the cluster"
+  type        = number
+  default     = 6
 }
 
-# The desired number of nodes in the cluster
 variable "desired_cluster_size" {
-  type    = number
-  default = 3
+  description = "The desired number of nodes in the cluster"
+  type        = number
+  default     = 3
 }
 
-# The EC2 instance type to use for worker nodes
 variable "node_instance_type" {
-  type    = string
-  default = "t3.medium"
+  description = "The EC2 instance type to use for worker nodes"
+  type        = string
+  default     = "t3.medium"
 }
 
-# The network CIDR to use for the VPC
 variable "vpc_network_cidr" {
-  type    = string
-  default = "10.0.0.0/16"
+  description = "The network CIDR to use for the VPC"
+  type        = string
+  default     = "10.0.0.0/16"
 }
 
 data "aws_region" "current" {}
@@ -121,9 +125,16 @@ resource "aws_iam_role_policy_attachment" "node" {
   policy_arn = each.value
 }
 
+# A random suffix to keep the cluster name unique.
+resource "random_string" "suffix" {
+  length  = 6
+  special = false
+  upper   = false
+}
+
 # Create the EKS cluster.
 resource "aws_eks_cluster" "cluster" {
-  name     = "eks-cluster"
+  name     = "eks-cluster-${random_string.suffix.result}"
   role_arn = aws_iam_role.cluster.arn
 
   vpc_config {
@@ -153,11 +164,11 @@ resource "aws_eks_node_group" "nodes" {
 }
 
 # Export the cluster name, VPC ID, and a kubeconfig for the cluster.
-output "clusterName" {
+output "cluster_name" {
   value = aws_eks_cluster.cluster.name
 }
 
-output "vpcId" {
+output "vpc_id" {
   value = aws_vpc.vpc.id
 }
 

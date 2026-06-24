@@ -15,10 +15,10 @@ provider "azurerm" {
   features {}
 }
 
-# The Azure location to deploy into
 variable "location" {
-  type    = string
-  default = "WestUS2"
+  description = "The Azure location to deploy into"
+  type        = string
+  default     = "WestUS2"
 }
 
 # Create an Azure Resource Group
@@ -45,6 +45,6 @@ resource "azurerm_storage_account" "sa" {
 }
 
 # Export the storage account name
-output "storageAccountName" {
+output "storage_account_name" {
   value = azurerm_storage_account.sa.name
 }

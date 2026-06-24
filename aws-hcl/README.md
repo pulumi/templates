@@ -16,7 +16,7 @@ This template uses the AWS provider to create a single S3 bucket. It is a great 
 
 ## Outputs
 
-- **bucketName**: The name (ID) of the created S3 bucket.
+- **bucket_name**: The name (ID) of the created S3 bucket.
 
 ## Prerequisites
 

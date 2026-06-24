@@ -19,34 +19,34 @@ provider "azurerm" {
   features {}
 }
 
-# The Azure region to deploy into
 variable "location" {
-  type    = string
-  default = "WestUS"
+  description = "The Azure region to deploy into"
+  type        = string
+  default     = "WestUS"
 }
 
-# The path to the folder containing the website
 variable "site_path" {
-  type    = string
-  default = "./www"
+  description = "The path to the folder containing the website"
+  type        = string
+  default     = "./www"
 }
 
-# The path to the folder containing the function to deploy
 variable "app_path" {
-  type    = string
-  default = "./app"
+  description = "The path to the folder containing the function to deploy"
+  type        = string
+  default     = "./app"
 }
 
-# The file to use for top-level pages
 variable "index_document" {
-  type    = string
-  default = "index.html"
+  description = "The file to use for top-level pages"
+  type        = string
+  default     = "index.html"
 }
 
-# The file to use for error pages
 variable "error_document" {
-  type    = string
-  default = "error.html"
+  description = "The file to use for error pages"
+  type        = string
+  default     = "error.html"
 }
 
 locals {
@@ -100,7 +100,7 @@ resource "azurerm_storage_blob" "files" {
   storage_container_name = "$web"
   type                   = "Block"
   source                 = "${var.site_path}/${each.value}"
-  content_type           = lookup(local.mime_types, regex("\\.[^.]+$", each.value), "application/octet-stream")
+  content_type           = lookup(local.mime_types, try(regex("\\.[^.]+$", each.value), ""), "application/octet-stream")
 
   depends_on = [azurerm_storage_account_static_website.website]
 }
@@ -162,10 +162,10 @@ resource "azurerm_linux_function_app" "app" {
 }
 
 # Export the URLs of the website and serverless endpoint.
-output "siteURL" {
+output "site_url" {
   value = azurerm_storage_account.account.primary_web_endpoint
 }
 
-output "apiURL" {
+output "api_url" {
   value = "https://${azurerm_linux_function_app.app.default_hostname}/api/data"
 }

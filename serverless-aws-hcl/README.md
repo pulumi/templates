@@ -22,8 +22,8 @@ A Python Lambda function returns the current time. An API Gateway HTTP API route
 
 ## Outputs
 
-- **siteURL**: The URL of the static website.
-- **apiURL**: The URL of the `GET /date` endpoint.
+- **site_url**: The URL of the static website.
+- **api_url**: The URL of the `GET /date` endpoint.
 
 ## Prerequisites
 
