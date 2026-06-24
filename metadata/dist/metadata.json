@@ -1623,6 +1623,13 @@
                 "description": "A minimal Go Pulumi program"
             }
         },
+        "hcl": {
+            "name": "hcl",
+            "runtime": "hcl",
+            "template": {
+                "description": "A minimal Pulumi HCL program"
+            }
+        },
         "helm-kubernetes-csharp": {
             "name": "helm-kubernetes-csharp",
             "runtime": "dotnet",
