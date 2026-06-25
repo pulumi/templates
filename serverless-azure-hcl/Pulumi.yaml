@@ -4,9 +4,9 @@ runtime: hcl
 template:
   description: A Pulumi HCL program to deploy a serverless application on Azure
   config:
-    location:
+    azure-native:location:
       description: The Azure region to deploy into
-      default: WestUS
+      default: WestUS2
     site_path:
       description: The path to the folder containing the website
       default: ./www

@@ -7,9 +7,3 @@ template:
     aws:region:
       description: The AWS region to deploy into
       default: us-west-2
-    site_path:
-      description: The path to the folder containing the website
-      default: ./www
-    app_path:
-      description: The path to the folder containing the function to deploy
-      default: ./function

@@ -4,12 +4,12 @@ runtime: hcl
 template:
   description: A Pulumi HCL program to deploy a virtual machine on Google Cloud
   config:
-    google:project:
+    gcp:project:
       description: The Google Cloud project to deploy into
-    google:region:
+    gcp:region:
       description: The Google Cloud region to deploy into
       default: us-central1
-    google:zone:
+    gcp:zone:
       description: The Google Cloud availability zone to deploy into
       default: us-central1-a
     machine_type:

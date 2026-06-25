@@ -5,5 +5,5 @@ template:
   description: A minimal Google Cloud Pulumi HCL program
   important: true
   config:
-    google:project:
+    gcp:project:
       description: The Google Cloud project to deploy into

@@ -1,14 +1,9 @@
 terraform {
   required_providers {
     kubernetes = {
-      source  = "hashicorp/kubernetes"
-      version = ">= 2.0.0"
+      source = "pulumi/kubernetes"
     }
   }
-}
-
-provider "kubernetes" {
-  config_path = "~/.kube/config"
 }
 
 locals {
@@ -17,29 +12,22 @@ locals {
   }
 }
 
-# Create an nginx Deployment
-resource "kubernetes_deployment_v1" "nginx" {
-  metadata {
-    name = "nginx"
-  }
-
-  spec {
-    replicas = 1
-
-    selector {
+# Create an nginx Deployment on the current kubeconfig context
+resource "kubernetes_apps_v1_deployment" "deployment" {
+  spec = {
+    selector = {
       match_labels = local.app_labels
     }
-
-    template {
-      metadata {
+    replicas = 1
+    template = {
+      metadata = {
         labels = local.app_labels
       }
-
-      spec {
-        container {
+      spec = {
+        containers = [{
           name  = "nginx"
           image = "nginx"
-        }
+        }]
       }
     }
   }
@@ -47,5 +35,5 @@ resource "kubernetes_deployment_v1" "nginx" {
 
 # Export the name of the Deployment
 output "name" {
-  value = kubernetes_deployment_v1.nginx.metadata[0].name
+  value = kubernetes_apps_v1_deployment.deployment.metadata.name
 }

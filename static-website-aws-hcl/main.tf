@@ -1,12 +1,10 @@
 terraform {
   required_providers {
     aws = {
-      source  = "hashicorp/aws"
-      version = ">= 5.0.0"
+      source = "pulumi/aws"
     }
-    random = {
-      source  = "hashicorp/random"
-      version = ">= 3.0.0"
+    synced-folder = {
+      source = "pulumi/synced-folder"
     }
   }
 }
@@ -29,29 +27,11 @@ variable "error_document" {
   default     = "error.html"
 }
 
-locals {
-  # Map file extensions to the content types used when uploading objects.
-  mime_types = {
-    ".html" = "text/html"
-    ".css"  = "text/css"
-    ".js"   = "application/javascript"
-    ".json" = "application/json"
-    ".svg"  = "image/svg+xml"
-    ".png"  = "image/png"
-    ".jpg"  = "image/jpeg"
-    ".jpeg" = "image/jpeg"
-    ".gif"  = "image/gif"
-    ".ico"  = "image/x-icon"
-    ".txt"  = "text/plain"
-  }
-}
-
 # Create a private S3 bucket to hold the website content.
-resource "aws_s3_bucket" "bucket" {
-}
+resource "aws_s3_bucket" "bucket" {}
 
 # Block all public access to the bucket; CloudFront reaches it via OAC.
-resource "aws_s3_bucket_public_access_block" "public_access_block" {
+resource "aws_s3_bucket_public_access_block" "public-access-block" {
   bucket                  = aws_s3_bucket.bucket.id
   block_public_acls       = true
   block_public_policy     = true
@@ -59,27 +39,16 @@ resource "aws_s3_bucket_public_access_block" "public_access_block" {
   restrict_public_buckets = true
 }
 
-# Sync the website files to the bucket as private objects.
-resource "aws_s3_object" "files" {
-  for_each = fileset(var.path, "**")
-
-  bucket       = aws_s3_bucket.bucket.id
-  key          = each.value
-  source       = "${var.path}/${each.value}"
-  etag         = filemd5("${var.path}/${each.value}")
-  content_type = lookup(local.mime_types, try(regex("\\.[^.]+$", each.value), ""), "application/octet-stream")
-}
-
-# A random suffix to keep the Origin Access Control name unique.
-resource "random_string" "suffix" {
-  length  = 6
-  special = false
-  upper   = false
+# Sync the contents of the website folder to the bucket as private objects.
+resource "synced-folder_s3_bucket_folder" "bucket-folder" {
+  depends_on  = [aws_s3_bucket_public_access_block.public-access-block]
+  acl         = "private"
+  bucket_name = aws_s3_bucket.bucket.bucket
+  path        = var.path
 }
 
 # Create an Origin Access Control so CloudFront can read from the private bucket.
-resource "aws_cloudfront_origin_access_control" "oac" {
-  name                              = "static-website-oac-${random_string.suffix.result}"
+resource "aws_cloudfront_origin_access_control" "origin-access-control" {
   origin_access_control_origin_type = "s3"
   signing_behavior                  = "always"
   signing_protocol                  = "sigv4"
@@ -94,7 +63,7 @@ resource "aws_cloudfront_distribution" "cdn" {
   origin {
     origin_id                = aws_s3_bucket.bucket.arn
     domain_name              = aws_s3_bucket.bucket.bucket_regional_domain_name
-    origin_access_control_id = aws_cloudfront_origin_access_control.oac.id
+    origin_access_control_id = aws_cloudfront_origin_access_control.origin-access-control.id
   }
 
   default_cache_behavior {
@@ -132,9 +101,8 @@ resource "aws_cloudfront_distribution" "cdn" {
 }
 
 # Grant the CloudFront distribution permission to read objects from the bucket.
-resource "aws_s3_bucket_policy" "bucket_policy" {
+resource "aws_s3_bucket_policy" "bucket-policy" {
   bucket = aws_s3_bucket.bucket.id
-
   policy = jsonencode({
     Version = "2012-10-17"
     Statement = [{

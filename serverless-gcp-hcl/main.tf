@@ -1,22 +1,16 @@
 terraform {
   required_providers {
-    google = {
-      source  = "hashicorp/google"
-      version = ">= 6.0.0"
+    gcp = {
+      source = "pulumi/gcp"
     }
-    archive = {
-      source  = "hashicorp/archive"
-      version = ">= 2.0.0"
-    }
-    random = {
-      source  = "hashicorp/random"
-      version = ">= 3.0.0"
+    synced-folder = {
+      source = "pulumi/synced-folder"
     }
   }
 }
 
 variable "region" {
-  description = "The Google Cloud region to deploy into"
+  description = "The Google Cloud region to deploy the function into"
   type        = string
   default     = "us-central1"
 }
@@ -45,117 +39,82 @@ variable "error_document" {
   default     = "error.html"
 }
 
-locals {
-  mime_types = {
-    ".html" = "text/html"
-    ".css"  = "text/css"
-    ".js"   = "application/javascript"
-    ".json" = "application/json"
-    ".svg"  = "image/svg+xml"
-    ".ico"  = "image/x-icon"
-    ".txt"  = "text/plain"
-  }
-}
-
-# A random suffix to make resource names globally unique.
-resource "random_string" "suffix" {
-  length  = 8
-  special = false
-  upper   = false
-}
-
 # Create a storage bucket and configure it as a website.
-resource "google_storage_bucket" "site" {
-  name     = "serverless-site-${random_string.suffix.result}"
+resource "gcp_storage_bucket" "site-bucket" {
   location = "US"
 
-  website {
+  website = {
     main_page_suffix = var.index_document
     not_found_page   = var.error_document
   }
 }
 
 # Allow public read access to the website's objects.
-resource "google_storage_bucket_iam_member" "public_read" {
-  bucket = google_storage_bucket.site.name
-  role   = "roles/storage.objectViewer"
-  member = "allUsers"
+resource "gcp_storage_bucket_i_a_m_binding" "site-bucket-iam-binding" {
+  bucket  = gcp_storage_bucket.site-bucket.name
+  role    = "roles/storage.objectViewer"
+  members = ["allUsers"]
 }
 
-# Sync the website files to the bucket.
-resource "google_storage_bucket_object" "files" {
-  for_each = fileset(var.site_path, "**")
-
-  bucket       = google_storage_bucket.site.name
-  name         = each.value
-  source       = "${var.site_path}/${each.value}"
-  content_type = lookup(local.mime_types, try(regex("\\.[^.]+$", each.value), ""), "application/octet-stream")
+# Sync the contents of the website folder to the bucket.
+resource "synced-folder_google_cloud_folder" "synced-folder" {
+  path        = var.site_path
+  bucket_name = gcp_storage_bucket.site-bucket.name
 }
 
-# Create a bucket to hold the serverless app's source archive.
-resource "google_storage_bucket" "app" {
-  name     = "serverless-app-${random_string.suffix.result}"
+# Create a bucket to hold the function's source archive.
+resource "gcp_storage_bucket" "app-bucket" {
   location = "US"
 }
 
-# Package the function source into a deployment archive.
-data "archive_file" "app" {
-  type        = "zip"
-  source_dir  = var.app_path
-  output_path = "${path.module}/app.zip"
-}
-
-# Upload the serverless app to the bucket.
-resource "google_storage_bucket_object" "app" {
-  bucket = google_storage_bucket.app.name
-  name   = "app-${data.archive_file.app.output_md5}.zip"
-  source = data.archive_file.app.output_path
+# Upload the zipped function source to the bucket.
+resource "gcp_storage_bucket_object" "app-archive" {
+  bucket = gcp_storage_bucket.app-bucket.name
+  source = fileArchive(var.app_path)
 }
 
 # Create a Cloud Function (Gen 2) that returns the current time.
-resource "google_cloudfunctions2_function" "data" {
-  name     = "serverless-fn-${random_string.suffix.result}"
+resource "gcp_cloudfunctionsv2_function" "data-function" {
   location = var.region
 
-  build_config {
+  build_config = {
     runtime     = "python312"
     entry_point = "data"
-    source {
-      storage_source {
-        bucket = google_storage_bucket.app.name
-        object = google_storage_bucket_object.app.name
+    source = {
+      storage_source = {
+        bucket = gcp_storage_bucket.app-bucket.name
+        object = gcp_storage_bucket_object.app-archive.name
       }
     }
   }
 
-  service_config {
+  service_config = {
     available_memory = "256M"
     timeout_seconds  = 60
   }
 }
 
 # Allow public, unauthenticated invocations of the underlying Cloud Run service.
-resource "google_cloud_run_v2_service_iam_member" "invoker" {
-  location = google_cloudfunctions2_function.data.location
-  name     = google_cloudfunctions2_function.data.name
+resource "gcp_cloudrun_iam_member" "invoker" {
+  location = gcp_cloudfunctionsv2_function.data-function.location
+  service  = gcp_cloudfunctionsv2_function.data-function.name
   role     = "roles/run.invoker"
   member   = "allUsers"
 }
 
 # Write a config file the website uses to find the function endpoint.
-resource "google_storage_bucket_object" "config" {
-  bucket       = google_storage_bucket.site.name
+resource "gcp_storage_bucket_object" "site-config" {
   name         = "config.json"
-  content      = jsonencode({ api = google_cloudfunctions2_function.data.url })
+  bucket       = gcp_storage_bucket.site-bucket.name
   content_type = "application/json"
+  source       = stringAsset(jsonencode({ api = gcp_cloudfunctionsv2_function.data-function.url }))
 }
 
-# The URL of the website.
+# Export the URLs of the website and serverless endpoint.
 output "site_url" {
-  value = "https://storage.googleapis.com/${google_storage_bucket.site.name}/${var.index_document}"
+  value = "https://storage.googleapis.com/${gcp_storage_bucket.site-bucket.name}/${var.index_document}"
 }
 
-# The URL of the serverless endpoint.
 output "api_url" {
-  value = google_cloudfunctions2_function.data.url
+  value = gcp_cloudfunctionsv2_function.data-function.url
 }

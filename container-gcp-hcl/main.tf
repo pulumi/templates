@@ -1,16 +1,13 @@
 terraform {
   required_providers {
-    google = {
-      source  = "hashicorp/google"
-      version = ">= 6.0.0"
+    gcp = {
+      source = "pulumi/gcp"
     }
-    docker = {
-      source  = "kreuzwerker/docker"
-      version = ">= 3.0.0"
+    docker-build = {
+      source = "pulumi/docker-build"
     }
     random = {
-      source  = "hashicorp/random"
-      version = ">= 3.0.0"
+      source = "pulumi/random"
     }
   }
 }
@@ -21,16 +18,16 @@ variable "region" {
   default     = "us-central1"
 }
 
-variable "app_path" {
-  description = "The path to the container application to deploy"
-  type        = string
-  default     = "./app"
-}
-
 variable "image_name" {
   description = "The name to give the container image"
   type        = string
   default     = "my-app"
+}
+
+variable "app_path" {
+  description = "The path to the container application to deploy"
+  type        = string
+  default     = "./app"
 }
 
 variable "container_port" {
@@ -58,88 +55,74 @@ variable "concurrency" {
 }
 
 # Read the active project from the provider's credentials.
-data "google_client_config" "current" {}
+data "gcp_organizations_client_config" "current" {}
 
 locals {
-  project  = data.google_client_config.current.project
-  repo_url = "${var.region}-docker.pkg.dev/${local.project}/${google_artifact_registry_repository.repo.repository_id}"
+  repo_url = "${var.region}-docker.pkg.dev/${data.gcp_organizations_client_config.current.project}/${gcp_artifactregistry_repository.repository.repository_id}"
 }
 
 # A random suffix to give the repository a unique ID.
-resource "random_string" "suffix" {
+resource "random_random_string" "unique-string" {
   length  = 4
-  special = false
+  lower   = true
   upper   = false
+  numeric = true
+  special = false
 }
 
 # Create an Artifact Registry repository for the container image.
-resource "google_artifact_registry_repository" "repo" {
-  location      = var.region
-  repository_id = "repo-${random_string.suffix.result}"
+resource "gcp_artifactregistry_repository" "repository" {
   description   = "Repository for the container image"
   format        = "DOCKER"
+  location      = var.region
+  repository_id = "repo-${random_random_string.unique-string.result}"
 }
 
-# Authenticate the Docker provider to Artifact Registry using a short-lived token.
-provider "docker" {
-  registry_auth {
-    address  = "${var.region}-docker.pkg.dev"
-    username = "oauth2accesstoken"
-    password = data.google_client_config.current.access_token
+# Build the container image and push it to Artifact Registry.
+# Before running `pulumi up`, configure Docker auth for Artifact Registry, e.g.:
+#   gcloud auth configure-docker ${var.region}-docker.pkg.dev
+resource "docker-build_image" "image" {
+  tags      = ["${local.repo_url}/${var.image_name}"]
+  platforms = ["linux/amd64"]
+  push      = true
+
+  context = {
+    location = var.app_path
   }
-}
-
-# Build the container image from the application source.
-resource "docker_image" "app" {
-  name = "${local.repo_url}/${var.image_name}:latest"
-
-  build {
-    context  = var.app_path
-    platform = "linux/amd64"
-  }
-}
-
-# Push the image to Artifact Registry.
-resource "docker_registry_image" "app" {
-  name          = docker_image.app.name
-  keep_remotely = true
 }
 
 # Deploy the image as a Cloud Run service.
-resource "google_cloud_run_v2_service" "service" {
-  name                = "service-${random_string.suffix.result}"
-  location            = var.region
-  deletion_protection = false
+resource "gcp_cloudrun_service" "service" {
+  location = var.region
 
-  template {
-    containers {
-      image = "${local.repo_url}/${var.image_name}@${docker_registry_image.app.sha256_digest}"
-
-      ports {
-        container_port = var.container_port
-      }
-
-      resources {
-        limits = {
-          cpu    = tostring(var.cpu)
-          memory = var.memory
+  template = {
+    spec = {
+      container_concurrency = var.concurrency
+      containers = [{
+        image = docker-build_image.image.ref
+        ports = [{
+          container_port = var.container_port
+        }]
+        resources = {
+          limits = {
+            cpu    = tostring(var.cpu)
+            memory = var.memory
+          }
         }
-      }
+      }]
     }
-
-    max_instance_request_concurrency = var.concurrency
   }
 }
 
 # Allow public, unauthenticated access to the service.
-resource "google_cloud_run_v2_service_iam_member" "invoker" {
-  location = google_cloud_run_v2_service.service.location
-  name     = google_cloud_run_v2_service.service.name
+resource "gcp_cloudrun_iam_member" "invoker" {
+  location = var.region
+  service  = gcp_cloudrun_service.service.name
   role     = "roles/run.invoker"
   member   = "allUsers"
 }
 
 # Export the URL of the service.
 output "url" {
-  value = google_cloud_run_v2_service.service.uri
+  value = gcp_cloudrun_service.service.statuses[0].url
 }

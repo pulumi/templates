@@ -1,24 +1,12 @@
 terraform {
   required_providers {
-    azurerm = {
-      source  = "hashicorp/azurerm"
-      version = ">= 4.0.0"
+    azure-native = {
+      source = "pulumi/azure-native"
     }
-    random = {
-      source  = "hashicorp/random"
-      version = ">= 3.0.0"
+    synced-folder = {
+      source = "pulumi/synced-folder"
     }
   }
-}
-
-provider "azurerm" {
-  features {}
-}
-
-variable "location" {
-  description = "The Azure region to deploy into"
-  type        = string
-  default     = "WestUS"
 }
 
 variable "path" {
@@ -39,130 +27,43 @@ variable "error_document" {
   default     = "error.html"
 }
 
-locals {
-  # Map file extensions to the content types used when uploading blobs.
-  mime_types = {
-    ".html" = "text/html"
-    ".css"  = "text/css"
-    ".js"   = "application/javascript"
-    ".json" = "application/json"
-    ".svg"  = "image/svg+xml"
-    ".png"  = "image/png"
-    ".jpg"  = "image/jpeg"
-    ".jpeg" = "image/jpeg"
-    ".gif"  = "image/gif"
-    ".ico"  = "image/x-icon"
-    ".txt"  = "text/plain"
+# Create a resource group for the website.
+resource "azure-native_resources_resource_group" "resource-group" {}
+
+# Create a blob storage account.
+resource "azure-native_storage_storage_account" "account" {
+  resource_group_name = azure-native_resources_resource_group.resource-group.name
+  kind                = "StorageV2"
+  sku = {
+    name = "Standard_LRS"
   }
 }
 
-# A random suffix to make the storage account name globally unique.
-resource "random_string" "suffix" {
-  length  = 8
-  special = false
-  upper   = false
+# Enable static website hosting on the storage account.
+resource "azure-native_storage_storage_account_static_website" "website" {
+  resource_group_name = azure-native_resources_resource_group.resource-group.name
+  account_name        = azure-native_storage_storage_account.account.name
+  index_document      = var.index_document
+  error404_document   = var.error_document
 }
 
-# Create a resource group for the website.
-resource "azurerm_resource_group" "resource_group" {
-  name     = "rg-static-website-${random_string.suffix.result}"
-  location = var.location
+# Sync the contents of the website folder to the account's $web container.
+resource "synced-folder_azure_blob_folder" "synced-folder" {
+  path                 = var.path
+  resource_group_name  = azure-native_resources_resource_group.resource-group.name
+  storage_account_name = azure-native_storage_storage_account.account.name
+  container_name       = azure-native_storage_storage_account_static_website.website.container_name
 }
 
-# Create a blob storage account.
-resource "azurerm_storage_account" "account" {
-  name                     = "sa${random_string.suffix.result}"
-  resource_group_name      = azurerm_resource_group.resource_group.name
-  location                 = azurerm_resource_group.resource_group.location
-  account_tier             = "Standard"
-  account_replication_type = "LRS"
-  account_kind             = "StorageV2"
-}
+# Note: to put a CDN in front of this site, add an Azure Front Door profile
+# (azure-native_cdn_profile with sku Standard_AzureFrontDoor and a Front Door
+# endpoint/origin/route). The classic Azure CDN can no longer be created.
 
-# Configure the storage account as a website.
-resource "azurerm_storage_account_static_website" "website" {
-  storage_account_id = azurerm_storage_account.account.id
-  index_document     = var.index_document
-  error_404_document = var.error_document
-}
-
-# Sync the website files to the account's $web container.
-resource "azurerm_storage_blob" "files" {
-  for_each = fileset(var.path, "**")
-
-  name                   = each.value
-  storage_account_name   = azurerm_storage_account.account.name
-  storage_container_name = "$web"
-  type                   = "Block"
-  source                 = "${var.path}/${each.value}"
-  content_type           = lookup(local.mime_types, try(regex("\\.[^.]+$", each.value), ""), "application/octet-stream")
-
-  depends_on = [azurerm_storage_account_static_website.website]
-}
-
-# Create an Azure Front Door profile to distribute and cache the website.
-# (Front Door is the modern replacement for the now-retired classic Azure CDN.)
-resource "azurerm_cdn_frontdoor_profile" "profile" {
-  name                = "fd-static-website-${random_string.suffix.result}"
-  resource_group_name = azurerm_resource_group.resource_group.name
-  sku_name            = "Standard_AzureFrontDoor"
-}
-
-# Create a Front Door endpoint that serves the website over HTTPS.
-resource "azurerm_cdn_frontdoor_endpoint" "endpoint" {
-  name                     = "fd-endpoint-${random_string.suffix.result}"
-  cdn_frontdoor_profile_id = azurerm_cdn_frontdoor_profile.profile.id
-}
-
-# Group the storage account's static website as an origin.
-resource "azurerm_cdn_frontdoor_origin_group" "origin_group" {
-  name                     = "static-website"
-  cdn_frontdoor_profile_id = azurerm_cdn_frontdoor_profile.profile.id
-
-  load_balancing {}
-}
-
-# Point the origin at the storage account's static website host.
-resource "azurerm_cdn_frontdoor_origin" "origin" {
-  name                           = "storage-account"
-  cdn_frontdoor_origin_group_id  = azurerm_cdn_frontdoor_origin_group.origin_group.id
-  enabled                        = true
-  certificate_name_check_enabled = true
-  host_name                      = azurerm_storage_account.account.primary_web_host
-  origin_host_header             = azurerm_storage_account.account.primary_web_host
-  http_port                      = 80
-  https_port                     = 443
-  priority                       = 1
-  weight                         = 1000
-}
-
-# Route all requests through the endpoint to the storage origin.
-resource "azurerm_cdn_frontdoor_route" "route" {
-  name                          = "default"
-  cdn_frontdoor_endpoint_id     = azurerm_cdn_frontdoor_endpoint.endpoint.id
-  cdn_frontdoor_origin_group_id = azurerm_cdn_frontdoor_origin_group.origin_group.id
-  cdn_frontdoor_origin_ids      = [azurerm_cdn_frontdoor_origin.origin.id]
-
-  supported_protocols    = ["Http", "Https"]
-  patterns_to_match      = ["/*"]
-  forwarding_protocol    = "HttpsOnly"
-  https_redirect_enabled = true
-  link_to_default_domain = true
-}
-
-# Export the URLs and hostnames of the storage account and distribution.
+# Export the storage account's static website URL and hostname.
 output "origin_url" {
-  value = azurerm_storage_account.account.primary_web_endpoint
+  value = azure-native_storage_storage_account.account.primary_endpoints.web
 }
 
 output "origin_hostname" {
-  value = azurerm_storage_account.account.primary_web_host
-}
-
-output "cdn_url" {
-  value = "https://${azurerm_cdn_frontdoor_endpoint.endpoint.host_name}"
-}
-
-output "cdn_hostname" {
-  value = azurerm_cdn_frontdoor_endpoint.endpoint.host_name
+  value = split("/", azure-native_storage_storage_account.account.primary_endpoints.web)[2]
 }

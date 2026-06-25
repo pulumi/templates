@@ -1,24 +1,9 @@
 terraform {
   required_providers {
-    azurerm = {
-      source  = "hashicorp/azurerm"
-      version = ">= 4.0.0"
-    }
-    random = {
-      source  = "hashicorp/random"
-      version = ">= 3.0.0"
+    azure-native = {
+      source = "pulumi/azure-native"
     }
   }
-}
-
-provider "azurerm" {
-  features {}
-}
-
-variable "location" {
-  description = "The Azure region to deploy into"
-  type        = string
-  default     = "westus2"
 }
 
 variable "node_count" {
@@ -39,43 +24,40 @@ variable "node_vm_size" {
   default     = "Standard_DS2_v2"
 }
 
-# A random suffix to make names unique.
-resource "random_string" "suffix" {
-  length  = 8
-  special = false
-  upper   = false
-}
-
 # Create a resource group for the cluster.
-resource "azurerm_resource_group" "resource_group" {
-  name     = "rg-aks-${random_string.suffix.result}"
-  location = var.location
-}
+resource "azure-native_resources_resource_group" "resource-group" {}
 
 # Create a managed Kubernetes (AKS) cluster.
-resource "azurerm_kubernetes_cluster" "cluster" {
-  name                = "aks-${random_string.suffix.result}"
-  resource_group_name = azurerm_resource_group.resource_group.name
-  location            = azurerm_resource_group.resource_group.location
+resource "azure-native_containerservice_managed_cluster" "cluster" {
+  resource_group_name = azure-native_resources_resource_group.resource-group.name
   dns_prefix          = var.dns_prefix
+  enable_rbac         = true
 
-  default_node_pool {
-    name       = "systempool"
-    node_count = var.node_count
-    vm_size    = var.node_vm_size
-  }
-
-  identity {
+  identity = {
     type = "SystemAssigned"
   }
+
+  agent_pool_profiles {
+    name    = "systempool"
+    count   = var.node_count
+    mode    = "System"
+    os_type = "Linux"
+    vm_size = var.node_vm_size
+  }
+}
+
+# Fetch the cluster's user credentials so we can export a kubeconfig.
+data "azure-native_containerservice_list_managed_cluster_user_credentials" "credentials" {
+  resource_group_name = azure-native_resources_resource_group.resource-group.name
+  resource_name       = azure-native_containerservice_managed_cluster.cluster.name
 }
 
 # Export the cluster name and kubeconfig.
 output "cluster_name" {
-  value = azurerm_kubernetes_cluster.cluster.name
+  value = azure-native_containerservice_managed_cluster.cluster.name
 }
 
 output "kubeconfig" {
-  value     = azurerm_kubernetes_cluster.cluster.kube_config_raw
+  value     = base64decode(data.azure-native_containerservice_list_managed_cluster_user_credentials.credentials.kubeconfigs[0].value)
   sensitive = true
 }

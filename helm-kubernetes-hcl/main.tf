@@ -1,23 +1,8 @@
 terraform {
   required_providers {
     kubernetes = {
-      source  = "hashicorp/kubernetes"
-      version = ">= 2.0.0"
+      source = "pulumi/kubernetes"
     }
-    helm = {
-      source  = "hashicorp/helm"
-      version = "~> 2.0"
-    }
-  }
-}
-
-provider "kubernetes" {
-  config_path = "~/.kube/config"
-}
-
-provider "helm" {
-  kubernetes {
-    config_path = "~/.kube/config"
   }
 }
 
@@ -31,42 +16,46 @@ locals {
   app_labels = {
     app = "nginx-ingress"
   }
+
+  # The Helm release name. Defined as a local because the Release's resource
+  # token (kubernetes:helm.sh/v3:Release) contains a dot, which can't be
+  # referenced by traversal in HCL — so we set and export the name directly.
+  release_name = "ingresscontroller"
 }
 
 # Create a namespace for the ingress controller.
-resource "kubernetes_namespace_v1" "ingress" {
-  metadata {
+resource "kubernetes_core_v1_namespace" "ingressns" {
+  metadata = {
     name   = var.k8s_namespace
     labels = local.app_labels
   }
 }
 
-# Install the NGINX ingress controller via Helm.
-resource "helm_release" "ingress" {
-  name       = "ingresscontroller"
-  namespace  = kubernetes_namespace_v1.ingress.metadata[0].name
-  repository = "https://helm.nginx.com/stable"
-  chart      = "nginx-ingress"
-  version    = "0.14.1"
-  skip_crds  = true
+# Install the NGINX ingress controller with the native Helm Release resource.
+# (The resource token is kubernetes:helm.sh/v3:Release.)
+resource "kubernetes_helm.sh_v3_release" "ingresscontroller" {
+  name      = local.release_name
+  chart     = "nginx-ingress"
+  namespace = kubernetes_core_v1_namespace.ingressns.metadata.name
+  skip_crds = true
 
-  set {
-    name  = "controller.enableCustomResources"
-    value = "false"
+  repository_opts = {
+    repo = "https://helm.nginx.com/stable"
   }
 
-  set {
-    name  = "controller.appprotect.enable"
-    value = "false"
+  values = {
+    controller = {
+      enableCustomResources = false
+      appprotect            = { enable = false }
+      appprotectdos         = { enable = false }
+      service               = { extraLabels = local.app_labels }
+    }
   }
 
-  set {
-    name  = "controller.appprotectdos.enable"
-    value = "false"
-  }
+  version = "0.14.1"
 }
 
 # Export the name of the Helm release.
 output "name" {
-  value = helm_release.ingress.name
+  value = local.release_name
 }

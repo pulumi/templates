@@ -1,12 +1,10 @@
 terraform {
   required_providers {
-    google = {
-      source  = "hashicorp/google"
-      version = ">= 6.0.0"
+    gcp = {
+      source = "pulumi/gcp"
     }
-    random = {
-      source  = "hashicorp/random"
-      version = ">= 3.0.0"
+    synced-folder = {
+      source = "pulumi/synced-folder"
     }
   }
 }
@@ -29,104 +27,71 @@ variable "error_document" {
   default     = "error.html"
 }
 
-locals {
-  # Map file extensions to the content types used when uploading objects.
-  mime_types = {
-    ".html" = "text/html"
-    ".css"  = "text/css"
-    ".js"   = "application/javascript"
-    ".json" = "application/json"
-    ".svg"  = "image/svg+xml"
-    ".png"  = "image/png"
-    ".jpg"  = "image/jpeg"
-    ".jpeg" = "image/jpeg"
-    ".gif"  = "image/gif"
-    ".ico"  = "image/x-icon"
-    ".txt"  = "text/plain"
-  }
-}
-
-# A random suffix to make the bucket name globally unique.
-resource "random_string" "suffix" {
-  length  = 8
-  special = false
-  upper   = false
-}
-
 # Create a storage bucket and configure it as a website.
-resource "google_storage_bucket" "bucket" {
-  name     = "static-website-${random_string.suffix.result}"
+resource "gcp_storage_bucket" "bucket" {
   location = "US"
 
-  website {
+  website = {
     main_page_suffix = var.index_document
     not_found_page   = var.error_document
   }
 }
 
 # Allow public read access to the bucket's objects.
-resource "google_storage_bucket_iam_member" "public_read" {
-  bucket = google_storage_bucket.bucket.name
-  role   = "roles/storage.objectViewer"
-  member = "allUsers"
+# (The resource token snake-cases "IAMBinding" to "i_a_m_binding".)
+resource "gcp_storage_bucket_i_a_m_binding" "bucket-iam-binding" {
+  bucket  = gcp_storage_bucket.bucket.name
+  role    = "roles/storage.objectViewer"
+  members = ["allUsers"]
 }
 
-# Sync the website files to the bucket.
-resource "google_storage_bucket_object" "files" {
-  for_each = fileset(var.path, "**")
-
-  bucket       = google_storage_bucket.bucket.name
-  name         = each.value
-  source       = "${var.path}/${each.value}"
-  content_type = lookup(local.mime_types, try(regex("\\.[^.]+$", each.value), ""), "application/octet-stream")
+# Sync the contents of the website folder to the bucket.
+resource "synced-folder_google_cloud_folder" "synced-folder" {
+  path        = var.path
+  bucket_name = gcp_storage_bucket.bucket.name
 }
 
-# Enable the storage bucket as a CDN backend.
-resource "google_compute_backend_bucket" "backend" {
-  name        = "static-website-${random_string.suffix.result}"
-  bucket_name = google_storage_bucket.bucket.name
+# Enable the bucket as a CDN-backed backend.
+resource "gcp_compute_backend_bucket" "backend-bucket" {
+  bucket_name = gcp_storage_bucket.bucket.name
   enable_cdn  = true
 }
 
 # Provision a global IP address for the CDN.
-resource "google_compute_global_address" "ip" {
-  name = "static-website-${random_string.suffix.result}"
-}
+resource "gcp_compute_global_address" "ip" {}
 
-# Route requests to the storage bucket.
-resource "google_compute_url_map" "url_map" {
-  name            = "static-website-${random_string.suffix.result}"
-  default_service = google_compute_backend_bucket.backend.self_link
+# Route requests to the backend bucket.
+# (The resource token snake-cases "URLMap" to "u_r_l_map".)
+resource "gcp_compute_u_r_l_map" "url-map" {
+  default_service = gcp_compute_backend_bucket.backend-bucket.self_link
 }
 
 # Create an HTTP proxy to route requests to the URL map.
-resource "google_compute_target_http_proxy" "http_proxy" {
-  name    = "static-website-${random_string.suffix.result}"
-  url_map = google_compute_url_map.url_map.self_link
+resource "gcp_compute_target_http_proxy" "http-proxy" {
+  url_map = gcp_compute_u_r_l_map.url-map.self_link
 }
 
 # Route incoming requests to the HTTP proxy.
-resource "google_compute_global_forwarding_rule" "http" {
-  name        = "static-website-${random_string.suffix.result}"
-  ip_address  = google_compute_global_address.ip.address
+resource "gcp_compute_global_forwarding_rule" "http-forwarding-rule" {
+  ip_address  = gcp_compute_global_address.ip.address
   ip_protocol = "TCP"
   port_range  = "80"
-  target      = google_compute_target_http_proxy.http_proxy.self_link
+  target      = gcp_compute_target_http_proxy.http-proxy.self_link
 }
 
 # Export the URLs and hostnames of the bucket and CDN.
 output "origin_url" {
-  value = "https://storage.googleapis.com/${google_storage_bucket.bucket.name}/${var.index_document}"
+  value = "https://storage.googleapis.com/${gcp_storage_bucket.bucket.name}/${var.index_document}"
 }
 
 output "origin_hostname" {
-  value = "storage.googleapis.com/${google_storage_bucket.bucket.name}"
+  value = "storage.googleapis.com/${gcp_storage_bucket.bucket.name}"
 }
 
 output "cdn_url" {
-  value = "http://${google_compute_global_address.ip.address}"
+  value = "http://${gcp_compute_global_address.ip.address}"
 }
 
 output "cdn_hostname" {
-  value = google_compute_global_address.ip.address
+  value = gcp_compute_global_address.ip.address
 }
