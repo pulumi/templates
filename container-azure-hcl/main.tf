@@ -97,38 +97,42 @@ resource "azure-native_containerinstance_container_group" "container-group" {
   os_type             = "Linux"
   restart_policy      = "Always"
 
-  image_registry_credentials = [{
+  image_registry_credentials {
     server   = azure-native_containerregistry_registry.registry.login_server
     username = data.azure-native_containerregistry_list_registry_credentials.credentials.username
     password = data.azure-native_containerregistry_list_registry_credentials.credentials.passwords[0].value
-  }]
+  }
 
-  containers = [{
+  containers {
     name  = var.image_name
     image = docker-build_image.image.ref
-    ports = [{
+
+    ports {
       port     = var.container_port
       protocol = "TCP"
-    }]
-    environment_variables = [{
+    }
+
+    environment_variables {
       name  = "PORT"
       value = tostring(var.container_port)
-    }]
+    }
+
     resources = {
       requests = {
         cpu           = var.cpu
         memory_in_g_b = var.memory
       }
     }
-  }]
+  }
 
-  ip_address = {
+  ip_address {
     type           = "Public"
     dns_name_label = "${var.image_name}-${random_random_string.dns-name.result}"
-    ports = [{
+
+    ports {
       port     = var.container_port
       protocol = "TCP"
-    }]
+    }
   }
 }
 
