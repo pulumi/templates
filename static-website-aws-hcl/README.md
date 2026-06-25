@@ -8,16 +8,17 @@ The website content in `./www` is uploaded to a private S3 bucket. A CloudFront 
 
 ## Providers
 
-- AWS (`hashicorp/aws`)
+- AWS (`pulumi/aws`)
+- Synced Folder (`pulumi/synced-folder`) — uploads the website folder to the bucket
 
 ## Resources Created
 
 - `aws_s3_bucket` (`bucket`): A private bucket holding the website content.
-- `aws_s3_bucket_public_access_block` (`public_access_block`): Blocks all public access to the bucket.
-- `aws_s3_object` (`files`): One object per file under `path`, uploaded with an inferred content type.
-- `aws_cloudfront_origin_access_control` (`oac`): Lets CloudFront read from the private bucket.
+- `aws_s3_bucket_public_access_block` (`public-access-block`): Blocks all public access to the bucket.
+- `synced-folder_s3_bucket_folder` (`bucket-folder`): Syncs the contents of `path` to the bucket as private objects.
+- `aws_cloudfront_origin_access_control` (`origin-access-control`): Lets CloudFront read from the private bucket.
 - `aws_cloudfront_distribution` (`cdn`): The CDN that serves and caches the site.
-- `aws_s3_bucket_policy` (`bucket_policy`): Grants the distribution read access to the bucket.
+- `aws_s3_bucket_policy` (`bucket-policy`): Grants the distribution read access to the bucket.
 
 ## Outputs
 

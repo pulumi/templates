@@ -4,26 +4,28 @@ A Pulumi HCL program that deploys a serverless application on Azure: a Python Fu
 
 ## Overview
 
-A Python Azure Function returns the current time. A static website in `./www` is hosted from the storage account's static website feature and calls the function (the function endpoint is injected into a `config.json` the page reads at load time). The function code in `./app` is packaged and deployed to the Function App via zip deploy. The program is written in HCL (`main.tf`) and run by Pulumi's native HCL runtime.
+A Python Azure Function returns the current time. A static website in `./www` is hosted from the storage account's static website feature and calls the function (the function endpoint is injected into a `config.json` the page reads at load time). The function code in `./app` is zipped, uploaded to a blob container, and run from that package via `WEBSITE_RUN_FROM_PACKAGE` (a service SAS grants the Function App read access). The program is written in HCL (`main.tf`) and run by Pulumi's native HCL runtime.
 
 ## Providers
 
-- AzureRM (`hashicorp/azurerm`)
-- Archive (`hashicorp/archive`) — packages the function source
-- Random (`hashicorp/random`)
+- Azure Native (`pulumi/azure-native`)
+- Synced Folder (`pulumi/synced-folder`) — uploads the website folder to the `$web` container
 
 ## Resources Created
 
-- `azurerm_resource_group` (`resource_group`): The resource group.
-- `azurerm_storage_account` (`account`) + `azurerm_storage_account_static_website` (`website`): The account hosting both the website and the Function App runtime.
-- `azurerm_storage_blob` (`files`, `config`): The website content and its `config.json`.
-- `azurerm_service_plan` (`plan`): A Linux Consumption (`Y1`) plan.
-- `azurerm_linux_function_app` (`app`): The Python Function App, deployed from `./app`.
+- `azure-native_resources_resource_group` (`resource-group`): The resource group.
+- `azure-native_storage_storage_account` (`account`) + `azure-native_storage_storage_account_static_website` (`website`): The account hosting both the website and the Function App package.
+- `synced-folder_azure_blob_folder` (`synced-folder`): Syncs the website content to the `$web` container.
+- `azure-native_storage_blob_container` (`app-container`) + `azure-native_storage_blob` (`app-blob`): A private container holding the zipped function package.
+- `data azure-native_storage_list_storage_account_service_s_a_s` (`signature`): A service SAS granting read access to the package container.
+- `azure-native_web_app_service_plan` (`plan`): A Linux Consumption (`Y1`) plan.
+- `azure-native_web_web_app` (`app`): The Python Function App, run from the uploaded package.
+- `azure-native_storage_blob` (`config`): The website's `config.json` pointing at the function endpoint.
 
 ## Outputs
 
-- **site_url**: The URL of the static website.
-- **api_url**: The URL of the function endpoint (`/api/data`).
+- **origin_url**: The URL of the static website.
+- **api_url**: The URL of the function endpoint (`/api`).
 
 ## Prerequisites
 
@@ -38,7 +40,7 @@ pulumi new serverless-azure-hcl
 pulumi up
 ```
 
-Open the `siteURL` output and click the button. (The Function App can take a few minutes to finish its first deployment and build.)
+Open the `origin_url` output and click the button. (The Function App can take a few minutes to finish its first deployment and build.)
 
 ## Project Layout
 

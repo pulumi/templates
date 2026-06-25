@@ -4,24 +4,24 @@ A Pulumi HCL program that provisions an Amazon EKS cluster with a managed node g
 
 ## Overview
 
-The program creates a VPC with public subnets across two availability zones, the IAM roles required by EKS, an EKS control plane, and a managed node group. It exports a kubeconfig that uses the AWS CLI to authenticate. The program is written in HCL (`main.tf`) and run by Pulumi's native HCL runtime.
+The `awsx` VPC component builds a VPC with public and private subnets, and the `eks` component provisions the EKS control plane and a managed node group. It exports a kubeconfig for the cluster. The program is written in HCL (`main.tf`) and run by Pulumi's native HCL runtime.
 
 ## Providers
 
-- AWS (`hashicorp/aws`)
+- AWS (`pulumi/aws`)
+- AWSx (`pulumi/awsx`) — the VPC component
+- EKS (`pulumi/eks`) — the EKS cluster component
+- Kubernetes (`pulumi/kubernetes`)
 
 ## Resources Created
 
-- `aws_vpc` / `aws_subnet` / `aws_internet_gateway` / `aws_route_table` (+ associations): The cluster network.
-- `aws_iam_role` (`cluster`, `node`) + policy attachments: The control-plane and node roles.
-- `aws_eks_cluster` (`cluster`): The EKS control plane.
-- `aws_eks_node_group` (`nodes`): The managed worker node group.
+- `awsx_ec2_vpc` (`eks-vpc`): A VPC with public and private subnets for the cluster.
+- `eks_cluster` (`eks-cluster`): The EKS control plane and managed node group.
 
 ## Outputs
 
-- **cluster_name**: The name of the EKS cluster.
-- **vpc_id**: The ID of the VPC.
 - **kubeconfig**: A kubeconfig for the cluster (sensitive).
+- **vpc_id**: The ID of the VPC.
 
 ## Prerequisites
 

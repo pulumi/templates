@@ -4,15 +4,15 @@ A minimal Pulumi HCL template that deploys an nginx Deployment to a Kubernetes c
 
 ## Overview
 
-This template uses the Kubernetes provider to create a single-replica nginx Deployment in your currently configured cluster. The program is written in HCL (`main.tf`) and run by Pulumi's native HCL runtime.
+This template uses the Pulumi Kubernetes provider to create a single-replica nginx Deployment in your currently configured cluster. The provider uses the ambient kubeconfig and current context. The program is written in HCL (`main.tf`) and run by Pulumi's native HCL runtime.
 
 ## Providers
 
-- Kubernetes (`hashicorp/kubernetes`)
+- Kubernetes (`pulumi/kubernetes`)
 
 ## Resources Created
 
-- `kubernetes_deployment_v1` (`nginx`): A single-replica Deployment running the `nginx` image.
+- `kubernetes_apps_v1_deployment` (`deployment`): A single-replica Deployment running the `nginx` image.
 
 ## Outputs
 
@@ -55,7 +55,7 @@ After `pulumi new`, your directory will look like:
 
 ## Configuration
 
-This template reads your kubeconfig from `~/.kube/config` and uses the current context. To target a different cluster, switch your `kubectl` context or edit the `config_path` in the `kubernetes` provider block in `main.tf`.
+The native Kubernetes provider uses your ambient kubeconfig (`~/.kube/config`) and current context. To target a different cluster, switch your `kubectl` context.
 
 ## When to Use This Template
 

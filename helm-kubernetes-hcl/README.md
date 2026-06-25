@@ -4,17 +4,16 @@ A Pulumi HCL program that installs the NGINX ingress controller Helm chart onto 
 
 ## Overview
 
-The program creates a namespace and installs the `nginx-ingress` Helm chart into it. It targets the cluster in your current kubeconfig context. The program is written in HCL (`main.tf`) and run by Pulumi's native HCL runtime.
+The program creates a namespace and installs the `nginx-ingress` Helm chart into it using the native Kubernetes Helm Release resource (no separate Helm provider). It targets the cluster in your ambient kubeconfig and current context. The program is written in HCL (`main.tf`) and run by Pulumi's native HCL runtime.
 
 ## Providers
 
-- Kubernetes (`hashicorp/kubernetes`)
-- Helm (`hashicorp/helm`)
+- Kubernetes (`pulumi/kubernetes`)
 
 ## Resources Created
 
-- `kubernetes_namespace` (`ingress`): The namespace for the controller.
-- `helm_release` (`ingress`): The NGINX ingress controller chart.
+- `kubernetes_core_v1_namespace` (`ingressns`): The namespace for the controller.
+- `kubernetes_helm.sh_v3_release` (`ingresscontroller`): The NGINX ingress controller Helm release (resource token `kubernetes:helm.sh/v3:Release`).
 
 ## Outputs
 
@@ -23,8 +22,8 @@ The program creates a namespace and installs the `nginx-ingress` Helm chart into
 ## Prerequisites
 
 - Pulumi CLI configured and logged in to your chosen backend.
-- A Kubernetes cluster and a kubeconfig file (the providers read `~/.kube/config` and use the current context).
-- `kubectl` and Helm configured to talk to your cluster.
+- A Kubernetes cluster and a kubeconfig file (the provider uses your ambient `~/.kube/config` and current context).
+- `kubectl` configured to talk to your cluster.
 
 ## Usage
 

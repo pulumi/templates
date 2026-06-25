@@ -4,20 +4,22 @@ A Pulumi HCL program that builds a container image and runs it on Google Cloud R
 
 ## Overview
 
-The application in `./app` is built into a container image and pushed to Artifact Registry, then deployed as a publicly accessible Cloud Run service. The image is built and pushed with the Docker provider, so a running Docker daemon is required at deploy time. The program is written in HCL (`main.tf`) and run by Pulumi's native HCL runtime.
+The application in `./app` is built into a container image and pushed to Artifact Registry, then deployed as a publicly accessible Cloud Run service. The image is built and pushed with the `docker-build` provider, so a running Docker daemon is required at deploy time. Configure Docker auth for Artifact Registry first (e.g. `gcloud auth configure-docker <region>-docker.pkg.dev`). The program is written in HCL (`main.tf`) and run by Pulumi's native HCL runtime.
 
 ## Providers
 
-- Google (`hashicorp/google`)
-- Docker (`kreuzwerker/docker`) — builds and pushes the image
-- Random (`hashicorp/random`)
+- Google Cloud (`pulumi/gcp`)
+- Docker Build (`pulumi/docker-build`) — builds and pushes the image
+- Random (`pulumi/random`) — a unique repository-ID suffix
 
 ## Resources Created
 
-- `google_artifact_registry_repository` (`repo`): Stores the application image.
-- `docker_image` / `docker_registry_image` (`app`): Builds and pushes the image.
-- `google_cloud_run_v2_service` (`service`): Runs the container.
-- `google_cloud_run_v2_service_iam_member` (`invoker`): Allows public access.
+- `data gcp_organizations_client_config` (`current`): Reads the active project from the provider's credentials.
+- `random_random_string` (`unique-string`): A suffix giving the repository a unique ID.
+- `gcp_artifactregistry_repository` (`repository`): Stores the application image.
+- `docker-build_image` (`image`): Builds and pushes the image to Artifact Registry.
+- `gcp_cloudrun_service` (`service`): Runs the container.
+- `gcp_cloudrun_iam_member` (`invoker`): Allows public, unauthenticated access.
 
 ## Outputs
 

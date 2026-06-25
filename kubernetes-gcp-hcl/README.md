@@ -8,15 +8,15 @@ The program creates a VPC-native GKE cluster with private nodes, removes the def
 
 ## Providers
 
-- Google (`hashicorp/google`)
-- Random (`hashicorp/random`)
+- Google Cloud (`pulumi/gcp`)
 
 ## Resources Created
 
-- `google_compute_network` / `google_compute_subnetwork`: The cluster network (with Private Google Access).
-- `google_container_cluster` (`cluster`): The GKE control plane (default node pool removed).
-- `google_service_account` (`nodepool`): The node pool's service account.
-- `google_container_node_pool` (`nodepool`): The managed node pool.
+- `data gcp_organizations_client_config` (`current`): Reads the active project from the provider's credentials.
+- `gcp_compute_network` (`gke-network`) / `gcp_compute_subnetwork` (`gke-subnet`): The cluster network (with Private Google Access).
+- `gcp_container_cluster` (`gke-cluster`): The VPC-native GKE control plane (default node pool removed).
+- `gcp_serviceaccount_account` (`gke-nodepool-sa`): The node pool's service account.
+- `gcp_container_node_pool` (`gke-nodepool`): The managed node pool.
 
 ## Outputs
 
@@ -44,7 +44,7 @@ A new GKE cluster typically takes several minutes to provision.
 ## Configuration
 
 - **google:project**: The Google Cloud project to deploy into.
-- **google:region**: The region to deploy into. Default: `us-central1`.
+- **region**: The region to deploy into. Default: `us-central1`.
 - **nodes_per_zone**: The number of nodes per zone. Default: `1`.
 
 ## Next Steps

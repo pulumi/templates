@@ -8,16 +8,17 @@ A Python Cloud Function returns the current time. A static website in `./www` is
 
 ## Providers
 
-- Google (`hashicorp/google`)
-- Archive (`hashicorp/archive`) — packages the function source
-- Random (`hashicorp/random`)
+- Google Cloud (`pulumi/gcp`)
+- Synced Folder (`pulumi/synced-folder`) — uploads the website folder to the bucket
 
 ## Resources Created
 
-- `google_storage_bucket` (`site`) + IAM + objects: The static website bucket, its public read access, and its `config.json`.
-- `google_storage_bucket` (`app`) + `google_storage_bucket_object` (`app`): Holds the function's source archive.
-- `google_cloudfunctions2_function` (`data`): The Gen 2 function, built from `./app`.
-- `google_cloud_run_v2_service_iam_member` (`invoker`): Allows public invocation of the function's Cloud Run service.
+- `gcp_storage_bucket` (`site-bucket`) + `gcp_storage_bucket_i_a_m_binding` (`site-bucket-iam-binding`): The website bucket and its public read access.
+- `synced-folder_google_cloud_folder` (`synced-folder`): Syncs the website content to the bucket.
+- `gcp_storage_bucket` (`app-bucket`) + `gcp_storage_bucket_object` (`app-archive`): Holds the function's source archive.
+- `gcp_cloudfunctionsv2_function` (`data-function`): The Gen 2 Cloud Function, built from `./app`.
+- `gcp_cloudrun_iam_member` (`invoker`): Allows public invocation of the function's underlying Cloud Run service.
+- `gcp_storage_bucket_object` (`site-config`): The website's `config.json` pointing at the function URL.
 
 ## Outputs
 
@@ -37,7 +38,7 @@ pulumi new serverless-gcp-hcl
 pulumi up
 ```
 
-Open the `siteURL` output and click the button.
+Open the `site_url` output and click the button.
 
 ## Project Layout
 

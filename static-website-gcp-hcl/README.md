@@ -8,18 +8,17 @@ The website content in `./www` is uploaded to a public Cloud Storage bucket conf
 
 ## Providers
 
-- Google (`hashicorp/google`)
-- Random (`hashicorp/random`)
+- Google Cloud (`pulumi/gcp`)
+- Synced Folder (`pulumi/synced-folder`) — uploads the website folder to the bucket
 
 ## Resources Created
 
-- `random_string` (`suffix`): A random suffix used to build globally unique resource names.
-- `google_storage_bucket` (`bucket`): A website-enabled Cloud Storage bucket.
-- `google_storage_bucket_iam_member` (`public_read`): Grants public read access to objects.
-- `google_storage_bucket_object` (`files`): One object per file under `path`.
-- `google_compute_backend_bucket` (`backend`): A CDN-enabled backend for the bucket.
-- `google_compute_global_address` (`ip`): A global IP address for the CDN.
-- `google_compute_url_map` / `google_compute_target_http_proxy` / `google_compute_global_forwarding_rule`: Route requests to the backend bucket.
+- `gcp_storage_bucket` (`bucket`): A website-enabled Cloud Storage bucket.
+- `gcp_storage_bucket_i_a_m_binding` (`bucket-iam-binding`): Grants public read access to objects.
+- `synced-folder_google_cloud_folder` (`synced-folder`): Syncs the contents of `path` to the bucket.
+- `gcp_compute_backend_bucket` (`backend-bucket`): A CDN-enabled backend for the bucket.
+- `gcp_compute_global_address` (`ip`): A global IP address for the CDN.
+- `gcp_compute_u_r_l_map` (`url-map`) / `gcp_compute_target_http_proxy` (`http-proxy`) / `gcp_compute_global_forwarding_rule` (`http-forwarding-rule`): Route requests to the backend bucket.
 
 ## Outputs
 
