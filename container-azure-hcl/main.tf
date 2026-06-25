@@ -125,14 +125,13 @@ resource "azure-native_containerinstance_container_group" "container-group" {
     }
   }
 
-  ip_address {
+  ip_address = {
     type           = "Public"
     dns_name_label = "${var.image_name}-${random_random_string.dns-name.result}"
-
-    ports {
+    ports = [{
       port     = var.container_port
       protocol = "TCP"
-    }
+    }]
   }
 }
 
