@@ -6,17 +6,7 @@ terraform {
     aws-apigateway = {
       source = "pulumi/aws-apigateway"
     }
-    archive = {
-      source = "hashicorp/archive"
-    }
   }
-}
-
-# Package the function source into a deployment archive.
-data "archive_file" "fn" {
-  type        = "zip"
-  source_dir  = "./function"
-  output_path = "function.zip"
 }
 
 # An execution role for the Lambda function.
@@ -32,13 +22,14 @@ resource "aws_iam_role" "role" {
   managed_policy_arns = ["arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"]
 }
 
-# A Lambda function to invoke.
+# A Lambda function to invoke. fileArchive() packages the ./function folder into
+# a deployment archive, and Pulumi tracks the archive's contents to redeploy the
+# function whenever the source changes.
 resource "aws_lambda_function" "fn" {
-  runtime          = "python3.12"
-  handler          = "handler.handler"
-  role             = aws_iam_role.role.arn
-  filename         = data.archive_file.fn.output_path
-  source_code_hash = data.archive_file.fn.output_base64sha256
+  runtime  = "python3.12"
+  handler  = "handler.handler"
+  role     = aws_iam_role.role.arn
+  filename = fileArchive("./function")
 }
 
 # A REST API to serve the static front-end and route requests to the function.
