@@ -31,7 +31,6 @@ resource "aws_lambda_function" "fn" {
 }
 
 # A REST API to route requests to HTML content and the Lambda function
-# (the aws-apigateway component token snake-cases "RestAPI" to "rest_a_p_i").
 resource "aws-apigateway_rest_a_p_i" "api" {
   routes {
     path       = "/"

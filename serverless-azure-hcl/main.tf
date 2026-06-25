@@ -84,7 +84,6 @@ resource "azure-native_storage_blob" "app-blob" {
 }
 
 # Create a shared access signature allowing access to function storage.
-# (the function token snake-cases "ServiceSAS" to "service_s_a_s".)
 data "azure-native_storage_list_storage_account_service_s_a_s" "signature" {
   resource_group_name       = azure-native_resources_resource_group.resource-group.name
   account_name              = azure-native_storage_storage_account.account.name

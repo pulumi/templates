@@ -24,8 +24,7 @@ data "gcp_organizations_client_config" "current" {}
 locals {
   project = data.gcp_organizations_client_config.current.project
 
-  # Build a kubeconfig for the cluster. It uses the gke-gcloud-auth-plugin to
-  # authenticate, so that plugin must be installed to run kubectl against it.
+  # Build a kubeconfig for the cluster.
   kubeconfig = <<-EOF
     apiVersion: v1
     clusters:

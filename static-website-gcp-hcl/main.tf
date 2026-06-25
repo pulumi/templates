@@ -38,7 +38,6 @@ resource "gcp_storage_bucket" "bucket" {
 }
 
 # Create an IAM binding to allow public read access to the bucket.
-# (the resource token snake-cases "IAMBinding" to "i_a_m_binding")
 resource "gcp_storage_bucket_i_a_m_binding" "bucket-iam-binding" {
   bucket  = gcp_storage_bucket.bucket.name
   role    = "roles/storage.objectViewer"
@@ -61,7 +60,6 @@ resource "gcp_compute_backend_bucket" "backend-bucket" {
 resource "gcp_compute_global_address" "ip" {}
 
 # Create a URLMap to route requests to the storage bucket.
-# (the resource token snake-cases "URLMap" to "u_r_l_map")
 resource "gcp_compute_u_r_l_map" "url-map" {
   default_service = gcp_compute_backend_bucket.backend-bucket.self_link
 }

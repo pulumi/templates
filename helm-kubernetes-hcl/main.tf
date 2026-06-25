@@ -18,8 +18,7 @@ locals {
     app = "nginx-ingress"
   }
 
-  # The Helm release name, set as a local because the Release's resource token
-  # (kubernetes:helm.sh/v3:Release) contains a dot and can't be referenced in HCL.
+  # The Helm release name.
   release_name = "ingresscontroller"
 }
 

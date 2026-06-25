@@ -50,7 +50,6 @@ resource "gcp_storage_bucket" "site-bucket" {
 }
 
 # Create an IAM binding to allow public read access to the bucket.
-# (the gcp:storage component token snake-cases "IAMBinding" to "i_a_m_binding".)
 resource "gcp_storage_bucket_i_a_m_binding" "site-bucket-iam-binding" {
   bucket  = gcp_storage_bucket.site-bucket.name
   role    = "roles/storage.objectViewer"

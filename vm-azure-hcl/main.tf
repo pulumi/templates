@@ -93,7 +93,6 @@ resource "azure-native_network_virtual_network" "network" {
 }
 
 # Create a public IP address for the VM
-# (the azure-native provider snake-cases "PublicIPAddress" to "public_i_p_address").
 resource "azure-native_network_public_i_p_address" "public-ip" {
   resource_group_name         = azure-native_resources_resource_group.resource-group.name
   public_ip_allocation_method = "Dynamic"

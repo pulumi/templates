@@ -74,7 +74,6 @@ data "azure-native_containerregistry_list_registry_credentials" "credentials" {
 }
 
 # Create a container image for the service.
-# (the docker-build image requires push = true and registries for authentication.)
 resource "docker-build_image" "image" {
   tags      = ["${azure-native_containerregistry_registry.registry.login_server}/${var.image_name}:${var.image_tag}"]
   platforms = ["linux/amd64"]
