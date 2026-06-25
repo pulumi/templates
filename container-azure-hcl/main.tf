@@ -78,16 +78,17 @@ data "azure-native_containerregistry_list_registry_credentials" "credentials" {
 resource "docker-build_image" "image" {
   tags      = ["${azure-native_containerregistry_registry.registry.login_server}/${var.image_name}:${var.image_tag}"]
   platforms = ["linux/amd64"]
+  push      = true
 
   context = {
     location = var.app_path
   }
 
-  registries = [{
+  registries {
     address  = azure-native_containerregistry_registry.registry.login_server
     username = data.azure-native_containerregistry_list_registry_credentials.credentials.username
     password = data.azure-native_containerregistry_list_registry_credentials.credentials.passwords[0].value
-  }]
+  }
 }
 
 # Deploy the image as a publicly accessible container group.
