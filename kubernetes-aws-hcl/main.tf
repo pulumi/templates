@@ -16,42 +16,42 @@ terraform {
 }
 
 variable "min_cluster_size" {
-  description = "The minimum number of nodes in the cluster"
+  description = "Minimum size (number of nodes) of cluster"
   type        = number
   default     = 3
 }
 
 variable "max_cluster_size" {
-  description = "The maximum number of nodes in the cluster"
+  description = "Maximum size (number of nodes) of cluster"
   type        = number
   default     = 6
 }
 
 variable "desired_cluster_size" {
-  description = "The desired number of nodes in the cluster"
+  description = "Desired number of nodes in the cluster"
   type        = number
   default     = 3
 }
 
 variable "node_instance_type" {
-  description = "The EC2 instance type to use for worker nodes"
+  description = "Instance type to use for worker nodes"
   type        = string
   default     = "t3.medium"
 }
 
 variable "vpc_network_cidr" {
-  description = "The network CIDR to use for the VPC"
+  description = "Network CIDR to use for new VPC"
   type        = string
   default     = "10.0.0.0/16"
 }
 
-# Create a VPC for the cluster (the awsx component builds public and private subnets).
+# Create a VPC for the EKS cluster
 resource "awsx_ec2_vpc" "eks-vpc" {
   cidr_block           = var.vpc_network_cidr
   enable_dns_hostnames = true
 }
 
-# Create the EKS cluster (the eks component provisions the control plane and node group).
+# Create the EKS cluster
 resource "eks_cluster" "eks-cluster" {
   vpc_id              = awsx_ec2_vpc.eks-vpc.vpc_id
   public_subnet_ids   = awsx_ec2_vpc.eks-vpc.public_subnet_ids
@@ -68,7 +68,7 @@ resource "eks_cluster" "eks-cluster" {
   endpoint_public_access           = true
 }
 
-# Export the cluster's kubeconfig and the VPC ID.
+# Output the Kubeconfig for the cluster
 output "kubeconfig" {
   value     = eks_cluster.eks-cluster.kubeconfig
   sensitive = true

@@ -54,14 +54,15 @@ variable "concurrency" {
   default     = 80
 }
 
-# Read the active project from the provider's credentials.
+# Import the provider's configuration settings.
 data "gcp_organizations_client_config" "current" {}
 
+# Form the repository URL
 locals {
   repo_url = "${var.region}-docker.pkg.dev/${data.gcp_organizations_client_config.current.project}/${gcp_artifactregistry_repository.repository.repository_id}"
 }
 
-# A random suffix to give the repository a unique ID.
+# Generate a unique Artifact Registry repository ID
 resource "random_random_string" "unique-string" {
   length  = 4
   lower   = true
@@ -70,7 +71,7 @@ resource "random_random_string" "unique-string" {
   special = false
 }
 
-# Create an Artifact Registry repository for the container image.
+# Create an Artifact Registry repository
 resource "gcp_artifactregistry_repository" "repository" {
   description   = "Repository for the container image"
   format        = "DOCKER"
@@ -78,9 +79,9 @@ resource "gcp_artifactregistry_repository" "repository" {
   repository_id = "repo-${random_random_string.unique-string.result}"
 }
 
-# Build the container image and push it to Artifact Registry.
-# Before running `pulumi up`, configure Docker auth for Artifact Registry, e.g.:
-#   gcloud auth configure-docker ${var.region}-docker.pkg.dev
+# Create a container image for the service.
+# Before running `pulumi up`, configure Docker for authentication to Artifact Registry
+# as described here: https://cloud.google.com/artifact-registry/docs/docker/authentication
 resource "docker-build_image" "image" {
   tags      = ["${local.repo_url}/${var.image_name}"]
   platforms = ["linux/amd64"]
@@ -91,7 +92,7 @@ resource "docker-build_image" "image" {
   }
 }
 
-# Deploy the image as a Cloud Run service.
+# Create a Cloud Run service definition.
 resource "gcp_cloudrun_service" "service" {
   location = var.region
 
@@ -114,7 +115,7 @@ resource "gcp_cloudrun_service" "service" {
   }
 }
 
-# Allow public, unauthenticated access to the service.
+# Create an IAM member to allow the service to be publicly accessible.
 resource "gcp_cloudrun_iam_member" "invoker" {
   location = var.region
   service  = gcp_cloudrun_service.service.name

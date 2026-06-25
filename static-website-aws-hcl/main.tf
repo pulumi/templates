@@ -30,7 +30,7 @@ variable "error_document" {
 # Create a private S3 bucket to hold the website content.
 resource "aws_s3_bucket" "bucket" {}
 
-# Block all public access to the bucket; CloudFront reaches it via OAC.
+# Block all public access to the bucket; CloudFront will reach it via OAC.
 resource "aws_s3_bucket_public_access_block" "public-access-block" {
   bucket                  = aws_s3_bucket.bucket.id
   block_public_acls       = true
@@ -39,7 +39,7 @@ resource "aws_s3_bucket_public_access_block" "public-access-block" {
   restrict_public_buckets = true
 }
 
-# Sync the contents of the website folder to the bucket as private objects.
+# Sync the website files to the bucket as private objects.
 resource "synced-folder_s3_bucket_folder" "bucket-folder" {
   depends_on  = [aws_s3_bucket_public_access_block.public-access-block]
   acl         = "private"

@@ -27,25 +27,25 @@ variable "memory" {
   default     = 128
 }
 
-# An ECS cluster to deploy into.
+# An ECS cluster to deploy into
 resource "aws_ecs_cluster" "cluster" {}
 
-# An Application Load Balancer to serve the container endpoint to the internet.
+# An ALB to serve the container endpoint to the internet
 resource "awsx_lb_application_load_balancer" "loadbalancer" {}
 
-# An ECR repository to store the application's container image.
+# An ECR repository to store our application's container image
 resource "awsx_ecr_repository" "repo" {
   force_delete = true
 }
 
-# Build and publish the image from ./app to the ECR repository.
+# Build and publish our application's container image from ./app to the ECR repository
 resource "awsx_ecr_image" "image" {
   repository_url = awsx_ecr_repository.repo.url
   context        = "./app"
   platform       = "linux/amd64"
 }
 
-# Deploy an ECS Service on Fargate to host the application container.
+# Deploy an ECS Service on Fargate to host the application container
 resource "awsx_ecs_fargate_service" "service" {
   cluster          = aws_ecs_cluster.cluster.arn
   assign_public_ip = true
@@ -65,7 +65,7 @@ resource "awsx_ecs_fargate_service" "service" {
   }
 }
 
-# The URL at which the container's HTTP endpoint is available.
+# The URL at which the container's HTTP endpoint will be available
 output "url" {
   value = "http://${awsx_lb_application_load_balancer.loadbalancer.load_balancer.dns_name}"
 }

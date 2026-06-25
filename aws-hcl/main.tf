@@ -6,7 +6,7 @@ terraform {
   }
 }
 
-# Create an AWS resource (S3 bucket)
+# Create an AWS resource (S3 Bucket)
 resource "aws_s3_bucket" "my-bucket" {}
 
 # Export the name of the bucket

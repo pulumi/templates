@@ -48,7 +48,7 @@ variable "memory" {
   default     = 2
 }
 
-# A random suffix to give the service a unique DNS name.
+# Use a random string to give the service a unique DNS name.
 resource "random_random_string" "dns-name" {
   length  = 8
   upper   = false
@@ -58,7 +58,7 @@ resource "random_random_string" "dns-name" {
 # Create a resource group for the container registry.
 resource "azure-native_resources_resource_group" "resource-group" {}
 
-# Create a container registry with the admin user enabled.
+# Create a container registry.
 resource "azure-native_containerregistry_registry" "registry" {
   resource_group_name = azure-native_resources_resource_group.resource-group.name
   admin_user_enabled  = true
@@ -73,7 +73,8 @@ data "azure-native_containerregistry_list_registry_credentials" "credentials" {
   registry_name       = azure-native_containerregistry_registry.registry.name
 }
 
-# Build the container image and push it to the registry.
+# Create a container image for the service.
+# (the docker-build image requires push = true and registries for authentication.)
 resource "docker-build_image" "image" {
   tags      = ["${azure-native_containerregistry_registry.registry.login_server}/${var.image_name}:${var.image_tag}"]
   platforms = ["linux/amd64"]
@@ -90,7 +91,7 @@ resource "docker-build_image" "image" {
   }
 }
 
-# Deploy the image as a publicly accessible container group.
+# Create a container group for the service that makes it publicly accessible.
 resource "azure-native_containerinstance_container_group" "container-group" {
   resource_group_name = azure-native_resources_resource_group.resource-group.name
   os_type             = "Linux"
@@ -134,7 +135,7 @@ resource "azure-native_containerinstance_container_group" "container-group" {
   }
 }
 
-# Export the service's hostname, IP address, and URL.
+# Export the service's IP address, hostname, and fully-qualified URL.
 output "hostname" {
   value = azure-native_containerinstance_container_group.container-group.ip_address.fqdn
 }

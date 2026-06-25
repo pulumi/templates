@@ -16,7 +16,7 @@ variable "site_path" {
 }
 
 variable "app_path" {
-  description = "The path to the folder containing the function to deploy"
+  description = "The path to the folder containing the functions to be deployed"
   type        = string
   default     = "./app"
 }
@@ -39,10 +39,10 @@ locals {
   config_file = stringAsset(local.config_json)
 }
 
-# Create a resource group for the application.
+# Create a resource group for the website.
 resource "azure-native_resources_resource_group" "resource-group" {}
 
-# Create a storage account that backs both the website and the Function App.
+# Create a blob storage account.
 resource "azure-native_storage_storage_account" "account" {
   resource_group_name = azure-native_resources_resource_group.resource-group.name
   kind                = "StorageV2"
@@ -51,7 +51,7 @@ resource "azure-native_storage_storage_account" "account" {
   }
 }
 
-# Enable static website hosting on the storage account.
+# Create a storage container for the pages of the website.
 resource "azure-native_storage_storage_account_static_website" "website" {
   resource_group_name = azure-native_resources_resource_group.resource-group.name
   account_name        = azure-native_storage_storage_account.account.name
@@ -59,7 +59,7 @@ resource "azure-native_storage_storage_account_static_website" "website" {
   error404_document   = var.error_document
 }
 
-# Sync the contents of the website folder to the account's $web container.
+# Use a synced folder to manage the files of the website.
 resource "synced-folder_azure_blob_folder" "synced-folder" {
   path                 = var.site_path
   resource_group_name  = azure-native_resources_resource_group.resource-group.name
@@ -67,14 +67,14 @@ resource "synced-folder_azure_blob_folder" "synced-folder" {
   container_name       = azure-native_storage_storage_account_static_website.website.container_name
 }
 
-# Create a private container to hold the function's deployment package.
+# Create a storage container for the serverless app.
 resource "azure-native_storage_blob_container" "app-container" {
   resource_group_name = azure-native_resources_resource_group.resource-group.name
   account_name        = azure-native_storage_storage_account.account.name
   public_access       = "None"
 }
 
-# Upload the zipped function source to the container.
+# Upload the serverless app to the storage container.
 resource "azure-native_storage_blob" "app-blob" {
   resource_group_name = azure-native_resources_resource_group.resource-group.name
   account_name        = azure-native_storage_storage_account.account.name
@@ -83,7 +83,8 @@ resource "azure-native_storage_blob" "app-blob" {
   source              = local.app_archive
 }
 
-# Create a shared access signature granting read access to the package container.
+# Create a shared access signature allowing access to function storage.
+# (the function token snake-cases "ServiceSAS" to "service_s_a_s".)
 data "azure-native_storage_list_storage_account_service_s_a_s" "signature" {
   resource_group_name       = azure-native_resources_resource_group.resource-group.name
   account_name              = azure-native_storage_storage_account.account.name
@@ -99,7 +100,7 @@ data "azure-native_storage_list_storage_account_service_s_a_s" "signature" {
   content_encoding          = "deflate"
 }
 
-# Create a Consumption (serverless) plan for the Function App.
+# Create an App Service plan for the Function App.
 resource "azure-native_web_app_service_plan" "plan" {
   resource_group_name = azure-native_resources_resource_group.resource-group.name
   kind                = "Linux"
@@ -110,7 +111,7 @@ resource "azure-native_web_app_service_plan" "plan" {
   }
 }
 
-# Create the Function App, run from the uploaded package.
+# Create the Function App.
 resource "azure-native_web_web_app" "app" {
   resource_group_name = azure-native_resources_resource_group.resource-group.name
   server_farm_id      = azure-native_web_app_service_plan.plan.id
@@ -137,7 +138,7 @@ resource "azure-native_web_web_app" "app" {
   }
 }
 
-# Write a config file the website uses to find the API endpoint.
+# Create a JSON configuration file for the website.
 resource "azure-native_storage_blob" "config" {
   resource_group_name = azure-native_resources_resource_group.resource-group.name
   account_name        = azure-native_storage_storage_account.account.name

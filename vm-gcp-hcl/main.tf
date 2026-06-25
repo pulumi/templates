@@ -13,13 +13,13 @@ variable "machine_type" {
 }
 
 variable "os_image" {
-  description = "The OS image to use for the VM"
+  description = "The OS image type to use for the VM"
   type        = string
   default     = "debian-11"
 }
 
 variable "instance_tag" {
-  description = "The network tag to apply to the VM instance"
+  description = "The tag to apply to the VM instance"
   type        = string
   default     = "webserver"
 }
@@ -59,7 +59,7 @@ resource "gcp_compute_subnetwork" "subnet" {
   network       = gcp_compute_network.network.id
 }
 
-# Allow inbound access over port 22 (SSH) and the service port (HTTP).
+# Create a firewall allowing inbound access over ports 80 (for HTTP) and 22 (for SSH).
 resource "gcp_compute_firewall" "firewall" {
   network       = gcp_compute_network.network.self_link
   direction     = "INGRESS"
@@ -91,7 +91,6 @@ resource "gcp_compute_instance" "instance" {
     subnetwork = gcp_compute_subnetwork.subnet.id
 
     access_configs {
-      # An empty access config requests an ephemeral public IP.
     }
   }
 
@@ -100,7 +99,7 @@ resource "gcp_compute_instance" "instance" {
   }
 }
 
-# Export the instance's name, public IP address, and URL.
+# Export the instance's name, public IP address, and HTTP URL.
 output "name" {
   value = gcp_compute_instance.instance.name
 }

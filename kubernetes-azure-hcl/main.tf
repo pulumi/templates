@@ -7,27 +7,27 @@ terraform {
 }
 
 variable "node_count" {
-  description = "The number of worker nodes in the cluster"
+  description = "Number of worker nodes in the cluster"
   type        = number
   default     = 3
 }
 
 variable "dns_prefix" {
-  description = "The DNS prefix to use for the cluster"
+  description = "DNS prefix for the cluster"
   type        = string
   default     = "pulumi"
 }
 
 variable "node_vm_size" {
-  description = "The VM size to use for worker nodes"
+  description = "VM size to use for worker nodes in the cluster"
   type        = string
   default     = "Standard_DS2_v2"
 }
 
-# Create a resource group for the cluster.
+# Create a new resource group
 resource "azure-native_resources_resource_group" "resource-group" {}
 
-# Create a managed Kubernetes (AKS) cluster.
+# Create a managed cluster
 resource "azure-native_containerservice_managed_cluster" "cluster" {
   resource_group_name = azure-native_resources_resource_group.resource-group.name
   dns_prefix          = var.dns_prefix
@@ -46,13 +46,15 @@ resource "azure-native_containerservice_managed_cluster" "cluster" {
   }
 }
 
-# Fetch the cluster's user credentials so we can export a kubeconfig.
+# Create a user Kubeconfig
+# This SHOULD NOT be used for an explicit provider
+# This SHOULD be used for user logins to the cluster
 data "azure-native_containerservice_list_managed_cluster_user_credentials" "credentials" {
   resource_group_name = azure-native_resources_resource_group.resource-group.name
   resource_name       = azure-native_containerservice_managed_cluster.cluster.name
 }
 
-# Export the cluster name and kubeconfig.
+# Export the Kubeconfig of the cluster
 output "cluster_name" {
   value = azure-native_containerservice_managed_cluster.cluster.name
 }

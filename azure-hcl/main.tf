@@ -6,10 +6,10 @@ terraform {
   }
 }
 
-# Create an Azure resource group
+# Create an Azure Resource Group
 resource "azure-native_resources_resource_group" "resource-group" {}
 
-# Create an Azure storage account in the resource group
+# Create an Azure Storage Account
 resource "azure-native_storage_storage_account" "sa" {
   resource_group_name = azure-native_resources_resource_group.resource-group.name
   kind                = "StorageV2"

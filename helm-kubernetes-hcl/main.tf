@@ -13,17 +13,17 @@ variable "k8s_namespace" {
 }
 
 locals {
+  # Define some labels that will be applied to resources
   app_labels = {
     app = "nginx-ingress"
   }
 
-  # The Helm release name. Defined as a local because the Release's resource
-  # token (kubernetes:helm.sh/v3:Release) contains a dot, which can't be
-  # referenced by traversal in HCL — so we set and export the name directly.
+  # The Helm release name, set as a local because the Release's resource token
+  # (kubernetes:helm.sh/v3:Release) contains a dot and can't be referenced in HCL.
   release_name = "ingresscontroller"
 }
 
-# Create a namespace for the ingress controller.
+# Create a namespace (name of the namespace supplied by the user)
 resource "kubernetes_core_v1_namespace" "ingressns" {
   metadata = {
     name   = var.k8s_namespace
@@ -31,8 +31,7 @@ resource "kubernetes_core_v1_namespace" "ingressns" {
   }
 }
 
-# Install the NGINX ingress controller with the native Helm Release resource.
-# (The resource token is kubernetes:helm.sh/v3:Release.)
+# Use Helm to install the Nginx ingress controller
 resource "kubernetes_helm.sh_v3_release" "ingresscontroller" {
   name      = local.release_name
   chart     = "nginx-ingress"
@@ -55,7 +54,7 @@ resource "kubernetes_helm.sh_v3_release" "ingresscontroller" {
   version = "0.14.1"
 }
 
-# Export the name of the Helm release.
+# Export some values for use elsewhere
 output "name" {
   value = local.release_name
 }

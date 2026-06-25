@@ -10,7 +10,7 @@ terraform {
 }
 
 variable "region" {
-  description = "The Google Cloud region to deploy the function into"
+  description = "The Google Cloud region to deploy into"
   type        = string
   default     = "us-central1"
 }
@@ -22,7 +22,7 @@ variable "site_path" {
 }
 
 variable "app_path" {
-  description = "The path to the folder containing the function to deploy"
+  description = "The path to the folder containing the functions to be deployed"
   type        = string
   default     = "./app"
 }
@@ -49,31 +49,32 @@ resource "gcp_storage_bucket" "site-bucket" {
   }
 }
 
-# Allow public read access to the website's objects.
+# Create an IAM binding to allow public read access to the bucket.
+# (the gcp:storage component token snake-cases "IAMBinding" to "i_a_m_binding".)
 resource "gcp_storage_bucket_i_a_m_binding" "site-bucket-iam-binding" {
   bucket  = gcp_storage_bucket.site-bucket.name
   role    = "roles/storage.objectViewer"
   members = ["allUsers"]
 }
 
-# Sync the contents of the website folder to the bucket.
+# Use a synced folder to manage the files of the website.
 resource "synced-folder_google_cloud_folder" "synced-folder" {
   path        = var.site_path
   bucket_name = gcp_storage_bucket.site-bucket.name
 }
 
-# Create a bucket to hold the function's source archive.
+# Create another storage bucket for the serverless app.
 resource "gcp_storage_bucket" "app-bucket" {
   location = "US"
 }
 
-# Upload the zipped function source to the bucket.
+# Upload the serverless app to the storage bucket.
 resource "gcp_storage_bucket_object" "app-archive" {
   bucket = gcp_storage_bucket.app-bucket.name
   source = fileArchive(var.app_path)
 }
 
-# Create a Cloud Function (Gen 2) that returns the current time.
+# Create a Cloud Function (Gen 2) that returns some data.
 resource "gcp_cloudfunctionsv2_function" "data-function" {
   location = var.region
 
@@ -102,7 +103,7 @@ resource "gcp_cloudrun_iam_member" "invoker" {
   member   = "allUsers"
 }
 
-# Write a config file the website uses to find the function endpoint.
+# Create a JSON configuration file for the website.
 resource "gcp_storage_bucket_object" "site-config" {
   name         = "config.json"
   bucket       = gcp_storage_bucket.site-bucket.name

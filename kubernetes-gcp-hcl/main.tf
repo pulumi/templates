@@ -13,7 +13,7 @@ variable "region" {
 }
 
 variable "nodes_per_zone" {
-  description = "The number of nodes per zone in the node pool"
+  description = "The desired number of nodes PER ZONE in the nodepool"
   type        = number
   default     = 1
 }
@@ -51,14 +51,13 @@ locals {
   EOF
 }
 
-# Create a VPC network for the GKE cluster.
+# Create a GCP network (global VPC)
 resource "gcp_compute_network" "gke-network" {
   description             = "A virtual network for the GKE cluster"
   auto_create_subnetworks = false
 }
 
-# Create a subnet with Private Google Access enabled. Subnetworks are regional,
-# so set the region explicitly since the provider has no default region.
+# Create a subnet in the new GCP network
 resource "gcp_compute_subnetwork" "gke-subnet" {
   region                   = var.region
   ip_cidr_range            = "10.128.0.0/12"
@@ -66,7 +65,7 @@ resource "gcp_compute_subnetwork" "gke-subnet" {
   private_ip_google_access = true
 }
 
-# Create a VPC-native GKE cluster with its default node pool removed.
+# Create a new GKE cluster
 resource "gcp_container_cluster" "gke-cluster" {
   description              = "A GKE cluster"
   location                 = var.region
@@ -114,13 +113,13 @@ resource "gcp_container_cluster" "gke-cluster" {
   }
 }
 
-# Create a service account for the node pool.
+# Create a new service account for the nodepool
 resource "gcp_serviceaccount_account" "gke-nodepool-sa" {
   account_id   = "${gcp_container_cluster.gke-cluster.name}-np-1-sa"
   display_name = "Nodepool 1 Service Account"
 }
 
-# Create a node pool for the cluster.
+# Create a new nodepool for the cluster
 resource "gcp_container_node_pool" "gke-nodepool" {
   cluster    = gcp_container_cluster.gke-cluster.id
   node_count = var.nodes_per_zone
@@ -131,7 +130,7 @@ resource "gcp_container_node_pool" "gke-nodepool" {
   }
 }
 
-# Export network and cluster details, plus a kubeconfig for the cluster.
+# Export some values to be used elsewhere
 output "network_name" {
   value = gcp_compute_network.gke-network.name
 }

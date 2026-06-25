@@ -11,7 +11,7 @@ resource "gcp_storage_bucket" "my-bucket" {
   location = "US"
 }
 
-# Export the URL of the bucket
+# Export the DNS name of the bucket
 output "bucket_name" {
   value = gcp_storage_bucket.my-bucket.url
 }

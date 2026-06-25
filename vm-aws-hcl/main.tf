@@ -43,7 +43,7 @@ data "aws_ec2_ami" "amazon_linux" {
   }
 }
 
-# Create a VPC.
+# Create VPC.
 resource "aws_ec2_vpc" "vpc" {
   cidr_block           = var.vpc_network_cidr
   enable_dns_hostnames = true
@@ -55,14 +55,14 @@ resource "aws_ec2_internet_gateway" "gateway" {
   vpc_id = aws_ec2_vpc.vpc.id
 }
 
-# Create a subnet that assigns instances a public IP address.
+# Create a subnet that automatically assigns new instances a public IP address.
 resource "aws_ec2_subnet" "subnet" {
   vpc_id                  = aws_ec2_vpc.vpc.id
   cidr_block              = "10.0.1.0/24"
   map_public_ip_on_launch = true
 }
 
-# Create a route table that routes outbound traffic through the gateway.
+# Create a route table.
 resource "aws_ec2_route_table" "route-table" {
   vpc_id = aws_ec2_vpc.vpc.id
 
@@ -72,12 +72,14 @@ resource "aws_ec2_route_table" "route-table" {
   }
 }
 
+# Associate the route table with the public subnet.
 resource "aws_ec2_route_table_association" "route-table-association" {
   subnet_id      = aws_ec2_subnet.subnet.id
   route_table_id = aws_ec2_route_table.route-table.id
 }
 
-# Create a security group allowing inbound HTTP and all outbound traffic.
+# Create a security group allowing inbound access over port 80 and outbound
+# access to anywhere.
 resource "aws_ec2_security_group" "sec-group" {
   description = "Enable HTTP access"
   vpc_id      = aws_ec2_vpc.vpc.id
@@ -110,7 +112,7 @@ resource "aws_ec2_instance" "server" {
   }
 }
 
-# Export the instance's public IP address, hostname, and URL.
+# Export the instance's publicly accessible IP address and hostname.
 output "ip" {
   value = aws_ec2_instance.server.public_ip
 }

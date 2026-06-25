@@ -24,14 +24,14 @@ locals {
   }
 }
 
-# Create a namespace for the resources.
+# Create a new namespace for the resources
 resource "kubernetes_core_v1_namespace" "webserverns" {
   metadata = {
     name = var.k8s_namespace
   }
 }
 
-# Create a ConfigMap to store the Nginx configuration.
+# Create a ConfigMap to store Nginx configuration
 resource "kubernetes_core_v1_config_map" "webserverconfig" {
   metadata = {
     namespace = kubernetes_core_v1_namespace.webserverns.metadata.name
@@ -55,7 +55,7 @@ resource "kubernetes_core_v1_config_map" "webserverconfig" {
   }
 }
 
-# Create a Deployment running Nginx with the ConfigMap mounted.
+# Create a new Deployment
 resource "kubernetes_apps_v1_deployment" "webserverdeployment" {
   metadata = {
     namespace = kubernetes_core_v1_namespace.webserverns.metadata.name
@@ -96,7 +96,7 @@ resource "kubernetes_apps_v1_deployment" "webserverdeployment" {
   }
 }
 
-# Expose the Deployment as a Service.
+# Expose the Deployment as a Kubernetes Service
 resource "kubernetes_core_v1_service" "webserverservice" {
   metadata = {
     namespace = kubernetes_core_v1_namespace.webserverns.metadata.name
@@ -112,7 +112,7 @@ resource "kubernetes_core_v1_service" "webserverservice" {
   }
 }
 
-# Export the deployment and service names.
+# Export some values for use elsewhere
 output "deployment_name" {
   value = kubernetes_apps_v1_deployment.webserverdeployment.metadata.name
 }

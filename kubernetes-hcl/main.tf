@@ -12,7 +12,6 @@ locals {
   }
 }
 
-# Create an nginx Deployment on the current kubeconfig context
 resource "kubernetes_apps_v1_deployment" "deployment" {
   spec = {
     selector = {
@@ -33,7 +32,6 @@ resource "kubernetes_apps_v1_deployment" "deployment" {
   }
 }
 
-# Export the name of the Deployment
 output "name" {
   value = kubernetes_apps_v1_deployment.deployment.metadata.name
 }

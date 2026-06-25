@@ -37,21 +37,21 @@ resource "gcp_storage_bucket" "bucket" {
   }
 }
 
-# Allow public read access to the bucket's objects.
-# (The resource token snake-cases "IAMBinding" to "i_a_m_binding".)
+# Create an IAM binding to allow public read access to the bucket.
+# (the resource token snake-cases "IAMBinding" to "i_a_m_binding")
 resource "gcp_storage_bucket_i_a_m_binding" "bucket-iam-binding" {
   bucket  = gcp_storage_bucket.bucket.name
   role    = "roles/storage.objectViewer"
   members = ["allUsers"]
 }
 
-# Sync the contents of the website folder to the bucket.
+# Use a synced folder to manage the files of the website.
 resource "synced-folder_google_cloud_folder" "synced-folder" {
   path        = var.path
   bucket_name = gcp_storage_bucket.bucket.name
 }
 
-# Enable the bucket as a CDN-backed backend.
+# Enable the storage bucket as a CDN.
 resource "gcp_compute_backend_bucket" "backend-bucket" {
   bucket_name = gcp_storage_bucket.bucket.name
   enable_cdn  = true
@@ -60,18 +60,18 @@ resource "gcp_compute_backend_bucket" "backend-bucket" {
 # Provision a global IP address for the CDN.
 resource "gcp_compute_global_address" "ip" {}
 
-# Route requests to the backend bucket.
-# (The resource token snake-cases "URLMap" to "u_r_l_map".)
+# Create a URLMap to route requests to the storage bucket.
+# (the resource token snake-cases "URLMap" to "u_r_l_map")
 resource "gcp_compute_u_r_l_map" "url-map" {
   default_service = gcp_compute_backend_bucket.backend-bucket.self_link
 }
 
-# Create an HTTP proxy to route requests to the URL map.
+# Create an HTTP proxy to route requests to the URLMap.
 resource "gcp_compute_target_http_proxy" "http-proxy" {
   url_map = gcp_compute_u_r_l_map.url-map.self_link
 }
 
-# Route incoming requests to the HTTP proxy.
+# Create a GlobalForwardingRule rule to route requests to the HTTP proxy.
 resource "gcp_compute_global_forwarding_rule" "http-forwarding-rule" {
   ip_address  = gcp_compute_global_address.ip.address
   ip_protocol = "TCP"

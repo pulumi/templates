@@ -39,7 +39,7 @@ resource "azure-native_storage_storage_account" "account" {
   }
 }
 
-# Enable static website hosting on the storage account.
+# Configure the storage account as a website.
 resource "azure-native_storage_storage_account_static_website" "website" {
   resource_group_name = azure-native_resources_resource_group.resource-group.name
   account_name        = azure-native_storage_storage_account.account.name
@@ -47,7 +47,7 @@ resource "azure-native_storage_storage_account_static_website" "website" {
   error404_document   = var.error_document
 }
 
-# Sync the contents of the website folder to the account's $web container.
+# Use a synced folder to manage the files of the website.
 resource "synced-folder_azure_blob_folder" "synced-folder" {
   path                 = var.path
   resource_group_name  = azure-native_resources_resource_group.resource-group.name
@@ -55,11 +55,7 @@ resource "synced-folder_azure_blob_folder" "synced-folder" {
   container_name       = azure-native_storage_storage_account_static_website.website.container_name
 }
 
-# Note: to put a CDN in front of this site, add an Azure Front Door profile
-# (azure-native_cdn_profile with sku Standard_AzureFrontDoor and a Front Door
-# endpoint/origin/route). The classic Azure CDN can no longer be created.
-
-# Export the storage account's static website URL and hostname.
+# Export the URL and hostname of the storage account's website.
 output "origin_url" {
   value = azure-native_storage_storage_account.account.primary_endpoints.web
 }

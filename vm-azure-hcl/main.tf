@@ -19,7 +19,7 @@ variable "admin_username" {
 }
 
 variable "vm_name" {
-  description = "The computer name and DNS hostname prefix to use for the VM"
+  description = "The DNS hostname prefix to use for the VM"
   type        = string
   default     = "my-server"
 }
@@ -31,7 +31,7 @@ variable "vm_size" {
 }
 
 variable "os_image" {
-  description = "The Azure image reference (publisher:offer:sku:version) to use for the VM"
+  description = "The Azure URN of the base image to use for the VM"
   type        = string
   default     = "Debian:debian-11:11:latest"
 }
@@ -64,23 +64,23 @@ locals {
   )
 }
 
-# Create an SSH key for the VM.
+# Create an SSH key
 resource "tls_private_key" "ssh-key" {
   algorithm = "RSA"
   rsa_bits  = 4096
 }
 
-# Use a random string to give the VM a unique DNS name.
+# Use a random string to give the VM a unique DNS name
 resource "random_random_string" "random-string" {
   length  = 8
   upper   = false
   special = false
 }
 
-# Create a resource group.
+# Create a resource group
 resource "azure-native_resources_resource_group" "resource-group" {}
 
-# Create a virtual network with a subnet.
+# Create a virtual network
 resource "azure-native_network_virtual_network" "network" {
   resource_group_name = azure-native_resources_resource_group.resource-group.name
   address_space = {
@@ -92,7 +92,8 @@ resource "azure-native_network_virtual_network" "network" {
   }
 }
 
-# Create a public IP address with a DNS name.
+# Create a public IP address for the VM
+# (the azure-native provider snake-cases "PublicIPAddress" to "public_i_p_address").
 resource "azure-native_network_public_i_p_address" "public-ip" {
   resource_group_name         = azure-native_resources_resource_group.resource-group.name
   public_ip_allocation_method = "Dynamic"
@@ -101,7 +102,7 @@ resource "azure-native_network_public_i_p_address" "public-ip" {
   }
 }
 
-# Allow inbound access over the service port (HTTP) and port 22 (SSH).
+# Create a security group allowing inbound access over ports 80 (for HTTP) and 22 (for SSH)
 resource "azure-native_network_network_security_group" "security-group" {
   resource_group_name = azure-native_resources_resource_group.resource-group.name
   security_rules {
@@ -117,7 +118,7 @@ resource "azure-native_network_network_security_group" "security-group" {
   }
 }
 
-# Create a network interface bound to the subnet, public IP, and security group.
+# Create a network interface with the virtual network, IP address, and security group
 resource "azure-native_network_network_interface" "network-interface" {
   resource_group_name = azure-native_resources_resource_group.resource-group.name
   network_security_group = {
@@ -135,7 +136,7 @@ resource "azure-native_network_network_interface" "network-interface" {
   }
 }
 
-# Create the virtual machine.
+# Create the virtual machine
 resource "azure-native_compute_virtual_machine" "vm" {
   resource_group_name = azure-native_resources_resource_group.resource-group.name
   network_profile = {
@@ -175,14 +176,14 @@ resource "azure-native_compute_virtual_machine" "vm" {
   }
 }
 
-# Look up the VM's allocated public IP details once the machine is running.
+# Once the machine is created, fetch its IP address and DNS hostname
 data "azure-native_network_public_i_p_address" "address" {
   resource_group_name    = azure-native_resources_resource_group.resource-group.name
   public_ip_address_name = azure-native_network_public_i_p_address.public-ip.name
   expand                 = azure-native_compute_virtual_machine.vm.id
 }
 
-# Export the VM's public IP address, hostname, URL, and SSH private key.
+# Export the VM's hostname, public IP address, HTTP URL, and SSH private key
 output "ip" {
   value = data.azure-native_network_public_i_p_address.address.ip_address
 }
