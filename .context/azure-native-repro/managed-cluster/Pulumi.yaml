@@ -1,0 +1,5 @@
+name: aks-repro
+runtime: hcl
+config:
+  azure-native:location:
+    value: westus2

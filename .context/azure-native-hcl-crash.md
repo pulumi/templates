@@ -23,7 +23,9 @@ Per template: `vm-azure-hcl` hits it via PublicIPAddress / NetworkInterface;
 itself is not the trigger** — it previews fine on its own.
 
 ## Minimal repro (11 lines, no config, no credentials)
-Lives at `.context/azure-native-repro/` (`Pulumi.yaml` + `main.tf`):
+Two tracked repros: `.context/azure-native-repro/public-ip-address/` (shown
+below — crashes with no config) and `.context/azure-native-repro/managed-cluster/`
+(the AKS variant; needs `azure-native:location` set):
 ```hcl
 terraform {
   required_providers {
