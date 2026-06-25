@@ -78,8 +78,7 @@ resource "random_random_string" "random-string" {
 }
 
 # Create a resource group.
-resource "azure-native_resources_resource_group" "resource-group" {
-}
+resource "azure-native_resources_resource_group" "resource-group" {}
 
 # Create a virtual network with a subnet.
 resource "azure-native_network_virtual_network" "network" {

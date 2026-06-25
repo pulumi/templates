@@ -40,8 +40,7 @@ locals {
 }
 
 # Create a resource group for the application.
-resource "azure-native_resources_resource_group" "resource-group" {
-}
+resource "azure-native_resources_resource_group" "resource-group" {}
 
 # Create a storage account that backs both the website and the Function App.
 resource "azure-native_storage_storage_account" "account" {

@@ -56,8 +56,7 @@ resource "random_random_string" "dns-name" {
 }
 
 # Create a resource group for the container registry.
-resource "azure-native_resources_resource_group" "resource-group" {
-}
+resource "azure-native_resources_resource_group" "resource-group" {}
 
 # Create a container registry with the admin user enabled.
 resource "azure-native_containerregistry_registry" "registry" {
@@ -119,8 +118,8 @@ resource "azure-native_containerinstance_container_group" "container-group" {
 
     resources = {
       requests = {
-        cpu           = var.cpu
-        memory_in_g_b = var.memory
+        cpu          = var.cpu
+        memory_in_gb = var.memory
       }
     }
   }

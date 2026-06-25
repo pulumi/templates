@@ -28,12 +28,10 @@ variable "memory" {
 }
 
 # An ECS cluster to deploy into.
-resource "aws_ecs_cluster" "cluster" {
-}
+resource "aws_ecs_cluster" "cluster" {}
 
 # An Application Load Balancer to serve the container endpoint to the internet.
-resource "awsx_lb_application_load_balancer" "loadbalancer" {
-}
+resource "awsx_lb_application_load_balancer" "loadbalancer" {}
 
 # An ECR repository to store the application's container image.
 resource "awsx_ecr_repository" "repo" {

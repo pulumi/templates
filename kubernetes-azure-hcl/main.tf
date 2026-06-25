@@ -25,8 +25,7 @@ variable "node_vm_size" {
 }
 
 # Create a resource group for the cluster.
-resource "azure-native_resources_resource_group" "resource-group" {
-}
+resource "azure-native_resources_resource_group" "resource-group" {}
 
 # Create a managed Kubernetes (AKS) cluster.
 resource "azure-native_containerservice_managed_cluster" "cluster" {

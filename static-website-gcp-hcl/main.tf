@@ -58,8 +58,7 @@ resource "gcp_compute_backend_bucket" "backend-bucket" {
 }
 
 # Provision a global IP address for the CDN.
-resource "gcp_compute_global_address" "ip" {
-}
+resource "gcp_compute_global_address" "ip" {}
 
 # Route requests to the backend bucket.
 # (The resource token snake-cases "URLMap" to "u_r_l_map".)

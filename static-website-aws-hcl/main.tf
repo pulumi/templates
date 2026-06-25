@@ -28,8 +28,7 @@ variable "error_document" {
 }
 
 # Create a private S3 bucket to hold the website content.
-resource "aws_s3_bucket" "bucket" {
-}
+resource "aws_s3_bucket" "bucket" {}
 
 # Block all public access to the bucket; CloudFront reaches it via OAC.
 resource "aws_s3_bucket_public_access_block" "public-access-block" {

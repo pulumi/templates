@@ -28,8 +28,7 @@ variable "error_document" {
 }
 
 # Create a resource group for the website.
-resource "azure-native_resources_resource_group" "resource-group" {
-}
+resource "azure-native_resources_resource_group" "resource-group" {}
 
 # Create a blob storage account.
 resource "azure-native_storage_storage_account" "account" {
