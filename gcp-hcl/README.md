@@ -18,13 +18,20 @@ This template uses the Pulumi Google Cloud provider to create a single Cloud Sto
 
 - **bucket_name**: The URL of the created bucket.
 
+## When to Use
+
+This template is ideal if you need:
+- A lightweight starting point for a Cloud Storage bucket.
+- To learn Pulumi with HCL programs.
+- A quick bootstrap for small storage-focused projects.
+
 ## Prerequisites
 
 - Pulumi CLI configured and logged in to your chosen backend.
 - The Google Cloud CLI installed and authenticated (`gcloud auth application-default login`).
 - A Google Cloud project with the Cloud Storage API enabled and permissions to create buckets.
 
-## Usage
+## Getting Started
 
 Initialize a new project from this template by running:
 
@@ -65,13 +72,6 @@ To set the project, run:
 ```bash
 pulumi config set google:project my-project-id
 ```
-
-## When to Use This Template
-
-This template is ideal if you need:
-- A lightweight starting point for a Cloud Storage bucket.
-- To learn Pulumi with HCL programs.
-- A quick bootstrap for small storage-focused projects.
 
 ## Next Steps
 

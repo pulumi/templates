@@ -18,13 +18,20 @@ This template uses the Pulumi AWS provider to create a single S3 bucket. It is a
 
 - **bucket_name**: The name (ID) of the created S3 bucket.
 
+## When to Use
+
+This template is ideal if you need:
+- A lightweight starting point for creating an S3 bucket.
+- To learn Pulumi with HCL programs.
+- A quick bootstrap for small storage-focused projects.
+
 ## Prerequisites
 
 - Pulumi CLI configured and logged in to your chosen backend.
 - AWS credentials configured (environment variables, `~/.aws/credentials`, or `AWS_PROFILE`).
 - An AWS account with permissions to create S3 buckets.
 
-## Usage
+## Getting Started
 
 Initialize a new project from this template by running:
 
@@ -66,13 +73,6 @@ To override the region, run:
 ```bash
 pulumi config set aws:region us-west-2
 ```
-
-## When to Use This Template
-
-This template is ideal if you need:
-- A lightweight starting point for creating an S3 bucket.
-- To learn Pulumi with HCL programs.
-- A quick bootstrap for small storage-focused projects.
 
 ## Next Steps
 

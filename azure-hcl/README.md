@@ -19,13 +19,20 @@ This template uses the Pulumi Azure Native provider to create a resource group a
 
 - **storage_account_name**: The name of the created storage account.
 
+## When to Use
+
+This template is ideal if you need:
+- A lightweight starting point for an Azure storage account.
+- To learn Pulumi with HCL programs.
+- A quick bootstrap for small storage-focused projects.
+
 ## Prerequisites
 
 - Pulumi CLI configured and logged in to your chosen backend.
 - The Azure CLI installed and signed in (`az login`).
 - An Azure subscription with permissions to create resource groups and storage accounts. The active subscription is used; set `ARM_SUBSCRIPTION_ID` to override it.
 
-## Usage
+## Getting Started
 
 Initialize a new project from this template by running:
 
@@ -67,13 +74,6 @@ To override the location, run:
 ```bash
 pulumi config set location EastUS
 ```
-
-## When to Use This Template
-
-This template is ideal if you need:
-- A lightweight starting point for an Azure storage account.
-- To learn Pulumi with HCL programs.
-- A quick bootstrap for small storage-focused projects.
 
 ## Next Steps
 
