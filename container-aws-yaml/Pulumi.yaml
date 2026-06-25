@@ -35,13 +35,13 @@ resources:
   loadbalancer:
     type: awsx:lb:ApplicationLoadBalancer
 
-  # An ECR repository to store our application's container image
+  # An ECR repository to store the application's container image
   repo:
     type: awsx:ecr:Repository
     properties:
       forceDelete: true
 
-  # Build and publish our application's container image from ./app to the ECR repository
+  # Build and publish the application's container image from ./app to the ECR repository
   image:
     type: awsx:ecr:Image
     properties:
