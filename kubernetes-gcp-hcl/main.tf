@@ -57,8 +57,10 @@ resource "gcp_compute_network" "gke-network" {
   auto_create_subnetworks = false
 }
 
-# Create a subnet with Private Google Access enabled.
+# Create a subnet with Private Google Access enabled. Subnetworks are regional,
+# so set the region explicitly since the provider has no default region.
 resource "gcp_compute_subnetwork" "gke-subnet" {
+  region                   = var.region
   ip_cidr_range            = "10.128.0.0/12"
   network                  = gcp_compute_network.gke-network.id
   private_ip_google_access = true

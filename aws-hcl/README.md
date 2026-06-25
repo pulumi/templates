@@ -4,15 +4,15 @@ A minimal Pulumi HCL template that provisions an AWS S3 bucket and exports its n
 
 ## Overview
 
-This template uses the AWS provider to create a single S3 bucket. It is a great starting point for projects that require simple object storage with minimal setup. The program is written in HCL (`main.tf`) and run by Pulumi's native HCL runtime.
+This template uses the Pulumi AWS provider to create a single S3 bucket. It is a great starting point for projects that require simple object storage with minimal setup. The program is written in HCL (`main.tf`) and run by Pulumi's native HCL runtime.
 
 ## Providers
 
-- AWS (`hashicorp/aws`)
+- AWS (`pulumi/aws`)
 
 ## Resources Created
 
-- `aws_s3_bucket` (`my_bucket`): A basic S3 bucket.
+- `aws_s3_bucket` (`my-bucket`): A basic S3 bucket.
 
 ## Outputs
 

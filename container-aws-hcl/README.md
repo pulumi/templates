@@ -4,22 +4,20 @@ A Pulumi HCL program that builds a container image and runs it on AWS ECS Fargat
 
 ## Overview
 
-The application in `./app` is built into a container image and pushed to Amazon ECR, then deployed as an ECS Fargate service fronted by an Application Load Balancer. The image is built and pushed with the Docker provider, so a running Docker daemon is required at deploy time. The program is written in HCL (`main.tf`) and run by Pulumi's native HCL runtime.
+The application in `./app` is built into a container image and pushed to Amazon ECR, then deployed as an ECS Fargate service fronted by an Application Load Balancer. The `awsx` component builds and pushes the image, so a running Docker daemon is required at deploy time. The program is written in HCL (`main.tf`) and run by Pulumi's native HCL runtime.
 
 ## Providers
 
-- AWS (`hashicorp/aws`)
-- Docker (`kreuzwerker/docker`) — builds and pushes the image
+- AWS (`pulumi/aws`)
+- AWSx (`pulumi/awsx`) — load balancer, ECR repository/image, and Fargate service components
 
 ## Resources Created
 
-- `aws_ecr_repository` (`repo`): Stores the application image.
-- `docker_image` / `docker_registry_image` (`app`): Builds and pushes the image to ECR.
 - `aws_ecs_cluster` (`cluster`): The cluster to run the service in.
-- `aws_security_group` (`lb`, `service`): Allow HTTP to the load balancer and traffic from it to the task.
-- `aws_lb` / `aws_lb_target_group` / `aws_lb_listener`: The Application Load Balancer.
-- `aws_iam_role` (`execution`) + attachment: The ECS task execution role.
-- `aws_ecs_task_definition` (`task`) / `aws_ecs_service` (`service`): The Fargate task and service.
+- `awsx_lb_application_load_balancer` (`loadbalancer`): The Application Load Balancer serving the container endpoint.
+- `awsx_ecr_repository` (`repo`): Stores the application image.
+- `awsx_ecr_image` (`image`): Builds and pushes the image from `./app` to ECR.
+- `awsx_ecs_fargate_service` (`service`): The Fargate service hosting the application container.
 
 ## Outputs
 
@@ -53,10 +51,10 @@ Open the `url` output once the service is healthy.
 ## Configuration
 
 - **aws:region**: The AWS region to deploy into. Default: `us-west-2`.
-- **app_path**: The container application folder. Default: `./app`.
-- **image_name**: The image (and resource) name. Default: `my-app`.
 - **container_port**: The container port. Default: `80`.
-- **cpu** / **memory**: Task CPU units and memory (MiB) — must be a valid Fargate combination. Defaults: `256` / `512`.
+- **cpu** / **memory**: Task CPU units and memory (MiB). Defaults: `512` / `128`.
+
+The container image is built from `./app`, set in `main.tf`.
 
 ## Next Steps
 

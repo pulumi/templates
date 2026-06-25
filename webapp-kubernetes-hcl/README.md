@@ -4,18 +4,18 @@ A Pulumi HCL program that deploys a simple Nginx web application onto a Kubernet
 
 ## Overview
 
-The program creates a namespace, a ConfigMap holding an Nginx configuration, a Deployment that mounts that configuration, and a Service that exposes the Deployment. It targets the cluster in your current kubeconfig context. The program is written in HCL (`main.tf`) and run by Pulumi's native HCL runtime.
+The program creates a namespace, a ConfigMap holding an Nginx configuration, a Deployment that mounts that configuration, and a Service that exposes the Deployment. It targets the cluster in your ambient kubeconfig and current context. The program is written in HCL (`main.tf`) and run by Pulumi's native HCL runtime.
 
 ## Providers
 
-- Kubernetes (`hashicorp/kubernetes`)
+- Kubernetes (`pulumi/kubernetes`)
 
 ## Resources Created
 
-- `kubernetes_namespace` (`webserver`): The namespace for the application.
-- `kubernetes_config_map` (`config`): The Nginx configuration.
-- `kubernetes_deployment_v1` (`webserver`): The Nginx Deployment.
-- `kubernetes_service_v1` (`webserver`): A Service exposing the Deployment on port 80.
+- `kubernetes_core_v1_namespace` (`webserverns`): The namespace for the application.
+- `kubernetes_core_v1_config_map` (`webserverconfig`): The Nginx configuration.
+- `kubernetes_apps_v1_deployment` (`webserverdeployment`): The Nginx Deployment, mounting the ConfigMap.
+- `kubernetes_core_v1_service` (`webserverservice`): A Service exposing the Deployment on port 80.
 
 ## Outputs
 
@@ -25,7 +25,7 @@ The program creates a namespace, a ConfigMap holding an Nginx configuration, a D
 ## Prerequisites
 
 - Pulumi CLI configured and logged in to your chosen backend.
-- A Kubernetes cluster and a kubeconfig file (the provider reads `~/.kube/config` and uses the current context).
+- A Kubernetes cluster and a kubeconfig file (the provider uses your ambient `~/.kube/config` and current context).
 - `kubectl` configured to talk to your cluster.
 
 ## Usage

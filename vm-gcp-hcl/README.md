@@ -8,13 +8,13 @@ The program creates a VPC network and subnet, a firewall allowing HTTP and SSH, 
 
 ## Providers
 
-- Google (`hashicorp/google`)
+- Google Cloud (`pulumi/gcp`)
 
 ## Resources Created
 
-- `google_compute_network` (`network`) / `google_compute_subnetwork` (`subnet`): The network.
-- `google_compute_firewall` (`firewall`): Allows inbound SSH and HTTP to tagged instances.
-- `google_compute_instance` (`instance`): The VM running the web server.
+- `gcp_compute_network` (`network`) / `gcp_compute_subnetwork` (`subnet`): The network.
+- `gcp_compute_firewall` (`firewall`): Allows inbound SSH and HTTP to tagged instances.
+- `gcp_compute_instance` (`instance`): The VM running the web server.
 
 ## Outputs
 

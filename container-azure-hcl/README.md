@@ -4,20 +4,22 @@ A Pulumi HCL program that builds a container image and runs it on Azure Containe
 
 ## Overview
 
-The application in `./app` is built into a container image and pushed to an Azure Container Registry, then deployed as a publicly accessible container group on Azure Container Instances. The image is built and pushed with the Docker provider, so a running Docker daemon is required at deploy time. The program is written in HCL (`main.tf`) and run by Pulumi's native HCL runtime.
+The application in `./app` is built into a container image and pushed to an Azure Container Registry, then deployed as a publicly accessible container group on Azure Container Instances. The image is built and pushed with the `docker-build` provider, so a running Docker daemon is required at deploy time. The program is written in HCL (`main.tf`) and run by Pulumi's native HCL runtime.
 
 ## Providers
 
-- AzureRM (`hashicorp/azurerm`)
-- Docker (`kreuzwerker/docker`) — builds and pushes the image
-- Random (`hashicorp/random`)
+- Azure Native (`pulumi/azure-native`)
+- Docker Build (`pulumi/docker-build`) — builds and pushes the image
+- Random (`pulumi/random`) — a unique DNS-name suffix
 
 ## Resources Created
 
-- `azurerm_resource_group` (`resource_group`): The resource group.
-- `azurerm_container_registry` (`registry`): Stores the application image.
-- `docker_image` / `docker_registry_image` (`app`): Builds and pushes the image.
-- `azurerm_container_group` (`container_group`): Runs the container with a public IP and DNS name.
+- `random_random_string` (`dns-name`): A suffix giving the service a unique DNS name.
+- `azure-native_resources_resource_group` (`resource-group`): The resource group.
+- `azure-native_containerregistry_registry` (`registry`): Stores the application image.
+- `data azure-native_containerregistry_list_registry_credentials` (`credentials`): Fetches the registry's admin login credentials.
+- `docker-build_image` (`image`): Builds and pushes the image to the registry.
+- `azure-native_containerinstance_container_group` (`container-group`): Runs the container with a public IP and DNS name.
 
 ## Outputs
 

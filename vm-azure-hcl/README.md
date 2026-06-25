@@ -8,18 +8,21 @@ The program creates a resource group, a virtual network and subnet, a public IP 
 
 ## Providers
 
-- AzureRM (`hashicorp/azurerm`)
-- TLS (`hashicorp/tls`) — generates the SSH key
-- Random (`hashicorp/random`)
+- Azure Native (`pulumi/azure-native`)
+- TLS (`pulumi/tls`) — generates the SSH key
+- Random (`pulumi/random`) — a unique DNS-name suffix
 
 ## Resources Created
 
-- `tls_private_key` (`ssh`): An SSH key pair for the VM.
-- `azurerm_resource_group` / `azurerm_virtual_network` / `azurerm_subnet`: The resource group and network.
-- `azurerm_public_ip` (`public_ip`): A static public IP with a DNS label.
-- `azurerm_network_security_group` (+ association): Allows HTTP and SSH.
-- `azurerm_network_interface` (`nic`): The VM's network interface.
-- `azurerm_linux_virtual_machine` (`vm`): The virtual machine.
+- `tls_private_key` (`ssh-key`): An SSH key pair for the VM.
+- `random_random_string` (`random-string`): A suffix giving the VM a unique DNS name.
+- `azure-native_resources_resource_group` (`resource-group`): The resource group.
+- `azure-native_network_virtual_network` (`network`): A virtual network with a subnet.
+- `azure-native_network_public_i_p_address` (`public-ip`): A public IP with a DNS label.
+- `azure-native_network_network_security_group` (`security-group`): Allows HTTP and SSH.
+- `azure-native_network_network_interface` (`network-interface`): The VM's network interface.
+- `azure-native_compute_virtual_machine` (`vm`): The virtual machine.
+- `data azure-native_network_public_i_p_address` (`address`): Looks up the VM's allocated public IP details.
 
 ## Outputs
 

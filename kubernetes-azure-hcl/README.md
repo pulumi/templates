@@ -8,13 +8,13 @@ The program creates a resource group and a managed AKS cluster with a system-ass
 
 ## Providers
 
-- AzureRM (`hashicorp/azurerm`)
-- Random (`hashicorp/random`)
+- Azure Native (`pulumi/azure-native`)
 
 ## Resources Created
 
-- `azurerm_resource_group` (`resource_group`): The resource group.
-- `azurerm_kubernetes_cluster` (`cluster`): The AKS cluster and its default node pool.
+- `azure-native_resources_resource_group` (`resource-group`): The resource group.
+- `azure-native_containerservice_managed_cluster` (`cluster`): The AKS cluster and its system node pool.
+- `data azure-native_containerservice_list_managed_cluster_user_credentials` (`credentials`): Fetches the cluster's user credentials for the exported kubeconfig.
 
 ## Outputs
 

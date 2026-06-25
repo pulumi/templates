@@ -8,13 +8,14 @@ The program creates a VPC with a public subnet, an internet gateway and routing,
 
 ## Providers
 
-- AWS (`hashicorp/aws`)
+- AWS (`pulumi/aws`)
 
 ## Resources Created
 
-- `aws_vpc` / `aws_internet_gateway` / `aws_subnet` / `aws_route_table` (+ association): The network.
-- `aws_security_group` (`sec_group`): Allows inbound HTTP and all outbound traffic.
-- `aws_instance` (`server`): The EC2 instance running the web server.
+- `data aws_ec2_ami` (`amazon_linux`): Looks up the latest Amazon Linux 2023 AMI.
+- `aws_ec2_vpc` (`vpc`) / `aws_ec2_internet_gateway` (`gateway`) / `aws_ec2_subnet` (`subnet`) / `aws_ec2_route_table` (`route-table`) (+ `aws_ec2_route_table_association`): The network.
+- `aws_ec2_security_group` (`sec-group`): Allows inbound HTTP and all outbound traffic.
+- `aws_ec2_instance` (`server`): The EC2 instance running the web server.
 
 ## Outputs
 

@@ -1,29 +1,27 @@
 # Serverless Application on AWS (Pulumi HCL)
 
-A Pulumi HCL program that deploys a serverless application on AWS: a Lambda function behind an API Gateway HTTP API, with a static front-end hosted on S3.
+A Pulumi HCL program that deploys a serverless application on AWS: a Lambda function behind an API Gateway REST API that also serves a static front-end.
 
 ## Overview
 
-A Python Lambda function returns the current time. An API Gateway HTTP API routes `GET /date` to the function. A static website in `./www` is hosted from an S3 bucket and calls the API (the API endpoint is injected into a `config.json` the page reads at load time). The program is written in HCL (`main.tf`) and run by Pulumi's native HCL runtime.
+A Python Lambda function returns the current time. An API Gateway REST API (built with the `aws-apigateway` component) serves the static front-end in `./www` at the root path and routes `GET /date` to the function. The program is written in HCL (`main.tf`) and run by Pulumi's native HCL runtime.
 
 ## Providers
 
-- AWS (`hashicorp/aws`)
-- Archive (`hashicorp/archive`) — packages the function source
-- Random (`hashicorp/random`)
+- AWS (`pulumi/aws`)
+- API Gateway (`pulumi/aws-apigateway`) — the REST API component
+- Archive (`hashicorp/archive`) — packages the function source into a zip
 
 ## Resources Created
 
-- `aws_iam_role` / `aws_iam_role_policy_attachment`: The Lambda execution role.
+- `data archive_file` (`fn`): Packages the `./function` source into a deployment archive.
+- `aws_iam_role` (`role`): The Lambda execution role.
 - `aws_lambda_function` (`fn`): The function, packaged from `./function`.
-- `aws_apigatewayv2_api` / `_integration` / `_route` / `_stage`: The HTTP API and its `GET /date` route.
-- `aws_lambda_permission` (`apigw`): Lets the API invoke the function.
-- `aws_s3_bucket` + website/public-access/policy/objects: The static site and its `config.json`.
+- `aws-apigateway_rest_a_p_i` (`api`): A REST API that serves `./www` at `/` and routes `GET /date` to the function.
 
 ## Outputs
 
-- **site_url**: The URL of the static website.
-- **api_url**: The URL of the `GET /date` endpoint.
+- **url**: The URL at which the REST API (and static front-end) is served.
 
 ## Prerequisites
 
@@ -38,7 +36,7 @@ pulumi new serverless-aws-hcl
 pulumi up
 ```
 
-Open the `siteURL` output and click the button. (The API route can take a few seconds to become live after the first deploy.)
+Open the `url` output and click the button. (The API route can take a few seconds to become live after the first deploy.)
 
 ## Project Layout
 
@@ -54,8 +52,8 @@ Open the `siteURL` output and click the button. (The API route can take a few se
 ## Configuration
 
 - **aws:region**: The AWS region to deploy into. Default: `us-west-2`.
-- **site_path**: The website folder. Default: `./www`.
-- **app_path**: The function source folder. Default: `./function`.
+
+The static front-end is read from `./www` and the function source from `./function`; both paths are set in `main.tf`.
 
 ## Next Steps
 

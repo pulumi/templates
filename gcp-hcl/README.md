@@ -4,17 +4,15 @@ A minimal Pulumi HCL template that provisions a Google Cloud Storage bucket and 
 
 ## Overview
 
-This template uses the Google provider to create a single Cloud Storage bucket. A random suffix keeps the bucket name globally unique. The program is written in HCL (`main.tf`) and run by Pulumi's native HCL runtime.
+This template uses the Pulumi Google Cloud provider to create a single Cloud Storage bucket. Pulumi auto-names the bucket to keep it globally unique. The program is written in HCL (`main.tf`) and run by Pulumi's native HCL runtime.
 
 ## Providers
 
-- Google (`hashicorp/google`)
-- Random (`hashicorp/random`)
+- Google Cloud (`pulumi/gcp`)
 
 ## Resources Created
 
-- `random_string` (`suffix`): A random suffix used to build a globally unique bucket name.
-- `google_storage_bucket` (`my_bucket`): A multi-region (`US`) Cloud Storage bucket.
+- `gcp_storage_bucket` (`my-bucket`): A multi-region (`US`) Cloud Storage bucket.
 
 ## Outputs
 

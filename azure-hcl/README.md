@@ -4,18 +4,16 @@ A minimal Pulumi HCL template that provisions an Azure resource group and storag
 
 ## Overview
 
-This template uses the AzureRM provider to create a resource group and a `StorageV2` storage account. A random suffix keeps the storage account name globally unique. The program is written in HCL (`main.tf`) and run by Pulumi's native HCL runtime.
+This template uses the Pulumi Azure Native provider to create a resource group and a `StorageV2` storage account. Pulumi auto-names the storage account to keep it globally unique. The program is written in HCL (`main.tf`) and run by Pulumi's native HCL runtime.
 
 ## Providers
 
-- AzureRM (`hashicorp/azurerm`)
-- Random (`hashicorp/random`)
+- Azure Native (`pulumi/azure-native`)
 
 ## Resources Created
 
-- `azurerm_resource_group` (`resource_group`): The resource group that contains the storage account.
-- `random_string` (`suffix`): A random suffix used to build a globally unique storage account name.
-- `azurerm_storage_account` (`sa`): A Standard LRS `StorageV2` storage account.
+- `azure-native_resources_resource_group` (`resource-group`): The resource group that contains the storage account.
+- `azure-native_storage_storage_account` (`sa`): A Standard LRS `StorageV2` storage account.
 
 ## Outputs
 
