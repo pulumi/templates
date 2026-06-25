@@ -4,14 +4,14 @@ runtime: hcl
 template:
   description: A Pulumi HCL program to deploy a virtual machine on Azure
   config:
-    location:
+    azure-native:location:
       description: The Azure location to deploy into
       default: WestUS2
     admin_username:
       description: The user account to create on the VM
       default: pulumiuser
     vm_name:
-      description: The DNS hostname prefix and computer name to use for the VM
+      description: The computer name and DNS hostname prefix to use for the VM
       default: my-server
     vm_size:
       description: The machine size to use for the VM

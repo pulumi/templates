@@ -1,28 +1,15 @@
 terraform {
   required_providers {
-    azurerm = {
-      source  = "hashicorp/azurerm"
-      version = ">= 4.0.0"
+    azure-native = {
+      source = "pulumi/azure-native"
     }
     tls = {
-      source  = "hashicorp/tls"
-      version = ">= 4.0.0"
+      source = "pulumi/tls"
     }
     random = {
-      source  = "hashicorp/random"
-      version = ">= 3.0.0"
+      source = "pulumi/random"
     }
   }
-}
-
-provider "azurerm" {
-  features {}
-}
-
-variable "location" {
-  description = "The Azure location to deploy into"
-  type        = string
-  default     = "WestUS2"
 }
 
 variable "admin_username" {
@@ -32,7 +19,7 @@ variable "admin_username" {
 }
 
 variable "vm_name" {
-  description = "The DNS hostname prefix and computer name to use for the VM"
+  description = "The computer name and DNS hostname prefix to use for the VM"
   type        = string
   default     = "my-server"
 }
@@ -57,8 +44,9 @@ variable "service_port" {
 
 locals {
   os_image_parts = split(":", var.os_image)
+  dns_name       = "${var.vm_name}-${random_random_string.random-string.result}"
 
-  init_script = <<-EOF
+  init_script = base64encode(<<-EOF
     #!/bin/bash
     echo '<!DOCTYPE html>
     <html lang="en">
@@ -73,60 +61,52 @@ locals {
     </html>' > index.html
     sudo python3 -m http.server ${var.service_port} &
   EOF
+  )
 }
 
 # Create an SSH key for the VM.
-resource "tls_private_key" "ssh" {
+resource "tls_private_key" "ssh-key" {
   algorithm = "RSA"
   rsa_bits  = 4096
 }
 
-# A random suffix to give the VM a unique DNS name.
-resource "random_string" "suffix" {
+# Use a random string to give the VM a unique DNS name.
+resource "random_random_string" "random-string" {
   length  = 8
-  special = false
   upper   = false
+  special = false
 }
 
 # Create a resource group.
-resource "azurerm_resource_group" "resource_group" {
-  name     = "rg-${var.vm_name}-${random_string.suffix.result}"
-  location = var.location
+resource "azure-native_resources_resource_group" "resource-group" {
 }
 
-# Create a virtual network and subnet.
-resource "azurerm_virtual_network" "network" {
-  name                = "${var.vm_name}-net"
-  resource_group_name = azurerm_resource_group.resource_group.name
-  location            = azurerm_resource_group.resource_group.location
-  address_space       = ["10.0.0.0/16"]
-}
-
-resource "azurerm_subnet" "subnet" {
-  name                 = "default"
-  resource_group_name  = azurerm_resource_group.resource_group.name
-  virtual_network_name = azurerm_virtual_network.network.name
-  address_prefixes     = ["10.0.1.0/24"]
+# Create a virtual network with a subnet.
+resource "azure-native_network_virtual_network" "network" {
+  resource_group_name = azure-native_resources_resource_group.resource-group.name
+  address_space = {
+    address_prefixes = ["10.0.0.0/16"]
+  }
+  subnets {
+    name           = "default"
+    address_prefix = "10.0.1.0/24"
+  }
 }
 
 # Create a public IP address with a DNS name.
-resource "azurerm_public_ip" "public_ip" {
-  name                = "${var.vm_name}-ip"
-  resource_group_name = azurerm_resource_group.resource_group.name
-  location            = azurerm_resource_group.resource_group.location
-  allocation_method   = "Static"
-  sku                 = "Standard"
-  domain_name_label   = "${var.vm_name}-${random_string.suffix.result}"
+resource "azure-native_network_public_i_p_address" "public-ip" {
+  resource_group_name         = azure-native_resources_resource_group.resource-group.name
+  public_ip_allocation_method = "Dynamic"
+  dns_settings = {
+    domain_name_label = local.dns_name
+  }
 }
 
 # Allow inbound access over the service port (HTTP) and port 22 (SSH).
-resource "azurerm_network_security_group" "security_group" {
-  name                = "${var.vm_name}-nsg"
-  resource_group_name = azurerm_resource_group.resource_group.name
-  location            = azurerm_resource_group.resource_group.location
-
-  security_rule {
-    name                       = "allow-http-ssh"
+resource "azure-native_network_network_security_group" "security-group" {
+  resource_group_name = azure-native_resources_resource_group.resource-group.name
+  security_rules {
+    name                       = "${var.vm_name}-securityrule"
     priority                   = 1000
     direction                  = "Inbound"
     access                     = "Allow"
@@ -138,68 +118,85 @@ resource "azurerm_network_security_group" "security_group" {
   }
 }
 
-# Create a network interface and associate the security group with it.
-resource "azurerm_network_interface" "nic" {
-  name                = "${var.vm_name}-nic"
-  resource_group_name = azurerm_resource_group.resource_group.name
-  location            = azurerm_resource_group.resource_group.location
-
-  ip_configuration {
-    name                          = "internal"
-    subnet_id                     = azurerm_subnet.subnet.id
-    private_ip_address_allocation = "Dynamic"
-    public_ip_address_id          = azurerm_public_ip.public_ip.id
+# Create a network interface bound to the subnet, public IP, and security group.
+resource "azure-native_network_network_interface" "network-interface" {
+  resource_group_name = azure-native_resources_resource_group.resource-group.name
+  network_security_group = {
+    id = azure-native_network_network_security_group.security-group.id
   }
-}
-
-resource "azurerm_network_interface_security_group_association" "nic_nsg" {
-  network_interface_id      = azurerm_network_interface.nic.id
-  network_security_group_id = azurerm_network_security_group.security_group.id
+  ip_configurations {
+    name                         = "${var.vm_name}-ipconfiguration"
+    private_ip_allocation_method = "Dynamic"
+    subnet = {
+      id = azure-native_network_virtual_network.network.subnets[0].id
+    }
+    public_ip_address = {
+      id = azure-native_network_public_i_p_address.public-ip.id
+    }
+  }
 }
 
 # Create the virtual machine.
-resource "azurerm_linux_virtual_machine" "vm" {
-  name                  = var.vm_name
-  resource_group_name   = azurerm_resource_group.resource_group.name
-  location              = azurerm_resource_group.resource_group.location
-  size                  = var.vm_size
-  admin_username        = var.admin_username
-  computer_name         = var.vm_name
-  network_interface_ids = [azurerm_network_interface.nic.id]
-  custom_data           = base64encode(local.init_script)
-
-  admin_ssh_key {
-    username   = var.admin_username
-    public_key = tls_private_key.ssh.public_key_openssh
+resource "azure-native_compute_virtual_machine" "vm" {
+  resource_group_name = azure-native_resources_resource_group.resource-group.name
+  network_profile = {
+    network_interfaces = [{
+      id      = azure-native_network_network_interface.network-interface.id
+      primary = true
+    }]
   }
-
-  os_disk {
-    caching              = "ReadWrite"
-    storage_account_type = "Standard_LRS"
+  hardware_profile = {
+    vm_size = var.vm_size
   }
-
-  source_image_reference {
-    publisher = local.os_image_parts[0]
-    offer     = local.os_image_parts[1]
-    sku       = local.os_image_parts[2]
-    version   = local.os_image_parts[3]
+  os_profile = {
+    computer_name  = var.vm_name
+    admin_username = var.admin_username
+    custom_data    = local.init_script
+    linux_configuration = {
+      disable_password_authentication = true
+      ssh = {
+        public_keys = [{
+          key_data = tls_private_key.ssh-key.public_key_openssh
+          path     = "/home/${var.admin_username}/.ssh/authorized_keys"
+        }]
+      }
+    }
   }
+  storage_profile = {
+    os_disk = {
+      name          = "${var.vm_name}-osdisk"
+      create_option = "FromImage"
+    }
+    image_reference = {
+      publisher = local.os_image_parts[0]
+      offer     = local.os_image_parts[1]
+      sku       = local.os_image_parts[2]
+      version   = local.os_image_parts[3]
+    }
+  }
+}
+
+# Look up the VM's allocated public IP details once the machine is running.
+data "azure-native_network_public_i_p_address" "address" {
+  resource_group_name    = azure-native_resources_resource_group.resource-group.name
+  public_ip_address_name = azure-native_network_public_i_p_address.public-ip.name
+  expand                 = azure-native_compute_virtual_machine.vm.id
 }
 
 # Export the VM's public IP address, hostname, URL, and SSH private key.
 output "ip" {
-  value = azurerm_public_ip.public_ip.ip_address
+  value = data.azure-native_network_public_i_p_address.address.ip_address
 }
 
 output "hostname" {
-  value = azurerm_public_ip.public_ip.fqdn
+  value = data.azure-native_network_public_i_p_address.address.dns_settings.fqdn
 }
 
 output "url" {
-  value = "http://${azurerm_public_ip.public_ip.fqdn}:${var.service_port}"
+  value = "http://${data.azure-native_network_public_i_p_address.address.dns_settings.fqdn}:${var.service_port}"
 }
 
 output "private_key" {
-  value     = tls_private_key.ssh.private_key_openssh
+  value     = tls_private_key.ssh-key.private_key_openssh
   sensitive = true
 }

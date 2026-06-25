@@ -4,17 +4,17 @@ runtime: hcl
 template:
   description: A Pulumi HCL program to deploy a containerized service on Google Cloud
   config:
-    google:project:
+    gcp:project:
       description: The Google Cloud project to deploy into
     region:
       description: The Google Cloud region to deploy into
       default: us-central1
-    app_path:
-      description: The path to the container application to deploy
-      default: ./app
     image_name:
       description: The name to give the container image
       default: my-app
+    app_path:
+      description: The path to the container application to deploy
+      default: ./app
     container_port:
       description: The port to expose on the container
       default: 8080

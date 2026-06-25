@@ -1,28 +1,15 @@
 terraform {
   required_providers {
-    azurerm = {
-      source  = "hashicorp/azurerm"
-      version = ">= 4.0.0"
+    azure-native = {
+      source = "pulumi/azure-native"
     }
-    docker = {
-      source  = "kreuzwerker/docker"
-      version = ">= 3.0.0"
+    docker-build = {
+      source = "pulumi/docker-build"
     }
     random = {
-      source  = "hashicorp/random"
-      version = ">= 3.0.0"
+      source = "pulumi/random"
     }
   }
-}
-
-provider "azurerm" {
-  features {}
-}
-
-variable "location" {
-  description = "The Azure region to deploy into"
-  type        = string
-  default     = "WestUS"
 }
 
 variable "app_path" {
@@ -35,6 +22,12 @@ variable "image_name" {
   description = "The name to give the container image"
   type        = string
   default     = "my-app"
+}
+
+variable "image_tag" {
+  description = "The tag to give the container image"
+  type        = string
+  default     = "latest"
 }
 
 variable "container_port" {
@@ -55,95 +48,98 @@ variable "memory" {
   default     = 2
 }
 
-# A random suffix to make names globally unique.
-resource "random_string" "suffix" {
+# A random suffix to give the service a unique DNS name.
+resource "random_random_string" "dns-name" {
   length  = 8
-  special = false
   upper   = false
+  special = false
 }
 
-# Create a resource group for the service.
-resource "azurerm_resource_group" "resource_group" {
-  name     = "rg-container-${random_string.suffix.result}"
-  location = var.location
+# Create a resource group for the container registry.
+resource "azure-native_resources_resource_group" "resource-group" {
 }
 
-# Create a container registry.
-resource "azurerm_container_registry" "registry" {
-  name                = "acr${random_string.suffix.result}"
-  resource_group_name = azurerm_resource_group.resource_group.name
-  location            = azurerm_resource_group.resource_group.location
-  sku                 = "Basic"
-  admin_enabled       = true
-}
-
-# Authenticate the Docker provider to the registry.
-provider "docker" {
-  registry_auth {
-    address  = azurerm_container_registry.registry.login_server
-    username = azurerm_container_registry.registry.admin_username
-    password = azurerm_container_registry.registry.admin_password
+# Create a container registry with the admin user enabled.
+resource "azure-native_containerregistry_registry" "registry" {
+  resource_group_name = azure-native_resources_resource_group.resource-group.name
+  admin_user_enabled  = true
+  sku = {
+    name = "Basic"
   }
 }
 
-# Build the container image from the application source.
-resource "docker_image" "app" {
-  name = "${azurerm_container_registry.registry.login_server}/${var.image_name}:latest"
-
-  build {
-    context  = var.app_path
-    platform = "linux/amd64"
-  }
+# Fetch login credentials for the registry.
+data "azure-native_containerregistry_list_registry_credentials" "credentials" {
+  resource_group_name = azure-native_resources_resource_group.resource-group.name
+  registry_name       = azure-native_containerregistry_registry.registry.name
 }
 
-# Push the image to the registry.
-resource "docker_registry_image" "app" {
-  name          = docker_image.app.name
-  keep_remotely = true
+# Build the container image and push it to the registry.
+resource "docker-build_image" "image" {
+  tags      = ["${azure-native_containerregistry_registry.registry.login_server}/${var.image_name}:${var.image_tag}"]
+  platforms = ["linux/amd64"]
+
+  context = {
+    location = var.app_path
+  }
+
+  registries = [{
+    address  = azure-native_containerregistry_registry.registry.login_server
+    username = data.azure-native_containerregistry_list_registry_credentials.credentials.username
+    password = data.azure-native_containerregistry_list_registry_credentials.credentials.passwords[0].value
+  }]
 }
 
 # Deploy the image as a publicly accessible container group.
-resource "azurerm_container_group" "container_group" {
-  name                = "container-${random_string.suffix.result}"
-  resource_group_name = azurerm_resource_group.resource_group.name
-  location            = azurerm_resource_group.resource_group.location
+resource "azure-native_containerinstance_container_group" "container-group" {
+  resource_group_name = azure-native_resources_resource_group.resource-group.name
   os_type             = "Linux"
   restart_policy      = "Always"
-  ip_address_type     = "Public"
-  dns_name_label      = "${var.image_name}-${random_string.suffix.result}"
 
-  image_registry_credential {
-    server   = azurerm_container_registry.registry.login_server
-    username = azurerm_container_registry.registry.admin_username
-    password = azurerm_container_registry.registry.admin_password
-  }
+  image_registry_credentials = [{
+    server   = azure-native_containerregistry_registry.registry.login_server
+    username = data.azure-native_containerregistry_list_registry_credentials.credentials.username
+    password = data.azure-native_containerregistry_list_registry_credentials.credentials.passwords[0].value
+  }]
 
-  container {
-    name   = var.image_name
-    image  = "${azurerm_container_registry.registry.login_server}/${var.image_name}@${docker_registry_image.app.sha256_digest}"
-    cpu    = var.cpu
-    memory = var.memory
-
-    ports {
+  containers = [{
+    name  = var.image_name
+    image = docker-build_image.image.ref
+    ports = [{
       port     = var.container_port
       protocol = "TCP"
+    }]
+    environment_variables = [{
+      name  = "PORT"
+      value = tostring(var.container_port)
+    }]
+    resources = {
+      requests = {
+        cpu           = var.cpu
+        memory_in_g_b = var.memory
+      }
     }
+  }]
 
-    environment_variables = {
-      PORT = tostring(var.container_port)
-    }
+  ip_address = {
+    type           = "Public"
+    dns_name_label = "${var.image_name}-${random_random_string.dns-name.result}"
+    ports = [{
+      port     = var.container_port
+      protocol = "TCP"
+    }]
   }
 }
 
 # Export the service's hostname, IP address, and URL.
 output "hostname" {
-  value = azurerm_container_group.container_group.fqdn
+  value = azure-native_containerinstance_container_group.container-group.ip_address.fqdn
 }
 
 output "ip" {
-  value = azurerm_container_group.container_group.ip_address
+  value = azure-native_containerinstance_container_group.container-group.ip_address.ip
 }
 
 output "url" {
-  value = "http://${azurerm_container_group.container_group.fqdn}:${var.container_port}"
+  value = "http://${azure-native_containerinstance_container_group.container-group.ip_address.fqdn}:${var.container_port}"
 }
