@@ -33,12 +33,12 @@ resource "aws_ecs_cluster" "cluster" {}
 # An ALB to serve the container endpoint to the internet
 resource "awsx_lb_application_load_balancer" "loadbalancer" {}
 
-# An ECR repository to store our application's container image
+# An ECR repository to store the application's container image
 resource "awsx_ecr_repository" "repo" {
   force_delete = true
 }
 
-# Build and publish our application's container image from ./app to the ECR repository
+# Build and publish the application's container image from ./app to the ECR repository
 resource "awsx_ecr_image" "image" {
   repository_url = awsx_ecr_repository.repo.url
   context        = "./app"
