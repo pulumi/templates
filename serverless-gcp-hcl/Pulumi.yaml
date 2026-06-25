@@ -4,10 +4,10 @@ runtime: hcl
 template:
   description: A Pulumi HCL program to deploy a serverless application on Google Cloud
   config:
-    google:project:
+    gcp:project:
       description: The Google Cloud project to deploy into
     region:
-      description: The Google Cloud region to deploy into
+      description: The Google Cloud region to deploy the function into
       default: us-central1
     site_path:
       description: The path to the folder containing the website

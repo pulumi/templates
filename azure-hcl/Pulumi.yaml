@@ -5,6 +5,6 @@ template:
   description: A minimal Azure Pulumi HCL program
   important: true
   config:
-    location:
+    azure-native:location:
       description: The Azure location to deploy into
       default: WestUS2

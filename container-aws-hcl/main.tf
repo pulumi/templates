@@ -1,30 +1,12 @@
 terraform {
   required_providers {
     aws = {
-      source  = "hashicorp/aws"
-      version = ">= 5.0.0"
+      source = "pulumi/aws"
     }
-    docker = {
-      source  = "kreuzwerker/docker"
-      version = ">= 3.0.0"
-    }
-    random = {
-      source  = "hashicorp/random"
-      version = ">= 3.0.0"
+    awsx = {
+      source = "pulumi/awsx"
     }
   }
-}
-
-variable "app_path" {
-  description = "The path to the container application to deploy"
-  type        = string
-  default     = "./app"
-}
-
-variable "image_name" {
-  description = "The name to give the container image"
-  type        = string
-  default     = "my-app"
 }
 
 variable "container_port" {
@@ -34,207 +16,58 @@ variable "container_port" {
 }
 
 variable "cpu" {
-  description = "The amount of CPU units to allocate for the task (must be a valid Fargate value)"
-  type        = number
-  default     = 256
-}
-
-variable "memory" {
-  description = "The amount of memory (MiB) to allocate for the task (must be a valid Fargate value)"
+  description = "The amount of CPU to allocate for the container"
   type        = number
   default     = 512
 }
 
-data "aws_caller_identity" "current" {}
-data "aws_region" "current" {}
-
-# Use the default VPC and its subnets to keep the template self-contained.
-data "aws_vpc" "default" {
-  default = true
-}
-
-data "aws_subnets" "default" {
-  filter {
-    name   = "vpc-id"
-    values = [data.aws_vpc.default.id]
-  }
-}
-
-# Credentials for pushing to ECR.
-data "aws_ecr_authorization_token" "token" {}
-
-locals {
-  registry = "${data.aws_caller_identity.current.account_id}.dkr.ecr.${data.aws_region.current.region}.amazonaws.com"
-}
-
-# A random suffix to keep resource names unique.
-resource "random_string" "suffix" {
-  length  = 6
-  special = false
-  upper   = false
-}
-
-# An ECR repository to store the application's container image.
-resource "aws_ecr_repository" "repo" {
-  name         = "${var.image_name}-${random_string.suffix.result}"
-  force_delete = true
-}
-
-# Authenticate the Docker provider to ECR.
-provider "docker" {
-  registry_auth {
-    address  = local.registry
-    username = data.aws_ecr_authorization_token.token.user_name
-    password = data.aws_ecr_authorization_token.token.password
-  }
-}
-
-# Build the container image from the application source.
-resource "docker_image" "app" {
-  name = "${aws_ecr_repository.repo.repository_url}:latest"
-
-  build {
-    context  = var.app_path
-    platform = "linux/amd64"
-  }
-}
-
-# Push the image to ECR.
-resource "docker_registry_image" "app" {
-  name          = docker_image.app.name
-  keep_remotely = true
+variable "memory" {
+  description = "The amount of memory to allocate for the container"
+  type        = number
+  default     = 128
 }
 
 # An ECS cluster to deploy into.
 resource "aws_ecs_cluster" "cluster" {
-  name = "${var.image_name}-cluster-${random_string.suffix.result}"
 }
 
-# A security group for the load balancer, allowing inbound HTTP.
-resource "aws_security_group" "lb" {
-  vpc_id = data.aws_vpc.default.id
+# An Application Load Balancer to serve the container endpoint to the internet.
+resource "awsx_lb_application_load_balancer" "loadbalancer" {
+}
 
-  ingress {
-    protocol    = "tcp"
-    from_port   = 80
-    to_port     = 80
-    cidr_blocks = ["0.0.0.0/0"]
+# An ECR repository to store the application's container image.
+resource "awsx_ecr_repository" "repo" {
+  force_delete = true
+}
+
+# Build and publish the image from ./app to the ECR repository.
+resource "awsx_ecr_image" "image" {
+  repository_url = awsx_ecr_repository.repo.url
+  context        = "./app"
+  platform       = "linux/amd64"
+}
+
+# Deploy an ECS Service on Fargate to host the application container.
+resource "awsx_ecs_fargate_service" "service" {
+  cluster          = aws_ecs_cluster.cluster.arn
+  assign_public_ip = true
+
+  task_definition_args = {
+    container = {
+      name      = "app"
+      image     = awsx_ecr_image.image.image_uri
+      cpu       = var.cpu
+      memory    = var.memory
+      essential = true
+      port_mappings = [{
+        container_port = var.container_port
+        target_group   = awsx_lb_application_load_balancer.loadbalancer.default_target_group
+      }]
+    }
   }
-
-  egress {
-    protocol    = "-1"
-    from_port   = 0
-    to_port     = 0
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-}
-
-# A security group for the service, allowing traffic from the load balancer.
-resource "aws_security_group" "service" {
-  vpc_id = data.aws_vpc.default.id
-
-  ingress {
-    protocol        = "tcp"
-    from_port       = var.container_port
-    to_port         = var.container_port
-    security_groups = [aws_security_group.lb.id]
-  }
-
-  egress {
-    protocol    = "-1"
-    from_port   = 0
-    to_port     = 0
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-}
-
-# An Application Load Balancer to serve the container endpoint.
-resource "aws_lb" "lb" {
-  load_balancer_type = "application"
-  security_groups    = [aws_security_group.lb.id]
-  subnets            = data.aws_subnets.default.ids
-}
-
-resource "aws_lb_target_group" "tg" {
-  port        = var.container_port
-  protocol    = "HTTP"
-  target_type = "ip"
-  vpc_id      = data.aws_vpc.default.id
-}
-
-resource "aws_lb_listener" "http" {
-  load_balancer_arn = aws_lb.lb.arn
-  port              = 80
-  protocol          = "HTTP"
-
-  default_action {
-    type             = "forward"
-    target_group_arn = aws_lb_target_group.tg.arn
-  }
-}
-
-# An execution role for the ECS task.
-resource "aws_iam_role" "execution" {
-  assume_role_policy = jsonencode({
-    Version = "2012-10-17"
-    Statement = [{
-      Action    = "sts:AssumeRole"
-      Effect    = "Allow"
-      Principal = { Service = "ecs-tasks.amazonaws.com" }
-    }]
-  })
-}
-
-resource "aws_iam_role_policy_attachment" "execution" {
-  role       = aws_iam_role.execution.name
-  policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonECSTaskExecutionRolePolicy"
-}
-
-# A task definition describing the container to run on Fargate.
-resource "aws_ecs_task_definition" "task" {
-  family                   = "${var.image_name}-task"
-  requires_compatibilities = ["FARGATE"]
-  network_mode             = "awsvpc"
-  cpu                      = var.cpu
-  memory                   = var.memory
-  execution_role_arn       = aws_iam_role.execution.arn
-
-  container_definitions = jsonencode([{
-    name      = var.image_name
-    image     = "${aws_ecr_repository.repo.repository_url}@${docker_registry_image.app.sha256_digest}"
-    essential = true
-    portMappings = [{
-      containerPort = var.container_port
-      hostPort      = var.container_port
-      protocol      = "tcp"
-    }]
-  }])
-}
-
-# A Fargate service that runs and exposes the container behind the load balancer.
-resource "aws_ecs_service" "service" {
-  name            = "${var.image_name}-service"
-  cluster         = aws_ecs_cluster.cluster.arn
-  task_definition = aws_ecs_task_definition.task.arn
-  desired_count   = 1
-  launch_type     = "FARGATE"
-
-  network_configuration {
-    subnets          = data.aws_subnets.default.ids
-    security_groups  = [aws_security_group.service.id]
-    assign_public_ip = true
-  }
-
-  load_balancer {
-    target_group_arn = aws_lb_target_group.tg.arn
-    container_name   = var.image_name
-    container_port   = var.container_port
-  }
-
-  depends_on = [aws_lb_listener.http]
 }
 
 # The URL at which the container's HTTP endpoint is available.
 output "url" {
-  value = "http://${aws_lb.lb.dns_name}"
+  value = "http://${awsx_lb_application_load_balancer.loadbalancer.load_balancer.dns_name}"
 }

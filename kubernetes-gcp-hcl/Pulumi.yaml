@@ -4,9 +4,9 @@ runtime: hcl
 template:
   description: A Pulumi HCL program to deploy a Kubernetes cluster on Google Cloud
   config:
-    google:project:
+    gcp:project:
       description: The Google Cloud project to deploy into
-    google:region:
+    region:
       description: The Google Cloud region to deploy into
       default: us-central1
     nodes_per_zone:

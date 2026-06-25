@@ -1,12 +1,7 @@
 terraform {
   required_providers {
-    google = {
-      source  = "hashicorp/google"
-      version = ">= 6.0.0"
-    }
-    random = {
-      source  = "hashicorp/random"
-      version = ">= 3.0.0"
+    gcp = {
+      source = "pulumi/gcp"
     }
   }
 }
@@ -53,81 +48,67 @@ locals {
   EOF
 }
 
-# A random suffix to keep resource names unique.
-resource "random_string" "suffix" {
-  length  = 6
-  special = false
-  upper   = false
-}
-
 # Create a new network for the virtual machine.
-resource "google_compute_network" "network" {
-  name                    = "vm-network-${random_string.suffix.result}"
+resource "gcp_compute_network" "network" {
   auto_create_subnetworks = false
 }
 
 # Create a subnet on the network.
-resource "google_compute_subnetwork" "subnet" {
-  name          = "vm-subnet-${random_string.suffix.result}"
+resource "gcp_compute_subnetwork" "subnet" {
   ip_cidr_range = "10.0.1.0/24"
-  network       = google_compute_network.network.id
+  network       = gcp_compute_network.network.id
 }
 
-# Allow inbound access over ports 22 (SSH) and the service port (HTTP).
-resource "google_compute_firewall" "firewall" {
-  name      = "vm-firewall-${random_string.suffix.result}"
-  network   = google_compute_network.network.self_link
-  direction = "INGRESS"
+# Allow inbound access over port 22 (SSH) and the service port (HTTP).
+resource "gcp_compute_firewall" "firewall" {
+  network       = gcp_compute_network.network.self_link
+  direction     = "INGRESS"
+  source_ranges = ["0.0.0.0/0"]
+  target_tags   = [var.instance_tag]
 
-  allow {
+  allows {
     protocol = "tcp"
     ports    = ["22", tostring(var.service_port)]
   }
-
-  source_ranges = ["0.0.0.0/0"]
-  target_tags   = [var.instance_tag]
 }
 
 # Create the virtual machine.
-resource "google_compute_instance" "instance" {
-  name                      = "vm-instance-${random_string.suffix.result}"
+resource "gcp_compute_instance" "instance" {
+  depends_on                = [gcp_compute_firewall.firewall]
   machine_type              = var.machine_type
   tags                      = [var.instance_tag]
   allow_stopping_for_update = true
+  metadata_startup_script   = local.startup_script
 
-  boot_disk {
-    initialize_params {
+  boot_disk = {
+    initialize_params = {
       image = var.os_image
     }
   }
 
-  network_interface {
-    network    = google_compute_network.network.id
-    subnetwork = google_compute_subnetwork.subnet.id
+  network_interfaces {
+    network    = gcp_compute_network.network.id
+    subnetwork = gcp_compute_subnetwork.subnet.id
 
-    access_config {
-      # Ephemeral public IP
+    access_configs {
+      # An empty access config requests an ephemeral public IP.
     }
   }
 
-  metadata_startup_script = local.startup_script
-
-  service_account {
+  service_account = {
     scopes = ["https://www.googleapis.com/auth/cloud-platform"]
   }
-
-  depends_on = [google_compute_firewall.firewall]
 }
 
 # Export the instance's name, public IP address, and URL.
 output "name" {
-  value = google_compute_instance.instance.name
+  value = gcp_compute_instance.instance.name
 }
 
 output "ip" {
-  value = google_compute_instance.instance.network_interface[0].access_config[0].nat_ip
+  value = gcp_compute_instance.instance.network_interfaces[0].access_configs[0].nat_ip
 }
 
 output "url" {
-  value = "http://${google_compute_instance.instance.network_interface[0].access_config[0].nat_ip}:${var.service_port}"
+  value = "http://${gcp_compute_instance.instance.network_interfaces[0].access_configs[0].nat_ip}:${var.service_port}"
 }
