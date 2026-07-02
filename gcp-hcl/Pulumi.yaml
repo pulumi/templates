@@ -1,0 +1,9 @@
+name: ${PROJECT}
+description: ${DESCRIPTION}
+runtime: hcl
+template:
+  description: A minimal Google Cloud Pulumi HCL program
+  important: true
+  config:
+    gcp:project:
+      description: The Google Cloud project to deploy into

@@ -1,0 +1,9 @@
+name: ${PROJECT}
+description: ${DESCRIPTION}
+runtime: hcl
+template:
+  description: A Pulumi HCL program to deploy a serverless application on AWS
+  config:
+    aws:region:
+      description: The AWS region to deploy into
+      default: us-west-2

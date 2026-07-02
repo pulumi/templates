@@ -38,7 +38,7 @@ func main() {
 			return err
 		}
 
-		// An ECR repository to store our application's container image
+		// An ECR repository to store the application's container image
 		repo, err := ecrx.NewRepository(ctx, "repo", &ecrx.RepositoryArgs{
 			ForceDelete: pulumi.Bool(true),
 		})
@@ -46,7 +46,7 @@ func main() {
 			return err
 		}
 
-		// Build and publish our application's container image from ./app to the ECR repository
+		// Build and publish the application's container image from ./app to the ECR repository
 		image, err := ecrx.NewImage(ctx, "image", &ecr.ImageArgs{
 			RepositoryUrl: repo.Url,
 			Context:       pulumi.String("./app"),

@@ -1,0 +1,9 @@
+name: ${PROJECT}
+description: ${DESCRIPTION}
+runtime: hcl
+template:
+  description: A Pulumi HCL program to deploy a Helm chart onto a Kubernetes cluster
+  config:
+    k8s_namespace:
+      description: The Kubernetes namespace to deploy into
+      default: nginx-ingress

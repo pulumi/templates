@@ -1,0 +1,24 @@
+name: ${PROJECT}
+description: ${DESCRIPTION}
+runtime: hcl
+template:
+  description: A Pulumi HCL program to deploy a virtual machine on Azure
+  config:
+    azure-native:location:
+      description: The Azure location to deploy into
+      default: WestUS2
+    admin_username:
+      description: The user account to create on the VM
+      default: pulumiuser
+    vm_name:
+      description: The computer name and DNS hostname prefix to use for the VM
+      default: my-server
+    vm_size:
+      description: The machine size to use for the VM
+      default: Standard_A1_v2
+    os_image:
+      description: The Azure image reference (publisher:offer:sku:version) to use for the VM
+      default: Debian:debian-11:11:latest
+    service_port:
+      description: The HTTP service port to expose on the VM
+      default: 80

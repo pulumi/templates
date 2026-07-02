@@ -1,0 +1,14 @@
+name: ${PROJECT}
+description: ${DESCRIPTION}
+runtime: hcl
+template:
+  description: A Pulumi HCL program to deploy a Kubernetes cluster on Google Cloud
+  config:
+    gcp:project:
+      description: The Google Cloud project to deploy into
+    region:
+      description: The Google Cloud region to deploy into
+      default: us-central1
+    nodes_per_zone:
+      description: The number of nodes per zone in the node pool
+      default: 1
