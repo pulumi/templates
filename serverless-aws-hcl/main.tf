@@ -40,7 +40,6 @@ resource "aws-apigateway_rest_a_p_i" "api" {
   routes {
     path          = "/date"
     method        = "GET"
-    event_handler = aws_lambda_function.fn
   }
 }
 
