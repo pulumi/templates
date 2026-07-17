@@ -10,3 +10,4 @@ templates:
   - vm-aws-go
   - vm-aws-csharp
   - vm-aws-yaml
+  - vm-aws-hcl

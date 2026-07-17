@@ -13,10 +13,10 @@ cluster = aws.ecs.Cluster("cluster")
 # An ALB to serve the container endpoint to the internet
 loadbalancer = awsx.lb.ApplicationLoadBalancer("loadbalancer")
 
-# An ECR repository to store our application's container image
+# An ECR repository to store the application's container image
 repo = awsx.ecr.Repository("repo", force_delete=True)
 
-# Build and publish our application's container image from ./app to the ECR repository
+# Build and publish the application's container image from ./app to the ECR repository
 image = awsx.ecr.Image(
     "image", repository_url=repo.url, context="./app", platform="linux/amd64"
 )

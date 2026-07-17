@@ -10,3 +10,4 @@ templates:
   - vm-azure-go
   - vm-azure-csharp
   - vm-azure-yaml
+  - vm-azure-hcl

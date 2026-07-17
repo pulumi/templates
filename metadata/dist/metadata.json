@@ -18,7 +18,8 @@
                         "static-website-aws-go",
                         "static-website-aws-csharp",
                         "static-website-aws-yaml",
-                        "static-website-aws-bun"
+                        "static-website-aws-bun",
+                        "static-website-aws-hcl"
                     ]
                 },
                 {
@@ -34,7 +35,8 @@
                         "static-website-azure-python",
                         "static-website-azure-go",
                         "static-website-azure-csharp",
-                        "static-website-azure-yaml"
+                        "static-website-azure-yaml",
+                        "static-website-azure-hcl"
                     ]
                 },
                 {
@@ -50,7 +52,8 @@
                         "static-website-gcp-python",
                         "static-website-gcp-go",
                         "static-website-gcp-csharp",
-                        "static-website-gcp-yaml"
+                        "static-website-gcp-yaml",
+                        "static-website-gcp-hcl"
                     ]
                 }
             ]
@@ -72,7 +75,8 @@
                         "serverless-aws-python",
                         "serverless-aws-go",
                         "serverless-aws-csharp",
-                        "serverless-aws-yaml"
+                        "serverless-aws-yaml",
+                        "serverless-aws-hcl"
                     ]
                 },
                 {
@@ -88,7 +92,8 @@
                         "serverless-azure-python",
                         "serverless-azure-go",
                         "serverless-azure-csharp",
-                        "serverless-azure-yaml"
+                        "serverless-azure-yaml",
+                        "serverless-azure-hcl"
                     ]
                 },
                 {
@@ -104,7 +109,8 @@
                         "serverless-gcp-python",
                         "serverless-gcp-go",
                         "serverless-gcp-csharp",
-                        "serverless-gcp-yaml"
+                        "serverless-gcp-yaml",
+                        "serverless-gcp-hcl"
                     ]
                 }
             ]
@@ -126,7 +132,8 @@
                         "container-aws-python",
                         "container-aws-go",
                         "container-aws-csharp",
-                        "container-aws-yaml"
+                        "container-aws-yaml",
+                        "container-aws-hcl"
                     ]
                 },
                 {
@@ -141,7 +148,8 @@
                         "container-azure-typescript",
                         "container-azure-python",
                         "container-azure-go",
-                        "container-azure-csharp"
+                        "container-azure-csharp",
+                        "container-azure-hcl"
                     ]
                 },
                 {
@@ -156,7 +164,8 @@
                         "container-gcp-typescript",
                         "container-gcp-python",
                         "container-gcp-go",
-                        "container-gcp-csharp"
+                        "container-gcp-csharp",
+                        "container-gcp-hcl"
                     ]
                 }
             ]
@@ -178,7 +187,8 @@
                         "vm-aws-python",
                         "vm-aws-go",
                         "vm-aws-csharp",
-                        "vm-aws-yaml"
+                        "vm-aws-yaml",
+                        "vm-aws-hcl"
                     ]
                 },
                 {
@@ -194,7 +204,8 @@
                         "vm-azure-python",
                         "vm-azure-go",
                         "vm-azure-csharp",
-                        "vm-azure-yaml"
+                        "vm-azure-yaml",
+                        "vm-azure-hcl"
                     ]
                 },
                 {
@@ -210,7 +221,8 @@
                         "vm-gcp-python",
                         "vm-gcp-go",
                         "vm-gcp-csharp",
-                        "vm-gcp-yaml"
+                        "vm-gcp-yaml",
+                        "vm-gcp-hcl"
                     ]
                 }
             ]
@@ -232,7 +244,8 @@
                         "kubernetes-aws-python",
                         "kubernetes-aws-go",
                         "kubernetes-aws-csharp",
-                        "kubernetes-aws-yaml"
+                        "kubernetes-aws-yaml",
+                        "kubernetes-aws-hcl"
                     ]
                 },
                 {
@@ -248,7 +261,8 @@
                         "kubernetes-azure-python",
                         "kubernetes-azure-go",
                         "kubernetes-azure-csharp",
-                        "kubernetes-azure-yaml"
+                        "kubernetes-azure-yaml",
+                        "kubernetes-azure-hcl"
                     ]
                 },
                 {
@@ -264,7 +278,8 @@
                         "kubernetes-gcp-python",
                         "kubernetes-gcp-go",
                         "kubernetes-gcp-yaml",
-                        "kubernetes-gcp-csharp"
+                        "kubernetes-gcp-csharp",
+                        "kubernetes-gcp-hcl"
                     ]
                 }
             ]
@@ -286,7 +301,8 @@
                         "helm-kubernetes-python",
                         "helm-kubernetes-go",
                         "helm-kubernetes-csharp",
-                        "helm-kubernetes-yaml"
+                        "helm-kubernetes-yaml",
+                        "helm-kubernetes-hcl"
                     ]
                 },
                 {
@@ -302,7 +318,8 @@
                         "webapp-kubernetes-python",
                         "webapp-kubernetes-go",
                         "webapp-kubernetes-csharp",
-                        "webapp-kubernetes-yaml"
+                        "webapp-kubernetes-yaml",
+                        "webapp-kubernetes-hcl"
                     ]
                 }
             ]
@@ -612,6 +629,20 @@
                 }
             }
         },
+        "aws-hcl": {
+            "name": "aws-hcl",
+            "runtime": "hcl",
+            "template": {
+                "description": "A minimal AWS Pulumi HCL program",
+                "important": true,
+                "config": {
+                    "aws:region": {
+                        "description": "The AWS region to deploy into",
+                        "default": "us-east-1"
+                    }
+                }
+            }
+        },
         "aws-java": {
             "name": "aws-java",
             "runtime": "java",
@@ -735,6 +766,20 @@
                 }
             }
         },
+        "azure-hcl": {
+            "name": "azure-hcl",
+            "runtime": "hcl",
+            "template": {
+                "description": "A minimal Azure Pulumi HCL program",
+                "important": true,
+                "config": {
+                    "location": {
+                        "description": "The Azure location to deploy into",
+                        "default": "WestUS2"
+                    }
+                }
+            }
+        },
         "azure-java": {
             "name": "azure-java",
             "runtime": "java",
@@ -851,6 +896,39 @@
                     "memory": {
                         "description": "The amount of memory to allocate for the container",
                         "default": 128
+                    }
+                }
+            }
+        },
+        "container-aws-hcl": {
+            "name": "container-aws-hcl",
+            "runtime": "hcl",
+            "template": {
+                "description": "A Pulumi HCL program to deploy a containerized service on AWS",
+                "config": {
+                    "aws:region": {
+                        "description": "The AWS region to deploy into",
+                        "default": "us-west-2"
+                    },
+                    "app_path": {
+                        "description": "The path to the container application to deploy",
+                        "default": "./app"
+                    },
+                    "image_name": {
+                        "description": "The name to give the container image",
+                        "default": "my-app"
+                    },
+                    "container_port": {
+                        "description": "The port to expose on the container",
+                        "default": 80
+                    },
+                    "cpu": {
+                        "description": "The amount of CPU units to allocate for the task (must be a valid Fargate value)",
+                        "default": 256
+                    },
+                    "memory": {
+                        "description": "The amount of memory (MiB) to allocate for the task (must be a valid Fargate value)",
+                        "default": 512
                     }
                 }
             }
@@ -983,6 +1061,39 @@
                     },
                     "memory": {
                         "description": "The amount of memory, in GB, to allocate on the container",
+                        "default": 2
+                    }
+                }
+            }
+        },
+        "container-azure-hcl": {
+            "name": "container-azure-hcl",
+            "runtime": "hcl",
+            "template": {
+                "description": "A Pulumi HCL program to deploy a containerized service on Azure",
+                "config": {
+                    "location": {
+                        "description": "The Azure region to deploy into",
+                        "default": "WestUS"
+                    },
+                    "app_path": {
+                        "description": "The path to the container application to deploy",
+                        "default": "./app"
+                    },
+                    "image_name": {
+                        "description": "The name to give the container image",
+                        "default": "my-app"
+                    },
+                    "container_port": {
+                        "description": "The port to expose on the container",
+                        "default": 80
+                    },
+                    "cpu": {
+                        "description": "The number of CPU cores to allocate for the container",
+                        "default": 1
+                    },
+                    "memory": {
+                        "description": "The amount of memory, in GB, to allocate for the container",
                         "default": 2
                     }
                 }
@@ -1121,6 +1232,46 @@
                     "concurrency": {
                         "description": "The maximum number of concurrent requests to serve per container instance",
                         "default": 50
+                    }
+                }
+            }
+        },
+        "container-gcp-hcl": {
+            "name": "container-gcp-hcl",
+            "runtime": "hcl",
+            "template": {
+                "description": "A Pulumi HCL program to deploy a containerized service on Google Cloud",
+                "config": {
+                    "google:project": {
+                        "description": "The Google Cloud project to deploy into"
+                    },
+                    "region": {
+                        "description": "The Google Cloud region to deploy into",
+                        "default": "us-central1"
+                    },
+                    "app_path": {
+                        "description": "The path to the container application to deploy",
+                        "default": "./app"
+                    },
+                    "image_name": {
+                        "description": "The name to give the container image",
+                        "default": "my-app"
+                    },
+                    "container_port": {
+                        "description": "The port to expose on the container",
+                        "default": 8080
+                    },
+                    "cpu": {
+                        "description": "The number of vCPUs to allocate per container instance",
+                        "default": 1
+                    },
+                    "memory": {
+                        "description": "The amount of memory to allocate per container instance",
+                        "default": "1Gi"
+                    },
+                    "concurrency": {
+                        "description": "The maximum number of concurrent requests per container instance",
+                        "default": 80
                     }
                 }
             }
@@ -1308,6 +1459,19 @@
                 }
             }
         },
+        "gcp-hcl": {
+            "name": "gcp-hcl",
+            "runtime": "hcl",
+            "template": {
+                "description": "A minimal Google Cloud Pulumi HCL program",
+                "important": true,
+                "config": {
+                    "google:project": {
+                        "description": "The Google Cloud project to deploy into"
+                    }
+                }
+            }
+        },
         "gcp-java": {
             "name": "gcp-java",
             "runtime": "java",
@@ -1459,6 +1623,13 @@
                 "description": "A minimal Go Pulumi program"
             }
         },
+        "hcl": {
+            "name": "hcl",
+            "runtime": "hcl",
+            "template": {
+                "description": "A minimal Pulumi HCL program"
+            }
+        },
         "helm-kubernetes-csharp": {
             "name": "helm-kubernetes-csharp",
             "runtime": "dotnet",
@@ -1481,6 +1652,19 @@
                     "k8sNamespace": {
                         "default": "nginx-ingress",
                         "description": "The Kubernetes namespace to deploy into"
+                    }
+                }
+            }
+        },
+        "helm-kubernetes-hcl": {
+            "name": "helm-kubernetes-hcl",
+            "runtime": "hcl",
+            "template": {
+                "description": "A Pulumi HCL program to deploy a Helm chart onto a Kubernetes cluster",
+                "config": {
+                    "k8s_namespace": {
+                        "description": "The Kubernetes namespace to deploy into",
+                        "default": "nginx-ingress"
                     }
                 }
             }
@@ -1618,6 +1802,39 @@
                     },
                     "vpcNetworkCidr": {
                         "description": "Network CIDR to use for new VPC",
+                        "default": "10.0.0.0/16"
+                    }
+                }
+            }
+        },
+        "kubernetes-aws-hcl": {
+            "name": "kubernetes-aws-hcl",
+            "runtime": "hcl",
+            "template": {
+                "description": "A Pulumi HCL program to deploy a Kubernetes cluster on AWS (EKS)",
+                "config": {
+                    "aws:region": {
+                        "description": "The AWS region to deploy into",
+                        "default": "us-west-2"
+                    },
+                    "min_cluster_size": {
+                        "description": "The minimum number of nodes in the cluster",
+                        "default": 3
+                    },
+                    "max_cluster_size": {
+                        "description": "The maximum number of nodes in the cluster",
+                        "default": 6
+                    },
+                    "desired_cluster_size": {
+                        "description": "The desired number of nodes in the cluster",
+                        "default": 3
+                    },
+                    "node_instance_type": {
+                        "description": "The EC2 instance type to use for worker nodes",
+                        "default": "t3.medium"
+                    },
+                    "vpc_network_cidr": {
+                        "description": "The network CIDR to use for the VPC",
                         "default": "10.0.0.0/16"
                     }
                 }
@@ -1792,6 +2009,31 @@
                 }
             }
         },
+        "kubernetes-azure-hcl": {
+            "name": "kubernetes-azure-hcl",
+            "runtime": "hcl",
+            "template": {
+                "description": "A Pulumi HCL program to deploy a Kubernetes cluster on Azure",
+                "config": {
+                    "location": {
+                        "description": "The Azure region to deploy into",
+                        "default": "westus2"
+                    },
+                    "node_count": {
+                        "description": "The number of worker nodes in the cluster",
+                        "default": 3
+                    },
+                    "dns_prefix": {
+                        "description": "The DNS prefix to use for the cluster",
+                        "default": "pulumi"
+                    },
+                    "node_vm_size": {
+                        "description": "The VM size to use for worker nodes",
+                        "default": "Standard_DS2_v2"
+                    }
+                }
+            }
+        },
         "kubernetes-azure-python": {
             "name": "kubernetes-azure-python",
             "runtime": "python",
@@ -1951,6 +2193,26 @@
                 }
             }
         },
+        "kubernetes-gcp-hcl": {
+            "name": "kubernetes-gcp-hcl",
+            "runtime": "hcl",
+            "template": {
+                "description": "A Pulumi HCL program to deploy a Kubernetes cluster on Google Cloud",
+                "config": {
+                    "google:project": {
+                        "description": "The Google Cloud project to deploy into"
+                    },
+                    "google:region": {
+                        "description": "The Google Cloud region to deploy into",
+                        "default": "us-central1"
+                    },
+                    "nodes_per_zone": {
+                        "description": "The number of nodes per zone in the node pool",
+                        "default": 1
+                    }
+                }
+            }
+        },
         "kubernetes-gcp-python": {
             "name": "kubernetes-gcp-python",
             "runtime": "python",
@@ -2016,6 +2278,14 @@
             "runtime": "go",
             "template": {
                 "description": "A minimal Kubernetes Go Pulumi program",
+                "important": true
+            }
+        },
+        "kubernetes-hcl": {
+            "name": "kubernetes-hcl",
+            "runtime": "hcl",
+            "template": {
+                "description": "A minimal Kubernetes Pulumi HCL program",
                 "important": true
             }
         },
@@ -2690,6 +2960,27 @@
                 }
             }
         },
+        "serverless-aws-hcl": {
+            "name": "serverless-aws-hcl",
+            "runtime": "hcl",
+            "template": {
+                "description": "A Pulumi HCL program to deploy a serverless application on AWS",
+                "config": {
+                    "aws:region": {
+                        "description": "The AWS region to deploy into",
+                        "default": "us-west-2"
+                    },
+                    "site_path": {
+                        "description": "The path to the folder containing the website",
+                        "default": "./www"
+                    },
+                    "app_path": {
+                        "description": "The path to the folder containing the function to deploy",
+                        "default": "./function"
+                    }
+                }
+            }
+        },
         "serverless-aws-python": {
             "name": "serverless-aws-python",
             "runtime": {
@@ -2786,6 +3077,35 @@
                         "default": "index.html"
                     },
                     "errorDocument": {
+                        "description": "The file to use for error pages",
+                        "default": "error.html"
+                    }
+                }
+            }
+        },
+        "serverless-azure-hcl": {
+            "name": "serverless-azure-hcl",
+            "runtime": "hcl",
+            "template": {
+                "description": "A Pulumi HCL program to deploy a serverless application on Azure",
+                "config": {
+                    "location": {
+                        "description": "The Azure region to deploy into",
+                        "default": "WestUS"
+                    },
+                    "site_path": {
+                        "description": "The path to the folder containing the website",
+                        "default": "./www"
+                    },
+                    "app_path": {
+                        "description": "The path to the folder containing the function to deploy",
+                        "default": "./app"
+                    },
+                    "index_document": {
+                        "description": "The file to use for top-level pages",
+                        "default": "index.html"
+                    },
+                    "error_document": {
                         "description": "The file to use for error pages",
                         "default": "error.html"
                     }
@@ -2937,6 +3257,38 @@
                         "default": "index.html"
                     },
                     "errorDocument": {
+                        "description": "The file to use for error pages",
+                        "default": "error.html"
+                    }
+                }
+            }
+        },
+        "serverless-gcp-hcl": {
+            "name": "serverless-gcp-hcl",
+            "runtime": "hcl",
+            "template": {
+                "description": "A Pulumi HCL program to deploy a serverless application on Google Cloud",
+                "config": {
+                    "google:project": {
+                        "description": "The Google Cloud project to deploy into"
+                    },
+                    "region": {
+                        "description": "The Google Cloud region to deploy into",
+                        "default": "us-central1"
+                    },
+                    "site_path": {
+                        "description": "The path to the folder containing the website",
+                        "default": "./www"
+                    },
+                    "app_path": {
+                        "description": "The path to the folder containing the function to deploy",
+                        "default": "./app"
+                    },
+                    "index_document": {
+                        "description": "The file to use for top-level pages",
+                        "default": "index.html"
+                    },
+                    "error_document": {
                         "description": "The file to use for error pages",
                         "default": "error.html"
                     }
@@ -3114,6 +3466,31 @@
                 }
             }
         },
+        "static-website-aws-hcl": {
+            "name": "static-website-aws-hcl",
+            "runtime": "hcl",
+            "template": {
+                "description": "A Pulumi HCL program to deploy a static website on AWS",
+                "config": {
+                    "aws:region": {
+                        "description": "The AWS region to deploy into",
+                        "default": "us-west-2"
+                    },
+                    "path": {
+                        "description": "The path to the folder containing the website",
+                        "default": "./www"
+                    },
+                    "index_document": {
+                        "description": "The file to use for top-level pages",
+                        "default": "index.html"
+                    },
+                    "error_document": {
+                        "description": "The file to use for error pages",
+                        "default": "error.html"
+                    }
+                }
+            }
+        },
         "static-website-aws-python": {
             "name": "static-website-aws-python",
             "runtime": "python",
@@ -3239,6 +3616,31 @@
                 }
             }
         },
+        "static-website-azure-hcl": {
+            "name": "static-website-azure-hcl",
+            "runtime": "hcl",
+            "template": {
+                "description": "A Pulumi HCL program to deploy a static website on Azure",
+                "config": {
+                    "location": {
+                        "description": "The Azure region to deploy into",
+                        "default": "WestUS"
+                    },
+                    "path": {
+                        "description": "The path to the folder containing the website",
+                        "default": "./www"
+                    },
+                    "index_document": {
+                        "description": "The file to use for top-level pages",
+                        "default": "index.html"
+                    },
+                    "error_document": {
+                        "description": "The file to use for error pages",
+                        "default": "error.html"
+                    }
+                }
+            }
+        },
         "static-website-azure-python": {
             "name": "static-website-azure-python",
             "runtime": "python",
@@ -3356,6 +3758,30 @@
                         "default": "index.html"
                     },
                     "errorDocument": {
+                        "description": "The file to use for error pages",
+                        "default": "error.html"
+                    }
+                }
+            }
+        },
+        "static-website-gcp-hcl": {
+            "name": "static-website-gcp-hcl",
+            "runtime": "hcl",
+            "template": {
+                "description": "A Pulumi HCL program to deploy a static website on Google Cloud",
+                "config": {
+                    "google:project": {
+                        "description": "The Google Cloud project to deploy into"
+                    },
+                    "path": {
+                        "description": "The path to the folder containing the website",
+                        "default": "./www"
+                    },
+                    "index_document": {
+                        "description": "The file to use for top-level pages",
+                        "default": "index.html"
+                    },
+                    "error_document": {
                         "description": "The file to use for error pages",
                         "default": "error.html"
                     }
@@ -3490,6 +3916,31 @@
                 }
             }
         },
+        "vm-aws-hcl": {
+            "name": "vm-aws-hcl",
+            "runtime": "hcl",
+            "template": {
+                "description": "A Pulumi HCL program to deploy a virtual machine on Amazon EC2",
+                "config": {
+                    "aws:region": {
+                        "description": "The AWS region to deploy into",
+                        "default": "us-west-2"
+                    },
+                    "instance_type": {
+                        "description": "The Amazon EC2 instance type",
+                        "default": "t3.micro"
+                    },
+                    "vpc_network_cidr": {
+                        "description": "The network CIDR to use for the VPC",
+                        "default": "10.0.0.0/16"
+                    },
+                    "service_port": {
+                        "description": "The HTTP service port to expose on the VM",
+                        "default": 80
+                    }
+                }
+            }
+        },
         "vm-aws-python": {
             "name": "vm-aws-python",
             "runtime": "python",
@@ -3615,6 +4066,39 @@
                     "servicePort": {
                         "description": "The HTTP service port to expose on the VM",
                         "default": "80"
+                    }
+                }
+            }
+        },
+        "vm-azure-hcl": {
+            "name": "vm-azure-hcl",
+            "runtime": "hcl",
+            "template": {
+                "description": "A Pulumi HCL program to deploy a virtual machine on Azure",
+                "config": {
+                    "location": {
+                        "description": "The Azure location to deploy into",
+                        "default": "WestUS2"
+                    },
+                    "admin_username": {
+                        "description": "The user account to create on the VM",
+                        "default": "pulumiuser"
+                    },
+                    "vm_name": {
+                        "description": "The DNS hostname prefix and computer name to use for the VM",
+                        "default": "my-server"
+                    },
+                    "vm_size": {
+                        "description": "The machine size to use for the VM",
+                        "default": "Standard_A1_v2"
+                    },
+                    "os_image": {
+                        "description": "The Azure image reference (publisher:offer:sku:version) to use for the VM",
+                        "default": "Debian:debian-11:11:latest"
+                    },
+                    "service_port": {
+                        "description": "The HTTP service port to expose on the VM",
+                        "default": 80
                     }
                 }
             }
@@ -3790,6 +4274,42 @@
                 }
             }
         },
+        "vm-gcp-hcl": {
+            "name": "vm-gcp-hcl",
+            "runtime": "hcl",
+            "template": {
+                "description": "A Pulumi HCL program to deploy a virtual machine on Google Cloud",
+                "config": {
+                    "google:project": {
+                        "description": "The Google Cloud project to deploy into"
+                    },
+                    "google:region": {
+                        "description": "The Google Cloud region to deploy into",
+                        "default": "us-central1"
+                    },
+                    "google:zone": {
+                        "description": "The Google Cloud availability zone to deploy into",
+                        "default": "us-central1-a"
+                    },
+                    "machine_type": {
+                        "description": "The GCP machine type to use for the VM",
+                        "default": "e2-micro"
+                    },
+                    "os_image": {
+                        "description": "The OS image to use for the VM",
+                        "default": "debian-11"
+                    },
+                    "instance_tag": {
+                        "description": "The network tag to apply to the VM instance",
+                        "default": "webserver"
+                    },
+                    "service_port": {
+                        "description": "The HTTP service port to expose on the VM",
+                        "default": 80
+                    }
+                }
+            }
+        },
         "vm-gcp-python": {
             "name": "vm-gcp-python",
             "runtime": "python",
@@ -3928,6 +4448,23 @@
                     "replicas": {
                         "default": 1,
                         "description": "The number of replicas to deploy"
+                    }
+                }
+            }
+        },
+        "webapp-kubernetes-hcl": {
+            "name": "webapp-kubernetes-hcl",
+            "runtime": "hcl",
+            "template": {
+                "description": "A Pulumi HCL program to deploy a web application onto a Kubernetes cluster",
+                "config": {
+                    "k8s_namespace": {
+                        "description": "The Kubernetes namespace to deploy into",
+                        "default": "webapp"
+                    },
+                    "num_replicas": {
+                        "description": "The number of replicas to deploy",
+                        "default": 1
                     }
                 }
             }

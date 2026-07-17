@@ -1,0 +1,18 @@
+name: ${PROJECT}
+description: ${DESCRIPTION}
+runtime: hcl
+template:
+  description: A Pulumi HCL program to deploy a virtual machine on Amazon EC2
+  config:
+    aws:region:
+      description: The AWS region to deploy into
+      default: us-west-2
+    instance_type:
+      description: The Amazon EC2 instance type
+      default: t3.micro
+    vpc_network_cidr:
+      description: The network CIDR to use for the VPC
+      default: 10.0.0.0/16
+    service_port:
+      description: The HTTP service port to expose on the VM
+      default: 80

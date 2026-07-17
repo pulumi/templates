@@ -10,3 +10,4 @@ templates:
   - kubernetes-aws-go
   - kubernetes-aws-csharp
   - kubernetes-aws-yaml
+  - kubernetes-aws-hcl

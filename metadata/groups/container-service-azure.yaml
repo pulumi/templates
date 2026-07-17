@@ -9,3 +9,4 @@ templates:
   - container-azure-python
   - container-azure-go
   - container-azure-csharp
+  - container-azure-hcl

@@ -1,0 +1,24 @@
+name: ${PROJECT}
+description: ${DESCRIPTION}
+runtime: hcl
+template:
+  description: A Pulumi HCL program to deploy a Kubernetes cluster on AWS (EKS)
+  config:
+    aws:region:
+      description: The AWS region to deploy into
+      default: us-west-2
+    min_cluster_size:
+      description: The minimum number of nodes in the cluster
+      default: 3
+    max_cluster_size:
+      description: The maximum number of nodes in the cluster
+      default: 6
+    desired_cluster_size:
+      description: The desired number of nodes in the cluster
+      default: 3
+    node_instance_type:
+      description: The EC2 instance type to use for worker nodes
+      default: t3.medium
+    vpc_network_cidr:
+      description: The network CIDR to use for the VPC
+      default: 10.0.0.0/16

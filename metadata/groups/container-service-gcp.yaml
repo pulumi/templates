@@ -9,3 +9,4 @@ templates:
   - container-gcp-python
   - container-gcp-go
   - container-gcp-csharp
+  - container-gcp-hcl

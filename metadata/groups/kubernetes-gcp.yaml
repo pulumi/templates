@@ -10,3 +10,4 @@ templates:
   - kubernetes-gcp-go
   - kubernetes-gcp-yaml
   - kubernetes-gcp-csharp
+  - kubernetes-gcp-hcl

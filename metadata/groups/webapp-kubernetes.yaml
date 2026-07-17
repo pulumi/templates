@@ -10,3 +10,4 @@ templates:
   - webapp-kubernetes-go
   - webapp-kubernetes-csharp
   - webapp-kubernetes-yaml
+  - webapp-kubernetes-hcl

@@ -1,0 +1,6 @@
+name: ${PROJECT}
+description: ${DESCRIPTION}
+runtime: hcl
+template:
+  description: A minimal Kubernetes Pulumi HCL program
+  important: true

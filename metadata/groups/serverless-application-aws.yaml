@@ -10,3 +10,4 @@ templates:
   - serverless-aws-go
   - serverless-aws-csharp
   - serverless-aws-yaml
+  - serverless-aws-hcl

@@ -1,0 +1,4 @@
+# HCL programs must use LF line endings on all platforms: the HCL runtime's
+# parser rejects carriage returns, and Git would otherwise convert these files
+# to CRLF when checked out on Windows.
+*.tf text eol=lf

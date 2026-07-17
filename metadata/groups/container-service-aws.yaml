@@ -10,3 +10,4 @@ templates:
   - container-aws-go
   - container-aws-csharp
   - container-aws-yaml
+  - container-aws-hcl

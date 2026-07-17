@@ -10,3 +10,4 @@ templates:
   - helm-kubernetes-go
   - helm-kubernetes-csharp
   - helm-kubernetes-yaml
+  - helm-kubernetes-hcl

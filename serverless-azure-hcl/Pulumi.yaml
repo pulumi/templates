@@ -1,0 +1,21 @@
+name: ${PROJECT}
+description: ${DESCRIPTION}
+runtime: hcl
+template:
+  description: A Pulumi HCL program to deploy a serverless application on Azure
+  config:
+    azure-native:location:
+      description: The Azure region to deploy into
+      default: WestUS2
+    site_path:
+      description: The path to the folder containing the website
+      default: ./www
+    app_path:
+      description: The path to the folder containing the function to deploy
+      default: ./app
+    index_document:
+      description: The file to use for top-level pages
+      default: index.html
+    error_document:
+      description: The file to use for error pages
+      default: error.html
