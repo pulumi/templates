@@ -773,7 +773,7 @@
                 "description": "A minimal Azure Pulumi HCL program",
                 "important": true,
                 "config": {
-                    "location": {
+                    "azure-native:location": {
                         "description": "The Azure location to deploy into",
                         "default": "WestUS2"
                     }
@@ -910,25 +910,17 @@
                         "description": "The AWS region to deploy into",
                         "default": "us-west-2"
                     },
-                    "app_path": {
-                        "description": "The path to the container application to deploy",
-                        "default": "./app"
-                    },
-                    "image_name": {
-                        "description": "The name to give the container image",
-                        "default": "my-app"
-                    },
                     "container_port": {
                         "description": "The port to expose on the container",
                         "default": 80
                     },
                     "cpu": {
-                        "description": "The amount of CPU units to allocate for the task (must be a valid Fargate value)",
-                        "default": 256
+                        "description": "The amount of CPU to allocate for the container",
+                        "default": 512
                     },
                     "memory": {
-                        "description": "The amount of memory (MiB) to allocate for the task (must be a valid Fargate value)",
-                        "default": 512
+                        "description": "The amount of memory to allocate for the container",
+                        "default": 128
                     }
                 }
             }
@@ -1242,20 +1234,20 @@
             "template": {
                 "description": "A Pulumi HCL program to deploy a containerized service on Google Cloud",
                 "config": {
-                    "google:project": {
+                    "gcp:project": {
                         "description": "The Google Cloud project to deploy into"
                     },
                     "region": {
                         "description": "The Google Cloud region to deploy into",
                         "default": "us-central1"
                     },
-                    "app_path": {
-                        "description": "The path to the container application to deploy",
-                        "default": "./app"
-                    },
                     "image_name": {
                         "description": "The name to give the container image",
                         "default": "my-app"
+                    },
+                    "app_path": {
+                        "description": "The path to the container application to deploy",
+                        "default": "./app"
                     },
                     "container_port": {
                         "description": "The port to expose on the container",
@@ -1466,7 +1458,7 @@
                 "description": "A minimal Google Cloud Pulumi HCL program",
                 "important": true,
                 "config": {
-                    "google:project": {
+                    "gcp:project": {
                         "description": "The Google Cloud project to deploy into"
                     }
                 }
@@ -2015,7 +2007,7 @@
             "template": {
                 "description": "A Pulumi HCL program to deploy a Kubernetes cluster on Azure",
                 "config": {
-                    "location": {
+                    "azure-native:location": {
                         "description": "The Azure region to deploy into",
                         "default": "westus2"
                     },
@@ -2199,10 +2191,10 @@
             "template": {
                 "description": "A Pulumi HCL program to deploy a Kubernetes cluster on Google Cloud",
                 "config": {
-                    "google:project": {
+                    "gcp:project": {
                         "description": "The Google Cloud project to deploy into"
                     },
-                    "google:region": {
+                    "region": {
                         "description": "The Google Cloud region to deploy into",
                         "default": "us-central1"
                     },
@@ -2969,14 +2961,6 @@
                     "aws:region": {
                         "description": "The AWS region to deploy into",
                         "default": "us-west-2"
-                    },
-                    "site_path": {
-                        "description": "The path to the folder containing the website",
-                        "default": "./www"
-                    },
-                    "app_path": {
-                        "description": "The path to the folder containing the function to deploy",
-                        "default": "./function"
                     }
                 }
             }
@@ -3089,9 +3073,9 @@
             "template": {
                 "description": "A Pulumi HCL program to deploy a serverless application on Azure",
                 "config": {
-                    "location": {
+                    "azure-native:location": {
                         "description": "The Azure region to deploy into",
-                        "default": "WestUS"
+                        "default": "WestUS2"
                     },
                     "site_path": {
                         "description": "The path to the folder containing the website",
@@ -3269,11 +3253,11 @@
             "template": {
                 "description": "A Pulumi HCL program to deploy a serverless application on Google Cloud",
                 "config": {
-                    "google:project": {
+                    "gcp:project": {
                         "description": "The Google Cloud project to deploy into"
                     },
                     "region": {
-                        "description": "The Google Cloud region to deploy into",
+                        "description": "The Google Cloud region to deploy the function into",
                         "default": "us-central1"
                     },
                     "site_path": {
@@ -3622,9 +3606,9 @@
             "template": {
                 "description": "A Pulumi HCL program to deploy a static website on Azure",
                 "config": {
-                    "location": {
+                    "azure-native:location": {
                         "description": "The Azure region to deploy into",
-                        "default": "WestUS"
+                        "default": "WestUS2"
                     },
                     "path": {
                         "description": "The path to the folder containing the website",
@@ -4076,7 +4060,7 @@
             "template": {
                 "description": "A Pulumi HCL program to deploy a virtual machine on Azure",
                 "config": {
-                    "location": {
+                    "azure-native:location": {
                         "description": "The Azure location to deploy into",
                         "default": "WestUS2"
                     },
@@ -4085,7 +4069,7 @@
                         "default": "pulumiuser"
                     },
                     "vm_name": {
-                        "description": "The DNS hostname prefix and computer name to use for the VM",
+                        "description": "The computer name and DNS hostname prefix to use for the VM",
                         "default": "my-server"
                     },
                     "vm_size": {
@@ -4280,14 +4264,14 @@
             "template": {
                 "description": "A Pulumi HCL program to deploy a virtual machine on Google Cloud",
                 "config": {
-                    "google:project": {
+                    "gcp:project": {
                         "description": "The Google Cloud project to deploy into"
                     },
-                    "google:region": {
+                    "gcp:region": {
                         "description": "The Google Cloud region to deploy into",
                         "default": "us-central1"
                     },
-                    "google:zone": {
+                    "gcp:zone": {
                         "description": "The Google Cloud availability zone to deploy into",
                         "default": "us-central1-a"
                     },
