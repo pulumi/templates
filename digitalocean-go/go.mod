@@ -3,6 +3,6 @@ module ${PROJECT}
 go 1.25
 
 require (
-	github.com/pulumi/pulumi-digitalocean/sdk/v4 v4.75.0
-	github.com/pulumi/pulumi/sdk/v3 v3.254.0
+	github.com/pulumi/pulumi-digitalocean/sdk/v4 v4.76.0
+	github.com/pulumi/pulumi/sdk/v3 v3.255.0
 )
