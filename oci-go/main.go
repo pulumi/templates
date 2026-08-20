@@ -1,8 +1,8 @@
 package main
 
 import (
-	"github.com/pulumi/pulumi-oci/sdk/go/oci/identity"
-	"github.com/pulumi/pulumi-oci/sdk/go/oci/objectstorage"
+	"github.com/pulumi/pulumi-oci/sdk/v4/go/oci/identity"
+	"github.com/pulumi/pulumi-oci/sdk/v4/go/oci/objectstorage"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 )
 

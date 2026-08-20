@@ -6,7 +6,7 @@
         "typescript": "^5.0.0"
     },
     "dependencies": {
-        "@pulumi/oci": "0.13.0",
+        "@pulumi/oci": "^4.0.0",
         "@pulumi/pulumi": "^3.113.0"
     }
 }
