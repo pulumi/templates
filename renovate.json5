@@ -1,0 +1,31 @@
+{
+  $schema: "https://docs.renovatebot.com/renovate-schema.json",
+  extends: ["github>pulumi/renovate-config//default.json5"],
+
+  enabledManagers: ["npm", "bun"],
+
+  lockFileMaintenance: {
+    enabled: true,
+    recreateWhen: "always",
+    schedule: ["before 6am on monday"],
+    branchTopic: "lock-file-maintenance",
+    commitMessageAction: "Lock file maintenance",
+
+    dependencyDashboardApproval: false,
+
+    automerge: false,
+  },
+
+  vulnerabilityAlerts: {
+    dependencyDashboardApproval: false,
+  },
+
+  packageRules: [
+    {
+      matchManagers: ["npm"],
+      matchUpdateTypes: ["major"],
+      dependencyDashboardApproval: true,
+      automerge: false,
+    },
+  ],
+}
