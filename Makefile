@@ -66,5 +66,17 @@ test_templates::
 metadata::
 	yarn && yarn run metadata && yarn test
 
+
+lockfiles::
+	./scripts/generate-lockfiles.sh
+
+
+test_lockfiles::
+	cd tests && \
+		go test -run 'TestTemplatePublishIncludesLockfiles' -count=1 .
+
+audit_lockfiles::
+	./scripts/audit-lockfiles.sh --base origin/master
+
 ensure::
 	cd tests && go mod download
