@@ -3,6 +3,6 @@ module ${PROJECT}
 go 1.25
 
 require (
-	github.com/pulumi/pulumi-aws/sdk/v7 v7.43.0
-	github.com/pulumi/pulumi/sdk/v3 v3.260.0
+	github.com/pulumi/pulumi-aws/sdk/v7 v7.44.0
+	github.com/pulumi/pulumi/sdk/v3 v3.261.0
 )
