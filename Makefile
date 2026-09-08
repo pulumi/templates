@@ -71,12 +71,13 @@ lockfiles::
 	./scripts/generate-lockfiles.sh
 
 
+audit_lockfiles::
+	osv-scanner scan source --recursive ./
+
+
 test_lockfiles::
 	cd tests && \
-		go test -run 'TestTemplatePublishIncludesLockfiles' -count=1 .
-
-audit_lockfiles::
-	./scripts/audit-lockfiles.sh --base origin/master
+		go test -run 'Lockfile' -count=1 .
 
 ensure::
 	cd tests && go mod download

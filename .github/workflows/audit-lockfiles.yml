@@ -3,29 +3,12 @@ on:
   pull_request:
     branches:
       - master
-  workflow_dispatch: {}
 
 jobs:
   audit:
-    runs-on: ubuntu-latest
     name: Audit template lockfiles
     permissions:
+      actions: read
       contents: read
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-
-      - name: Install Node
-        uses: actions/setup-node@v4
-        with:
-          node-version: 24.x
-
-      - name: Install Bun
-        uses: oven-sh/setup-bun@v2
-        with:
-          bun-version: 1.4.0
-
-      - name: Audit lockfiles for vulnerabilities this change introduces
-        run: ./scripts/audit-lockfiles.sh --base "${{ github.event.pull_request.base.sha }}"
+      security-events: write
+    uses: google/osv-scanner-action/.github/workflows/osv-scanner-reusable-pr.yml@v2.5.1

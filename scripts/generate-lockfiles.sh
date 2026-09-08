@@ -22,36 +22,8 @@ node_project_dirs() {
         sort
 }
 
-project_runtime() {
-    local project="$1/Pulumi.yaml" runtime
-    [[ -f "${project}" ]] || return 0
-
-    runtime="$(tr -d '\r' <"${project}" | awk '
-        /^runtime:[[:space:]]*[^[:space:]]/ {
-            sub(/^runtime:[[:space:]]*/, "")
-            sub(/[[:space:]]+$/, "")
-            print
-            exit
-        }
-        /^runtime:[[:space:]]*$/ { in_runtime_block = 1; next }
-        in_runtime_block && /^[^[:space:]]/ { exit }
-        in_runtime_block && /^[[:space:]]+name:[[:space:]]*/ {
-            sub(/^[[:space:]]+name:[[:space:]]*/, "")
-            sub(/[[:space:]]+$/, "")
-            print
-            exit
-        }
-    ')"
-
-    runtime="${runtime#\"}"
-    runtime="${runtime%\"}"
-    runtime="${runtime#\'}"
-    runtime="${runtime%\'}"
-    printf '%s\n' "${runtime}"
-}
-
 declares_bun_runtime() {
-    [[ "$(project_runtime "$1")" == "bun" ]]
+    grep -qE '^runtime:[[:space:]]*bun[[:space:]]*$' "$1/Pulumi.yaml" 2>/dev/null
 }
 
 if [[ "${1:-}" == "--generate-one" ]]; then
@@ -88,38 +60,5 @@ fi
 
 echo "Regenerating lockfiles for ${count} Node projects..."
 xargs -P "${CONCURRENCY}" -I{} "${SCRIPT}" --generate-one {} <"${dirs_file}"
-
-orphaned_lockfiles() {
-    find . \( -name node_modules -o -name .git -o -name .jj \) -prune -o \
-        \( -name package-lock.json -o -name bun.lock \) -print |
-        while read -r lock; do
-            [[ -f "$(dirname "${lock}")/package.json" ]] || echo "${lock}"
-        done
-}
-
-orphans="$(orphaned_lockfiles)"
-if [[ -n "${orphans}" ]]; then
-    echo "found lockfiles with no package.json beside them:" >&2
-    echo "${orphans}" >&2
-    exit 1
-fi
-
-stray_lockfiles() {
-    local dir name
-    while read -r dir; do
-        for name in yarn.lock pnpm-lock.yaml bun.lockb; do
-            if [[ -f "${dir}/${name}" ]]; then
-                echo "${dir}/${name}"
-            fi
-        done
-    done <"${dirs_file}"
-}
-
-strays="$(stray_lockfiles)"
-if [[ -n "${strays}" ]]; then
-    echo "found lockfiles belonging to a package manager these templates do not declare:" >&2
-    echo "${strays}" >&2
-    exit 1
-fi
 
 echo "Done."

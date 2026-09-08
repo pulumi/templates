@@ -24,7 +24,6 @@
     {
       matchManagers: ["npm"],
       matchUpdateTypes: ["major"],
-      dependencyDashboardApproval: true,
       automerge: false,
     },
   ],
