@@ -1,0 +1,26 @@
+name: ${PROJECT}
+description: ${DESCRIPTION}
+runtime: yaml
+template:
+  description: A minimal Cloudflare YAML Pulumi program
+  config:
+    accountId:
+      description: The Cloudflare account ID to deploy into
+
+config:
+  accountId:
+    type: string
+
+resources:
+
+  # Create a Cloudflare resource (Workers KV namespace).
+  namespace:
+    type: cloudflare:index/workersKvNamespace:WorkersKvNamespace
+    properties:
+      accountId: ${accountId}
+      title: my-namespace
+
+outputs:
+
+  # Export the ID of the namespace.
+  namespaceId: ${namespace.id}

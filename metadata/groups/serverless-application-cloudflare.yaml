@@ -1,0 +1,13 @@
+name: Serverless Application
+kind: architecture
+parent: serverless-application
+slug: cloudflare
+clouds:
+  - cloudflare
+templates:
+  - serverless-cloudflare-typescript
+  - serverless-cloudflare-python
+  - serverless-cloudflare-go
+  - serverless-cloudflare-csharp
+  - serverless-cloudflare-yaml
+  - serverless-cloudflare-hcl

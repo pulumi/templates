@@ -1,0 +1,63 @@
+name: ${PROJECT}
+description: ${DESCRIPTION}
+runtime: yaml
+template:
+  description: A YAML program to deploy a serverless application on Cloudflare
+  config:
+    accountId:
+      description: The Cloudflare account ID to deploy into
+
+config:
+  accountId:
+    type: string
+
+resources:
+
+  # A Workers KV namespace to persist state between requests.
+  namespace:
+    type: cloudflare:index/workersKvNamespace:WorkersKvNamespace
+    properties:
+      accountId: ${accountId}
+      title: visit-counter
+
+  # A Cloudflare Worker, exposed on its workers.dev subdomain.
+  worker:
+    type: cloudflare:index/worker:Worker
+    properties:
+      accountId: ${accountId}
+      name: my-app
+      subdomain:
+        enabled: true
+
+  # A version of the Worker containing the code and its KV binding.
+  version:
+    type: cloudflare:index/workerVersion:WorkerVersion
+    properties:
+      accountId: ${accountId}
+      workerId: ${worker.id}
+      compatibilityDate: "2025-01-01"
+      mainModule: worker.js
+      bindings:
+        - name: COUNTER
+          type: kv_namespace
+          namespaceId: ${namespace.id}
+      modules:
+        - name: worker.js
+          contentType: application/javascript+module
+          contentFile: worker.js
+
+  # Deploy the version so it serves all of the application's traffic.
+  deployment:
+    type: cloudflare:index/workersDeployment:WorkersDeployment
+    properties:
+      accountId: ${accountId}
+      scriptName: ${worker.name}
+      strategy: percentage
+      versions:
+        - versionId: ${version.id}
+          percentage: 100
+
+outputs:
+
+  # Export the application's URL.
+  url: ${worker.subdomain.url}

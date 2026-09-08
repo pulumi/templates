@@ -1,0 +1,9 @@
+name: ${PROJECT}
+description: ${DESCRIPTION}
+runtime: dotnet
+
+template:
+  description: A C# program to deploy a serverless application on Cloudflare
+  config:
+    accountId:
+      description: The Cloudflare account ID to deploy into

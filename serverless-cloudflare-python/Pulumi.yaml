@@ -1,0 +1,9 @@
+name: ${PROJECT}
+description: ${DESCRIPTION}
+runtime: python
+
+template:
+  description: A Python program to deploy a serverless application on Cloudflare
+  config:
+    accountId:
+      description: The Cloudflare account ID to deploy into

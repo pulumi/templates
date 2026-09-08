@@ -1,0 +1,8 @@
+name: ${PROJECT}
+description: ${DESCRIPTION}
+runtime: dotnet
+template:
+  description: A minimal Cloudflare C# Pulumi program
+  config:
+    accountId:
+      description: The Cloudflare account ID to deploy into
