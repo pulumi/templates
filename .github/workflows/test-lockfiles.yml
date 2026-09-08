@@ -1,0 +1,46 @@
+name: Test template lockfiles
+on:
+  pull_request:
+    branches:
+      - master
+  push:
+    branches:
+      - master
+  workflow_dispatch: {}
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    name: Test template lockfiles
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24.x
+
+      - name: Install Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: 1.4.0
+
+      - name: Install Go
+        uses: actions/setup-go@v5
+        with:
+          go-version-file: tests/go.mod
+          cache-dependency-path: tests/go.sum
+
+      - name: Check lockfile invariants
+        run: make test_lockfiles
+
+      - name: Regenerate lockfiles
+        run: make lockfiles
+
+      - name: Fail if any lockfile is out of sync with its package.json
+        run: |
+          git add --intent-to-add .
+          if ! git diff --exit-code; then
+            echo "::error::Template lockfiles do not match their package.json. Run make lockfiles and commit the result."
+            exit 1
+          fi
