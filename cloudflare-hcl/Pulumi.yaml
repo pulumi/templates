@@ -1,0 +1,8 @@
+name: ${PROJECT}
+description: ${DESCRIPTION}
+runtime: hcl
+template:
+  description: A minimal Cloudflare Pulumi HCL program
+  config:
+    account_id:
+      description: The Cloudflare account ID to deploy into

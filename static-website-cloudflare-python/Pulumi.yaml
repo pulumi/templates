@@ -1,0 +1,12 @@
+name: ${PROJECT}
+description: ${DESCRIPTION}
+runtime: python
+
+template:
+  description: A Python program to deploy a static website on Cloudflare
+  config:
+    accountId:
+      description: The Cloudflare account ID to deploy into
+    path:
+      description: The path to the folder containing the website
+      default: ./www

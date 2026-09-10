@@ -1,0 +1,13 @@
+name: Static Website
+kind: architecture
+parent: static-website
+slug: cloudflare
+clouds:
+  - cloudflare
+templates:
+  - static-website-cloudflare-typescript
+  - static-website-cloudflare-python
+  - static-website-cloudflare-go
+  - static-website-cloudflare-csharp
+  - static-website-cloudflare-yaml
+  - static-website-cloudflare-hcl

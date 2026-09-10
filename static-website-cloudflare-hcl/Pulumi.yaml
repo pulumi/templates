@@ -1,0 +1,11 @@
+name: ${PROJECT}
+description: ${DESCRIPTION}
+runtime: hcl
+template:
+  description: A Pulumi HCL program to deploy a static website on Cloudflare
+  config:
+    account_id:
+      description: The Cloudflare account ID to deploy into
+    path:
+      description: The path to the folder containing the website
+      default: ./www

@@ -1,0 +1,59 @@
+name: ${PROJECT}
+description: ${DESCRIPTION}
+runtime: yaml
+template:
+  description: A YAML program to deploy a static website on Cloudflare
+  config:
+    accountId:
+      description: The Cloudflare account ID to deploy into
+    path:
+      description: The path to the folder containing the website
+      default: ./www
+
+config:
+  accountId:
+    type: string
+  path:
+    type: string
+    default: ./www
+
+resources:
+
+  # A Cloudflare Worker, exposed on its workers.dev subdomain.
+  site:
+    type: cloudflare:index/worker:Worker
+    properties:
+      accountId: ${accountId}
+      name: my-site
+      subdomain:
+        enabled: true
+
+  # A version of the Worker that serves the website's files as static assets.
+  version:
+    type: cloudflare:index/workerVersion:WorkerVersion
+    properties:
+      accountId: ${accountId}
+      workerId: ${site.id}
+      compatibilityDate: "2025-01-01"
+      assets:
+        directory: ${path}
+        config:
+          # Serve /404.html when a request doesn't match a file.
+          notFoundHandling: 404-page
+          htmlHandling: auto-trailing-slash
+
+  # Deploy the version so it serves all of the site's traffic.
+  deployment:
+    type: cloudflare:index/workersDeployment:WorkersDeployment
+    properties:
+      accountId: ${accountId}
+      scriptName: ${site.name}
+      strategy: percentage
+      versions:
+        - versionId: ${version.id}
+          percentage: 100
+
+outputs:
+
+  # Export the website's URL.
+  url: ${site.subdomain.url}

@@ -43,6 +43,23 @@
                     "name": "Static Website",
                     "kind": "architecture",
                     "parent": "static-website",
+                    "slug": "cloudflare",
+                    "clouds": [
+                        "cloudflare"
+                    ],
+                    "templates": [
+                        "static-website-cloudflare-typescript",
+                        "static-website-cloudflare-python",
+                        "static-website-cloudflare-go",
+                        "static-website-cloudflare-csharp",
+                        "static-website-cloudflare-yaml",
+                        "static-website-cloudflare-hcl"
+                    ]
+                },
+                {
+                    "name": "Static Website",
+                    "kind": "architecture",
+                    "parent": "static-website",
                     "slug": "gcp",
                     "clouds": [
                         "gcp"
@@ -94,6 +111,23 @@
                         "serverless-azure-csharp",
                         "serverless-azure-yaml",
                         "serverless-azure-hcl"
+                    ]
+                },
+                {
+                    "name": "Serverless Application",
+                    "kind": "architecture",
+                    "parent": "serverless-application",
+                    "slug": "cloudflare",
+                    "clouds": [
+                        "cloudflare"
+                    ],
+                    "templates": [
+                        "serverless-cloudflare-typescript",
+                        "serverless-cloudflare-python",
+                        "serverless-cloudflare-go",
+                        "serverless-cloudflare-csharp",
+                        "serverless-cloudflare-yaml",
+                        "serverless-cloudflare-hcl"
                     ]
                 },
                 {
@@ -848,6 +882,78 @@
             "runtime": "bun",
             "template": {
                 "description": "A minimal Bun Pulumi program"
+            }
+        },
+        "cloudflare-csharp": {
+            "name": "cloudflare-csharp",
+            "runtime": "dotnet",
+            "template": {
+                "description": "A minimal Cloudflare C# Pulumi program",
+                "config": {
+                    "accountId": {
+                        "description": "The Cloudflare account ID to deploy into"
+                    }
+                }
+            }
+        },
+        "cloudflare-go": {
+            "name": "cloudflare-go",
+            "runtime": "go",
+            "template": {
+                "description": "A minimal Cloudflare Go Pulumi program",
+                "config": {
+                    "accountId": {
+                        "description": "The Cloudflare account ID to deploy into"
+                    }
+                }
+            }
+        },
+        "cloudflare-hcl": {
+            "name": "cloudflare-hcl",
+            "runtime": "hcl",
+            "template": {
+                "description": "A minimal Cloudflare Pulumi HCL program",
+                "config": {
+                    "account_id": {
+                        "description": "The Cloudflare account ID to deploy into"
+                    }
+                }
+            }
+        },
+        "cloudflare-python": {
+            "name": "cloudflare-python",
+            "runtime": "python",
+            "template": {
+                "description": "A minimal Cloudflare Python Pulumi program",
+                "config": {
+                    "accountId": {
+                        "description": "The Cloudflare account ID to deploy into"
+                    }
+                }
+            }
+        },
+        "cloudflare-typescript": {
+            "name": "cloudflare-typescript",
+            "runtime": "nodejs",
+            "template": {
+                "description": "A minimal Cloudflare TypeScript Pulumi program",
+                "config": {
+                    "accountId": {
+                        "description": "The Cloudflare account ID to deploy into"
+                    }
+                }
+            }
+        },
+        "cloudflare-yaml": {
+            "name": "cloudflare-yaml",
+            "runtime": "yaml",
+            "template": {
+                "description": "A minimal Cloudflare YAML Pulumi program",
+                "config": {
+                    "accountId": {
+                        "description": "The Cloudflare account ID to deploy into"
+                    }
+                }
             }
         },
         "container-aws-csharp": {
@@ -3183,6 +3289,78 @@
                 }
             }
         },
+        "serverless-cloudflare-csharp": {
+            "name": "serverless-cloudflare-csharp",
+            "runtime": "dotnet",
+            "template": {
+                "description": "A C# program to deploy a serverless application on Cloudflare",
+                "config": {
+                    "accountId": {
+                        "description": "The Cloudflare account ID to deploy into"
+                    }
+                }
+            }
+        },
+        "serverless-cloudflare-go": {
+            "name": "serverless-cloudflare-go",
+            "runtime": "go",
+            "template": {
+                "description": "A Go program to deploy a serverless application on Cloudflare",
+                "config": {
+                    "accountId": {
+                        "description": "The Cloudflare account ID to deploy into"
+                    }
+                }
+            }
+        },
+        "serverless-cloudflare-hcl": {
+            "name": "serverless-cloudflare-hcl",
+            "runtime": "hcl",
+            "template": {
+                "description": "A Pulumi HCL program to deploy a serverless application on Cloudflare",
+                "config": {
+                    "account_id": {
+                        "description": "The Cloudflare account ID to deploy into"
+                    }
+                }
+            }
+        },
+        "serverless-cloudflare-python": {
+            "name": "serverless-cloudflare-python",
+            "runtime": "python",
+            "template": {
+                "description": "A Python program to deploy a serverless application on Cloudflare",
+                "config": {
+                    "accountId": {
+                        "description": "The Cloudflare account ID to deploy into"
+                    }
+                }
+            }
+        },
+        "serverless-cloudflare-typescript": {
+            "name": "serverless-cloudflare-typescript",
+            "runtime": "nodejs",
+            "template": {
+                "description": "A TypeScript program to deploy a serverless application on Cloudflare",
+                "config": {
+                    "accountId": {
+                        "description": "The Cloudflare account ID to deploy into"
+                    }
+                }
+            }
+        },
+        "serverless-cloudflare-yaml": {
+            "name": "serverless-cloudflare-yaml",
+            "runtime": "yaml",
+            "template": {
+                "description": "A YAML program to deploy a serverless application on Cloudflare",
+                "config": {
+                    "accountId": {
+                        "description": "The Cloudflare account ID to deploy into"
+                    }
+                }
+            }
+        },
         "serverless-gcp-csharp": {
             "name": "serverless-gcp-csharp",
             "runtime": "dotnet",
@@ -3696,6 +3874,102 @@
                     "errorDocument": {
                         "description": "The file to use for error pages",
                         "default": "error.html"
+                    }
+                }
+            }
+        },
+        "static-website-cloudflare-csharp": {
+            "name": "static-website-cloudflare-csharp",
+            "runtime": "dotnet",
+            "template": {
+                "description": "A C# program to deploy a static website on Cloudflare",
+                "config": {
+                    "accountId": {
+                        "description": "The Cloudflare account ID to deploy into"
+                    },
+                    "path": {
+                        "description": "The path to the folder containing the website",
+                        "default": "./www"
+                    }
+                }
+            }
+        },
+        "static-website-cloudflare-go": {
+            "name": "static-website-cloudflare-go",
+            "runtime": "go",
+            "template": {
+                "description": "A Go program to deploy a static website on Cloudflare",
+                "config": {
+                    "accountId": {
+                        "description": "The Cloudflare account ID to deploy into"
+                    },
+                    "path": {
+                        "description": "The path to the folder containing the website",
+                        "default": "./www"
+                    }
+                }
+            }
+        },
+        "static-website-cloudflare-hcl": {
+            "name": "static-website-cloudflare-hcl",
+            "runtime": "hcl",
+            "template": {
+                "description": "A Pulumi HCL program to deploy a static website on Cloudflare",
+                "config": {
+                    "account_id": {
+                        "description": "The Cloudflare account ID to deploy into"
+                    },
+                    "path": {
+                        "description": "The path to the folder containing the website",
+                        "default": "./www"
+                    }
+                }
+            }
+        },
+        "static-website-cloudflare-python": {
+            "name": "static-website-cloudflare-python",
+            "runtime": "python",
+            "template": {
+                "description": "A Python program to deploy a static website on Cloudflare",
+                "config": {
+                    "accountId": {
+                        "description": "The Cloudflare account ID to deploy into"
+                    },
+                    "path": {
+                        "description": "The path to the folder containing the website",
+                        "default": "./www"
+                    }
+                }
+            }
+        },
+        "static-website-cloudflare-typescript": {
+            "name": "static-website-cloudflare-typescript",
+            "runtime": "nodejs",
+            "template": {
+                "description": "A TypeScript program to deploy a static website on Cloudflare",
+                "config": {
+                    "accountId": {
+                        "description": "The Cloudflare account ID to deploy into"
+                    },
+                    "path": {
+                        "description": "The path to the folder containing the website",
+                        "default": "./www"
+                    }
+                }
+            }
+        },
+        "static-website-cloudflare-yaml": {
+            "name": "static-website-cloudflare-yaml",
+            "runtime": "yaml",
+            "template": {
+                "description": "A YAML program to deploy a static website on Cloudflare",
+                "config": {
+                    "accountId": {
+                        "description": "The Cloudflare account ID to deploy into"
+                    },
+                    "path": {
+                        "description": "The path to the folder containing the website",
+                        "default": "./www"
                     }
                 }
             }
