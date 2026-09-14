@@ -63,6 +63,8 @@ resources:
       website:
         mainPageSuffix: ${indexDocument}
         notFoundPage: ${errorDocument}
+    options:
+      version: 10.0.0-alpha.1
 
   # Create an IAM binding to allow public read access to the bucket.
   site-bucket-iam-binding:
@@ -72,6 +74,8 @@ resources:
       role: roles/storage.objectViewer
       members:
         - allUsers
+    options:
+      version: 10.0.0-alpha.1
 
   # Use a synced folder to manage the files of the website.
   synced-folder:
@@ -85,6 +89,8 @@ resources:
     type: gcp:storage:Bucket
     properties:
       location: US
+    options:
+      version: 10.0.0-alpha.1
 
   # Upload the serverless app to the storage bucket.
   app-archive:
@@ -92,6 +98,8 @@ resources:
     properties:
       bucket: ${app-bucket.name}
       source: ${appArchive}
+    options:
+      version: 10.0.0-alpha.1
 
   # Create a Cloud Function (Gen 2) that returns some data.
   data-function:
@@ -108,6 +116,8 @@ resources:
       serviceConfig:
         availableMemory: 256M
         timeoutSeconds: 60
+    options:
+      version: 10.0.0-alpha.1
 
   # Allow public, unauthenticated invocations of the underlying Cloud Run service.
   invoker:
@@ -117,6 +127,8 @@ resources:
       service: ${data-function.name}
       role: roles/run.invoker
       member: allUsers
+    options:
+      version: 10.0.0-alpha.1
 
   # Create a JSON configuration file for the website.
   site-config:
@@ -126,6 +138,8 @@ resources:
       bucket: ${site-bucket.name}
       contentType: application/json
       source: ${configFile}
+    options:
+      version: 10.0.0-alpha.1
 
 # Export the URLs of the website and serverless endpoint.
 outputs:

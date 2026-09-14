@@ -1,7 +1,8 @@
 terraform {
   required_providers {
     gcp = {
-      source = "pulumi/gcp"
+      source  = "pulumi/gcp"
+      version = "10.0.0-alpha.1"
     }
     synced-folder = {
       source = "pulumi/synced-folder"

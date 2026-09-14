@@ -39,6 +39,8 @@ resources:
       website:
         mainPageSuffix: ${indexDocument}
         notFoundPage: ${errorDocument}
+    options:
+      version: 10.0.0-alpha.1
 
   # Create an IAM binding to allow public read access to the bucket.
   bucket-iam-binding:
@@ -48,6 +50,8 @@ resources:
       role: roles/storage.objectViewer
       members:
         - allUsers
+    options:
+      version: 10.0.0-alpha.1
 
   # Use a synced folder to manage the files of the website.
   synced-folder:
@@ -62,22 +66,30 @@ resources:
     properties:
       bucketName: ${bucket.name}
       enableCdn: true
+    options:
+      version: 10.0.0-alpha.1
 
   # Provision a global IP address for the CDN.
   ip:
     type: gcp:compute:GlobalAddress
+    options:
+      version: 10.0.0-alpha.1
 
   # Create a URLMap to route requests to the storage bucket.
   url-map:
     type: gcp:compute:URLMap
     properties:
       defaultService: ${backend-bucket.selfLink}
+    options:
+      version: 10.0.0-alpha.1
 
   # Create an HTTP proxy to route requests to the URLMap.
   http-proxy:
     type: gcp:compute:TargetHttpProxy
     properties:
       urlMap: ${url-map.selfLink}
+    options:
+      version: 10.0.0-alpha.1
 
   # Create a GlobalForwardingRule rule to route requests to the HTTP proxy.
   http-forwarding-rule:
@@ -87,6 +99,8 @@ resources:
       ipProtocol: TCP
       portRange: "80"
       target: ${http-proxy.selfLink}
+    options:
+      version: 10.0.0-alpha.1
 
 # Export the URLs and hostnames of the bucket and CDN.
 outputs:
