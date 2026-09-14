@@ -63,6 +63,7 @@ return await Deployment.RunAsync(() =>
             // https://cloud.google.com/run/docs/container-contract#languages
             DockerBuild.Platform.Linux_amd64,
         },
+        Push = true,
     });
 
     // Create a Cloud Run service definition.

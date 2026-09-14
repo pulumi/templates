@@ -61,6 +61,7 @@ image = docker_build.Image(
     # Cloud Run currently requires x86_64 images
     # https://cloud.google.com/run/docs/container-contract#languages
     platforms=[docker_build.Platform.LINUX_AMD64],
+    push=True,
 )
 
 # Create a Cloud Run service definition.
@@ -71,7 +72,7 @@ service = cloudrun.Service(
         "spec": {
             "containers": [
                 {
-                    "image": image.repo_digest,
+                    "image": image.ref,
                     "resources": {
                         "limits": {
                             "memory": memory,
