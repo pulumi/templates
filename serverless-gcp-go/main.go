@@ -3,9 +3,9 @@ package main
 import (
 	"fmt"
 
-	"github.com/pulumi/pulumi-gcp/sdk/v9/go/gcp/cloudfunctionsv2"
-	"github.com/pulumi/pulumi-gcp/sdk/v9/go/gcp/cloudrun"
-	"github.com/pulumi/pulumi-gcp/sdk/v9/go/gcp/storage"
+	"github.com/pulumi/pulumi-gcp/sdk/v10/go/gcp/cloudfunctionsv2"
+	"github.com/pulumi/pulumi-gcp/sdk/v10/go/gcp/cloudrun"
+	"github.com/pulumi/pulumi-gcp/sdk/v10/go/gcp/storage"
 	synced "github.com/pulumi/pulumi-synced-folder/sdk/go/synced-folder"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi/config"
