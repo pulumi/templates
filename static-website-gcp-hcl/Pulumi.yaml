@@ -4,7 +4,7 @@ runtime: hcl
 template:
   description: A Pulumi HCL program to deploy a static website on Google Cloud
   config:
-    google:project:
+    gcp:project:
       description: The Google Cloud project to deploy into
     path:
       description: The path to the folder containing the website
