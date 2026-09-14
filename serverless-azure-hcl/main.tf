@@ -34,9 +34,9 @@ variable "error_document" {
 }
 
 locals {
-  app_archive = fileArchive(var.app_path)
+  app_archive = filearchive(var.app_path)
   config_json = jsonencode({ api = "https://${azure-native_web_web_app.app.default_host_name}/api" })
-  config_file = stringAsset(local.config_json)
+  config_file = stringasset(local.config_json)
 }
 
 # Create a resource group for the website.

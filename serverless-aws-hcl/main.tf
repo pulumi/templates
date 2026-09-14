@@ -27,7 +27,7 @@ resource "aws_lambda_function" "fn" {
   runtime  = "python3.12"
   handler  = "handler.handler"
   role     = aws_iam_role.role.arn
-  filename = fileArchive("./function")
+  filename = filearchive("./function")
 }
 
 # A REST API to route requests to HTML content and the Lambda function
