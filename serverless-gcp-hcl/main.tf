@@ -70,7 +70,7 @@ resource "gcp_storage_bucket" "app-bucket" {
 # Upload the serverless app to the storage bucket.
 resource "gcp_storage_bucket_object" "app-archive" {
   bucket = gcp_storage_bucket.app-bucket.name
-  source = fileArchive(var.app_path)
+  source = filearchive(var.app_path)
 }
 
 # Create a Cloud Function (Gen 2) that returns some data.
@@ -107,7 +107,7 @@ resource "gcp_storage_bucket_object" "site-config" {
   name         = "config.json"
   bucket       = gcp_storage_bucket.site-bucket.name
   content_type = "application/json"
-  source       = stringAsset(jsonencode({ api = gcp_cloudfunctionsv2_function.data-function.url }))
+  source       = stringasset(jsonencode({ api = gcp_cloudfunctionsv2_function.data-function.url }))
 }
 
 # Export the URLs of the website and serverless endpoint.
