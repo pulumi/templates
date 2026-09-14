@@ -54,6 +54,7 @@ return await Pulumi.Deployment.RunAsync(() =>
             DockerBuild.Platform.Linux_amd64,
 
         },
+        Push = true,
         Registries = new[]
         {
             new DockerBuild.Inputs.RegistryArgs
