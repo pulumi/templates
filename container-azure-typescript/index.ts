@@ -44,6 +44,7 @@ const image = new dockerbuild.Image("image", {
         location: appPath,
     },
     platforms: ["linux/amd64"],
+    push: true,
     registries: [{
         address: registry.loginServer,
         username: credentials.username,
@@ -72,7 +73,7 @@ const containerGroup = new containerinstance.ContainerGroup("container-group", {
     containers: [
         {
             name: imageName,
-            image: image.imageName,
+            image: image.ref,
             ports: [
                 {
                     port: containerPort,

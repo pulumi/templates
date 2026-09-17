@@ -44,6 +44,7 @@ image = docker_build.Image(
         location=app_path,
     ),
     platforms=[docker_build.Platform.LINUX_AMD64],
+    push=True,
     registries=[{
         "address": registry.login_server,
         "username": registry_username,
@@ -76,7 +77,7 @@ container_group = containerinstance.ContainerGroup(
     containers=[
         {
             "name": image_name,
-            "image": image.image_name,
+            "image": image.ref,
             "ports": [
                 {
                     "port": container_port,
