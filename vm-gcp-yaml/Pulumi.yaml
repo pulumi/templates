@@ -66,6 +66,8 @@ resources:
     type: gcp:compute:Network
     properties:
       autoCreateSubnetworks: false
+    options:
+      version: 10.0.0-alpha.2
 
   # Create a subnet on the network.
   subnet:
@@ -73,6 +75,8 @@ resources:
     properties:
       ipCidrRange: 10.0.1.0/24
       network: ${network.id}
+    options:
+      version: 10.0.0-alpha.2
 
   # Create a firewall allowing inbound access over ports 80 (for HTTP) and 22 (for SSH).
   firewall:
@@ -89,6 +93,8 @@ resources:
         - 0.0.0.0/0
       targetTags:
         - ${instanceTag}
+    options:
+      version: 10.0.0-alpha.2
 
   # Create the virtual machine.
   instance:
@@ -113,6 +119,7 @@ resources:
     options:
       dependsOn:
         - ${firewall}
+      version: 10.0.0-alpha.2
 
 # Export the instance's name, public IP address, and HTTP URL.
 outputs:

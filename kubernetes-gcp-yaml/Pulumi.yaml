@@ -26,6 +26,8 @@ resources:
       # Disable autoCreateSubnetworks because Private Google Access is needed
       autoCreateSubnetworks: false
       description: A virtual network for your GKE cluster(s)
+    options:
+      version: 10.0.0-alpha.2
   # Create a subnet in the new GCP network
   gke-subnet:
     type: gcp:compute:Subnetwork
@@ -33,6 +35,8 @@ resources:
       ipCidrRange: 10.128.0.0/12
       network: ${gke-network.id}
       privateIpGoogleAccess: true
+    options:
+      version: 10.0.0-alpha.2
   # Create a new GKE cluster
   gke-cluster:
     type: gcp:container:Cluster
@@ -69,12 +73,16 @@ resources:
       subnetwork: ${gke-subnet.name}
       workloadIdentityConfig:
         workloadPool: ${gcp:project}.svc.id.goog
+    options:
+      version: 10.0.0-alpha.2
   # Create a new service account for the nodepool
   gke-nodepool-sa:
     type: gcp:serviceaccount:Account
     properties:
       accountId: ${gke-cluster.name}-np-1-sa
       displayName: Nodepool 1 Service Account
+    options:
+      version: 10.0.0-alpha.2
   # Create a new nodepool for the cluster
   gke-nodepool:
     type: gcp:container:NodePool
@@ -87,6 +95,8 @@ resources:
         oauthScopes:
         - https://www.googleapis.com/auth/cloud-platform
         serviceAccount: ${gke-nodepool-sa.email}
+    options:
+      version: 10.0.0-alpha.2
 
 variables:
   clusterKubeconfig:
