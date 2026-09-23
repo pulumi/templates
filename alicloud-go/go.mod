@@ -3,6 +3,6 @@ module ${PROJECT}
 go 1.25
 
 require (
-	github.com/pulumi/pulumi-alicloud/sdk/v3 v3.106.0
-	github.com/pulumi/pulumi/sdk/v3 v3.261.0
+	github.com/pulumi/pulumi-alicloud/sdk/v3 v3.108.0
+	github.com/pulumi/pulumi/sdk/v3 v3.264.0
 )
