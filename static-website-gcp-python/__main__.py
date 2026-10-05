@@ -50,6 +50,7 @@ http_forwarding_rule = gcp.compute.GlobalForwardingRule(
     "http-forwarding-rule",
     ip_address=ip.address,
     ip_protocol="TCP",
+    load_balancing_scheme="EXTERNAL",
     port_range="80",
     target=http_proxy.self_link,
 )

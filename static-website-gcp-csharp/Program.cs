@@ -67,6 +67,7 @@ return await Deployment.RunAsync(() =>
     {
         IpAddress = ip.Address,
         IpProtocol = "TCP",
+        LoadBalancingScheme = "EXTERNAL",
         PortRange = "80",
         Target = httpProxy.SelfLink,
     });

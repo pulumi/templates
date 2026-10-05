@@ -49,6 +49,7 @@ const httpProxy = new gcp.compute.TargetHttpProxy("http-proxy", {urlMap: urlMap.
 const httpForwardingRule = new gcp.compute.GlobalForwardingRule("http-forwarding-rule", {
     ipAddress: ip.address,
     ipProtocol: "TCP",
+    loadBalancingScheme: "EXTERNAL",
     portRange: "80",
     target: httpProxy.selfLink,
 });

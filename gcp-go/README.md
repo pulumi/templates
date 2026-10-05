@@ -9,7 +9,7 @@
 
  ## Providers
 
- - Google Cloud Platform via the Pulumi GCP SDK for Go (`github.com/pulumi/pulumi-gcp/sdk/v8/go/gcp`)
+ - Google Cloud Platform via the Pulumi GCP SDK for Go (`github.com/pulumi/pulumi-gcp/sdk/v10/go/gcp`)
 
  ## Resources
 

@@ -1,8 +1,8 @@
 package main
 
 import (
-	"github.com/pulumi/pulumi-gcp/sdk/v9/go/gcp/compute"
-	"github.com/pulumi/pulumi-gcp/sdk/v9/go/gcp/storage"
+	"github.com/pulumi/pulumi-gcp/sdk/v10/go/gcp/compute"
+	"github.com/pulumi/pulumi-gcp/sdk/v10/go/gcp/storage"
 	synced "github.com/pulumi/pulumi-synced-folder/sdk/go/synced-folder"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi/config"
@@ -92,10 +92,11 @@ func main() {
 
 		// Create a GlobalForwardingRule rule to route requests to the HTTP proxy.
 		_, err = compute.NewGlobalForwardingRule(ctx, "http-forwarding-rule", &compute.GlobalForwardingRuleArgs{
-			IpAddress:  ip.Address,
-			IpProtocol: pulumi.String("TCP"),
-			PortRange:  pulumi.String("80"),
-			Target:     httpProxy.SelfLink,
+			IpAddress:           ip.Address,
+			IpProtocol:          pulumi.String("TCP"),
+			LoadBalancingScheme: pulumi.String("EXTERNAL"),
+			PortRange:           pulumi.String("80"),
+			Target:              httpProxy.SelfLink,
 		})
 		if err != nil {
 			return err

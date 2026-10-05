@@ -85,6 +85,7 @@ resources:
     properties:
       ipAddress: ${ip.address}
       ipProtocol: TCP
+      loadBalancingScheme: EXTERNAL
       portRange: "80"
       target: ${http-proxy.selfLink}
 
