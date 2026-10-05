@@ -71,10 +71,11 @@ resource "gcp_compute_target_http_proxy" "http-proxy" {
 
 # Create a GlobalForwardingRule rule to route requests to the HTTP proxy.
 resource "gcp_compute_global_forwarding_rule" "http-forwarding-rule" {
-  ip_address  = gcp_compute_global_address.ip.address
-  ip_protocol = "TCP"
-  port_range  = "80"
-  target      = gcp_compute_target_http_proxy.http-proxy.self_link
+  ip_address            = gcp_compute_global_address.ip.address
+  ip_protocol           = "TCP"
+  load_balancing_scheme = "EXTERNAL"
+  port_range            = "80"
+  target                = gcp_compute_target_http_proxy.http-proxy.self_link
 }
 
 # Export the URLs and hostnames of the bucket and CDN.
