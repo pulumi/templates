@@ -3,7 +3,6 @@
 tests/vendor/
 state
 traces
-package-lock.json
 yarn.lock
 !/yarn.lock
 go.sum
