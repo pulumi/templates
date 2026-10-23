@@ -12,13 +12,13 @@ terraform {
 variable "site_path" {
   description = "The path to the folder containing the website"
   type        = string
-  default     = "./www"
+  default     = "www"
 }
 
 variable "app_path" {
   description = "The path to the folder containing the functions to be deployed"
   type        = string
-  default     = "./app"
+  default     = "app"
 }
 
 variable "index_document" {
