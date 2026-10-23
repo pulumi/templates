@@ -3,7 +3,6 @@ package main
 import (
 	"net/url"
 
-	cdn "github.com/pulumi/pulumi-azure-native-sdk/cdn/v3"
 	resources "github.com/pulumi/pulumi-azure-native-sdk/resources/v3"
 	storage "github.com/pulumi/pulumi-azure-native-sdk/storage/v3"
 	synced "github.com/pulumi/pulumi-synced-folder/sdk/go/synced-folder"
@@ -69,17 +68,6 @@ func main() {
 			return err
 		}
 
-		// Create a CDN profile.
-		profile, err := cdn.NewProfile(ctx, "profile", &cdn.ProfileArgs{
-			ResourceGroupName: resourceGroup.Name,
-			Sku: &cdn.SkuArgs{
-				Name: pulumi.String("Standard_Microsoft"),
-			},
-		})
-		if err != nil {
-			return err
-		}
-
 		// Pull the hostname out of the storage-account endpoint.
 		originHostname := account.PrimaryEndpoints.ApplyT(func(endpoints storage.EndpointsResponse) (string, error) {
 			parsed, err := url.Parse(endpoints.Web)
@@ -89,41 +77,11 @@ func main() {
 			return parsed.Hostname(), nil
 		}).(pulumi.StringOutput)
 
-		// Create a CDN endpoint to distribute and cache the website.
-		endpoint, err := cdn.NewEndpoint(ctx, "endpoint", &cdn.EndpointArgs{
-			ResourceGroupName:    resourceGroup.Name,
-			ProfileName:          profile.Name,
-			IsHttpAllowed:        pulumi.Bool(false),
-			IsHttpsAllowed:       pulumi.Bool(true),
-			IsCompressionEnabled: pulumi.Bool(true),
-			ContentTypesToCompress: pulumi.StringArray{
-				pulumi.String("text/html"),
-				pulumi.String("text/css"),
-				pulumi.String("application/javascript"),
-				pulumi.String("application/json"),
-				pulumi.String("image/svg+xml"),
-				pulumi.String("font/woff"),
-				pulumi.String("font/woff2"),
-			},
-			OriginHostHeader: originHostname,
-			Origins: cdn.DeepCreatedOriginArray{
-				&cdn.DeepCreatedOriginArgs{
-					Name:     account.Name,
-					HostName: originHostname,
-				},
-			},
-		})
-		if err != nil {
-			return err
-		}
-
-		// Export the URLs and hostnames of the storage account and distribution.
+		// Export the URL and hostname of the storage account's website.
 		ctx.Export("originURL", account.PrimaryEndpoints.ApplyT(func(endpoints storage.EndpointsResponse) (string, error) {
 			return endpoints.Web, nil
 		}).(pulumi.StringOutput))
 		ctx.Export("originHostname", originHostname)
-		ctx.Export("cdnURL", pulumi.Sprintf("http://%s", endpoint.HostName))
-		ctx.Export("cdnHostname", endpoint.HostName)
 
 		return nil
 	})

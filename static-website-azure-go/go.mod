@@ -3,7 +3,6 @@ module ${PROJECT}
 go 1.20
 
 require (
-	github.com/pulumi/pulumi-azure-native-sdk/cdn/v3 v3.12.0
 	github.com/pulumi/pulumi-azure-native-sdk/resources/v3 v3.12.0
 	github.com/pulumi/pulumi-azure-native-sdk/storage/v3 v3.12.0
 	github.com/pulumi/pulumi-synced-folder/sdk v0.12.4

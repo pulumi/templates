@@ -36,42 +36,9 @@ const syncedFolder = new synced_folder.AzureBlobFolder("synced-folder", {
     containerName: website.containerName,
 });
 
-// Create a CDN profile.
-const profile = new azure_native.cdn.Profile("profile", {
-    resourceGroupName: resourceGroup.name,
-    sku: {
-        name: "Standard_Microsoft",
-    },
-});
-
 // Pull the hostname out of the storage-account endpoint.
 const originHostname = account.primaryEndpoints.apply(endpoints => new URL(endpoints.web)).hostname;
 
-// Create a CDN endpoint to distribute and cache the website.
-const endpoint = new azure_native.cdn.Endpoint("endpoint", {
-    resourceGroupName: resourceGroup.name,
-    profileName: profile.name,
-    isHttpAllowed: false,
-    isHttpsAllowed: true,
-    isCompressionEnabled: true,
-    contentTypesToCompress: [
-        "text/html",
-        "text/css",
-        "application/javascript",
-        "application/json",
-        "image/svg+xml",
-        "font/woff",
-        "font/woff2",
-    ],
-    originHostHeader: originHostname,
-    origins: [{
-        name: account.name,
-        hostName: originHostname,
-    }],
-});
-
-// Export the URLs and hostnames of the storage account and CDN.
+// Export the URL and hostname of the storage account's website.
 export const originURL = account.primaryEndpoints.apply(endpoints => endpoints.web);
 export { originHostname };
-export const cdnURL = pulumi.interpolate`https://${endpoint.hostName}`;
-export const cdnHostname = endpoint.hostName;

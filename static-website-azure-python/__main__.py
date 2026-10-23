@@ -40,48 +40,11 @@ synced_folder = synced_folder.AzureBlobFolder(
     container_name=website.container_name,
 )
 
-# Create a CDN profile.
-profile = azure_native.cdn.Profile(
-    "profile",
-    resource_group_name=resource_group.name,
-    sku={
-        "name": "Standard_Microsoft",
-    },
-)
-
 # Pull the hostname out of the storage-account endpoint.
 origin_hostname = account.primary_endpoints.web.apply(
     lambda endpoint: urlparse(endpoint).hostname
 )
 
-# Create a CDN endpoint to distribute and cache the website.
-endpoint = azure_native.cdn.Endpoint(
-    "endpoint",
-    resource_group_name=resource_group.name,
-    profile_name=profile.name,
-    is_http_allowed=False,
-    is_https_allowed=True,
-    is_compression_enabled=True,
-    content_types_to_compress=[
-        "text/html",
-        "text/css",
-        "application/javascript",
-        "application/json",
-        "image/svg+xml",
-        "font/woff",
-        "font/woff2",
-    ],
-    origin_host_header=origin_hostname,
-    origins=[
-        {
-            "name": account.name,
-            "host_name": origin_hostname,
-        }
-    ],
-)
-
-# Export the URLs and hostnames of the storage account and CDN.
+# Export the URL and hostname of the storage account's website.
 pulumi.export("originURL", account.primary_endpoints.web)
 pulumi.export("originHostname", origin_hostname)
-pulumi.export("cdnURL", pulumi.Output.concat("https://", endpoint.host_name))
-pulumi.export("cdnHostname", endpoint.host_name)
