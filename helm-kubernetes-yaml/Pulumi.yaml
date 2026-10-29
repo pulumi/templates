@@ -46,6 +46,8 @@ resources:
           service:
             extraLabels: ${appLabels}
       version: "0.14.1"
+    options:
+      deleteBeforeReplace: true
 
 # Export some values for use elsewhere
 outputs:

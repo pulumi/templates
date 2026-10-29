@@ -28,11 +28,17 @@ resources:
   fn:
     type: aws:lambda:Function
     properties:
-      runtime: python3.9
+      runtime: python3.12
       handler: handler.handler
       role: ${role.arn}
       code:
         fn::fileArchive: ./function
+
+  # An AWS provider for the REST API to deploy its resources with
+  provider:
+    type: pulumi:providers:aws
+    properties:
+      region: ${aws:region}
 
   # A REST API to route requests to HTML content and the Lambda function
   api:
@@ -44,6 +50,9 @@ resources:
       - path: /date
         method: GET
         eventHandler: ${fn}
+    options:
+      providers:
+      - ${provider}
 
 outputs:
   # The URL at which the REST API will be served.

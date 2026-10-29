@@ -10,8 +10,8 @@ return await Deployment.RunAsync(() =>
 {
     // Import the program's configuration settings.
     var config = new Config();
-    var sitePath = config.Get("sitePath") ?? "./www";
-    var appPath = config.Get("appPath") ?? "./app";
+    var sitePath = config.Get("sitePath") ?? "www";
+    var appPath = config.Get("appPath") ?? "app";
     var indexDocument = config.Get("indexDocument") ?? "index.html";
     var errorDocument = config.Get("errorDocument") ?? "error.html";
 
@@ -82,10 +82,6 @@ return await Deployment.RunAsync(() =>
         SharedAccessExpiryTime = "2030-01-01",
         Resource = AzureNative.Storage.SignedResource.C,
         Permissions = AzureNative.Storage.Permissions.R,
-        ContentType = "application/json",
-        CacheControl = "max-age=5",
-        ContentDisposition = "inline",
-        ContentEncoding = "deflate",
         CanonicalizedResource = Output.Tuple(account.Name, appContainer.Name).Apply(values => $"/blob/{values.Item1}/{values.Item2}"),
     }).Apply(result => result.ServiceSasToken);
 

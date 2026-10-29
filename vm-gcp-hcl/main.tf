@@ -15,7 +15,7 @@ variable "machine_type" {
 variable "os_image" {
   description = "The OS image type to use for the VM"
   type        = string
-  default     = "debian-11"
+  default     = "debian-12"
 }
 
 variable "instance_tag" {
@@ -44,7 +44,7 @@ locals {
         <p>Deployed with 💜 by <a href="https://pulumi.com/">Pulumi</a>.</p>
     </body>
     </html>' > index.html
-    sudo python3 -m http.server ${var.service_port} &
+    sudo nohup python3 -m http.server ${var.service_port} >/dev/null 2>&1 &
   EOF
 }
 

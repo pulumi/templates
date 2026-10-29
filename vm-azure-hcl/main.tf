@@ -179,7 +179,7 @@ resource "azure-native_compute_virtual_machine" "vm" {
 data "azure-native_network_public_i_p_address" "address" {
   resource_group_name    = azure-native_resources_resource_group.resource-group.name
   public_ip_address_name = azure-native_network_public_i_p_address.public-ip.name
-  expand                 = azure-native_compute_virtual_machine.vm.id
+  depends_on             = [azure-native_compute_virtual_machine.vm]
 }
 
 # Export the VM's hostname, public IP address, HTTP URL, and SSH private key

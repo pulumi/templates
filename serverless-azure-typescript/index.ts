@@ -4,8 +4,8 @@ import * as synced from "@pulumi/synced-folder";
 
 // Import the program's configuration settings.
 const config = new pulumi.Config();
-const sitePath = config.get("sitePath") || "./www";
-const appPath = config.get("appPath") || "./app";
+const sitePath = config.get("sitePath") || "www";
+const appPath = config.get("appPath") || "app";
 const indexDocument = config.get("indexDocument") || "index.html";
 const errorDocument = config.get("errorDocument") || "error.html";
 
@@ -61,10 +61,6 @@ const signature = azure.storage.listStorageAccountServiceSASOutput({
     sharedAccessExpiryTime: "2030-01-01",
     resource: azure.storage.SignedResource.C,
     permissions: azure.storage.Permissions.R,
-    contentType: "application/json",
-    cacheControl: "max-age=5",
-    contentDisposition: "inline",
-    contentEncoding: "deflate",
     canonicalizedResource: pulumi.interpolate`/blob/${account.name}/${appContainer.name}`,
 });
 
@@ -90,11 +86,11 @@ const functionApp = new azure.web.WebApp("function-app", {
             },
             {
                 name: "WEBSITE_NODE_DEFAULT_VERSION",
-                value: "~14",
+                value: "~22",
             },
             {
                 name: "FUNCTIONS_EXTENSION_VERSION",
-                value: "~3",
+                value: "~4",
             },
             {
                 name: "WEBSITE_RUN_FROM_PACKAGE",

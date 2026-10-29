@@ -7,7 +7,7 @@ return await Deployment.RunAsync(() =>
     // Import the program's configuration settings.
     var config = new Pulumi.Config();
     var machineType = config.Get("machineType") ?? "f1-micro";
-    var osImage = config.Get("osImage") ?? "debian-11";
+    var osImage = config.Get("osImage") ?? "debian-12";
     var instanceTag = config.Get("instanceTag") ?? "webserver";
     var servicePort = config.Get("servicePort") ?? "80";
 
@@ -62,7 +62,7 @@ return await Deployment.RunAsync(() =>
             <p>Deployed with 💜 by <a href=""https://pulumi.com/"">Pulumi</a>.</p>
         </body>
         </html>' > index.html
-        sudo python3 -m http.server {servicePort} &";
+        sudo nohup python3 -m http.server {servicePort} >/dev/null 2>&1 &";
 
     // Create the virtual machine.
     var instance = new Gcp.Compute.Instance("instance", new()

@@ -49,6 +49,9 @@ return await Deployment.RunAsync(() =>
             },
         },
         Version = "0.14.1",
+    }, new CustomResourceOptions
+    {
+        DeleteBeforeReplace = true,
     });
 
     return new Dictionary<string, object?>

@@ -39,7 +39,8 @@ ingresscontroller = kubernetes.helm.v3.Release(
             },
         },
     },
-    version="0.14.1"
+    version="0.14.1",
+    opts=pulumi.ResourceOptions(delete_before_replace=True),
 )
 
 # Export some values for use elsewhere

@@ -33,6 +33,7 @@ const gkeCluster = new gcp.container.Cluster("gke-cluster", {
         evaluationMode: "PROJECT_SINGLETON_POLICY_ENFORCE",
     },
     datapathProvider: "ADVANCED_DATAPATH",
+    deletionProtection: false,
     description: "A GKE cluster",
     initialNodeCount: 1,
     ipAllocationPolicy: {

@@ -70,3 +70,6 @@ outputs:
 
   # The URL at which the container's HTTP endpoint will be available
   url: http://${loadbalancer.loadBalancer.dnsName}
+
+  # The name of the ECS cluster
+  clusterName: ${cluster.name}

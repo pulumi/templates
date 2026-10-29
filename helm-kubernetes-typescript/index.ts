@@ -36,6 +36,8 @@ const ingressController = new kubernetes.helm.v3.Release("ingresscontroller", {
         },
     },
     version: "0.14.1",
+}, {
+    deleteBeforeReplace: true,
 });
 
 // Export some values for use elsewhere

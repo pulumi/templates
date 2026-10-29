@@ -55,9 +55,10 @@ func main() {
 			BinaryAuthorization: &container.ClusterBinaryAuthorizationArgs{
 				EvaluationMode: pulumi.String("PROJECT_SINGLETON_POLICY_ENFORCE"),
 			},
-			DatapathProvider: pulumi.String("ADVANCED_DATAPATH"),
-			Description:      pulumi.String("A GKE cluster"),
-			InitialNodeCount: pulumi.Int(1),
+			DatapathProvider:   pulumi.String("ADVANCED_DATAPATH"),
+			DeletionProtection: pulumi.Bool(false),
+			Description:        pulumi.String("A GKE cluster"),
+			InitialNodeCount:   pulumi.Int(1),
 			IpAllocationPolicy: &container.ClusterIpAllocationPolicyArgs{
 				ClusterIpv4CidrBlock:  pulumi.String("/14"),
 				ServicesIpv4CidrBlock: pulumi.String("/20"),

@@ -42,6 +42,7 @@ return await Deployment.RunAsync(() =>
             EvaluationMode = "PROJECT_SINGLETON_POLICY_ENFORCE",
         },
         DatapathProvider = "ADVANCED_DATAPATH",
+        DeletionProtection = false,
         Description = "A GKE cluster",
         InitialNodeCount = 1,
         IpAllocationPolicy = new Gcp.Container.Inputs.ClusterIpAllocationPolicyArgs

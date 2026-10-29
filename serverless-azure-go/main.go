@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"path/filepath"
 
 	resources "github.com/pulumi/pulumi-azure-native-sdk/resources/v3"
 	storage "github.com/pulumi/pulumi-azure-native-sdk/storage/v3"
@@ -17,11 +18,11 @@ func main() {
 
 		// Import the program's configuration settings.
 		cfg := config.New(ctx, "")
-		sitePath := "./www"
+		sitePath := "www"
 		if param := cfg.Get("sitePath"); param != "" {
 			sitePath = param
 		}
-		appPath := "./app"
+		appPath := "app"
 		if param := cfg.Get("appPath"); param != "" {
 			appPath = param
 		}
@@ -84,11 +85,10 @@ func main() {
 			return err
 		}
 
-		// Compile the the app for the Azure Linux environment.
-		buildResult, err := local.Run(ctx, &local.RunArgs{
-			Command:      fmt.Sprintf("GOOS=linux GOARCH=amd64 go build cmd/app.go"),
-			Dir:          pulumi.StringRef(appPath),
-			ArchivePaths: []string{"**"},
+		// Compile the app for the Azure Linux environment and package it as a zip file.
+		_, err = local.Run(ctx, &local.RunArgs{
+			Command: "GOOS=linux GOARCH=amd64 go build cmd/app.go && rm -f app.zip && zip -qr app.zip . -x app.zip",
+			Dir:     pulumi.StringRef(appPath),
 		})
 		if err != nil {
 			return err
@@ -99,7 +99,8 @@ func main() {
 			AccountName:       account.Name,
 			ResourceGroupName: resourceGroup.Name,
 			ContainerName:     appContainer.Name,
-			Source:            buildResult.Archive,
+			BlobName:          pulumi.String("app.zip"),
+			Source:            pulumi.NewFileAsset(filepath.Join(appPath, "app.zip")),
 		})
 		if err != nil {
 			return err
@@ -114,10 +115,6 @@ func main() {
 			SharedAccessExpiryTime: pulumi.String("2030-01-01"),
 			Resource:               pulumi.String("c"),
 			Permissions:            pulumi.String("r"),
-			ContentType:            pulumi.String("application/json"),
-			CacheControl:           pulumi.String("max-age=5"),
-			ContentDisposition:     pulumi.String("inline"),
-			ContentEncoding:        pulumi.String("deflate"),
 			CanonicalizedResource:  pulumi.Sprintf("/blob/%s/%s", account.Name, appContainer.Name),
 		})
 
@@ -148,7 +145,7 @@ func main() {
 					},
 					&web.NameValuePairArgs{
 						Name:  pulumi.String("FUNCTIONS_EXTENSION_VERSION"),
-						Value: pulumi.String("~3"),
+						Value: pulumi.String("~4"),
 					},
 					&web.NameValuePairArgs{
 						Name: pulumi.String("WEBSITE_RUN_FROM_PACKAGE"),

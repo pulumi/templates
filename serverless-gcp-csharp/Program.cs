@@ -62,7 +62,7 @@ return await Deployment.RunAsync(() =>
         Location = region,
         BuildConfig = new Gcp.CloudFunctionsV2.Inputs.FunctionBuildConfigArgs
         {
-            Runtime = "dotnet8",
+            Runtime = "dotnet10",
             EntryPoint = "App.Data",
             Source = new Gcp.CloudFunctionsV2.Inputs.FunctionBuildConfigSourceArgs
             {

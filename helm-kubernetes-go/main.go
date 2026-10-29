@@ -53,7 +53,7 @@ func main() {
 				},
 			},
 			Version: pulumi.String("0.14.1"),
-		})
+		}, pulumi.DeleteBeforeReplace(true))
 		if err != nil {
 			return err
 		}

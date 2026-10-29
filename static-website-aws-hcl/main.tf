@@ -12,7 +12,7 @@ terraform {
 variable "path" {
   description = "The path to the folder containing the website"
   type        = string
-  default     = "./www"
+  default     = "www"
 }
 
 variable "index_document" {
