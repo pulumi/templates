@@ -1,3 +1,5 @@
+import re
+
 import pulumi
 import pulumi_cloudflare as cloudflare
 
@@ -5,18 +7,22 @@ import pulumi_cloudflare as cloudflare
 config = pulumi.Config()
 account_id = config.require("accountId")
 
+# Worker names may only contain lowercase letters, numbers and dashes.
+name = f"{pulumi.get_project()}-{pulumi.get_stack()}".lower()
+name = re.sub(r"[^a-z0-9-]+", "-", name).strip("-")
+
 # A Workers KV namespace to persist state between requests.
 namespace = cloudflare.WorkersKvNamespace(
     "namespace",
     account_id=account_id,
-    title=f"{pulumi.get_project()}-{pulumi.get_stack()}-visit-counter",
+    title=f"{name}-visit-counter",
 )
 
 # A Cloudflare Worker, exposed on its workers.dev subdomain.
 worker = cloudflare.Worker(
     "worker",
     account_id=account_id,
-    name=f"{pulumi.get_project()}-{pulumi.get_stack()}",
+    name=name,
     subdomain=cloudflare.WorkerSubdomainArgs(
         enabled=True,
     ),

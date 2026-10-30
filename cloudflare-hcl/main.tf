@@ -11,10 +11,14 @@ variable "account_id" {
   type        = string
 }
 
+locals {
+  name = trim(replace(lower("${pulumi.project}-${pulumi.stack}"), "/[^a-z0-9-]+/", "-"), "-")
+}
+
 # Create a Cloudflare resource (Workers KV namespace)
 resource "cloudflare_workers_kv_namespace" "namespace" {
   account_id = var.account_id
-  title      = "${pulumi.project}-${pulumi.stack}"
+  title      = local.name
 }
 
 # Export the ID of the namespace
