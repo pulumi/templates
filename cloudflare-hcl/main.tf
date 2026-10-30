@@ -14,7 +14,7 @@ variable "account_id" {
 # Create a Cloudflare resource (Workers KV namespace)
 resource "cloudflare_workers_kv_namespace" "namespace" {
   account_id = var.account_id
-  title      = "my-namespace"
+  title      = "${pulumi.project}-${pulumi.stack}"
 }
 
 # Export the ID of the namespace

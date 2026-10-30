@@ -69,3 +69,8 @@ resource "awsx_ecs_fargate_service" "service" {
 output "url" {
   value = "http://${awsx_lb_application_load_balancer.loadbalancer.load_balancer.dns_name}"
 }
+
+# The name of the ECS cluster
+output "cluster_name" {
+  value = aws_ecs_cluster.cluster.name
+}

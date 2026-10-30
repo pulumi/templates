@@ -9,7 +9,7 @@ import * as tls from "@pulumi/tls";
 const config = new pulumi.Config();
 const vmName = config.get("vmName") || "my-server";
 const vmSize = config.get("vmSize") || "Standard_A1_v2";
-const osImage = config.get("osImage") || "Debian:debian-11:11:latest";
+const osImage = config.get("osImage") || "Debian:debian-12:12:latest";
 const adminUsername = config.get("adminUsername") || "pulumiuser";
 const servicePort = config.get("servicePort") || "80";
 

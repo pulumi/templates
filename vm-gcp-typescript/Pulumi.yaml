@@ -18,7 +18,7 @@ template:
       default: f1-micro
     osImage:
       description: The OS image type to use for the VM
-      default: debian-11
+      default: debian-12
     instanceTag:
       description: The tag to apply to the VM instance
       default: webserver

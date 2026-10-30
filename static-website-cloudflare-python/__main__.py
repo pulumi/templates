@@ -10,7 +10,7 @@ path = config.get("path") or "./www"
 site = cloudflare.Worker(
     "site",
     account_id=account_id,
-    name="my-site",
+    name=f"{pulumi.get_project()}-{pulumi.get_stack()}",
     subdomain=cloudflare.WorkerSubdomainArgs(
         enabled=True,
     ),

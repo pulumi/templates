@@ -82,6 +82,9 @@ func main() {
 
 		// The URL at which the container's HTTP endpoint will be available
 		ctx.Export("url", pulumi.Sprintf("http://%s", loadbalancer.LoadBalancer.DnsName()))
+
+		// The name of the ECS cluster
+		ctx.Export("clusterName", cluster.Name)
 		return nil
 	})
 }

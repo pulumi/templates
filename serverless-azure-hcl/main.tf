@@ -12,13 +12,13 @@ terraform {
 variable "site_path" {
   description = "The path to the folder containing the website"
   type        = string
-  default     = "./www"
+  default     = "www"
 }
 
 variable "app_path" {
   description = "The path to the folder containing the functions to be deployed"
   type        = string
-  default     = "./app"
+  default     = "app"
 }
 
 variable "index_document" {
@@ -93,10 +93,6 @@ data "azure-native_storage_list_storage_account_service_s_a_s" "signature" {
   resource                  = "c"
   permissions               = "r"
   canonicalized_resource    = "/blob/${azure-native_storage_storage_account.account.name}/${azure-native_storage_blob_container.app-container.name}"
-  content_type              = "application/json"
-  cache_control             = "max-age=5"
-  content_disposition       = "inline"
-  content_encoding          = "deflate"
 }
 
 # Create an App Service plan for the Function App.
@@ -117,6 +113,7 @@ resource "azure-native_web_web_app" "app" {
   kind                = "FunctionApp"
 
   site_config = {
+    linux_fx_version = "Python|3.12"
     app_settings = [
       {
         name  = "FUNCTIONS_WORKER_RUNTIME"
@@ -142,6 +139,7 @@ resource "azure-native_storage_blob" "config" {
   resource_group_name = azure-native_resources_resource_group.resource-group.name
   account_name        = azure-native_storage_storage_account.account.name
   container_name      = azure-native_storage_storage_account_static_website.website.container_name
+  blob_name           = "config.json"
   content_type        = "application/json"
   type                = "Block"
   source              = local.config_file

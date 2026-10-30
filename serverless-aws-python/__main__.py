@@ -19,17 +19,21 @@ role = aws.iam.Role("role",
 
 # A Lambda function to invoke
 fn = aws.lambda_.Function("fn",
-    runtime="python3.9",
+    runtime="python3.12",
     handler="handler.handler",
     role=role.arn,
     code=pulumi.FileArchive("./function"))
+
+# An AWS provider for the REST API to deploy its resources with
+provider = aws.Provider("provider", region=aws.config.region)
 
 # A REST API to route requests to HTML content and the Lambda function
 api = apigateway.RestAPI("api",
   routes=[
     apigateway.RouteArgs(path="/", local_path="www"),
     apigateway.RouteArgs(path="/date", method=apigateway.Method.GET, event_handler=fn)
-  ])
+  ],
+  opts=pulumi.ResourceOptions(providers=[provider]))
 
 # The URL at which the REST API will be served.
 pulumi.export("url", api.url)

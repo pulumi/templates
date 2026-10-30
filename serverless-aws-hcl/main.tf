@@ -30,8 +30,19 @@ resource "aws_lambda_function" "fn" {
   filename = filearchive("./function")
 }
 
+# The AWS region to deploy into
+data "aws_region" "current" {}
+
+# An AWS provider for the REST API to deploy its resources with
+provider "aws" {
+  alias  = "api"
+  region = data.aws_region.current.region
+}
+
 # A REST API to route requests to HTML content and the Lambda function
 resource "aws-apigateway_rest_a_p_i" "api" {
+  providers = [aws.api]
+
   routes {
     path       = "/"
     local_path = "www"

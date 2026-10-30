@@ -45,3 +45,6 @@ service = awsx.ecs.FargateService(
 
 # The URL at which the container's HTTP endpoint will be available
 export("url", Output.concat("http://", loadbalancer.load_balancer.dns_name))
+
+# The name of the ECS cluster
+export("clusterName", cluster.name)

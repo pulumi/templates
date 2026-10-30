@@ -93,7 +93,7 @@ func main() {
 		dataFunction, err := cloudfunctionsv2.NewFunction(ctx, "data-function", &cloudfunctionsv2.FunctionArgs{
 			Location: pulumi.String(region),
 			BuildConfig: &cloudfunctionsv2.FunctionBuildConfigArgs{
-				Runtime:    pulumi.String("go122"),
+				Runtime:    pulumi.String("go126"),
 				EntryPoint: pulumi.String("Data"),
 				Source: &cloudfunctionsv2.FunctionBuildConfigSourceArgs{
 					StorageSource: &cloudfunctionsv2.FunctionBuildConfigSourceStorageSourceArgs{

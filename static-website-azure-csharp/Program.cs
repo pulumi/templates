@@ -8,7 +8,7 @@ return await Deployment.RunAsync(() =>
 {
     // Import the program's configuration settings.
     var config = new Config();
-    var path = config.Get("path") ?? "./www";
+    var path = config.Get("path") ?? "www";
     var indexDocument = config.Get("indexDocument") ?? "index.html";
     var errorDocument = config.Get("errorDocument") ?? "error.html";
 
@@ -44,54 +44,13 @@ return await Deployment.RunAsync(() =>
         ContainerName = website.ContainerName,
     });
 
-    // Create a CDN profile.
-    var profile = new AzureNative.Cdn.Profile("profile", new()
-    {
-        ResourceGroupName = resourceGroup.Name,
-        Sku = new AzureNative.Cdn.Inputs.SkuArgs
-        {
-            Name = "Standard_Microsoft",
-        },
-    });
-
     // Pull the hostname out of the storage-account endpoint.
     var originHostname = account.PrimaryEndpoints.Apply(endpoints => new Uri(endpoints.Web).Host);
 
-    // Create a CDN endpoint to distribute and cache the website.
-    var endpoint = new AzureNative.Cdn.Endpoint("endpoint", new()
-    {
-        ResourceGroupName = resourceGroup.Name,
-        ProfileName = profile.Name,
-        IsHttpAllowed = false,
-        IsHttpsAllowed = true,
-        IsCompressionEnabled = true,
-        ContentTypesToCompress = new[]
-        {
-            "text/html",
-            "text/css",
-            "application/javascript",
-            "application/json",
-            "image/svg+xml",
-            "font/woff",
-            "font/woff2",
-        },
-        OriginHostHeader = originHostname,
-        Origins = new[]
-        {
-            new AzureNative.Cdn.Inputs.DeepCreatedOriginArgs
-            {
-                Name = account.Name,
-                HostName = originHostname,
-            },
-        },
-    });
-
-    // Export the URLs and hostnames of the storage account and CDN.
+    // Export the URL and hostname of the storage account's website.
     return new Dictionary<string, object?>
     {
         ["originURL"] = account.PrimaryEndpoints.Apply(primaryEndpoints => primaryEndpoints.Web),
         ["originHostname"] = originHostname,
-        ["cdnURL"] = endpoint.HostName.Apply(hostName => $"https://{hostName}"),
-        ["cdnHostname"] = endpoint.HostName,
     };
 });

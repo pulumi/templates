@@ -4,8 +4,8 @@ import pulumi_synced_folder as synced
 
 # Import the program's configuration settings.
 config = pulumi.Config()
-www_path = config.get("sitePath", "./www")
-app_path = config.get("appPath", "./app")
+www_path = config.get("sitePath", "www")
+app_path = config.get("appPath", "app")
 index_document = config.get("indexDocument", "index.html")
 error_document = config.get("errorDocument", "error.html")
 
@@ -69,10 +69,6 @@ signature = (
             shared_access_expiry_time="2030-01-01",
             resource=azure.storage.SignedResource.C,
             permissions=azure.storage.Permissions.R,
-            content_type="application/json",
-            cache_control="max-age=5",
-            content_disposition="inline",
-            content_encoding="deflate",
             canonicalized_resource=f"/blob/{args[1]}/{args[2]}",
         )
     )
@@ -98,6 +94,7 @@ app = azure.web.WebApp(
     server_farm_id=plan.id,
     kind="FunctionApp",
     site_config={
+        "linux_fx_version": "Python|3.12",
         "app_settings": [
             {
                 "name": "FUNCTIONS_WORKER_RUNTIME",
@@ -105,7 +102,7 @@ app = azure.web.WebApp(
             },
             {
                 "name": "FUNCTIONS_EXTENSION_VERSION",
-                "value": "~3",
+                "value": "~4",
             },
             {
                 "name": "WEBSITE_RUN_FROM_PACKAGE",

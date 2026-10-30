@@ -18,7 +18,7 @@ variable "region" {
 variable "site_path" {
   description = "The path to the folder containing the website"
   type        = string
-  default     = "./www"
+  default     = "www"
 }
 
 variable "app_path" {

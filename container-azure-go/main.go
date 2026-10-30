@@ -28,7 +28,7 @@ func main() {
 		}
 		imageTag := "latest"
 		if param := cfg.Get("imageTag"); param != "" {
-			imageName = param
+			imageTag = param
 		}
 		containerPort := 80
 		if param := cfg.GetInt("containerPort"); param != 0 {

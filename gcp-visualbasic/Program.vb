@@ -12,7 +12,7 @@ Module Program
              .Location = "US"
         })
 
-        ' Export the DNS name of the bucket
+        ' Export the bucket's gs:// URL
         Dim outputs = New Dictionary(Of String, Object)
         outputs.Add("bucketName", bucket.Url)
         Return outputs

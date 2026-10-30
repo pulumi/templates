@@ -5,7 +5,7 @@ template:
   description: A Go program to deploy a web application onto a Kubernetes cluster
   config:
     namespace:
-      default: default
+      default: webapp
       description: The Kubernetes namespace to deploy into
     replicas:
       default: 1

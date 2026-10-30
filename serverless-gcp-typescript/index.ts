@@ -4,7 +4,7 @@ import * as synced from "@pulumi/synced-folder";
 
 // Import the program's configuration settings.
 const config = new pulumi.Config();
-const sitePath = config.get("path") || "www";
+const sitePath = config.get("sitePath") || "www";
 const appPath = config.get("appPath") || "app";
 const indexDocument = config.get("indexDocument") || "index.html";
 const errorDocument = config.get("errorDocument") || "error.html";
@@ -46,7 +46,7 @@ const appArchive = new gcp.storage.BucketObject("app-archive", {
 const dataFunction = new gcp.cloudfunctionsv2.Function("data-function", {
     location: gcp.config.region || "us-central1",
     buildConfig: {
-        runtime: "nodejs22",
+        runtime: "nodejs24",
         entryPoint: "date",
         source: {
             storageSource: {

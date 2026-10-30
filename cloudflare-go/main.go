@@ -15,7 +15,7 @@ func main() {
 		// Create a Cloudflare resource (Workers KV namespace).
 		namespace, err := cloudflare.NewWorkersKvNamespace(ctx, "my-namespace", &cloudflare.WorkersKvNamespaceArgs{
 			AccountId: pulumi.String(accountId),
-			Title:     pulumi.String("my-namespace"),
+			Title:     pulumi.Sprintf("%s-%s", ctx.Project(), ctx.Stack()),
 		})
 		if err != nil {
 			return err

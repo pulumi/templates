@@ -39,6 +39,7 @@ resources:
       values:
         controller:
           enableCustomResources: false
+          ingressClass: ${k8sNamespace}
           appprotect:
             enable: false
           appprotectdos:
@@ -46,6 +47,8 @@ resources:
           service:
             extraLabels: ${appLabels}
       version: "0.14.1"
+    options:
+      deleteBeforeReplace: true
 
 # Export some values for use elsewhere
 outputs:

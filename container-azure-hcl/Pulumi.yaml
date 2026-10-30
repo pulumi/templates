@@ -4,7 +4,7 @@ runtime: hcl
 template:
   description: A Pulumi HCL program to deploy a containerized service on Azure
   config:
-    location:
+    azure-native:location:
       description: The Azure region to deploy into
       default: WestUS
     app_path:
@@ -13,6 +13,9 @@ template:
     image_name:
       description: The name to give the container image
       default: my-app
+    image_tag:
+      description: The tag to give the container image
+      default: latest
     container_port:
       description: The port to expose on the container
       default: 80

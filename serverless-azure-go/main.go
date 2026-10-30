@@ -1,12 +1,18 @@
 package main
 
 import (
+	"archive/zip"
 	"fmt"
+	"io"
+	"io/fs"
+	"os"
+	"os/exec"
+	"path/filepath"
+	"time"
 
 	resources "github.com/pulumi/pulumi-azure-native-sdk/resources/v3"
 	storage "github.com/pulumi/pulumi-azure-native-sdk/storage/v3"
 	web "github.com/pulumi/pulumi-azure-native-sdk/web/v3"
-	"github.com/pulumi/pulumi-command/sdk/go/command/local"
 	synced "github.com/pulumi/pulumi-synced-folder/sdk/go/synced-folder"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi/config"
@@ -17,11 +23,11 @@ func main() {
 
 		// Import the program's configuration settings.
 		cfg := config.New(ctx, "")
-		sitePath := "./www"
+		sitePath := "www"
 		if param := cfg.Get("sitePath"); param != "" {
 			sitePath = param
 		}
-		appPath := "./app"
+		appPath := "app"
 		if param := cfg.Get("appPath"); param != "" {
 			appPath = param
 		}
@@ -84,13 +90,16 @@ func main() {
 			return err
 		}
 
-		// Compile the the app for the Azure Linux environment.
-		buildResult, err := local.Run(ctx, &local.RunArgs{
-			Command:      fmt.Sprintf("GOOS=linux GOARCH=amd64 go build cmd/app.go"),
-			Dir:          pulumi.StringRef(appPath),
-			ArchivePaths: []string{"**"},
-		})
-		if err != nil {
+		// Compile the app for the Azure Linux environment.
+		build := exec.Command("go", "build", "cmd/app.go")
+		build.Dir = appPath
+		build.Env = append(os.Environ(), "GOOS=linux", "GOARCH=amd64")
+		if output, err := build.CombinedOutput(); err != nil {
+			return fmt.Errorf("building the app: %w\n%s", err, output)
+		}
+
+		// Package the app as a zip file.
+		if err := zipFolder(appPath, "app.zip"); err != nil {
 			return err
 		}
 
@@ -99,7 +108,8 @@ func main() {
 			AccountName:       account.Name,
 			ResourceGroupName: resourceGroup.Name,
 			ContainerName:     appContainer.Name,
-			Source:            buildResult.Archive,
+			BlobName:          pulumi.String("app.zip"),
+			Source:            pulumi.NewFileAsset(filepath.Join(appPath, "app.zip")),
 		})
 		if err != nil {
 			return err
@@ -114,10 +124,6 @@ func main() {
 			SharedAccessExpiryTime: pulumi.String("2030-01-01"),
 			Resource:               pulumi.String("c"),
 			Permissions:            pulumi.String("r"),
-			ContentType:            pulumi.String("application/json"),
-			CacheControl:           pulumi.String("max-age=5"),
-			ContentDisposition:     pulumi.String("inline"),
-			ContentEncoding:        pulumi.String("deflate"),
 			CanonicalizedResource:  pulumi.Sprintf("/blob/%s/%s", account.Name, appContainer.Name),
 		})
 
@@ -148,7 +154,7 @@ func main() {
 					},
 					&web.NameValuePairArgs{
 						Name:  pulumi.String("FUNCTIONS_EXTENSION_VERSION"),
-						Value: pulumi.String("~3"),
+						Value: pulumi.String("~4"),
 					},
 					&web.NameValuePairArgs{
 						Name: pulumi.String("WEBSITE_RUN_FROM_PACKAGE"),
@@ -195,4 +201,52 @@ func main() {
 
 		return nil
 	})
+}
+
+// zipFolder writes the contents of a folder to a zip file in that folder. The app's
+// executable keeps its executable bit, and fixed timestamps keep the zip unchanged
+// between deployments unless its contents change.
+func zipFolder(dir string, name string) error {
+	file, err := os.Create(filepath.Join(dir, name))
+	if err != nil {
+		return err
+	}
+	defer file.Close()
+
+	archive := zip.NewWriter(file)
+	err = filepath.WalkDir(dir, func(path string, entry fs.DirEntry, err error) error {
+		if err != nil || entry.IsDir() {
+			return err
+		}
+		relPath, err := filepath.Rel(dir, path)
+		if err != nil || relPath == name {
+			return err
+		}
+
+		header := &zip.FileHeader{
+			Name:     filepath.ToSlash(relPath),
+			Method:   zip.Deflate,
+			Modified: time.Date(2000, 1, 1, 0, 0, 0, 0, time.UTC),
+		}
+		header.SetMode(0644)
+		if relPath == "app" {
+			header.SetMode(0755)
+		}
+
+		writer, err := archive.CreateHeader(header)
+		if err != nil {
+			return err
+		}
+		contents, err := os.Open(path)
+		if err != nil {
+			return err
+		}
+		defer contents.Close()
+		_, err = io.Copy(writer, contents)
+		return err
+	})
+	if err != nil {
+		return err
+	}
+	return archive.Close()
 }

@@ -15,7 +15,7 @@ func main() {
 			return err
 		}
 
-		// Export the DNS name of the bucket
+		// Export the bucket's gs:// URL
 		ctx.Export("bucketName", bucket.Url)
 		return nil
 	})

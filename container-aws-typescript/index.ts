@@ -46,3 +46,6 @@ const service = new awsx.ecs.FargateService("service", {
 
 // The URL at which the container's HTTP endpoint will be available
 export const url = pulumi.interpolate`http://${loadbalancer.loadBalancer.dnsName}`;
+
+// The name of the ECS cluster
+export const clusterName = cluster.name;

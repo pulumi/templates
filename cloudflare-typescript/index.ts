@@ -8,7 +8,7 @@ const accountId = config.require("accountId");
 // Create a Cloudflare resource (Workers KV namespace).
 const namespace = new cloudflare.WorkersKvNamespace("my-namespace", {
     accountId: accountId,
-    title: "my-namespace",
+    title: `${pulumi.getProject()}-${pulumi.getStack()}`,
 });
 
 // Export the ID of the namespace.

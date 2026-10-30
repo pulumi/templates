@@ -4,7 +4,7 @@ import * as gcp from "@pulumi/gcp";
 // Import the program's configuration settings.
 const config = new pulumi.Config();
 const machineType = config.get("machineType") || "f1-micro";
-const osImage = config.get("osImage") || "debian-11";
+const osImage = config.get("osImage") || "debian-12";
 const instanceTag = config.get("instanceTag") || "webserver";
 const servicePort = config.get("servicePort") || "80";
 
@@ -53,7 +53,7 @@ const metadataStartupScript = `#!/bin/bash
         <p>Deployed with 💜 by <a href="https://pulumi.com/">Pulumi</a>.</p>
     </body>
     </html>' > index.html
-    sudo python3 -m http.server ${servicePort} &`;
+    sudo nohup python3 -m http.server ${servicePort} >/dev/null 2>&1 &`;
 
 // Create the virtual machine.
 const instance = new gcp.compute.Instance("instance", {

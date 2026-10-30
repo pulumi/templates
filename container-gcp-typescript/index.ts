@@ -10,7 +10,7 @@ const appPath = config.get("appPath") || "./app";
 const containerPort = config.getNumber("containerPort") || 8080;
 const cpu = config.getNumber("cpu") || 1;
 const memory = config.get("memory") || "1Gi";
-const concurrency = config.getNumber("concurrency") || 80;
+const concurrency = config.getNumber("concurrency") || 50;
 
 // Import the provider's configuration settings.
 const gcpConfig = new pulumi.Config("gcp");

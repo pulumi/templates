@@ -36,6 +36,7 @@ gke_cluster = gcp.container.Cluster(
         "evaluation_mode": "PROJECT_SINGLETON_POLICY_ENFORCE"
     },
     datapath_provider="ADVANCED_DATAPATH",
+    deletion_protection=False,
     description="A GKE cluster",
     initial_node_count=1,
     ip_allocation_policy={

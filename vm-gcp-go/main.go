@@ -20,7 +20,7 @@ func main() {
 
 		osImage, err := cfg.Try("osImage")
 		if err != nil {
-			osImage = "debian-11"
+			osImage = "debian-12"
 		}
 
 		instanceTag, err := cfg.Try("instanceTag")
@@ -87,7 +87,7 @@ func main() {
 				<p>Deployed with 💜 by <a href="https://pulumi.com/">Pulumi</a>.</p>
 			</body>
 			</html>' > index.html
-			sudo python3 -m http.server %s &`, servicePort)
+			sudo nohup python3 -m http.server %s >/dev/null 2>&1 &`, servicePort)
 
 		// Create the virtual machine.
 		instance, err := compute.NewInstance(ctx, "instance", &compute.InstanceArgs{

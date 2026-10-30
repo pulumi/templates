@@ -17,9 +17,6 @@ locals {
   app_labels = {
     app = "nginx-ingress"
   }
-
-  # The Helm release name.
-  release_name = "ingresscontroller"
 }
 
 # Create a namespace (name of the namespace supplied by the user)
@@ -31,8 +28,7 @@ resource "kubernetes_core_v1_namespace" "ingressns" {
 }
 
 # Use Helm to install the Nginx ingress controller
-resource "kubernetes_helm.sh_v3_release" "ingresscontroller" {
-  name      = local.release_name
+resource "kubernetes_helm_sh_v3_release" "ingresscontroller" {
   chart     = "nginx-ingress"
   namespace = kubernetes_core_v1_namespace.ingressns.metadata.name
   skip_crds = true
@@ -44,6 +40,7 @@ resource "kubernetes_helm.sh_v3_release" "ingresscontroller" {
   values = {
     controller = {
       enableCustomResources = false
+      ingressClass          = var.k8s_namespace
       appprotect            = { enable = false }
       appprotectdos         = { enable = false }
       service               = { extraLabels = local.app_labels }
@@ -55,5 +52,5 @@ resource "kubernetes_helm.sh_v3_release" "ingresscontroller" {
 
 # Export some values for use elsewhere
 output "name" {
-  value = local.release_name
+  value = kubernetes_helm_sh_v3_release.ingresscontroller.name
 }

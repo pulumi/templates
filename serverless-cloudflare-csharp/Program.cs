@@ -12,14 +12,14 @@ return await Deployment.RunAsync(() =>
     var kv = new Cloudflare.WorkersKvNamespace("namespace", new()
     {
         AccountId = accountId,
-        Title = "visit-counter",
+        Title = $"{Deployment.Instance.ProjectName}-{Deployment.Instance.StackName}-visit-counter",
     });
 
     // A Cloudflare Worker, exposed on its workers.dev subdomain.
     var worker = new Cloudflare.Worker("worker", new()
     {
         AccountId = accountId,
-        Name = "my-app",
+        Name = $"{Deployment.Instance.ProjectName}-{Deployment.Instance.StackName}",
         Subdomain = new Cloudflare.Inputs.WorkerSubdomainArgs
         {
             Enabled = true,

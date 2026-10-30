@@ -8,7 +8,7 @@ import base64
 config = pulumi.Config()
 vm_name = config.get("vmName", "my-server")
 vm_size = config.get("vmSize", "Standard_A1_v2")
-os_image = config.get("osImage", "Debian:debian-11:11:latest")
+os_image = config.get("osImage", "Debian:debian-12:12:latest")
 admin_username = config.get("adminUsername", "pulumiuser")
 service_port = config.get("servicePort", "80")
 
@@ -52,7 +52,7 @@ domain_name_label = random_string.RandomString(
 public_ip = network.PublicIPAddress(
     "public-ip",
     resource_group_name=resource_group.name,
-    public_ip_allocation_method=network.IpAllocationMethod.DYNAMIC,
+    public_ip_allocation_method=network.IPAllocationMethod.DYNAMIC,
     dns_settings={
         "domain_name_label": domain_name_label,
     },
@@ -90,7 +90,7 @@ network_interface = network.NetworkInterface(
     ip_configurations=[
         {
             "name": f"{vm_name}-ipconfiguration",
-            "private_ip_allocation_method": network.IpAllocationMethod.DYNAMIC,
+            "private_ip_allocation_method": network.IPAllocationMethod.DYNAMIC,
             "subnet": {
                 "id": virtual_network.subnets.apply(lambda subnets: subnets[0].id),
             },

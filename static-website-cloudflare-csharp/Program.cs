@@ -13,7 +13,7 @@ return await Deployment.RunAsync(() =>
     var site = new Cloudflare.Worker("site", new()
     {
         AccountId = accountId,
-        Name = "my-site",
+        Name = $"{Deployment.Instance.ProjectName}-{Deployment.Instance.StackName}",
         Subdomain = new Cloudflare.Inputs.WorkerSubdomainArgs
         {
             Enabled = true,

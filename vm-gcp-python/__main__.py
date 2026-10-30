@@ -4,7 +4,7 @@ import pulumi_gcp as gcp
 # Import the program's configuration settings.
 config = pulumi.Config()
 machine_type = config.get("machineType", "f1-micro")
-os_image = config.get("osImage", "debian-11")
+os_image = config.get("osImage", "debian-12")
 instance_tag = config.get("instanceTag", "webserver")
 service_port = config.get("servicePort", "80")
 
@@ -56,7 +56,7 @@ metadata_startup_script = f"""#!/bin/bash
         <p>Deployed with 💜 by <a href="https://pulumi.com/">Pulumi</a>.</p>
     </body>
     </html>' > index.html
-    sudo python3 -m http.server {service_port} &
+    sudo nohup python3 -m http.server {service_port} >/dev/null 2>&1 &
     """
 
 # Create the virtual machine.

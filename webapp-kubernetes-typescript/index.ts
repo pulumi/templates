@@ -3,7 +3,7 @@ import * as kubernetes from "@pulumi/kubernetes";
 
 // Get some values from the stack configuration, or use defaults
 const config = new pulumi.Config();
-const k8sNamespace = config.get("namespace") || "default";
+const k8sNamespace = config.get("namespace") || "webapp";
 const numReplicas = config.getNumber("replicas") || 1;
 const appLabels = {
     app: "nginx",

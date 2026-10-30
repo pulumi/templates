@@ -17,7 +17,7 @@ template:
       default: e2-micro
     os_image:
       description: The OS image to use for the VM
-      default: debian-11
+      default: debian-12
     instance_tag:
       description: The network tag to apply to the VM instance
       default: webserver

@@ -9,10 +9,10 @@ template:
       default: WestUS2
     site_path:
       description: The path to the folder containing the website
-      default: ./www
+      default: www
     app_path:
       description: The path to the folder containing the function to deploy
-      default: ./app
+      default: app
     index_document:
       description: The file to use for top-level pages
       default: index.html

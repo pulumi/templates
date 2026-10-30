@@ -3,7 +3,9 @@ package main
 import (
 	"encoding/json"
 
-	"github.com/pulumi/pulumi-aws-apigateway/sdk/v2/go/apigateway"
+	"github.com/pulumi/pulumi-aws-apigateway/sdk/v3/go/apigateway"
+	"github.com/pulumi/pulumi-aws/sdk/v7/go/aws"
+	"github.com/pulumi/pulumi-aws/sdk/v7/go/aws/config"
 	"github.com/pulumi/pulumi-aws/sdk/v7/go/aws/iam"
 	"github.com/pulumi/pulumi-aws/sdk/v7/go/aws/lambda"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
@@ -40,10 +42,18 @@ func main() {
 
 		// A Lambda function to invoke
 		fn, err := lambda.NewFunction(ctx, "fn", &lambda.FunctionArgs{
-			Runtime: pulumi.String("python3.9"),
+			Runtime: pulumi.String("python3.12"),
 			Handler: pulumi.String("handler.handler"),
 			Role:    role.Arn,
 			Code:    pulumi.NewFileArchive("./function"),
+		})
+		if err != nil {
+			return err
+		}
+
+		// An AWS provider for the REST API to deploy its resources with
+		provider, err := aws.NewProvider(ctx, "provider", &aws.ProviderArgs{
+			Region: pulumi.String(config.GetRegion(ctx)),
 		})
 		if err != nil {
 			return err
@@ -57,7 +67,7 @@ func main() {
 				apigateway.RouteArgs{Path: "/", LocalPath: &localPath},
 				apigateway.RouteArgs{Path: "/date", Method: &method, EventHandler: fn},
 			},
-		})
+		}, pulumi.Providers(provider))
 		if err != nil {
 			return err
 		}

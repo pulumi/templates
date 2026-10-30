@@ -29,7 +29,7 @@ func main() {
 		}
 		osImage, err := cfg.Try("osImage")
 		if err != nil {
-			osImage = "Debian:debian-11:11:latest"
+			osImage = "Debian:debian-12:12:latest"
 		}
 		adminUsername, err := cfg.Try("adminUsername")
 		if err != nil {

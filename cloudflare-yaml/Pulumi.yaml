@@ -18,7 +18,7 @@ resources:
     type: cloudflare:index/workersKvNamespace:WorkersKvNamespace
     properties:
       accountId: ${accountId}
-      title: my-namespace
+      title: ${pulumi.project}-${pulumi.stack}
 
 outputs:
 

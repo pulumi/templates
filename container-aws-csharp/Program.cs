@@ -53,5 +53,6 @@ return await Deployment.RunAsync(() =>
     return new Dictionary<string, object?>
     {
         ["url"] = loadbalancer.LoadBalancer.Apply(loadBalancer => Output.Format($"http://{loadBalancer.DnsName}")),
+        ["clusterName"] = cluster.Name,
     };
 });

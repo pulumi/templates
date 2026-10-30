@@ -74,6 +74,7 @@ resource "gcp_container_cluster" "gke-cluster" {
   initial_node_count       = 1
   remove_default_node_pool = true
   datapath_provider        = "ADVANCED_DATAPATH"
+  deletion_protection      = false
 
   addons_config = {
     dns_cache_config = {

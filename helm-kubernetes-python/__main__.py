@@ -2,7 +2,7 @@ import pulumi
 import pulumi_kubernetes as kubernetes
 
 config = pulumi.Config()
-k8s_namespace = config.get("k8sNamespace", "default")
+k8s_namespace = config.get("k8sNamespace", "nginx-ingress")
 app_labels = {
     "app": "nginx-ingress",
 }
@@ -28,6 +28,7 @@ ingresscontroller = kubernetes.helm.v3.Release(
     values={
         "controller": {
             "enableCustomResources": False,
+            "ingressClass": k8s_namespace,
             "appprotect": {
                 "enable": False,
             },
@@ -39,7 +40,8 @@ ingresscontroller = kubernetes.helm.v3.Release(
             },
         },
     },
-    version="0.14.1"
+    version="0.14.1",
+    opts=pulumi.ResourceOptions(delete_before_replace=True),
 )
 
 # Export some values for use elsewhere

@@ -6,5 +6,5 @@ const bucket = new gcp.storage.Bucket("my-bucket", {
     location: "US"
 });
 
-// Export the DNS name of the bucket
+// Export the bucket's gs:// URL
 export const bucketName = bucket.url;

@@ -43,6 +43,7 @@ resources:
       binaryAuthorization:
         evaluationMode: PROJECT_SINGLETON_POLICY_ENFORCE
       datapathProvider: ADVANCED_DATAPATH
+      deletionProtection: false
       description: A GKE cluster
       # Enabling Autopilot will invalidate many of the other settings included here
       # enableAutopilot: false

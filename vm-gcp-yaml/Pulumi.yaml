@@ -18,7 +18,7 @@ template:
       default: f1-micro
     osImage:
       description: The OS image type to use for the VM
-      default: debian-11
+      default: debian-12
     instanceTag:
       description: The tag to apply to the VM instance
       default: webserver
@@ -33,7 +33,7 @@ config:
     default: f1-micro
   osImage:
     type: string
-    default: debian-11
+    default: debian-12
   instanceTag:
     type: string
     default: webserver
@@ -57,7 +57,7 @@ variables:
         <p>Deployed with 💜 by <a href="https://pulumi.com/">Pulumi</a>.</p>
     </body>
     </html>' > index.html
-    sudo python3 -m http.server ${servicePort} &
+    sudo nohup python3 -m http.server ${servicePort} >/dev/null 2>&1 &
 
 resources:
 

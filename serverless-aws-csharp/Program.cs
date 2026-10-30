@@ -32,10 +32,15 @@ return await Deployment.RunAsync(() =>
 
     var fn = new Aws.Lambda.Function("fn", new()
     {
-        Runtime = "python3.9",
+        Runtime = "python3.12",
         Handler = "handler.handler",
         Role = role.Arn,
         Code = new FileArchive("./function"),
+    });
+
+    var provider = new Aws.Provider("provider", new()
+    {
+        Region = new Config("aws").Require("region"),
     });
 
     var api = new AwsApiGateway.RestAPI("api", new()
@@ -54,6 +59,9 @@ return await Deployment.RunAsync(() =>
                 EventHandler = fn,
             },
         },
+    }, new ComponentResourceOptions
+    {
+        Providers = { provider },
     });
 
     return new Dictionary<string, object?>

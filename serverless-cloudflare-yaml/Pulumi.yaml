@@ -18,14 +18,14 @@ resources:
     type: cloudflare:index/workersKvNamespace:WorkersKvNamespace
     properties:
       accountId: ${accountId}
-      title: visit-counter
+      title: ${pulumi.project}-${pulumi.stack}-visit-counter
 
   # A Cloudflare Worker, exposed on its workers.dev subdomain.
   worker:
     type: cloudflare:index/worker:Worker
     properties:
       accountId: ${accountId}
-      name: my-app
+      name: ${pulumi.project}-${pulumi.stack}
       subdomain:
         enabled: true
 

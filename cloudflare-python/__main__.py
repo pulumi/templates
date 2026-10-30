@@ -9,7 +9,7 @@ account_id = config.require("accountId")
 namespace = cloudflare.WorkersKvNamespace(
     "my-namespace",
     account_id=account_id,
-    title="my-namespace",
+    title=f"{pulumi.get_project()}-{pulumi.get_stack()}",
 )
 
 # Export the ID of the namespace.
