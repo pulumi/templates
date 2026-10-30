@@ -14,6 +14,6 @@
 		<PackageReference Include="Pulumi" Version="3.*" />
 		<PackageReference Include="Pulumi.AzureNative" Version="3.*" />
 		<PackageReference Include="Pulumi.Command" Version="0.*" />
-		<PackageReference Include="Pulumi.SyncedFolder" Version="0.*" />
+		<PackageReference Include="Pulumi.SyncedFolder" Version="0.13.*" />
 	</ItemGroup>
 </Project>
