@@ -1,3 +1,5 @@
+import re
+
 import pulumi
 import pulumi_cloudflare as cloudflare
 
@@ -5,11 +7,14 @@ import pulumi_cloudflare as cloudflare
 config = pulumi.Config()
 account_id = config.require("accountId")
 
+name = f"{pulumi.get_project()}-{pulumi.get_stack()}".lower()
+name = re.sub(r"[^a-z0-9-]+", "-", name).strip("-")
+
 # Create a Cloudflare resource (Workers KV namespace).
 namespace = cloudflare.WorkersKvNamespace(
     "my-namespace",
     account_id=account_id,
-    title=f"{pulumi.get_project()}-{pulumi.get_stack()}",
+    title=name,
 )
 
 # Export the ID of the namespace.

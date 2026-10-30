@@ -17,10 +17,15 @@ variable "path" {
   default     = "./www"
 }
 
+locals {
+  # Worker names may only contain lowercase letters, numbers and dashes.
+  name = trim(replace(lower("${pulumi.project}-${pulumi.stack}"), "/[^a-z0-9-]+/", "-"), "-")
+}
+
 # A Cloudflare Worker, exposed on its workers.dev subdomain.
 resource "cloudflare_worker" "site" {
   account_id = var.account_id
-  name       = "${pulumi.project}-${pulumi.stack}"
+  name       = local.name
   subdomain = {
     enabled = true
   }

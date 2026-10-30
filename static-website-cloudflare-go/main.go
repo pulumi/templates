@@ -1,6 +1,9 @@
 package main
 
 import (
+	"regexp"
+	"strings"
+
 	"github.com/pulumi/pulumi-cloudflare/sdk/v6/go/cloudflare"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi/config"
@@ -16,10 +19,14 @@ func main() {
 			path = "./www"
 		}
 
+		// Worker names may only contain lowercase letters, numbers and dashes.
+		name := strings.ToLower(ctx.Project() + "-" + ctx.Stack())
+		name = strings.Trim(regexp.MustCompile(`[^a-z0-9-]+`).ReplaceAllString(name, "-"), "-")
+
 		// A Cloudflare Worker, exposed on its workers.dev subdomain.
 		site, err := cloudflare.NewWorker(ctx, "site", &cloudflare.WorkerArgs{
 			AccountId: pulumi.String(accountId),
-			Name:      pulumi.Sprintf("%s-%s", ctx.Project(), ctx.Stack()),
+			Name:      pulumi.String(name),
 			Subdomain: &cloudflare.WorkerSubdomainArgs{
 				Enabled: pulumi.Bool(true),
 			},
