@@ -65,3 +65,41 @@ require (
 )
 EOF
 echo "Updated go template to be Pulumi $PULUMI_VERSION"
+
+# Other Go templates keep their own requires: bump each github.com/pulumi module within its major version, so import paths stay valid.
+fetch_latest_module_version() {
+	curl -sf "https://proxy.golang.org/$1/@latest" | jq -r .Version
+}
+
+set_module_version() {
+	local mod_file="$1" module="$2" version="$3" tmp
+	tmp="$(mktemp)"
+	awk -v module="$module" -v version="$version" '
+		$1 == module && $3 != "//" { sub(/[^ \t]+$/, version) }
+		$1 == "require" && $2 == module && $4 != "//" { $3 = version }
+		{ print }
+	' "$mod_file" >"$tmp" && mv "$tmp" "$mod_file"
+}
+
+GENERATED_TEMPLATES=("${PROVIDERS[@]/%/-go}" "go")
+
+for mod_file in ../*-go/go.mod; do
+	template="$(basename "$(dirname "$mod_file")")"
+	if [[ " ${GENERATED_TEMPLATES[*]} " == *" ${template} "* ]]; then
+		continue
+	fi
+	modules="$(awk '
+		$1 ~ /^github\.com\/pulumi\// && $3 != "//" { print $1 }
+		$1 == "require" && $2 ~ /^github\.com\/pulumi\// && $4 != "//" { print $2 }
+	' "$mod_file")"
+	for module in $modules; do
+		version="$(fetch_latest_module_version "$module")"
+		if [ -z "$version" ] || [ "$version" = "null" ]; then
+			echo "Skipping $module in $template: no version from the module proxy"
+			continue
+		fi
+		set_module_version "$mod_file" "$module" "$version"
+	done
+	echo "Updated the Pulumi modules in $template"
+done
+
