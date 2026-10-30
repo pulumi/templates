@@ -1120,6 +1120,14 @@
                         "description": "The path to the container application to deploy",
                         "default": "app"
                     },
+                    "imageName": {
+                        "description": "The name to give the container image",
+                        "default": "my-app"
+                    },
+                    "imageTag": {
+                        "description": "The tag to give the container image",
+                        "default": "latest"
+                    },
                     "containerPort": {
                         "description": "The port to expose on the container",
                         "default": 80
@@ -1149,6 +1157,14 @@
                         "description": "The path to the container application to deploy",
                         "default": "app"
                     },
+                    "imageName": {
+                        "description": "The name to give the container image",
+                        "default": "my-app"
+                    },
+                    "imageTag": {
+                        "description": "The tag to give the container image",
+                        "default": "latest"
+                    },
                     "containerPort": {
                         "description": "The port to expose on the container",
                         "default": 80
@@ -1170,7 +1186,7 @@
             "template": {
                 "description": "A Pulumi HCL program to deploy a containerized service on Azure",
                 "config": {
-                    "location": {
+                    "azure-native:location": {
                         "description": "The Azure region to deploy into",
                         "default": "WestUS"
                     },
@@ -1181,6 +1197,10 @@
                     "image_name": {
                         "description": "The name to give the container image",
                         "default": "my-app"
+                    },
+                    "image_tag": {
+                        "description": "The tag to give the container image",
+                        "default": "latest"
                     },
                     "container_port": {
                         "description": "The port to expose on the container",
@@ -1216,6 +1236,14 @@
                         "description": "The path to the container application to deploy",
                         "default": "app"
                     },
+                    "imageName": {
+                        "description": "The name to give the container image",
+                        "default": "my-app"
+                    },
+                    "imageTag": {
+                        "description": "The tag to give the container image",
+                        "default": "latest"
+                    },
                     "containerPort": {
                         "description": "The port to expose on the container",
                         "default": 80
@@ -1246,6 +1274,14 @@
                     "appPath": {
                         "description": "The path to the container application to deploy",
                         "default": "app"
+                    },
+                    "imageName": {
+                        "description": "The name to give the container image",
+                        "default": "my-app"
+                    },
+                    "imageTag": {
+                        "description": "The tag to give the container image",
+                        "default": "latest"
                     },
                     "containerPort": {
                         "description": "The port to expose on the container",
@@ -1278,6 +1314,10 @@
                     "appPath": {
                         "description": "The path to the container application to deploy",
                         "default": "app"
+                    },
+                    "imageName": {
+                        "description": "The name to give the container image",
+                        "default": "my-app"
                     },
                     "containerPort": {
                         "description": "The port to expose on the container",
@@ -1314,6 +1354,10 @@
                     "appPath": {
                         "description": "The path to the container application to deploy",
                         "default": "app"
+                    },
+                    "imageName": {
+                        "description": "The name to give the container image",
+                        "default": "my-app"
                     },
                     "containerPort": {
                         "description": "The port to expose on the container",
@@ -1396,6 +1440,10 @@
                         "description": "The path to the container application to deploy",
                         "default": "app"
                     },
+                    "imageName": {
+                        "description": "The name to give the container image",
+                        "default": "my-app"
+                    },
                     "containerPort": {
                         "description": "The port to expose on the container",
                         "default": 8080
@@ -1431,6 +1479,10 @@
                     "appPath": {
                         "description": "The path to the container application to deploy",
                         "default": "app"
+                    },
+                    "imageName": {
+                        "description": "The name to give the container image",
+                        "default": "my-app"
                     },
                     "containerPort": {
                         "description": "The port to expose on the container",
@@ -2056,7 +2108,7 @@
                         "description": "DNS prefix for the cluster"
                     },
                     "kubernetesVersion": {
-                        "default": "1.33",
+                        "default": "1.37",
                         "description": "Kubernetes version to deploy in the cluster"
                     },
                     "nodeVmSize": {
@@ -2091,7 +2143,7 @@
                         "description": "DNS prefix for the cluster"
                     },
                     "kubernetesVersion": {
-                        "default": "1.33",
+                        "default": "1.37",
                         "description": "Kubernetes version to deploy in the cluster"
                     },
                     "nodeVmSize": {
@@ -2151,7 +2203,7 @@
                         "description": "DNS prefix for the cluster"
                     },
                     "kubernetesVersion": {
-                        "default": "1.33",
+                        "default": "1.37",
                         "description": "Kubernetes version to deploy in the cluster"
                     },
                     "nodeVmSize": {
@@ -2186,7 +2238,7 @@
                         "description": "DNS prefix for the cluster"
                     },
                     "kubernetesVersion": {
-                        "default": "1.33",
+                        "default": "1.37",
                         "description": "Kubernetes version to deploy in the cluster"
                     },
                     "nodeVmSize": {
@@ -2220,7 +2272,7 @@
                         "description": "DNS prefix for the cluster"
                     },
                     "kubernetesVersion": {
-                        "default": "1.33",
+                        "default": "1.37",
                         "description": "Kubernetes version to deploy in the cluster"
                     },
                     "nodeVmSize": {
@@ -3127,11 +3179,11 @@
                     },
                     "sitePath": {
                         "description": "The path to the folder containing the website",
-                        "default": "./www"
+                        "default": "www"
                     },
                     "appPath": {
                         "description": "The path to the folder containing the functions to be deployed",
-                        "default": "./app"
+                        "default": "app"
                     },
                     "indexDocument": {
                         "description": "The file to use for top-level pages",
@@ -3156,11 +3208,11 @@
                     },
                     "sitePath": {
                         "description": "The path to the folder containing the website",
-                        "default": "./www"
+                        "default": "www"
                     },
                     "appPath": {
                         "description": "The path to the folder containing the functions to be deployed",
-                        "default": "./app"
+                        "default": "app"
                     },
                     "indexDocument": {
                         "description": "The file to use for top-level pages",
@@ -3185,11 +3237,11 @@
                     },
                     "site_path": {
                         "description": "The path to the folder containing the website",
-                        "default": "./www"
+                        "default": "www"
                     },
                     "app_path": {
                         "description": "The path to the folder containing the function to deploy",
-                        "default": "./app"
+                        "default": "app"
                     },
                     "index_document": {
                         "description": "The file to use for top-level pages",
@@ -3214,11 +3266,11 @@
                     },
                     "sitePath": {
                         "description": "The path to the folder containing the website",
-                        "default": "./www"
+                        "default": "www"
                     },
                     "appPath": {
                         "description": "The path to the folder containing the functions to be deployed",
-                        "default": "./app"
+                        "default": "app"
                     },
                     "indexDocument": {
                         "description": "The file to use for top-level pages",
@@ -3243,11 +3295,11 @@
                     },
                     "sitePath": {
                         "description": "The path to the folder containing the website",
-                        "default": "./www"
+                        "default": "www"
                     },
                     "appPath": {
                         "description": "The path to the folder containing the functions to be deployed",
-                        "default": "./app"
+                        "default": "app"
                     },
                     "indexDocument": {
                         "description": "The file to use for top-level pages",
@@ -3272,11 +3324,11 @@
                     },
                     "sitePath": {
                         "description": "The path to the folder containing the website",
-                        "default": "./www"
+                        "default": "www"
                     },
                     "appPath": {
                         "description": "The path to the folder containing the functions to be deployed",
-                        "default": "./app"
+                        "default": "app"
                     },
                     "indexDocument": {
                         "description": "The file to use for top-level pages",
@@ -3440,7 +3492,7 @@
                     },
                     "site_path": {
                         "description": "The path to the folder containing the website",
-                        "default": "./www"
+                        "default": "www"
                     },
                     "app_path": {
                         "description": "The path to the folder containing the function to deploy",
@@ -3640,7 +3692,7 @@
                     },
                     "path": {
                         "description": "The path to the folder containing the website",
-                        "default": "./www"
+                        "default": "www"
                     },
                     "index_document": {
                         "description": "The file to use for top-level pages",
@@ -3740,7 +3792,7 @@
                     },
                     "path": {
                         "description": "The path to the folder containing the website",
-                        "default": "./www"
+                        "default": "www"
                     },
                     "indexDocument": {
                         "description": "The file to use for top-level pages",
@@ -3765,7 +3817,7 @@
                     },
                     "path": {
                         "description": "The path to the folder containing the website",
-                        "default": "./www"
+                        "default": "www"
                     },
                     "indexDocument": {
                         "description": "The file to use for top-level pages",
@@ -3790,7 +3842,7 @@
                     },
                     "path": {
                         "description": "The path to the folder containing the website",
-                        "default": "./www"
+                        "default": "www"
                     },
                     "index_document": {
                         "description": "The file to use for top-level pages",
@@ -3815,7 +3867,7 @@
                     },
                     "path": {
                         "description": "The path to the folder containing the website",
-                        "default": "./www"
+                        "default": "www"
                     },
                     "indexDocument": {
                         "description": "The file to use for top-level pages",
@@ -3840,7 +3892,7 @@
                     },
                     "path": {
                         "description": "The path to the folder containing the website",
-                        "default": "./www"
+                        "default": "www"
                     },
                     "indexDocument": {
                         "description": "The file to use for top-level pages",
@@ -3865,7 +3917,7 @@
                     },
                     "path": {
                         "description": "The path to the folder containing the website",
-                        "default": "./www"
+                        "default": "www"
                     },
                     "indexDocument": {
                         "description": "The file to use for top-level pages",
@@ -3985,7 +4037,7 @@
                     },
                     "path": {
                         "description": "The path to the folder containing the website",
-                        "default": "./www"
+                        "default": "www"
                     },
                     "indexDocument": {
                         "description": "The file to use for top-level pages",
@@ -4009,7 +4061,7 @@
                     },
                     "path": {
                         "description": "The path to the folder containing the website",
-                        "default": "./www"
+                        "default": "www"
                     },
                     "indexDocument": {
                         "description": "The file to use for top-level pages",
@@ -4033,7 +4085,7 @@
                     },
                     "path": {
                         "description": "The path to the folder containing the website",
-                        "default": "./www"
+                        "default": "www"
                     },
                     "index_document": {
                         "description": "The file to use for top-level pages",
@@ -4057,7 +4109,7 @@
                     },
                     "path": {
                         "description": "The path to the folder containing the website",
-                        "default": "./www"
+                        "default": "www"
                     },
                     "indexDocument": {
                         "description": "The file to use for top-level pages",
@@ -4081,7 +4133,7 @@
                     },
                     "path": {
                         "description": "The path to the folder containing the website",
-                        "default": "./www"
+                        "default": "www"
                     },
                     "indexDocument": {
                         "description": "The file to use for top-level pages",
@@ -4105,7 +4157,7 @@
                     },
                     "path": {
                         "description": "The path to the folder containing the website",
-                        "default": "./www"
+                        "default": "www"
                     },
                     "indexDocument": {
                         "description": "The file to use for top-level pages",
@@ -4286,7 +4338,7 @@
                     },
                     "osImage": {
                         "description": "The Azure URN of the base image to use for the VM",
-                        "default": "Debian:debian-11:11:latest"
+                        "default": "Debian:debian-12:12:latest"
                     },
                     "servicePort": {
                         "description": "The HTTP service port to expose on the VM",
@@ -4319,7 +4371,7 @@
                     },
                     "osImage": {
                         "description": "The Azure URN of the base image to use for the VM",
-                        "default": "Debian:debian-11:11:latest"
+                        "default": "Debian:debian-12:12:latest"
                     },
                     "servicePort": {
                         "description": "The HTTP service port to expose on the VM",
@@ -4352,7 +4404,7 @@
                     },
                     "os_image": {
                         "description": "The Azure image reference (publisher:offer:sku:version) to use for the VM",
-                        "default": "Debian:debian-11:11:latest"
+                        "default": "Debian:debian-12:12:latest"
                     },
                     "service_port": {
                         "description": "The HTTP service port to expose on the VM",
@@ -4385,7 +4437,7 @@
                     },
                     "osImage": {
                         "description": "The Azure URN of the base image to use for the VM",
-                        "default": "Debian:debian-11:11:latest"
+                        "default": "Debian:debian-12:12:latest"
                     },
                     "servicePort": {
                         "description": "The HTTP service port to expose on the VM",
@@ -4418,7 +4470,7 @@
                     },
                     "osImage": {
                         "description": "The Azure URN of the base image to use for the VM",
-                        "default": "Debian:debian-11:11:latest"
+                        "default": "Debian:debian-12:12:latest"
                     },
                     "servicePort": {
                         "description": "The HTTP service port to expose on the VM",
@@ -4451,7 +4503,7 @@
                     },
                     "osImage": {
                         "description": "The Azure URN of the base image to use for the VM",
-                        "default": "Debian:debian-11:11:latest"
+                        "default": "Debian:debian-12:12:latest"
                     },
                     "servicePort": {
                         "description": "The HTTP service port to expose on the VM",
@@ -4483,7 +4535,7 @@
                     },
                     "osImage": {
                         "description": "The OS image type to use for the VM",
-                        "default": "debian-11"
+                        "default": "debian-12"
                     },
                     "instanceTag": {
                         "description": "The tag to apply to the VM instance",
@@ -4519,7 +4571,7 @@
                     },
                     "osImage": {
                         "description": "The OS image type to use for the VM",
-                        "default": "debian-11"
+                        "default": "debian-12"
                     },
                     "instanceTag": {
                         "description": "The tag to apply to the VM instance",
@@ -4555,7 +4607,7 @@
                     },
                     "os_image": {
                         "description": "The OS image to use for the VM",
-                        "default": "debian-11"
+                        "default": "debian-12"
                     },
                     "instance_tag": {
                         "description": "The network tag to apply to the VM instance",
@@ -4591,7 +4643,7 @@
                     },
                     "osImage": {
                         "description": "The OS image type to use for the VM",
-                        "default": "debian-11"
+                        "default": "debian-12"
                     },
                     "instanceTag": {
                         "description": "The tag to apply to the VM instance",
@@ -4627,7 +4679,7 @@
                     },
                     "osImage": {
                         "description": "The OS image type to use for the VM",
-                        "default": "debian-11"
+                        "default": "debian-12"
                     },
                     "instanceTag": {
                         "description": "The tag to apply to the VM instance",
@@ -4663,7 +4715,7 @@
                     },
                     "osImage": {
                         "description": "The OS image type to use for the VM",
-                        "default": "debian-11"
+                        "default": "debian-12"
                     },
                     "instanceTag": {
                         "description": "The tag to apply to the VM instance",
@@ -4683,7 +4735,7 @@
                 "description": "A C# program to deploy a web application onto a Kubernetes cluster",
                 "config": {
                     "namespace": {
-                        "default": "default",
+                        "default": "webapp",
                         "description": "The Kubernetes namespace to deploy into"
                     },
                     "replicas": {
@@ -4700,7 +4752,7 @@
                 "description": "A Go program to deploy a web application onto a Kubernetes cluster",
                 "config": {
                     "namespace": {
-                        "default": "default",
+                        "default": "webapp",
                         "description": "The Kubernetes namespace to deploy into"
                     },
                     "replicas": {
@@ -4734,7 +4786,7 @@
                 "description": "A Python program to deploy a web application onto a Kubernetes cluster",
                 "config": {
                     "namespace": {
-                        "default": "default",
+                        "default": "webapp",
                         "description": "The Kubernetes namespace to deploy into"
                     },
                     "replicas": {
@@ -4751,7 +4803,7 @@
                 "description": "A TypeScript program to deploy a web application onto a Kubernetes cluster",
                 "config": {
                     "namespace": {
-                        "default": "default",
+                        "default": "webapp",
                         "description": "The Kubernetes namespace to deploy into"
                     },
                     "replicas": {
@@ -4768,7 +4820,7 @@
                 "description": "A Pulumi YAML program to deploy a web application onto a Kubernetes cluster",
                 "config": {
                     "k8sNamespace": {
-                        "default": "default",
+                        "default": "webapp",
                         "description": "The Kubernetes namespace to deploy into"
                     },
                     "numReplicas": {
