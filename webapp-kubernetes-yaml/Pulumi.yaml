@@ -5,7 +5,7 @@ template:
   description: A Pulumi YAML program to deploy a web application onto a Kubernetes cluster
   config:
     k8sNamespace:
-      default: default
+      default: webapp
       description: The Kubernetes namespace to deploy into
     numReplicas:
       default: 1
@@ -13,7 +13,7 @@ template:
 
 config:
   k8sNamespace:
-    default: default
+    default: webapp
     type: string
   numReplicas:
     default: 1

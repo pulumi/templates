@@ -15,7 +15,7 @@ func main() {
 		// A Workers KV namespace to persist state between requests.
 		namespace, err := cloudflare.NewWorkersKvNamespace(ctx, "namespace", &cloudflare.WorkersKvNamespaceArgs{
 			AccountId: pulumi.String(accountId),
-			Title:     pulumi.String("visit-counter"),
+			Title:     pulumi.Sprintf("%s-%s-visit-counter", ctx.Project(), ctx.Stack()),
 		})
 		if err != nil {
 			return err
@@ -24,7 +24,7 @@ func main() {
 		// A Cloudflare Worker, exposed on its workers.dev subdomain.
 		worker, err := cloudflare.NewWorker(ctx, "worker", &cloudflare.WorkerArgs{
 			AccountId: pulumi.String(accountId),
-			Name:      pulumi.String("my-app"),
+			Name:      pulumi.Sprintf("%s-%s", ctx.Project(), ctx.Stack()),
 			Subdomain: &cloudflare.WorkerSubdomainArgs{
 				Enabled: pulumi.Bool(true),
 			},

@@ -12,7 +12,7 @@ return await Pulumi.Deployment.RunAsync(() =>
     var config = new Pulumi.Config();
     var vmName = config.Get("vmName") ?? "my-server";
     var vmSize = config.Get("vmSize") ?? "Standard_A1_v2";
-    var osImage = config.Get("osImage") ?? "Debian:debian-11:11:latest";
+    var osImage = config.Get("osImage") ?? "Debian:debian-12:12:latest";
     var adminUsername = config.Get("adminUsername") ?? "pulumiuser";
     var servicePort = config.Get("servicePort") ?? "80";
 

@@ -5,7 +5,7 @@ using Kubernetes = Pulumi.Kubernetes;
 return await Deployment.RunAsync(() => 
 {
     var config = new Config();
-    var k8sNamespace = config.Get("k8sNamespace") ?? "default";
+    var k8sNamespace = config.Get("k8sNamespace") ?? "nginx-ingress";
     var appLabels = new InputMap<string>
     {
         { "app", "nginx-ingress" },
@@ -34,6 +34,7 @@ return await Deployment.RunAsync(() =>
             ["controller"] = new Dictionary<string, object>
             {
                 ["enableCustomResources"] = "false",
+                ["ingressClass"] = k8sNamespace,
                 ["appprotect"] = new Dictionary<string, object>
                 {
                     ["enable"] = "false"

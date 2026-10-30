@@ -13,6 +13,9 @@ template:
     image_name:
       description: The name to give the container image
       default: my-app
+    image_tag:
+      description: The tag to give the container image
+      default: latest
     container_port:
       description: The port to expose on the container
       default: 80

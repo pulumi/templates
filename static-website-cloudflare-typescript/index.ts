@@ -9,7 +9,7 @@ const path = config.get("path") || "./www";
 // A Cloudflare Worker, exposed on its workers.dev subdomain.
 const site = new cloudflare.Worker("site", {
     accountId: accountId,
-    name: "my-site",
+    name: `${pulumi.getProject()}-${pulumi.getStack()}`,
     subdomain: {
         enabled: true,
     },

@@ -8,7 +8,7 @@ import base64
 config = pulumi.Config()
 vm_name = config.get("vmName", "my-server")
 vm_size = config.get("vmSize", "Standard_A1_v2")
-os_image = config.get("osImage", "Debian:debian-11:11:latest")
+os_image = config.get("osImage", "Debian:debian-12:12:latest")
 admin_username = config.get("adminUsername", "pulumiuser")
 service_port = config.get("servicePort", "80")
 

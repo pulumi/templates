@@ -39,6 +39,7 @@ resources:
       values:
         controller:
           enableCustomResources: false
+          ingressClass: ${k8sNamespace}
           appprotect:
             enable: false
           appprotectdos:

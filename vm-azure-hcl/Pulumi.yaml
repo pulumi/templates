@@ -18,7 +18,7 @@ template:
       default: Standard_A1_v2
     os_image:
       description: The Azure image reference (publisher:offer:sku:version) to use for the VM
-      default: Debian:debian-11:11:latest
+      default: Debian:debian-12:12:latest
     service_port:
       description: The HTTP service port to expose on the VM
       default: 80

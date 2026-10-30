@@ -8,13 +8,13 @@ const accountId = config.require("accountId");
 // A Workers KV namespace to persist state between requests.
 const namespace = new cloudflare.WorkersKvNamespace("namespace", {
     accountId: accountId,
-    title: "visit-counter",
+    title: `${pulumi.getProject()}-${pulumi.getStack()}-visit-counter`,
 });
 
 // A Cloudflare Worker, exposed on its workers.dev subdomain.
 const worker = new cloudflare.Worker("worker", {
     accountId: accountId,
-    name: "my-app",
+    name: `${pulumi.getProject()}-${pulumi.getStack()}`,
     subdomain: {
         enabled: true,
     },

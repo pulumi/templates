@@ -13,7 +13,7 @@ func main() {
 		cfg := config.New(ctx, "")
 		k8sNamespace, err := cfg.Try("k8sNamespace")
 		if err != nil {
-			k8sNamespace = "default"
+			k8sNamespace = "nginx-ingress"
 		}
 		appLabels := pulumi.StringMap{
 			"app": pulumi.String("nginx-ingress"),
@@ -41,6 +41,7 @@ func main() {
 			Values: pulumi.Map{
 				"controller": pulumi.Map{
 					"enableCustomResources": pulumi.Bool(false),
+					"ingressClass":          pulumi.String(k8sNamespace),
 					"appprotect": pulumi.Map{
 						"enable": pulumi.Bool(false),
 					},

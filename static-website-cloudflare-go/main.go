@@ -19,7 +19,7 @@ func main() {
 		// A Cloudflare Worker, exposed on its workers.dev subdomain.
 		site, err := cloudflare.NewWorker(ctx, "site", &cloudflare.WorkerArgs{
 			AccountId: pulumi.String(accountId),
-			Name:      pulumi.String("my-site"),
+			Name:      pulumi.Sprintf("%s-%s", ctx.Project(), ctx.Stack()),
 			Subdomain: &cloudflare.WorkerSubdomainArgs{
 				Enabled: pulumi.Bool(true),
 			},

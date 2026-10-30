@@ -12,7 +12,7 @@ return await Deployment.RunAsync(() =>
     var ns = new Cloudflare.WorkersKvNamespace("my-namespace", new()
     {
         AccountId = accountId,
-        Title = "my-namespace",
+        Title = $"{Deployment.Instance.ProjectName}-{Deployment.Instance.StackName}",
     });
 
     // Export the ID of the namespace.

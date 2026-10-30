@@ -16,5 +16,5 @@ resources:
       location: US
 
 outputs:
-  # Export the DNS name of the bucket
+  # Export the bucket's gs:// URL
   bucketName: ${my-bucket.url}

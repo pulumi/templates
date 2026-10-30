@@ -20,7 +20,7 @@ variable "path" {
 # A Cloudflare Worker, exposed on its workers.dev subdomain.
 resource "cloudflare_worker" "site" {
   account_id = var.account_id
-  name       = "my-site"
+  name       = "${pulumi.project}-${pulumi.stack}"
   subdomain = {
     enabled = true
   }
@@ -48,10 +48,10 @@ resource "cloudflare_workers_deployment" "deployment" {
   script_name = cloudflare_worker.site.name
   strategy    = "percentage"
 
-  versions {
+  versions = [{
     version_id = cloudflare_worker_version.version.id
     percentage = 100
-  }
+  }]
 }
 
 # Export the website's URL.

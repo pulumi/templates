@@ -33,7 +33,7 @@ variable "vm_size" {
 variable "os_image" {
   description = "The Azure URN of the base image to use for the VM"
   type        = string
-  default     = "Debian:debian-11:11:latest"
+  default     = "Debian:debian-12:12:latest"
 }
 
 variable "service_port" {

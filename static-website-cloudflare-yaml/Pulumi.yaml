@@ -24,7 +24,7 @@ resources:
     type: cloudflare:index/worker:Worker
     properties:
       accountId: ${accountId}
-      name: my-site
+      name: ${pulumi.project}-${pulumi.stack}
       subdomain:
         enabled: true
 

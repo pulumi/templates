@@ -9,14 +9,14 @@ account_id = config.require("accountId")
 namespace = cloudflare.WorkersKvNamespace(
     "namespace",
     account_id=account_id,
-    title="visit-counter",
+    title=f"{pulumi.get_project()}-{pulumi.get_stack()}-visit-counter",
 )
 
 # A Cloudflare Worker, exposed on its workers.dev subdomain.
 worker = cloudflare.Worker(
     "worker",
     account_id=account_id,
-    name="my-app",
+    name=f"{pulumi.get_project()}-{pulumi.get_stack()}",
     subdomain=cloudflare.WorkerSubdomainArgs(
         enabled=True,
     ),

@@ -19,7 +19,7 @@ template:
       default: Standard_A1_v2
     osImage:
       description: The Azure URN of the base image to use for the VM
-      default: Debian:debian-11:11:latest
+      default: Debian:debian-12:12:latest
     servicePort:
       description: The HTTP service port to expose on the VM
       default: "80"
@@ -37,7 +37,7 @@ config:
     default: Standard_A1_v2
   osImage:
     type: string
-    default: Debian:debian-11:11:latest
+    default: Debian:debian-12:12:latest
   servicePort:
     type: string
     default: "80"

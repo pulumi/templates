@@ -14,7 +14,7 @@ func main() {
 		cfg := config.New(ctx, "")
 		k8sNamespace, err := cfg.Try("namespace")
 		if err != nil {
-			k8sNamespace = "default"
+			k8sNamespace = "webapp"
 		}
 		numReplicas, err := cfg.TryInt("replicas")
 		if err != nil {

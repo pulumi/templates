@@ -2,7 +2,7 @@ import * as pulumi from "@pulumi/pulumi";
 import * as kubernetes from "@pulumi/kubernetes";
 
 const config = new pulumi.Config();
-const k8sNamespace = config.get("k8sNamespace") || "default";
+const k8sNamespace = config.get("k8sNamespace") || "nginx-ingress";
 const appLabels = {
     app: "nginx-ingress",
 };
@@ -24,6 +24,7 @@ const ingressController = new kubernetes.helm.v3.Release("ingresscontroller", {
     values: {
         controller: {
             enableCustomResources: false,
+            ingressClass: k8sNamespace,
             appprotect: {
                 enable: false,
             },

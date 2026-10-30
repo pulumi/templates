@@ -14,13 +14,13 @@ variable "account_id" {
 # A Workers KV namespace to persist state between requests.
 resource "cloudflare_workers_kv_namespace" "namespace" {
   account_id = var.account_id
-  title      = "visit-counter"
+  title      = "${pulumi.project}-${pulumi.stack}-visit-counter"
 }
 
 # A Cloudflare Worker, exposed on its workers.dev subdomain.
 resource "cloudflare_worker" "worker" {
   account_id = var.account_id
-  name       = "my-app"
+  name       = "${pulumi.project}-${pulumi.stack}"
   subdomain = {
     enabled = true
   }
@@ -33,17 +33,17 @@ resource "cloudflare_worker_version" "version" {
   compatibility_date = "2025-01-01"
   main_module        = "worker.js"
 
-  bindings {
+  bindings = [{
     name         = "COUNTER"
     type         = "kv_namespace"
     namespace_id = cloudflare_workers_kv_namespace.namespace.id
-  }
+  }]
 
-  modules {
+  modules = [{
     name         = "worker.js"
     content_type = "application/javascript+module"
     content_file = "worker.js"
-  }
+  }]
 }
 
 # Deploy the version so it serves all of the application's traffic.
@@ -52,10 +52,10 @@ resource "cloudflare_workers_deployment" "deployment" {
   script_name = cloudflare_worker.worker.name
   strategy    = "percentage"
 
-  versions {
+  versions = [{
     version_id = cloudflare_worker_version.version.id
     percentage = 100
-  }
+  }]
 }
 
 # Export the application's URL.

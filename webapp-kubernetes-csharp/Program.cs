@@ -5,7 +5,7 @@ using Kubernetes = Pulumi.Kubernetes;
 return await Deployment.RunAsync(() => 
 {
     var config = new Config();
-    var k8sNamespace = config.Get("namespace") ?? "default";
+    var k8sNamespace = config.Get("namespace") ?? "webapp";
     var numReplicas = config.GetInt32("replicas") ?? 1;
     var appLabels = new InputMap<string>
     {

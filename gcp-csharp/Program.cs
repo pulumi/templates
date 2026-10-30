@@ -10,7 +10,7 @@ return await Deployment.RunAsync(() =>
         Location = "US"
     });
 
-    // Export the DNS name of the bucket
+    // Export the bucket's gs:// URL
     return new Dictionary<string, object?>
     {
         ["bucketName"] = bucket.Url
