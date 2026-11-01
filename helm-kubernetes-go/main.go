@@ -37,7 +37,8 @@ func main() {
 			RepositoryOpts: &helmv3.RepositoryOptsArgs{
 				Repo: pulumi.String("https://helm.nginx.com/stable"),
 			},
-			SkipCrds: pulumi.Bool(true),
+			SkipCrds:  pulumi.Bool(true),
+			SkipAwait: pulumi.Bool(true),
 			Values: pulumi.Map{
 				"controller": pulumi.Map{
 					"enableCustomResources": pulumi.Bool(false),
