@@ -29,6 +29,7 @@ return await Deployment.RunAsync(() =>
             Repo = "https://helm.nginx.com/stable",
         },
         SkipCrds = true,
+        SkipAwait = true,
         Values = new Dictionary<string, object>
         {
             ["controller"] = new Dictionary<string, object>

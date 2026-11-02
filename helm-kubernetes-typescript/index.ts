@@ -21,6 +21,7 @@ const ingressController = new kubernetes.helm.v3.Release("ingresscontroller", {
         repo: "https://helm.nginx.com/stable",
     },
     skipCrds: true,
+    skipAwait: true,
     values: {
         controller: {
             enableCustomResources: false,

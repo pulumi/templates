@@ -25,6 +25,7 @@ ingresscontroller = kubernetes.helm.v3.Release(
         "repo": "https://helm.nginx.com/stable",
     },
     skip_crds=True,
+    skip_await=True,
     values={
         "controller": {
             "enableCustomResources": False,

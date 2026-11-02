@@ -36,6 +36,7 @@ resources:
       repositoryOpts:
         repo: https://helm.nginx.com/stable
       skipCrds: true
+      skipAwait: true
       values:
         controller:
           enableCustomResources: false

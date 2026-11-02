@@ -31,7 +31,8 @@ resource "kubernetes_core_v1_namespace" "ingressns" {
 resource "kubernetes_helm_sh_v3_release" "ingresscontroller" {
   chart     = "nginx-ingress"
   namespace = kubernetes_core_v1_namespace.ingressns.metadata.name
-  skip_crds = true
+  skip_crds  = true
+  skip_await = true
 
   repository_opts = {
     repo = "https://helm.nginx.com/stable"
