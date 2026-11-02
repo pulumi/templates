@@ -6,10 +6,16 @@ const config = new pulumi.Config();
 const accountId = config.require("accountId");
 const path = config.get("path") || "./www";
 
+// Worker names may only contain lowercase letters, numbers and dashes.
+const name = `${pulumi.getProject()}-${pulumi.getStack()}`
+    .toLowerCase()
+    .replace(/[^a-z0-9-]+/g, "-")
+    .replace(/^-+|-+$/g, "");
+
 // A Cloudflare Worker, exposed on its workers.dev subdomain.
 const site = new cloudflare.Worker("site", {
     accountId: accountId,
-    name: `${pulumi.getProject()}-${pulumi.getStack()}`,
+    name: name,
     subdomain: {
         enabled: true,
     },

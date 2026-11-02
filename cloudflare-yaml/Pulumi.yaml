@@ -11,6 +11,28 @@ config:
   accountId:
     type: string
 
+variables:
+
+  name:
+    fn::invoke:
+      function: std:trim
+      arguments:
+        input:
+          fn::invoke:
+            function: std:replace
+            arguments:
+              text:
+                fn::invoke:
+                  function: std:lower
+                  arguments:
+                    input: ${pulumi.project}-${pulumi.stack}
+                  return: result
+              search: /[^a-z0-9-]+/
+              replace: "-"
+            return: result
+        cutset: "-"
+      return: result
+
 resources:
 
   # Create a Cloudflare resource (Workers KV namespace).
@@ -18,7 +40,7 @@ resources:
     type: cloudflare:index/workersKvNamespace:WorkersKvNamespace
     properties:
       accountId: ${accountId}
-      title: ${pulumi.project}-${pulumi.stack}
+      title: ${name}
 
 outputs:
 

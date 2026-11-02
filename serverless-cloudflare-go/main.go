@@ -1,6 +1,9 @@
 package main
 
 import (
+	"regexp"
+	"strings"
+
 	"github.com/pulumi/pulumi-cloudflare/sdk/v6/go/cloudflare"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi/config"
@@ -12,10 +15,14 @@ func main() {
 		cfg := config.New(ctx, "")
 		accountId := cfg.Require("accountId")
 
+		// Worker names may only contain lowercase letters, numbers and dashes.
+		name := strings.ToLower(ctx.Project() + "-" + ctx.Stack())
+		name = strings.Trim(regexp.MustCompile(`[^a-z0-9-]+`).ReplaceAllString(name, "-"), "-")
+
 		// A Workers KV namespace to persist state between requests.
 		namespace, err := cloudflare.NewWorkersKvNamespace(ctx, "namespace", &cloudflare.WorkersKvNamespaceArgs{
 			AccountId: pulumi.String(accountId),
-			Title:     pulumi.Sprintf("%s-%s-visit-counter", ctx.Project(), ctx.Stack()),
+			Title:     pulumi.String(name + "-visit-counter"),
 		})
 		if err != nil {
 			return err
@@ -24,7 +31,7 @@ func main() {
 		// A Cloudflare Worker, exposed on its workers.dev subdomain.
 		worker, err := cloudflare.NewWorker(ctx, "worker", &cloudflare.WorkerArgs{
 			AccountId: pulumi.String(accountId),
-			Name:      pulumi.Sprintf("%s-%s", ctx.Project(), ctx.Stack()),
+			Name:      pulumi.String(name),
 			Subdomain: &cloudflare.WorkerSubdomainArgs{
 				Enabled: pulumi.Bool(true),
 			},

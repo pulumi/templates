@@ -5,16 +5,22 @@ import * as cloudflare from "@pulumi/cloudflare";
 const config = new pulumi.Config();
 const accountId = config.require("accountId");
 
+// Worker names may only contain lowercase letters, numbers and dashes.
+const name = `${pulumi.getProject()}-${pulumi.getStack()}`
+    .toLowerCase()
+    .replace(/[^a-z0-9-]+/g, "-")
+    .replace(/^-+|-+$/g, "");
+
 // A Workers KV namespace to persist state between requests.
 const namespace = new cloudflare.WorkersKvNamespace("namespace", {
     accountId: accountId,
-    title: `${pulumi.getProject()}-${pulumi.getStack()}-visit-counter`,
+    title: `${name}-visit-counter`,
 });
 
 // A Cloudflare Worker, exposed on its workers.dev subdomain.
 const worker = new cloudflare.Worker("worker", {
     accountId: accountId,
-    name: `${pulumi.getProject()}-${pulumi.getStack()}`,
+    name: name,
     subdomain: {
         enabled: true,
     },

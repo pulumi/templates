@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 using Pulumi;
 using Cloudflare = Pulumi.Cloudflare;
 
@@ -8,18 +9,23 @@ return await Deployment.RunAsync(() =>
     var config = new Config();
     var accountId = config.Require("accountId");
 
+    // Worker names may only contain lowercase letters, numbers and dashes.
+    var name = Regex.Replace(
+        $"{Deployment.Instance.ProjectName}-{Deployment.Instance.StackName}".ToLowerInvariant(),
+        "[^a-z0-9-]+", "-").Trim('-');
+
     // A Workers KV namespace to persist state between requests.
     var kv = new Cloudflare.WorkersKvNamespace("namespace", new()
     {
         AccountId = accountId,
-        Title = $"{Deployment.Instance.ProjectName}-{Deployment.Instance.StackName}-visit-counter",
+        Title = $"{name}-visit-counter",
     });
 
     // A Cloudflare Worker, exposed on its workers.dev subdomain.
     var worker = new Cloudflare.Worker("worker", new()
     {
         AccountId = accountId,
-        Name = $"{Deployment.Instance.ProjectName}-{Deployment.Instance.StackName}",
+        Name = name,
         Subdomain = new Cloudflare.Inputs.WorkerSubdomainArgs
         {
             Enabled = true,

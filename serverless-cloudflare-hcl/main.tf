@@ -11,16 +11,21 @@ variable "account_id" {
   type        = string
 }
 
+locals {
+  # Worker names may only contain lowercase letters, numbers and dashes.
+  name = trim(replace(lower("${pulumi.project}-${pulumi.stack}"), "/[^a-z0-9-]+/", "-"), "-")
+}
+
 # A Workers KV namespace to persist state between requests.
 resource "cloudflare_workers_kv_namespace" "namespace" {
   account_id = var.account_id
-  title      = "${pulumi.project}-${pulumi.stack}-visit-counter"
+  title      = "${local.name}-visit-counter"
 }
 
 # A Cloudflare Worker, exposed on its workers.dev subdomain.
 resource "cloudflare_worker" "worker" {
   account_id = var.account_id
-  name       = "${pulumi.project}-${pulumi.stack}"
+  name       = local.name
   subdomain = {
     enabled = true
   }

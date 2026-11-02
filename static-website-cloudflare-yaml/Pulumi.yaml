@@ -17,6 +17,29 @@ config:
     type: string
     default: ./www
 
+variables:
+
+  # Worker names may only contain lowercase letters, numbers and dashes.
+  name:
+    fn::invoke:
+      function: std:trim
+      arguments:
+        input:
+          fn::invoke:
+            function: std:replace
+            arguments:
+              text:
+                fn::invoke:
+                  function: std:lower
+                  arguments:
+                    input: ${pulumi.project}-${pulumi.stack}
+                  return: result
+              search: /[^a-z0-9-]+/
+              replace: "-"
+            return: result
+        cutset: "-"
+      return: result
+
 resources:
 
   # A Cloudflare Worker, exposed on its workers.dev subdomain.
@@ -24,7 +47,7 @@ resources:
     type: cloudflare:index/worker:Worker
     properties:
       accountId: ${accountId}
-      name: ${pulumi.project}-${pulumi.stack}
+      name: ${name}
       subdomain:
         enabled: true
 

@@ -1,3 +1,5 @@
+import re
+
 import pulumi
 import pulumi_cloudflare as cloudflare
 
@@ -6,11 +8,15 @@ config = pulumi.Config()
 account_id = config.require("accountId")
 path = config.get("path") or "./www"
 
+# Worker names may only contain lowercase letters, numbers and dashes.
+name = f"{pulumi.get_project()}-{pulumi.get_stack()}".lower()
+name = re.sub(r"[^a-z0-9-]+", "-", name).strip("-")
+
 # A Cloudflare Worker, exposed on its workers.dev subdomain.
 site = cloudflare.Worker(
     "site",
     account_id=account_id,
-    name=f"{pulumi.get_project()}-{pulumi.get_stack()}",
+    name=name,
     subdomain=cloudflare.WorkerSubdomainArgs(
         enabled=True,
     ),

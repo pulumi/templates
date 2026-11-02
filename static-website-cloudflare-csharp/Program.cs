@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 using Pulumi;
 using Cloudflare = Pulumi.Cloudflare;
 
@@ -9,11 +10,16 @@ return await Deployment.RunAsync(() =>
     var accountId = config.Require("accountId");
     var path = config.Get("path") ?? "./www";
 
+    // Worker names may only contain lowercase letters, numbers and dashes.
+    var name = Regex.Replace(
+        $"{Deployment.Instance.ProjectName}-{Deployment.Instance.StackName}".ToLowerInvariant(),
+        "[^a-z0-9-]+", "-").Trim('-');
+
     // A Cloudflare Worker, exposed on its workers.dev subdomain.
     var site = new Cloudflare.Worker("site", new()
     {
         AccountId = accountId,
-        Name = $"{Deployment.Instance.ProjectName}-{Deployment.Instance.StackName}",
+        Name = name,
         Subdomain = new Cloudflare.Inputs.WorkerSubdomainArgs
         {
             Enabled = true,
