@@ -3,10 +3,10 @@ module ${PROJECT}
 go 1.26
 
 require (
-	github.com/pulumi/pulumi-azure-native-sdk/compute/v3 v3.12.0
-	github.com/pulumi/pulumi-azure-native-sdk/network/v3 v3.12.0
-	github.com/pulumi/pulumi-azure-native-sdk/resources/v3 v3.12.0
-	github.com/pulumi/pulumi-random/sdk/v4 v4.8.2
-	github.com/pulumi/pulumi/sdk/v3 v3.96.1
-	github.com/pulumi/pulumi-tls/sdk/v4 v4.11.1
+	github.com/pulumi/pulumi-azure-native-sdk/compute/v3 v3.30.0
+	github.com/pulumi/pulumi-azure-native-sdk/network/v3 v3.30.0
+	github.com/pulumi/pulumi-azure-native-sdk/resources/v3 v3.30.0
+	github.com/pulumi/pulumi-random/sdk/v4 v4.21.6
+	github.com/pulumi/pulumi/sdk/v3 v3.275.0
+	github.com/pulumi/pulumi-tls/sdk/v4 v4.11.4
 )
