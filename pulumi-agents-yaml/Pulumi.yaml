@@ -1,0 +1,146 @@
+name: ${PROJECT}
+description: ${DESCRIPTION}
+runtime: yaml
+template:
+  description: A Pulumi Cloud agent, its role and its automations, defined as code (YAML)
+  config:
+    scheduleCron:
+      description: When the weekly report runs (five-field cron, UTC)
+      default: "0 8 * * 1"
+
+config:
+  scheduleCron:
+    type: string
+    default: "0 8 * * 1"
+  # Optional overrides. Left empty, the organization is the stack's organization
+  # and the agent's name is <project>-<stack>.
+  organization:
+    type: string
+    default: ""
+  agentName:
+    type: string
+    default: ""
+
+variables:
+  org:
+    fn::invoke:
+      function: std:coalesce
+      arguments:
+        input:
+          - ${organization}
+          - ${pulumi.organization}
+      return: result
+
+  # Agent names may only contain lowercase letters, digits and hyphens, and
+  # are at most 64 characters long.
+  name:
+    fn::invoke:
+      function: std:substr
+      arguments:
+        input:
+          fn::invoke:
+            function: std:replace
+            arguments:
+              text:
+                fn::invoke:
+                  function: std:lower
+                  arguments:
+                    input:
+                      fn::invoke:
+                        function: std:coalesce
+                        arguments:
+                          input:
+                            - ${agentName}
+                            - ${pulumi.project}-${pulumi.stack}
+                        return: result
+                  return: result
+              search: /[^a-z0-9-]/
+              replace: "-"
+            return: result
+        offset: 0
+        length: 64
+      return: result
+
+resources:
+  # The role the agent's tasks assume: read every stack, nothing else.
+  role:
+    type: pulumiservice:index:OrganizationRole
+    properties:
+      organizationName: ${org}
+      name: ${name}-reader
+      description: Read-only access to stacks for the ${name} agent.
+      permissions:
+        fn::invoke:
+          function: pulumiservice:index:buildRolePermissions
+          arguments:
+            stackRules:
+              - all: true
+                scopes:
+                  - stack:read
+          return: permissions
+
+  # The agent: its instructions, and the role its tasks run with.
+  agent:
+    type: pulumiservice:api/agents:Definition
+    properties:
+      orgName: ${org}
+      name: ${name}
+      displayName: Stack Health Reporter
+      purpose: Reports failed and stale stacks.
+      customInstructions:
+        fn::readFile: ./instructions.md
+      roleId: ${role.roleId}
+      # Tasks act without waiting for a person. Safe here: the role is read-only.
+      approvalMode: auto
+
+  # Pulumi Cloud starts a task as the agent on a schedule.
+  weeklyReport:
+    type: pulumiservice:api:AgentAutomationV2
+    properties:
+      orgName: ${org}
+      name: ${name}-weekly
+      kind: scheduled
+      scheduleCron: ${scheduleCron}
+      task:
+        agentDefinitionId: ${agent.definitionID}
+        approvalMode: auto
+        toolExecutionMode: cloud
+        message:
+          type: user_message
+          content: Write this week's stack health report.
+
+  # Pulumi Cloud starts a task as the agent when an update of a listed stack fails.
+  onFailedUpdate:
+    type: pulumiservice:api:AgentAutomationV2
+    properties:
+      orgName: ${org}
+      name: ${name}-on-failure
+      kind: triggered
+      trigger:
+        type: stack_operation
+        operations:
+          - update
+        results:
+          - failed
+        # The stacks to watch. Each must already exist in Pulumi Cloud. This one
+        # is the stack that defines the agent; add your own.
+        stacks:
+          - routingProject: ${pulumi.project}
+            name: ${pulumi.stack}
+        # Failures that follow within this many seconds join the same task.
+        quietPeriodSeconds: 60
+      task:
+        agentDefinitionId: ${agent.definitionID}
+        approvalMode: auto
+        toolExecutionMode: cloud
+        message:
+          type: user_message
+          content: A stack update just failed. Find out why from the update's logs and summarize the cause in a few lines.
+
+outputs:
+  agentName: ${name}
+  agentId: ${agent.definitionID}
+  roleId: ${role.roleId}
+  weeklyReportId: ${weeklyReport.automationID}
+  nextRun: ${weeklyReport.nextExecution}
+  onFailedUpdateId: ${onFailedUpdate.automationID}

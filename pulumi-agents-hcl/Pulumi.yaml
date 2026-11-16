@@ -1,0 +1,9 @@
+name: ${PROJECT}
+description: ${DESCRIPTION}
+runtime: hcl
+template:
+  description: A Pulumi Cloud agent, its role and its automations, defined as code (HCL)
+  config:
+    schedule_cron:
+      description: When the weekly report runs (five-field cron, UTC)
+      default: "0 8 * * 1"
