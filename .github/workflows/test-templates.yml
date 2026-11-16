@@ -13,7 +13,12 @@ on:
     types:
       - trigger-cron
       - run-templates-command
-  workflow_dispatch: {}
+  workflow_dispatch:
+    inputs:
+      pulumi-version:
+        description: "The Pulumi CLI version to test, without a leading v. Defaults to the latest dev build."
+        type: string
+        default: ""
 
 env:
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -26,7 +31,7 @@ env:
   GOOGLE_PROJECT_NUMBER: 895284651812
   SKIPPED_TESTS: "alicloud,digitalocean,kubernetes,openstack,equinix-metal,aiven,auth0,github,oci,java-jbang,java-gradle,azuredevops,vm-azure,ovh-java,aws-scala"
   PULUMI_API: https://api.pulumi-staging.io
-  PULUMI_VERSION: ${{ github.event.client_payload.ref }}
+  PULUMI_VERSION: ${{ github.event.client_payload.ref || inputs.pulumi-version }}
   ESC_ACTION_OIDC_AUTH: true
   ESC_ACTION_OIDC_ORGANIZATION: pulumi
   ESC_ACTION_OIDC_REQUESTED_TOKEN_TYPE: urn:pulumi:token-type:access_token:organization
