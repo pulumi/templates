@@ -1,0 +1,10 @@
+name: aicr-chatbot-demo
+runtime:
+  name: python
+  options:
+    toolchain: pip
+    virtualenv: venv
+description: >-
+  Chatbot on EKS with two L4 GPU nodes: the AICR-validated inference stack
+  (NVIDIA Dynamo) from one ClusterStack resource, an open-weight model on both
+  GPUs, and a public chat page. ~$2.2/hr while up; pulumi destroy when done.
