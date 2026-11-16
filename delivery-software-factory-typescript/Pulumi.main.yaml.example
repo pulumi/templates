@@ -1,0 +1,9 @@
+# Copy to Pulumi.main.yaml. Unlike the target stacks, this file is committed:
+# a run checks the pipeline program out of the repo.
+config:
+  software-factory-delivery:org: my-org
+  software-factory-delivery:env: dev
+  software-factory-delivery:owner: you@example.com
+  software-factory-delivery:factoryProject: agent-factory-demo
+  software-factory-delivery:approvers:
+    - my-pulumi-user
