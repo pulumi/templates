@@ -5,5 +5,5 @@ template:
   description: A Pulumi Cloud agent, its role and its automations, defined as code (C#)
   config:
     scheduleCron:
-      description: When the weekly report runs (five-field cron, UTC)
+      description: "When the weekly report runs (five-field cron, default: Mondays at 08:00 UTC)"
       default: "0 8 * * 1"
