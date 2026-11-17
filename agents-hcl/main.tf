@@ -7,7 +7,7 @@ terraform {
 }
 
 variable "schedule_cron" {
-  description = "When the weekly report runs (five-field cron, UTC)"
+  description = "When the weekly report runs (five-field cron, default: Mondays at 08:00 UTC)"
   type        = string
   default     = "0 8 * * 1"
 }
