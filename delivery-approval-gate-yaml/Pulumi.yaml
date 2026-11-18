@@ -1,0 +1,75 @@
+name: ${PROJECT}
+runtime: yaml
+description: ${DESCRIPTION}
+template:
+  description: A Pulumi Delivery pipeline in YAML that tests in dev and holds prod behind an approval gate
+  important: false
+
+configuration:
+  approvers:
+    type: List<String>
+    default:
+      - your-pulumi-username
+  approvalCount:
+    type: Integer
+    default: 1
+
+resources:
+  repo:
+    type: delivery:GitHubSource
+    properties:
+      repository: acme/shop
+      branch: main
+      trigger:
+        paths:
+          - app/**
+          - delivery/**
+
+  shop:
+    type: delivery:Pipeline
+
+  # Stage 1: the test job must pass before the release can move on.
+  dev:
+    type: delivery:Stage
+    properties:
+      pipeline: ${shop}
+
+  devApp:
+    type: delivery:Stacks
+    properties:
+      stage: ${dev}
+      stacks:
+        app:
+          stack: shop-app/dev
+          source: ${repo}
+          directory: app
+
+  test:
+    type: delivery:Job
+    properties:
+      stage: ${dev}
+      source: ${repo}
+      directory: app
+      command: npm ci && npm test
+
+  # Stage 2: the release waits here until enough approvers allow it.
+  prod:
+    type: delivery:Stage
+    properties:
+      pipeline: ${shop}
+      from:
+        - ${dev}
+      when:
+        kind: approval
+        approvers: ${approvers}
+        count: ${approvalCount}
+
+  prodApp:
+    type: delivery:Stacks
+    properties:
+      stage: ${prod}
+      stacks:
+        app:
+          stack: shop-app/prod
+          source: ${repo}
+          directory: app
