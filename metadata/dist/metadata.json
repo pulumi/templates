@@ -360,84 +360,6 @@
         }
     ],
     "templates": {
-        "agents-csharp": {
-            "name": "agents-csharp",
-            "runtime": "dotnet",
-            "template": {
-                "description": "A Pulumi Cloud agent, its role and its automations, defined as code (C#)",
-                "config": {
-                    "scheduleCron": {
-                        "description": "When the weekly report runs (five-field cron, default: Mondays at 08:00 UTC)",
-                        "default": "0 8 * * 1"
-                    }
-                }
-            }
-        },
-        "agents-go": {
-            "name": "agents-go",
-            "runtime": "go",
-            "template": {
-                "description": "A Pulumi Cloud agent, its role and its automations, defined as code (Go)",
-                "config": {
-                    "scheduleCron": {
-                        "description": "When the weekly report runs (five-field cron, default: Mondays at 08:00 UTC)",
-                        "default": "0 8 * * 1"
-                    }
-                }
-            }
-        },
-        "agents-hcl": {
-            "name": "agents-hcl",
-            "runtime": "hcl",
-            "template": {
-                "description": "A Pulumi Cloud agent, its role and its automations, defined as code (HCL)",
-                "config": {
-                    "schedule_cron": {
-                        "description": "When the weekly report runs (five-field cron, default: Mondays at 08:00 UTC)",
-                        "default": "0 8 * * 1"
-                    }
-                }
-            }
-        },
-        "agents-python": {
-            "name": "agents-python",
-            "runtime": "python",
-            "template": {
-                "description": "A Pulumi Cloud agent, its role and its automations, defined as code (Python)",
-                "config": {
-                    "scheduleCron": {
-                        "description": "When the weekly report runs (five-field cron, default: Mondays at 08:00 UTC)",
-                        "default": "0 8 * * 1"
-                    }
-                }
-            }
-        },
-        "agents-typescript": {
-            "name": "agents-typescript",
-            "runtime": "nodejs",
-            "template": {
-                "description": "A Pulumi Cloud agent, its role and its automations, defined as code (TypeScript)",
-                "config": {
-                    "scheduleCron": {
-                        "description": "When the weekly report runs (five-field cron, default: Mondays at 08:00 UTC)",
-                        "default": "0 8 * * 1"
-                    }
-                }
-            }
-        },
-        "agents-yaml": {
-            "name": "agents-yaml",
-            "runtime": "yaml",
-            "template": {
-                "description": "A Pulumi Cloud agent, its role and its automations, defined as code (YAML)",
-                "config": {
-                    "scheduleCron": {
-                        "description": "When the weekly report runs (five-field cron, default: Mondays at 08:00 UTC)",
-                        "default": "0 8 * * 1"
-                    }
-                }
-            }
-        },
         "aiven-go": {
             "name": "aiven-go",
             "runtime": "go",
@@ -3051,6 +2973,84 @@
             "runtime": "yaml",
             "template": {
                 "description": "A minimal Pinecone Pulumi YAML program"
+            }
+        },
+        "pulumi-agents-csharp": {
+            "name": "pulumi-agents-csharp",
+            "runtime": "dotnet",
+            "template": {
+                "description": "A Pulumi Cloud agent, its role and its automations, defined as code (C#)",
+                "config": {
+                    "scheduleCron": {
+                        "description": "When the weekly report runs (five-field cron, default: Mondays at 08:00 UTC)",
+                        "default": "0 8 * * 1"
+                    }
+                }
+            }
+        },
+        "pulumi-agents-go": {
+            "name": "pulumi-agents-go",
+            "runtime": "go",
+            "template": {
+                "description": "A Pulumi Cloud agent, its role and its automations, defined as code (Go)",
+                "config": {
+                    "scheduleCron": {
+                        "description": "When the weekly report runs (five-field cron, default: Mondays at 08:00 UTC)",
+                        "default": "0 8 * * 1"
+                    }
+                }
+            }
+        },
+        "pulumi-agents-hcl": {
+            "name": "pulumi-agents-hcl",
+            "runtime": "hcl",
+            "template": {
+                "description": "A Pulumi Cloud agent, its role and its automations, defined as code (HCL)",
+                "config": {
+                    "schedule_cron": {
+                        "description": "When the weekly report runs (five-field cron, default: Mondays at 08:00 UTC)",
+                        "default": "0 8 * * 1"
+                    }
+                }
+            }
+        },
+        "pulumi-agents-python": {
+            "name": "pulumi-agents-python",
+            "runtime": "python",
+            "template": {
+                "description": "A Pulumi Cloud agent, its role and its automations, defined as code (Python)",
+                "config": {
+                    "scheduleCron": {
+                        "description": "When the weekly report runs (five-field cron, default: Mondays at 08:00 UTC)",
+                        "default": "0 8 * * 1"
+                    }
+                }
+            }
+        },
+        "pulumi-agents-typescript": {
+            "name": "pulumi-agents-typescript",
+            "runtime": "nodejs",
+            "template": {
+                "description": "A Pulumi Cloud agent, its role and its automations, defined as code (TypeScript)",
+                "config": {
+                    "scheduleCron": {
+                        "description": "When the weekly report runs (five-field cron, default: Mondays at 08:00 UTC)",
+                        "default": "0 8 * * 1"
+                    }
+                }
+            }
+        },
+        "pulumi-agents-yaml": {
+            "name": "pulumi-agents-yaml",
+            "runtime": "yaml",
+            "template": {
+                "description": "A Pulumi Cloud agent, its role and its automations, defined as code (YAML)",
+                "config": {
+                    "scheduleCron": {
+                        "description": "When the weekly report runs (five-field cron, default: Mondays at 08:00 UTC)",
+                        "default": "0 8 * * 1"
+                    }
+                }
             }
         },
         "python": {
