@@ -1,0 +1,12 @@
+name: Approval Gate
+kind: architecture
+parent: delivery-pipeline
+slug: approval-gate
+clouds: []
+templates:
+  - delivery-approval-gate-typescript
+  - delivery-approval-gate-python
+  - delivery-approval-gate-go
+  - delivery-approval-gate-csharp
+  - delivery-approval-gate-yaml
+  - delivery-approval-gate-hcl

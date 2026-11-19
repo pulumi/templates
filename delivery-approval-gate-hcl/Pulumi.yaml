@@ -1,0 +1,6 @@
+name: ${PROJECT}
+runtime: hcl
+description: ${DESCRIPTION}
+template:
+  description: A Pulumi Delivery pipeline in HCL that tests in dev and holds prod behind an approval gate, with a hook that continues the gate
+  important: false

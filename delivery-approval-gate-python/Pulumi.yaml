@@ -1,0 +1,13 @@
+name: ${PROJECT}
+runtime: python
+description: ${DESCRIPTION}
+template:
+  description: A Pulumi Delivery pipeline in Python that tests in dev and holds prod behind an approval gate, with a hook that continues the gate
+  important: false
+  config:
+    approvers:
+      description: Pulumi usernames or team names that must approve prod releases, as a JSON array
+      default: '["your-pulumi-username"]'
+    approvalCount:
+      description: Number of approvals required before prod runs
+      default: "1"
