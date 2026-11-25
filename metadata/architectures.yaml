@@ -21,3 +21,7 @@ kubernetes:
 kubernetes-application:
   name: Kubernetes Application
   slug: kubernetes-application
+
+delivery-pipeline:
+  name: Delivery Pipeline
+  slug: delivery-pipeline

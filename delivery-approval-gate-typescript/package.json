@@ -1,0 +1,16 @@
+{
+    "name": "${PROJECT}",
+    "main": "index.ts",
+    "private": true,
+    "scripts": {
+        "test:hooks": "node --test hooks/"
+    },
+    "devDependencies": {
+        "@types/node": "^20",
+        "typescript": "^5.0.0"
+    },
+    "dependencies": {
+        "@pulumi/delivery": "*",
+        "@pulumi/pulumi": "^3.113.0"
+    }
+}
